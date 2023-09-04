@@ -1,4 +1,5 @@
 #+TITLE: Apuntes IA
+#+LANGUAGE: es
 #+LaTeX_HEADER: \usepackage[spanish]{inputenc}
 #+SETUPFILE: /home/likcos/Materias/IA/theme-readtheorg-local.setup
 #+EXPORT_FILE_NAME: index.html
@@ -100,7 +101,6 @@ origen y uno objetivo.
 * Análisis de información  
 
 
-
 ** Programación 
 
 Con el siguiente ejemplo, se puede cargar una imagen, utilizando la
@@ -110,7 +110,11 @@ observar en la linea 2 de igual forma el método [[https://www.geeksforgeeks.org
 la imagen, dando como primer parámetro, el nombre del marco y
 posteriormente el nombre de la imagen, finalmente se utiliza el método
 [[https://www.geeksforgeeks.org/python-opencv-waitkey-function/][waitKey]] permite  mostrar una ventana durante un número
-específico de milisegundos o hasta que se presione cualquier tecla
+específico de milisegundos o hasta que se presione cualquier tecla, a su vez 
+la el método [[https://www.geeksforgeeks.org/python-opencv-destroyallwindows-function/][destroyAllWindows]] permite destruir todas las ventanas abiertas 
+creadas por **imshow**. 
+
+
 
 #+BEGIN_SRC python :results output
 import cv2 as cv 
@@ -120,7 +124,61 @@ cv.waitKey()
 cv.destroyAllWindows()
 #+END_SRC
 
+Opencv también permite acceder a las propiedades de la imagen mediante
+la función [[https://docs.opencv.org/3.4/d3/df2/tutorial_py_basic_ops.html][shape]], con la cual podremos acceder al tamaño de la imagen,
+los canales de color entre otras propiedades. En el ejemplo siguiente
+se muestra como al cargar la imagen utilizando la bandera de **1**
+podemos acceder al ancho, alto y al numero de canales de color de la
+imagen. En caso de cargar la imagen utilizando el **0**, **shape**
+solo podrá acceder al alto, ancho de la imagen.
+
+
+#+BEGIN_SRC python :results output
+import cv2 as cv 
+img = cv.imread("/home/likcos/Imágenes/tr.png",1)
+w,h,c = img.shape
+print(w,h,c)
+cv.imshow('marco', img)
+cv.waitKey()
+cv.destroyAllWindows()
+
+#+END_SRC
+
 #+RESULTS:
+: 632 635 3
+
+De igual forma cargando la imagen, en un solo canal es posible aplicar
+operadores puntuales a la imagen. Las operaciones puntuales son
+transformaciones de uno a uno, es decir el nuevo valor de un pixel 'q'
+en la posición ( i , j ) esta en función de un pixel 'p' de otra
+imagen pero en la misma posición, es decir, ( i , j ).
+
+#+BEGIN_SRC python :results output
+import cv2 as cv
+import numpy as np
+
+img = cv.imread('tr.png', 0)
+print(img.shape, img.size)
+w = img.shape[0]
+h = img.shape[1]
+#c = img.shape[2]
+#w1, h1 = img.shape
+img2 = img
+cv.imshow('imagen', img2)
+for x in range(w):
+    for y in range(h):
+        if(img[x,y]>50):
+            img[x,y]=255
+        else:
+            img[x,y]=0
+
+cv.imshow('imagen1', img)
+cv.waitKey(0)
+cv.destroyAllWindows()
+#+END_SRC
+
+
+
 
 
 
@@ -167,56 +225,56 @@ Cuando un problema se puede representar mediante un espacio de
 estados, la solución computacional correspende a encontrar un camino
 desde el estado inicial a un estado objetivo.
 
-* Ejemplo de espacio de estados
+** Ejemplo de espacio de estados
 
-** Descripción del problema  
+*** Descripción del problema  
 
-Un arriero se encuentra en el borde de un rio llevando un puma, una
-cabra y una lechuga.  Debe cruzar a la otra orilla por medio de un
-bote con capacidad para dos (el arriero y alguna de sus
-pertenecias). La dificultad es que si el puma se queda solo con la
-cabra la devorará, y lo mismo sucederá si la cabra se queda sola con
-la lechuga. ¿Cómo cruzar sin perder ninguna pertenencia?
+ Un arriero se encuentra en el borde de un rio llevando un puma, una
+ cabra y una lechuga.  Debe cruzar a la otra orilla por medio de un
+ bote con capacidad para dos (el arriero y alguna de sus
+ pertenecias). La dificultad es que si el puma se queda solo con la
+ cabra la devorará, y lo mismo sucederá si la cabra se queda sola con
+ la lechuga. ¿Cómo cruzar sin perder ninguna pertenencia?
 
-** Representación de las configuraciones del universo del problema:
+*** Representación de las configuraciones del universo del problema:
 
-Basta precisar la situación antes o después de cruzar. El arriero y
-cada una de sus pertenencias tienen que estar en alguna de las dos
-orillas. La representación del estado debe entonces indicar en que
-lado se encuentra cada uno de ellos. Para esto se puede utilizar un
-término simbólico con la siguiente sintáxis: estado(A,P,C,L), en que
-A, P, C y L son variables que representan, respectivamente, la
-posición del arriero, el puma, la cabra y la lechuga. Las variables
-pueden tomar dos valores: i y d, que simbolizan respectivamente el
-borde izquierdo y el borde derecho del rio. Por convención se elige
-partir en el borde izquierdo. El estado inicial es entonces
-estado(i,i,i,i). El estado objetivo es estado(d,d,d,d).
+ Basta precisar la situación antes o después de cruzar. El arriero y
+ cada una de sus pertenencias tienen que estar en alguna de las dos
+ orillas. La representación del estado debe entonces indicar en que
+ lado se encuentra cada uno de ellos. Para esto se puede utilizar un
+ término simbólico con la siguiente sintáxis: estado(A,P,C,L), en que
+ A, P, C y L son variables que representan, respectivamente, la
+ posición del arriero, el puma, la cabra y la lechuga. Las variables
+ pueden tomar dos valores: i y d, que simbolizan respectivamente el
+ borde izquierdo y el borde derecho del rio. Por convención se elige
+ partir en el borde izquierdo. El estado inicial es entonces
+ estado(i,i,i,i). El estado objetivo es estado(d,d,d,d).
 
-** Definición de las reglas de transición:
-El arriero tiene cuatro acciones posibles: cruzar solo, cruzar con el
-puma, cruzar con la cabra y cruzar con la lechuga. Estas acciones
-están condicionadas a que ambos pasajeros del bote estén en la misma
-orilla y a que no queden solos el puma con la cabra o la cabra con la
-lechuga. El estado resultante de una acción se determina
-intercambiando los valores i y d para los pasajeros del bote.
+*** Definición de las reglas de transición:
+ El arriero tiene cuatro acciones posibles: cruzar solo, cruzar con el
+ puma, cruzar con la cabra y cruzar con la lechuga. Estas acciones
+ están condicionadas a que ambos pasajeros del bote estén en la misma
+ orilla y a que no queden solos el puma con la cabra o la cabra con la
+ lechuga. El estado resultante de una acción se determina
+ intercambiando los valores i y d para los pasajeros del bote.
 
-** Generación del espacio de estados
-En este ejemplo se puede explicitar todo el espacio de estados (el
-número de configuraciones está acotado por 24).
+*** Generación del espacio de estados
+ En este ejemplo se puede explicitar todo el espacio de estados (el
+ número de configuraciones está acotado por 24).
 
-#+ATTR_ORG: :width 200
-[[file:img/sd.png]]
+ #+ATTR_ORG: :width 200
+ [[file:img/sd.png]]
 
 
 
-** Problemas de los Canibales y Monjes
+*** Problemas de los Canibales y Monjes
 
-Se tienen 3 monjes y 3 caníbales en el margen Oeste de un río. Existe
-una canoa con capacidad para dos personas como máximo. Se desea que
-los seis pasen al margen Este del río, pero hay que considerar que no
-debe haber más caníbales que monjes en ningún sitio porque entonces
-los caníbales se comen a los monjes. Además, la canoa siempre debe ser
-conducida por alguien.\\
+ Se tienen 3 monjes y 3 caníbales en el margen Oeste de un río. Existe
+ una canoa con capacidad para dos personas como máximo. Se desea que
+ los seis pasen al margen Este del río, pero hay que considerar que no
+ debe haber más caníbales que monjes en ningún sitio porque entonces
+ los caníbales se comen a los monjes. Además, la canoa siempre debe ser
+ conducida por alguien.\\
 
 
 *** El espacio de estados está definido por
@@ -282,55 +340,55 @@ Un pasaje de estados para ir de (3,3,0,0,O) a (0,0,3,3,E) es el siguiente:
 (1,1,2,2,E) => (2,2,1,1,O) => (0,2,3,1,E) => (0,3,3,0,O) => (0,1,3,2,E) =>
 (0,2,3,1,O) =>(0,0,3,3,E)
 
-* Representación de espacio de estados
-La primera pregunta es, como  
+** Representación de espacio de estados
+ La primera pregunta es, como  
 
-* El problema del n-Puzzle
+** El problema del n-Puzzle
 
-** Caracterización de las búsquedas ciegas. 
-La búsqueda ciega o no informada sólo utiliza información acerca de si
-un estado es o no objetivo para guiar su procesu de búsqueda.
+*** Caracterización de las búsquedas ciegas. 
+ La búsqueda ciega o no informada sólo utiliza información acerca de si
+ un estado es o no objetivo para guiar su procesu de búsqueda.
 
-Los métodos de búsqueda ciega se pueden clasificar en dos grupos
-básicos:
+ Los métodos de búsqueda ciega se pueden clasificar en dos grupos
+ básicos:
 
-- *Métodos de búsqueda en anchura*: Son procedimientos de búsqueda nivel
-  a nivel. Para cada uno de los nodos de un nivel se aplican todos los
-  posibles operadores y no se expande ningún nodo de un nivel antes de
-  haber expandido todos los del nivel anterior.
+ - *Métodos de búsqueda en anchura*: Son procedimientos de búsqueda nivel
+   a nivel. Para cada uno de los nodos de un nivel se aplican todos los
+   posibles operadores y no se expande ningún nodo de un nivel antes de
+   haber expandido todos los del nivel anterior.
 
-- *Métodos de búsqueda en profundidad*: En estos procedimientos se realiza la búsqueda por
-  una sola rama del árbol hasta encontrar una solución o hasta que se tome la decisión de
-  terminar la búsqueda por esa dirección ( por no haber posibles operadores que aplicar sobre
-  el nodo hoja o por haber alcanzado un nivel de profundidad muy grande ) . Si esto ocurre
-  se produce una vuelta atrás ( backtracking ) y se sigue por otra rama hasta visitar todas
-  las ramas del árbol si es necesario.
-
-
-A partir de los dos tipos de búsqueda anteriores surgió uno nuevo,
-llamado método de búsqueda por profundización iterativa. El algoritmo
-de búsqueda más representativo de esta nueva tendencia es el DFID
-acrónimo de su nombre en inglés (Depth-First Iterative-Deepening).
+ - *Métodos de búsqueda en profundidad*: En estos procedimientos se realiza la búsqueda por
+   una sola rama del árbol hasta encontrar una solución o hasta que se tome la decisión de
+   terminar la búsqueda por esa dirección ( por no haber posibles operadores que aplicar sobre
+   el nodo hoja o por haber alcanzado un nivel de profundidad muy grande ) . Si esto ocurre
+   se produce una vuelta atrás ( backtracking ) y se sigue por otra rama hasta visitar todas
+   las ramas del árbol si es necesario.
 
 
-** Caracterización de las búsquedas heurísticas.
+ A partir de los dos tipos de búsqueda anteriores surgió uno nuevo,
+ llamado método de búsqueda por profundización iterativa. El algoritmo
+ de búsqueda más representativo de esta nueva tendencia es el DFID
+ acrónimo de su nombre en inglés (Depth-First Iterative-Deepening).
+
+
+*** Caracterización de las búsquedas heurísticas.
   
-Las técnicas de búsqueda heurística se apoyan alc contrario de los
-métodos de búsqueda ciega se apoyan en información adicional para
-realizar su proceso de búsqueda. Para mejorar la eficiencia de la
-búsqueda, estos algoritmos hacen uso de una función que realiza una
-predicción del coste necesario para alcanzar la solución. La función
-que guía el proceso toma el nombre de función heurística.
+ Las técnicas de búsqueda heurística se apoyan alc contrario de los
+ métodos de búsqueda ciega se apoyan en información adicional para
+ realizar su proceso de búsqueda. Para mejorar la eficiencia de la
+ búsqueda, estos algoritmos hacen uso de una función que realiza una
+ predicción del coste necesario para alcanzar la solución. La función
+ que guía el proceso toma el nombre de función heurística.
 
-De todos los algoritmos de búsqueda heurística, uno destaca en
-especial: el A*. Este algoritmo, a pesar de haber sido creado entorno
-a los años 60, sigue en la actualidad siendo uno de los mas
-utilizados. Desafortunadamente, es ineficiente en cuanto al uso de
-memoria durante el proceso de búsqueda. Por ello, en las décadas de
-los 80 y 90, aparecieron algoritmos basados en el propio A*, pero que
-limitaban el uso de memoria. Dos de los algoritmos más representativos
-de esta última tendencia son el IDA* (Iterative-Deepening A*) y el
-SMA* (Simplified Memory-bounded A*).
+ De todos los algoritmos de búsqueda heurística, uno destaca en
+ especial: el A*. Este algoritmo, a pesar de haber sido creado entorno
+ a los años 60, sigue en la actualidad siendo uno de los mas
+ utilizados. Desafortunadamente, es ineficiente en cuanto al uso de
+ memoria durante el proceso de búsqueda. Por ello, en las décadas de
+ los 80 y 90, aparecieron algoritmos basados en el propio A*, pero que
+ limitaban el uso de memoria. Dos de los algoritmos más representativos
+ de esta última tendencia son el IDA* (Iterative-Deepening A*) y el
+ SMA* (Simplified Memory-bounded A*).
 
 * Técnicas de Búsqueda
 
@@ -529,24 +587,24 @@ exponencial con respecto al tamaño del problema. Para solucionar este
 problema, se han propuesto diversas variaciones de este algoritmo,
 como pueden ser RTA*, IDA* o SMA*.
 
-* Satisfacción de restricciones.
-Los problemas pueden resolverse buscando en un espacio de estados, estos estados pueden evaluarse por heurísticas específicas para el dominio y probados para verificar si son estados meta.
-Los componentes del estado, son equivalentes a un grafo de restricciones, los cuales están compuestos de:\\[0.5cm]
+** Satisfacción de restricciones.
+ Los problemas pueden resolverse buscando en un espacio de estados, estos estados pueden evaluarse por heurísticas específicas para el dominio y probados para verificar si son estados meta.
+ Los componentes del estado, son equivalentes a un grafo de restricciones, los cuales están compuestos de:\\[0.5cm]
 
-- *Variables*: Dominios (valores posibles para las variables).
-- *Restricciones* (binarias) entre las variables.
+ - *Variables*: Dominios (valores posibles para las variables).
+ - *Restricciones* (binarias) entre las variables.
 
 
-Objetivo: encontrar un estado (una asignación completa de valores a las variables) Que satisface las restricciones.
+ Objetivo: encontrar un estado (una asignación completa de valores a las variables) Que satisface las restricciones.
 
-En los Problemas de Satisfacción de Restricciones (PSR), los estados y
-la prueba de meta siguen a una representación estándar, estructurada y
-muy simple.
+ En los Problemas de Satisfacción de Restricciones (PSR), los estados y
+ la prueba de meta siguen a una representación estándar, estructurada y
+ muy simple.
 
-Ejemplos:
+ Ejemplos:
 
-- Crucigramas
-- Colorear mapas  
+ - Crucigramas
+ - Colorear mapas  
 
 * Teoría de juegos.
 
