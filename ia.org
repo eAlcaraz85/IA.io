@@ -1,8 +1,9 @@
 #+TITLE: Apuntes IA
 #+LaTeX_HEADER: \usepackage[spanish]{inputenc}
-#+SETUPFILE: /home/likcos/Materias/IA/public/theme-readtheorg-local.setup
+#+SETUPFILE: /home/likcos/Materias/IA/theme-readtheorg-local.setup
 #+EXPORT_FILE_NAME: index.html
 #+OPTIONS: num:nil
+#+HTML_HEAD: <style> #content{max-width:1800px;}</style>
 
 
 * Inteligencia Artificial
@@ -85,6 +86,46 @@ computador, y otros videojuegos.
     complejas, proponiendo una solución a un determinado problema al
     igual que lo haría un especialista en la dicha actividad.
  
+
+* Algoritmo A* 
+La heurística de búsqueda A* (pronunciado "A asterisco", "A estrella"
+o "A star" en inglés) se clasifica dentro de los algoritmos de
+búsqueda en grafos de tipo heurístico o informado. Presentado por
+primera vez en 1968 por Peter E. Hart, Nils J. Nilsson y Bertram
+Raphael, el algoritmo A* encuentra, siempre y cuando se cumplan unas
+determinadas condiciones, el camino de menor coste entre un nodo
+origen y uno objetivo.
+
+
+* Análisis de información  
+
+
+
+** Programación 
+
+Con el siguiente ejemplo, se puede cargar una imagen, utilizando la
+librería de opencv, mediante el método [[https://docs.opencv.org/3.4/d4/da8/group__imgcodecs.html][imread]], el cual carga en la
+variable **img** la imagen contenida en el directorio que se puede
+observar en la linea 2 de igual forma el método [[https://www.geeksforgeeks.org/python-opencv-cv2-imshow-method/][imshow]] permite mostrar
+la imagen, dando como primer parámetro, el nombre del marco y
+posteriormente el nombre de la imagen, finalmente se utiliza el método
+[[https://www.geeksforgeeks.org/python-opencv-waitkey-function/][waitKey]] permite  mostrar una ventana durante un número
+específico de milisegundos o hasta que se presione cualquier tecla
+
+#+BEGIN_SRC python :results output
+import cv2 as cv 
+img = cv.imread("/home/likcos/Imágenes/tr.png")
+cv.imshow('marco', img)
+cv.waitKey()
+cv.destroyAllWindows()
+#+END_SRC
+
+#+RESULTS:
+
+
+
+
+
 * Espacio de estados
 
 Muchos de los problemas que pueden ser resueltos aplicando técnicas de
@@ -1035,7 +1076,7 @@ entrenamiento, y una matriz *Y* de valores enteros, forma (n_muestras),
 que contiene las etiquetas de clase. para las muestras de
 entrenamiento:
 
-#+BEGIN_SRC ein-python :session localhost
+#+BEGIN_SRC python
 from sklearn import tree
 X = [[0, 0], [1, 1]]
 Y = [0, 1]
@@ -1046,7 +1087,7 @@ clf.predict([[2.,2.]])
 
 
 Despues de ajustarce el modelo se puede usar, para predecir la clase 
-#+BEGIN_SRC ein-python :session localhost
+#+BEGIN_SRC python 
 clf.predict([[2.,2.]]) 
 #array([1])
 #+END_SRC
@@ -1061,7 +1102,7 @@ Como alternativa a generar una clase específica, se puede predecir la
 probabilidad de cada clase, que es la fracción de muestras de
 entrenamiento de la clase en una hoja:
 
-#+BEGIN_SRC ein-python :session localhost
+#+BEGIN_SRC python
 clf.predict_proba([[2., 2.]])
 #array([[0., 1.]])
 #+END_SRC
@@ -1074,7 +1115,7 @@ etiquetas son [0, …, K-1]).
 Usando el conjunto de datos de Iris, podemos construir un árbol de la
 siguiente manera:
 
-#+BEGIN_SRC ein-python :session localhost 
+#+BEGIN_SRC python :result output 
 from sklearn.datasets import load_iris
 from sklearn import tree
 import graphviz
@@ -1094,6 +1135,6 @@ graph = graphviz.Source(dot_data)
 graph.view()
 #+END_SRC
 
-#+BEGIN_SRC ein-python :session localhost
+#+BEGIN_SRC python 
 print("Hola")
 #+END_SRC

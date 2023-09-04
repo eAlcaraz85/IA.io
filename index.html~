@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-09-03 dom 21:26 -->
+<!-- 2022-03-22 mar 21:52 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Apuntes IA</title>
@@ -199,7 +199,6 @@
 <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
 <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
-<style> #content{max-width:1800px;}</style>
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -276,71 +275,71 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgb61bcf2">Inteligencia Artificial</a>
+<li><a href="#org315ef49">Inteligencia Artificial</a>
 <ul>
-<li><a href="#orge791757">Categorías de la Inteligencia Artificial</a></li>
-<li><a href="#orgcfbee24">Inteligencia artificial convencional</a></li>
+<li><a href="#org176d02d">Categorías de la Inteligencia Artificial</a></li>
+<li><a href="#org6122ad4">Inteligencia artificial convencional</a></li>
 </ul>
 </li>
-<li><a href="#org3f0c151">Espacio de estados</a></li>
-<li><a href="#org3193049">Ejemplo de espacio de estados</a>
+<li><a href="#org83775b1">Espacio de estados</a></li>
+<li><a href="#org00bad14">Ejemplo de espacio de estados</a>
 <ul>
-<li><a href="#org77016c3">Descripción del problema</a></li>
-<li><a href="#orgb77fac3">Representación de las configuraciones del universo del problema:</a></li>
-<li><a href="#org80596bb">Definición de las reglas de transición:</a></li>
-<li><a href="#orgc0245ce">Generación del espacio de estados</a></li>
-<li><a href="#orgfa943c9">Problemas de los Canibales y Monjes</a>
+<li><a href="#org01dacba">Descripción del problema</a></li>
+<li><a href="#orgda92466">Representación de las configuraciones del universo del problema:</a></li>
+<li><a href="#org6fc1f13">Definición de las reglas de transición:</a></li>
+<li><a href="#org259ae09">Generación del espacio de estados</a></li>
+<li><a href="#org7dfb9c4">Problemas de los Canibales y Monjes</a>
 <ul>
-<li><a href="#orgd90d9a0">El espacio de estados está definido por</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#org6c5865e">Representación de espacio de estados</a></li>
-<li><a href="#org8f449e4">El problema del n-Puzzle</a>
-<ul>
-<li><a href="#orgd3d12c5">Caracterización de las búsquedas ciegas.</a></li>
-<li><a href="#org8348cd0">Caracterización de las búsquedas heurísticas.</a></li>
-</ul>
-</li>
-<li><a href="#org6220843">Técnicas de Búsqueda</a>
-<ul>
-<li><a href="#org03b8277">Solución de problemas con búsqueda.</a></li>
-<li><a href="#org684e623">Espacios de Estados</a>
-<ul>
-<li><a href="#org73f077d">Deterministicos</a></li>
-<li><a href="#org0c3aef2">No Deterministicos</a></li>
-</ul>
-</li>
-<li><a href="#orgd9b5829">Métodos de Búsqueda</a>
-<ul>
-<li><a href="#org9d5a18f">Primero en anchura (breadthfirst)</a></li>
-<li><a href="#orga33965e">Primero en profundidad (depthfirst).</a></li>
-<li><a href="#org01f1a2a">Búsqueda Heurística</a></li>
+<li><a href="#org36e6edd">El espacio de estados está definido por</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org66f18a9">Satisfacción de restricciones.</a></li>
-<li><a href="#orgab1d560">Teoría de juegos.</a></li>
-<li><a href="#org9fcfad1">Grafos</a></li>
-<li><a href="#orgce63507">Tipos de grafos</a></li>
-<li><a href="#orgc44c2cd">Machine Learning</a>
+<li><a href="#org2ed11e0">Representación de espacio de estados</a></li>
+<li><a href="#org848d677">El problema del n-Puzzle</a>
 <ul>
-<li><a href="#org34ad86a">Tipos de Algoritmos</a></li>
-<li><a href="#org485620b">Técnicas de clasificación</a></li>
-<li><a href="#orgbff1a29">Clasificador en Cascada</a>
-<ul>
-<li><a href="#org32afa8c">Ejemplo de clasificación utilizando Haarcascades</a></li>
+<li><a href="#org583d8be">Caracterización de las búsquedas ciegas.</a></li>
+<li><a href="#org90a83fd">Caracterización de las búsquedas heurísticas.</a></li>
 </ul>
 </li>
-<li><a href="#org8b5baff">Segmentación de Color</a></li>
-<li><a href="#org4844128">Árboles de decisión</a>
+<li><a href="#org79ea09b">Técnicas de Búsqueda</a>
 <ul>
-<li><a href="#org3d572f1">Elementos</a></li>
-<li><a href="#org3ff0ebb">Algunas ventajas de los árboles de decisión son:</a></li>
-<li><a href="#org55fe396">Desventajas de los árboles de decisión:</a></li>
-<li><a href="#org20deeaa">Ejemplo de Clasificación, Árbol de decisión scikit-learn</a></li>
+<li><a href="#org45e089e">Solución de problemas con búsqueda.</a></li>
+<li><a href="#org6aeeb11">Espacios de Estados</a>
+<ul>
+<li><a href="#org3d85ed5">Deterministicos</a></li>
+<li><a href="#org16de827">No Deterministicos</a></li>
+</ul>
+</li>
+<li><a href="#org79f3940">Métodos de Búsqueda</a>
+<ul>
+<li><a href="#org417f1f9">Primero en anchura (breadthfirst)</a></li>
+<li><a href="#org463495b">Primero en profundidad (depthfirst).</a></li>
+<li><a href="#org06a388d">Búsqueda Heurística</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org7b0c1ad">Satisfacción de restricciones.</a></li>
+<li><a href="#org95aac5f">Teoría de juegos.</a></li>
+<li><a href="#org67928dd">Grafos</a></li>
+<li><a href="#org8517dcb">Tipos de grafos</a></li>
+<li><a href="#org3afcf0a">Machine Learning</a>
+<ul>
+<li><a href="#org4b679b2">Tipos de Algoritmos</a></li>
+<li><a href="#orgd3d3443">Técnicas de clasificación</a></li>
+<li><a href="#org3e98ff3">Clasificador en Cascada</a>
+<ul>
+<li><a href="#org3e9341c">Ejemplo de clasificación utilizando Haarcascades</a></li>
+</ul>
+</li>
+<li><a href="#orge9f4b35">Segmentación de Color</a></li>
+<li><a href="#org6468cba">Árboles de decisión</a>
+<ul>
+<li><a href="#org58aa0a7">Elementos</a></li>
+<li><a href="#org8690231">Algunas ventajas de los árboles de decisión son:</a></li>
+<li><a href="#org4bf0318">Desventajas de los árboles de decisión:</a></li>
+<li><a href="#org8740219">Ejemplo de Clasificación, Árbol de decisión scikit-learn</a></li>
 </ul>
 </li>
 </ul>
@@ -350,9 +349,9 @@ for the JavaScript code in this tag.
 </div>
 
 
-<div id="outline-container-orgb61bcf2" class="outline-2">
-<h2 id="orgb61bcf2">Inteligencia Artificial</h2>
-<div class="outline-text-2" id="text-orgb61bcf2">
+<div id="outline-container-org315ef49" class="outline-2">
+<h2 id="org315ef49">Inteligencia Artificial</h2>
+<div class="outline-text-2" id="text-org315ef49">
 <p>
 La inteligencia artificial (IA) es un área multidisciplinaria que, a
 través de ciencias como las ciencias de la computación, la lógica y la
@@ -401,9 +400,9 @@ computador, y otros videojuegos.
 </p>
 </div>
 
-<div id="outline-container-orge791757" class="outline-3">
-<h3 id="orge791757">Categorías de la Inteligencia Artificial</h3>
-<div class="outline-text-3" id="text-orge791757">
+<div id="outline-container-org176d02d" class="outline-3">
+<h3 id="org176d02d">Categorías de la Inteligencia Artificial</h3>
+<div class="outline-text-3" id="text-org176d02d">
 <ul class="org-ul">
 <li><b>Sistemas que piensan como humanos</b>. Estos sistemas tratan de emular
 el pensamiento humano; por ejemplo las redes neuronales
@@ -425,9 +424,9 @@ conductas inteligentes en artefactos.9</li>
 </div>
 </div>
 
-<div id="outline-container-orgcfbee24" class="outline-3">
-<h3 id="orgcfbee24">Inteligencia artificial convencional</h3>
-<div class="outline-text-3" id="text-orgcfbee24">
+<div id="outline-container-org6122ad4" class="outline-3">
+<h3 id="org6122ad4">Inteligencia artificial convencional</h3>
+<div class="outline-text-3" id="text-org6122ad4">
 <p>
 Se conoce también como IA simbólico-deductiva. Está basada en el análisis formal y
 estadístico del comportamiento humano ante diferentes problemas:
@@ -452,9 +451,9 @@ igual que lo haría un especialista en la dicha actividad.</li>
 </div>
 </div>
 
-<div id="outline-container-org3f0c151" class="outline-2">
-<h2 id="org3f0c151">Espacio de estados</h2>
-<div class="outline-text-2" id="text-org3f0c151">
+<div id="outline-container-org83775b1" class="outline-2">
+<h2 id="org83775b1">Espacio de estados</h2>
+<div class="outline-text-2" id="text-org83775b1">
 <p>
 Muchos de los problemas que pueden ser resueltos aplicando técnicas de
 inteligencia artificial se modelan en forma simbólica y discreta
@@ -506,13 +505,13 @@ desde el estado inicial a un estado objetivo.
 </div>
 </div>
 
-<div id="outline-container-org3193049" class="outline-2">
-<h2 id="org3193049">Ejemplo de espacio de estados</h2>
-<div class="outline-text-2" id="text-org3193049">
+<div id="outline-container-org00bad14" class="outline-2">
+<h2 id="org00bad14">Ejemplo de espacio de estados</h2>
+<div class="outline-text-2" id="text-org00bad14">
 </div>
-<div id="outline-container-org77016c3" class="outline-3">
-<h3 id="org77016c3">Descripción del problema</h3>
-<div class="outline-text-3" id="text-org77016c3">
+<div id="outline-container-org01dacba" class="outline-3">
+<h3 id="org01dacba">Descripción del problema</h3>
+<div class="outline-text-3" id="text-org01dacba">
 <p>
 Un arriero se encuentra en el borde de un rio llevando un puma, una
 cabra y una lechuga.  Debe cruzar a la otra orilla por medio de un
@@ -524,9 +523,9 @@ la lechuga. ¿Cómo cruzar sin perder ninguna pertenencia?
 </div>
 </div>
 
-<div id="outline-container-orgb77fac3" class="outline-3">
-<h3 id="orgb77fac3">Representación de las configuraciones del universo del problema:</h3>
-<div class="outline-text-3" id="text-orgb77fac3">
+<div id="outline-container-orgda92466" class="outline-3">
+<h3 id="orgda92466">Representación de las configuraciones del universo del problema:</h3>
+<div class="outline-text-3" id="text-orgda92466">
 <p>
 Basta precisar la situación antes o después de cruzar. El arriero y
 cada una de sus pertenencias tienen que estar en alguna de las dos
@@ -543,9 +542,9 @@ estado(i,i,i,i). El estado objetivo es estado(d,d,d,d).
 </div>
 </div>
 
-<div id="outline-container-org80596bb" class="outline-3">
-<h3 id="org80596bb">Definición de las reglas de transición:</h3>
-<div class="outline-text-3" id="text-org80596bb">
+<div id="outline-container-org6fc1f13" class="outline-3">
+<h3 id="org6fc1f13">Definición de las reglas de transición:</h3>
+<div class="outline-text-3" id="text-org6fc1f13">
 <p>
 El arriero tiene cuatro acciones posibles: cruzar solo, cruzar con el
 puma, cruzar con la cabra y cruzar con la lechuga. Estas acciones
@@ -557,9 +556,9 @@ intercambiando los valores i y d para los pasajeros del bote.
 </div>
 </div>
 
-<div id="outline-container-orgc0245ce" class="outline-3">
-<h3 id="orgc0245ce">Generación del espacio de estados</h3>
-<div class="outline-text-3" id="text-orgc0245ce">
+<div id="outline-container-org259ae09" class="outline-3">
+<h3 id="org259ae09">Generación del espacio de estados</h3>
+<div class="outline-text-3" id="text-org259ae09">
 <p>
 En este ejemplo se puede explicitar todo el espacio de estados (el
 número de configuraciones está acotado por 24).
@@ -575,9 +574,9 @@ número de configuraciones está acotado por 24).
 
 
 
-<div id="outline-container-orgfa943c9" class="outline-3">
-<h3 id="orgfa943c9">Problemas de los Canibales y Monjes</h3>
-<div class="outline-text-3" id="text-orgfa943c9">
+<div id="outline-container-org7dfb9c4" class="outline-3">
+<h3 id="org7dfb9c4">Problemas de los Canibales y Monjes</h3>
+<div class="outline-text-3" id="text-org7dfb9c4">
 <p>
 Se tienen 3 monjes y 3 caníbales en el margen Oeste de un río. Existe
 una canoa con capacidad para dos personas como máximo. Se desea que
@@ -589,9 +588,9 @@ conducida por alguien.<br />
 </div>
 
 
-<div id="outline-container-orgd90d9a0" class="outline-4">
-<h4 id="orgd90d9a0">El espacio de estados está definido por</h4>
-<div class="outline-text-4" id="text-orgd90d9a0">
+<div id="outline-container-org36e6edd" class="outline-4">
+<h4 id="org36e6edd">El espacio de estados está definido por</h4>
+<div class="outline-text-4" id="text-org36e6edd">
 <p>
 {(Mo, Co, Me, Ce, C) / Mo es el número de monjes en el margen oeste con
 0&lt;=Mo&lt;=3<br />
@@ -675,22 +674,22 @@ Un pasaje de estados para ir de (3,3,0,0,O) a (0,0,3,3,E) es el siguiente:
 </div>
 </div>
 
-<div id="outline-container-org6c5865e" class="outline-2">
-<h2 id="org6c5865e">Representación de espacio de estados</h2>
-<div class="outline-text-2" id="text-org6c5865e">
+<div id="outline-container-org2ed11e0" class="outline-2">
+<h2 id="org2ed11e0">Representación de espacio de estados</h2>
+<div class="outline-text-2" id="text-org2ed11e0">
 <p>
 La primera pregunta es, como  
 </p>
 </div>
 </div>
 
-<div id="outline-container-org8f449e4" class="outline-2">
-<h2 id="org8f449e4">El problema del n-Puzzle</h2>
-<div class="outline-text-2" id="text-org8f449e4">
+<div id="outline-container-org848d677" class="outline-2">
+<h2 id="org848d677">El problema del n-Puzzle</h2>
+<div class="outline-text-2" id="text-org848d677">
 </div>
-<div id="outline-container-orgd3d12c5" class="outline-3">
-<h3 id="orgd3d12c5">Caracterización de las búsquedas ciegas.</h3>
-<div class="outline-text-3" id="text-orgd3d12c5">
+<div id="outline-container-org583d8be" class="outline-3">
+<h3 id="org583d8be">Caracterización de las búsquedas ciegas.</h3>
+<div class="outline-text-3" id="text-org583d8be">
 <p>
 La búsqueda ciega o no informada sólo utiliza información acerca de si
 un estado es o no objetivo para guiar su procesu de búsqueda.
@@ -726,9 +725,9 @@ acrónimo de su nombre en inglés (Depth-First Iterative-Deepening).
 </div>
 
 
-<div id="outline-container-org8348cd0" class="outline-3">
-<h3 id="org8348cd0">Caracterización de las búsquedas heurísticas.</h3>
-<div class="outline-text-3" id="text-org8348cd0">
+<div id="outline-container-org90a83fd" class="outline-3">
+<h3 id="org90a83fd">Caracterización de las búsquedas heurísticas.</h3>
+<div class="outline-text-3" id="text-org90a83fd">
 <p>
 Las técnicas de búsqueda heurística se apoyan alc contrario de los
 métodos de búsqueda ciega se apoyan en información adicional para
@@ -753,13 +752,13 @@ SMA* (Simplified Memory-bounded A*).
 </div>
 </div>
 
-<div id="outline-container-org6220843" class="outline-2">
-<h2 id="org6220843">Técnicas de Búsqueda</h2>
-<div class="outline-text-2" id="text-org6220843">
+<div id="outline-container-org79ea09b" class="outline-2">
+<h2 id="org79ea09b">Técnicas de Búsqueda</h2>
+<div class="outline-text-2" id="text-org79ea09b">
 </div>
-<div id="outline-container-org03b8277" class="outline-3">
-<h3 id="org03b8277">Solución de problemas con búsqueda.</h3>
-<div class="outline-text-3" id="text-org03b8277">
+<div id="outline-container-org45e089e" class="outline-3">
+<h3 id="org45e089e">Solución de problemas con búsqueda.</h3>
+<div class="outline-text-3" id="text-org45e089e">
 <p>
 La solución de problemas es fundamental para la mayoría de las
 aplicaciones de IA; existen principalmente dos clases de problemas que
@@ -805,9 +804,9 @@ espacio paso a paso, hasta encontrar el estado objetivo.
 </div>
 
 
-<div id="outline-container-org684e623" class="outline-3">
-<h3 id="org684e623">Espacios de Estados</h3>
-<div class="outline-text-3" id="text-org684e623">
+<div id="outline-container-org6aeeb11" class="outline-3">
+<h3 id="org6aeeb11">Espacios de Estados</h3>
+<div class="outline-text-3" id="text-org6aeeb11">
 <p>
 Muchos de los problemas que pueden ser resueltos aplicando técnicas de inteligencia artificial se modelan en forma simbólica y
 discreta definiendo las configuraciones posibles del universo estudiado. El problema se plantea entonces en términos de encontrar una configuración objetivo a partir de una configuración inicial dada, aplicando transformaciones válidas según el modelo del universo. La respuesta es la secuencia de transformaciones cuya aplicación succesiva lleva a la configuración deseada.
@@ -818,9 +817,9 @@ Cuando un problema se puede representar mediante un espacio de estados, la soluc
 </p>
 </div>
 
-<div id="outline-container-org73f077d" class="outline-4">
-<h4 id="org73f077d">Deterministicos</h4>
-<div class="outline-text-4" id="text-org73f077d">
+<div id="outline-container-org3d85ed5" class="outline-4">
+<h4 id="org3d85ed5">Deterministicos</h4>
+<div class="outline-text-4" id="text-org3d85ed5">
 <p>
 El espacio de estados determinísticos contienen un único estado inicial y seguir la secuencia de estados para la solución. Los espacios de estados determinísticos son usados por los sistemas expertos.
 Se puede describir asu vez, que un sistema es determinístico si, para un estado dado, al menos aplica una regla a él y de solo una manera.
@@ -828,9 +827,9 @@ Se puede describir asu vez, que un sistema es determinístico si, para un estado
 </div>
 </div>
 
-<div id="outline-container-org0c3aef2" class="outline-4">
-<h4 id="org0c3aef2">No Deterministicos</h4>
-<div class="outline-text-4" id="text-org0c3aef2">
+<div id="outline-container-org16de827" class="outline-4">
+<h4 id="org16de827">No Deterministicos</h4>
+<div class="outline-text-4" id="text-org16de827">
 <p>
 El no determinístico contiene un amplio número de estados iniciales y sigue la secuencia de estados perteneciente al estado inicial del espacio. Son usados por sistemas de lógica difusa.
 En otras palabras,  si más de una regla aplica a cualquier estado particular del sistema, o si una regla aplica a un estado particular del sistema en más de una manera, entonces el sistema es no determinístico.
@@ -840,32 +839,32 @@ En otras palabras,  si más de una regla aplica a cualquier estado particular de
 </div>
 
 
-<div id="outline-container-orgd9b5829" class="outline-3">
-<h3 id="orgd9b5829">Métodos de Búsqueda</h3>
-<div class="outline-text-3" id="text-orgd9b5829">
+<div id="outline-container-org79f3940" class="outline-3">
+<h3 id="org79f3940">Métodos de Búsqueda</h3>
+<div class="outline-text-3" id="text-org79f3940">
 </div>
-<div id="outline-container-org9d5a18f" class="outline-4">
-<h4 id="org9d5a18f">Primero en anchura (breadthfirst)</h4>
-<div class="outline-text-4" id="text-org9d5a18f">
+<div id="outline-container-org417f1f9" class="outline-4">
+<h4 id="org417f1f9">Primero en anchura (breadthfirst)</h4>
+<div class="outline-text-4" id="text-org417f1f9">
 <p>
 En inglés, breadth-first search.
 Si el conjunto open se maneja como una lista FIFO, es decir, como una cola, siempre se estará visitando primero los primeros estados en ser generados. El recorrido del espacio de estados se hace por niveles de profundidad.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><span style="color: #FCCE7B;">procedure</span> <span style="color: #DFDFDF;">Busqueda_en_amplitud</span> <span style="color: #51afef;">{</span>
-   open <span style="color: #C57BDB;">()[</span>estado_inicial<span style="color: #C57BDB;">]</span>
-   closed <span style="color: #C57BDB;">()</span> <span style="color: #C57BDB;">{}</span>
-   <span style="color: #51afef;">while</span> <span style="color: #C57BDB;">(</span>open no <span style="color: #FCCE7B;">esta</span> <span style="color: #DFDFDF;">vacia</span><span style="color: #C57BDB;">)</span> <span style="color: #C57BDB;">{</span>
-     remover el primer estado X de la <span style="color: #FCCE7B;">lista</span> <span style="color: #5cEfFF;">open</span>
-     <span style="color: #51afef;">if</span> <span style="color: #7bc275;">(</span>X es un <span style="color: #FCCE7B;">estado</span> <span style="color: #DFDFDF;">objetivo</span><span style="color: #7bc275;">)</span> <span style="color: #51afef;">return</span> exito
-     <span style="color: #51afef;">else</span> <span style="color: #7bc275;">{</span>
+<pre class="src src-C"><span style="color: #ECBE7B;">procedure</span> <span style="color: #dcaeea;">Busqueda_en_amplitud</span> <span style="color: #51afef;">{</span>
+   open <span style="color: #c678dd;">()[</span>estado_inicial<span style="color: #c678dd;">]</span>
+   closed <span style="color: #c678dd;">()</span> <span style="color: #c678dd;">{}</span>
+   <span style="color: #51afef;">while</span> <span style="color: #c678dd;">(</span>open no <span style="color: #ECBE7B;">esta</span> <span style="color: #dcaeea;">vacia</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+     remover el primer estado X de la <span style="color: #ECBE7B;">lista</span> <span style="color: #c678dd;">open</span>
+     <span style="color: #51afef;">if</span> <span style="color: #98be65;">(</span>X es un <span style="color: #ECBE7B;">estado</span> <span style="color: #dcaeea;">objetivo</span><span style="color: #98be65;">)</span> <span style="color: #51afef;">return</span> exito
+     <span style="color: #51afef;">else</span> <span style="color: #98be65;">{</span>
        generar el conjunto de sucesores del estado X
        agregar el estado X al conjunto closed
        eliminar sucesores que ya estan en open o en closed
        agregar el resto de los sucesores al final de open
-     <span style="color: #7bc275;">}</span>
-   <span style="color: #C57BDB;">}</span>
+     <span style="color: #98be65;">}</span>
+   <span style="color: #c678dd;">}</span>
    <span style="color: #51afef;">return</span> fracaso
  <span style="color: #51afef;">}</span>
 
@@ -879,9 +878,9 @@ Contrariamente a la búsqueda en profundidad, la búsqueda en amplitud garantiza
 </div>
 </div>
 
-<div id="outline-container-orga33965e" class="outline-4">
-<h4 id="orga33965e">Primero en profundidad (depthfirst).</h4>
-<div class="outline-text-4" id="text-orga33965e">
+<div id="outline-container-org463495b" class="outline-4">
+<h4 id="org463495b">Primero en profundidad (depthfirst).</h4>
+<div class="outline-text-4" id="text-org463495b">
 <p>
 En inglés, depth-first search.
 Si el conjunto open se maneja como una lista LIFO, es decir, como un stack, siempre se estará
@@ -892,19 +891,19 @@ una rama antes de explorar ramas alternativas.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><span style="color: #FCCE7B;">procedure</span> <span style="color: #DFDFDF;">Busqueda_en_profundidad</span> <span style="color: #51afef;">{</span>
-   open <span style="color: #C57BDB;">()</span> <span style="color: #C57BDB;">[</span>estado_inicial<span style="color: #C57BDB;">]</span>
-   closed <span style="color: #C57BDB;">()</span> <span style="color: #C57BDB;">{}</span>
-   <span style="color: #51afef;">while</span> <span style="color: #C57BDB;">(</span>open no <span style="color: #FCCE7B;">esta</span> <span style="color: #DFDFDF;">vacia</span><span style="color: #C57BDB;">)</span> <span style="color: #C57BDB;">{</span>
-     remover el primer estado X de la <span style="color: #FCCE7B;">lista</span> <span style="color: #5cEfFF;">open</span>
-     <span style="color: #51afef;">if</span> <span style="color: #7bc275;">(</span>X es un <span style="color: #FCCE7B;">estado</span> <span style="color: #DFDFDF;">objetivo</span><span style="color: #7bc275;">)</span> <span style="color: #51afef;">return</span> exito
-     <span style="color: #51afef;">else</span> <span style="color: #7bc275;">{</span>
+<pre class="src src-C"><span style="color: #ECBE7B;">procedure</span> <span style="color: #dcaeea;">Busqueda_en_profundidad</span> <span style="color: #51afef;">{</span>
+   open <span style="color: #c678dd;">()</span> <span style="color: #c678dd;">[</span>estado_inicial<span style="color: #c678dd;">]</span>
+   closed <span style="color: #c678dd;">()</span> <span style="color: #c678dd;">{}</span>
+   <span style="color: #51afef;">while</span> <span style="color: #c678dd;">(</span>open no <span style="color: #ECBE7B;">esta</span> <span style="color: #dcaeea;">vacia</span><span style="color: #c678dd;">)</span> <span style="color: #c678dd;">{</span>
+     remover el primer estado X de la <span style="color: #ECBE7B;">lista</span> <span style="color: #c678dd;">open</span>
+     <span style="color: #51afef;">if</span> <span style="color: #98be65;">(</span>X es un <span style="color: #ECBE7B;">estado</span> <span style="color: #dcaeea;">objetivo</span><span style="color: #98be65;">)</span> <span style="color: #51afef;">return</span> exito
+     <span style="color: #51afef;">else</span> <span style="color: #98be65;">{</span>
        generar el conjunto de sucesores del estado X
        agregar el estado X al conjunto closed
        eliminar sucesores que ya estan en open o en closed
        agregar el resto de los sucesores al principio de open
-     <span style="color: #7bc275;">}</span>
-   <span style="color: #C57BDB;">}</span>
+     <span style="color: #98be65;">}</span>
+   <span style="color: #c678dd;">}</span>
    <span style="color: #51afef;">return</span> fracaso
  <span style="color: #51afef;">}</span>
 
@@ -922,9 +921,9 @@ El mayor problema de este algoritmo es que puede "perderse" en una rama sin enco
 </div>
 </div>
 
-<div id="outline-container-org01f1a2a" class="outline-4">
-<h4 id="org01f1a2a">Búsqueda Heurística</h4>
-<div class="outline-text-4" id="text-org01f1a2a">
+<div id="outline-container-org06a388d" class="outline-4">
+<h4 id="org06a388d">Búsqueda Heurística</h4>
+<div class="outline-text-4" id="text-org06a388d">
 <p>
 El algoritmo de búsqueda A* (pronunciado "A asterisco", "A estrella" o
 "Astar" en inglés) se clasifica dentro de los algoritmos de búsqueda
@@ -973,8 +972,8 @@ prometedores.
 
 
 <ul class="org-ul">
-<li><a id="orgb71fd16"></a>Propiedades<br />
-<div class="outline-text-5" id="text-orgb71fd16">
+<li><a id="orgf7d9209"></a>Propiedades<br />
+<div class="outline-text-5" id="text-orgf7d9209">
 <p>
 Como todo algoritmo de búsqueda en amplitud, A* es un algoritmo
 completo: en caso de existir una solución, siempre dará con ella.
@@ -1005,8 +1004,8 @@ más el coste de alcanzar el objetivo desde el sucesor.
 
 
 
-<li><a id="org0b480ed"></a>Complejidad<br />
-<div class="outline-text-5" id="text-org0b480ed">
+<li><a id="org7bb4f27"></a>Complejidad<br />
+<div class="outline-text-5" id="text-org7bb4f27">
 <p>
 La complejidad computacional del algoritmo está íntimamente
 relacionada con la calidad de la heurística que se utilice en el
@@ -1038,9 +1037,9 @@ como pueden ser RTA*, IDA* o SMA*.
 </div>
 </div>
 
-<div id="outline-container-org66f18a9" class="outline-2">
-<h2 id="org66f18a9">Satisfacción de restricciones.</h2>
-<div class="outline-text-2" id="text-org66f18a9">
+<div id="outline-container-org7b0c1ad" class="outline-2">
+<h2 id="org7b0c1ad">Satisfacción de restricciones.</h2>
+<div class="outline-text-2" id="text-org7b0c1ad">
 <p>
 Los problemas pueden resolverse buscando en un espacio de estados, estos estados pueden evaluarse por heurísticas específicas para el dominio y probados para verificar si son estados meta.
 Los componentes del estado, son equivalentes a un grafo de restricciones, los cuales están compuestos de:\\[0.5cm]
@@ -1073,9 +1072,9 @@ Ejemplos:
 </div>
 </div>
 
-<div id="outline-container-orgab1d560" class="outline-2">
-<h2 id="orgab1d560">Teoría de juegos.</h2>
-<div class="outline-text-2" id="text-orgab1d560">
+<div id="outline-container-org95aac5f" class="outline-2">
+<h2 id="org95aac5f">Teoría de juegos.</h2>
+<div class="outline-text-2" id="text-org95aac5f">
 <p>
 Siendo una de las principales capacidades de la inteligencia humana su
 capacidad para resolver problemas, así como la habilidad para analizar
@@ -1111,9 +1110,9 @@ son las damas y el ajedrez.
 </div>
 </div>
 
-<div id="outline-container-org9fcfad1" class="outline-2">
-<h2 id="org9fcfad1">Grafos</h2>
-<div class="outline-text-2" id="text-org9fcfad1">
+<div id="outline-container-org67928dd" class="outline-2">
+<h2 id="org67928dd">Grafos</h2>
+<div class="outline-text-2" id="text-org67928dd">
 <p>
 Un grafo es un conjunto de puntos (vértices) en el espacio, que están conectados
 por un conjunto de líneas (aristas). Otros conceptos básicos son:
@@ -1124,9 +1123,9 @@ Un grafo se dice que es finito si su número de vértices es finito.
 </div>
 </div>
 
-<div id="outline-container-orgce63507" class="outline-2">
-<h2 id="orgce63507">Tipos de grafos</h2>
-<div class="outline-text-2" id="text-orgce63507">
+<div id="outline-container-org8517dcb" class="outline-2">
+<h2 id="org8517dcb">Tipos de grafos</h2>
+<div class="outline-text-2" id="text-org8517dcb">
 <p>
 Existen dos tipos de grafos los no dirigidos y los dirigidos.
 </p>
@@ -1148,9 +1147,11 @@ el vértice destino, se conoce como cabeza del lado.
 </div>
 
 
-<div id="outline-container-orgc44c2cd" class="outline-2">
-<h2 id="orgc44c2cd">Machine Learning</h2>
-<div class="outline-text-2" id="text-orgc44c2cd">
+
+
+<div id="outline-container-org3afcf0a" class="outline-2">
+<h2 id="org3afcf0a">Machine Learning</h2>
+<div class="outline-text-2" id="text-org3afcf0a">
 <p>
 El aprendizaje automático o aprendizaje automatizado o aprendizaje de
 máquinas (del inglés, machine learning) es el subcampo de las ciencias
@@ -1189,9 +1190,9 @@ y del lenguaje escrito, juegos y robótica.
 </p>
 </div>
 
-<div id="outline-container-org34ad86a" class="outline-3">
-<h3 id="org34ad86a">Tipos de Algoritmos</h3>
-<div class="outline-text-3" id="text-org34ad86a">
+<div id="outline-container-org4b679b2" class="outline-3">
+<h3 id="org4b679b2">Tipos de Algoritmos</h3>
+<div class="outline-text-3" id="text-org4b679b2">
 <p>
 Los diferentes algoritmos de Aprendizaje Automático se agrupan en una
 taxonomía en función de la salida de los mismos. Algunos tipos de
@@ -1272,9 +1273,9 @@ llevando a cabo, sino que solo será una secuencia repetitiva.</li>
 </div>
 </div>
 
-<div id="outline-container-org485620b" class="outline-3">
-<h3 id="org485620b">Técnicas de clasificación</h3>
-<div class="outline-text-3" id="text-org485620b">
+<div id="outline-container-orgd3d3443" class="outline-3">
+<h3 id="orgd3d3443">Técnicas de clasificación</h3>
+<div class="outline-text-3" id="text-orgd3d3443">
 <ul class="org-ul">
 <li><b>Árboles de decisiones</b>: Este tipo de aprendizaje usa un árbol de
 decisiones como modelo predictivo. Se mapean observaciones sobre un
@@ -1347,9 +1348,9 @@ aprenden usando este tipo de representación.</li>
 </div>
 
 
-<div id="outline-container-orgbff1a29" class="outline-3">
-<h3 id="orgbff1a29">Clasificador en Cascada</h3>
-<div class="outline-text-3" id="text-orgbff1a29">
+<div id="outline-container-org3e98ff3" class="outline-3">
+<h3 id="org3e98ff3">Clasificador en Cascada</h3>
+<div class="outline-text-3" id="text-org3e98ff3">
 <p>
 La detección de objetos usando un clasificador en cascada basado en
 características de Haar es un método efectivo de detección de objetos
@@ -1481,9 +1482,9 @@ sección de otros recursos.
 </p>
 </div>
 
-<div id="outline-container-org32afa8c" class="outline-4">
-<h4 id="org32afa8c">Ejemplo de clasificación utilizando Haarcascades</h4>
-<div class="outline-text-4" id="text-org32afa8c">
+<div id="outline-container-org3e9341c" class="outline-4">
+<h4 id="org3e9341c">Ejemplo de clasificación utilizando Haarcascades</h4>
+<div class="outline-text-4" id="text-org3e9341c">
 <ul class="org-ul">
 <li><a href="https://github.com/opencv/opencv/tree/master/data/haarcascades">Clasificadores Haarcascades de la librería Opencv</a></li>
 <li><a href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html">Tutorial Haarcascades</a></li>
@@ -1495,28 +1496,28 @@ sección de otros recursos.
 <pre class="src src-python"><span style="color: #51afef;">import</span> numpy <span style="color: #51afef;">as</span> np
 <span style="color: #51afef;">import</span> cv2 <span style="color: #51afef;">as</span> cv
 
-<span style="color: #DFDFDF;">rostro</span> = cv.CascadeClassifier<span style="color: #51afef;">(</span><span style="color: #7bc275;">'haarcascade_frontalface_alt.xml'</span><span style="color: #51afef;">)</span>
-<span style="color: #DFDFDF;">cap</span> = cv.VideoCapture<span style="color: #51afef;">(</span>0<span style="color: #51afef;">)</span>
-<span style="color: #DFDFDF;">x</span>=<span style="color: #DFDFDF;">y</span>=<span style="color: #DFDFDF;">w</span>=<span style="color: #DFDFDF;">h</span>= 0 
-<span style="color: #DFDFDF;">img</span> = 0
-<span style="color: #DFDFDF;">count</span> = 0
-<span style="color: #51afef;">while</span> <span style="color: #a991f1;">True</span>:
-    <span style="color: #DFDFDF;">ret</span>, <span style="color: #DFDFDF;">frame</span> = cap.read<span style="color: #51afef;">()</span>
-    <span style="color: #DFDFDF;">gray</span> = cv.cvtColor<span style="color: #51afef;">(</span>frame, cv.COLOR_BGR2GRAY<span style="color: #51afef;">)</span>
-    <span style="color: #DFDFDF;">rostros</span> = rostro.detectMultiScale<span style="color: #51afef;">(</span>gray, 1.3, 5<span style="color: #51afef;">)</span>
+<span style="color: #dcaeea;">rostro</span> = cv.CascadeClassifier<span style="color: #51afef;">(</span><span style="color: #98be65;">'haarcascade_frontalface_alt.xml'</span><span style="color: #51afef;">)</span>
+<span style="color: #dcaeea;">cap</span> = cv.VideoCapture<span style="color: #51afef;">(</span>0<span style="color: #51afef;">)</span>
+<span style="color: #dcaeea;">x</span>=<span style="color: #dcaeea;">y</span>=<span style="color: #dcaeea;">w</span>=<span style="color: #dcaeea;">h</span>= 0 
+<span style="color: #dcaeea;">img</span> = 0
+<span style="color: #dcaeea;">count</span> = 0
+<span style="color: #51afef;">while</span> <span style="color: #a9a1e1;">True</span>:
+    <span style="color: #dcaeea;">ret</span>, <span style="color: #dcaeea;">frame</span> = cap.read<span style="color: #51afef;">()</span>
+    <span style="color: #dcaeea;">gray</span> = cv.cvtColor<span style="color: #51afef;">(</span>frame, cv.COLOR_BGR2GRAY<span style="color: #51afef;">)</span>
+    <span style="color: #dcaeea;">rostros</span> = rostro.detectMultiScale<span style="color: #51afef;">(</span>gray, 1.3, 5<span style="color: #51afef;">)</span>
     <span style="color: #51afef;">for</span><span style="color: #51afef;">(</span>x, y, w, h<span style="color: #51afef;">)</span> <span style="color: #51afef;">in</span> rostros:
-        <span style="color: #DFDFDF;">m</span>= <span style="color: #C57BDB;">int</span><span style="color: #51afef;">(</span>h/2<span style="color: #51afef;">)</span>
-        <span style="color: #DFDFDF;">frame</span> = cv.rectangle<span style="color: #51afef;">(</span>frame, <span style="color: #C57BDB;">(</span>x,y<span style="color: #C57BDB;">)</span>, <span style="color: #C57BDB;">(</span>x+w, y+h<span style="color: #C57BDB;">)</span>, <span style="color: #C57BDB;">(</span>0, 255, 0<span style="color: #C57BDB;">)</span>, 2<span style="color: #51afef;">)</span>
-        <span style="color: #DFDFDF;">frame</span> = cv.rectangle<span style="color: #51afef;">(</span>frame, <span style="color: #C57BDB;">(</span>x,y+m<span style="color: #C57BDB;">)</span>, <span style="color: #C57BDB;">(</span>x+w, y+h<span style="color: #C57BDB;">)</span>, <span style="color: #C57BDB;">(</span>255, 0 ,0<span style="color: #C57BDB;">)</span>, 2 <span style="color: #51afef;">)</span>
-        <span style="color: #DFDFDF;">img</span> = 180- frame<span style="color: #51afef;">[</span>y:y+h,x:x+w<span style="color: #51afef;">]</span>
-        <span style="color: #DFDFDF;">count</span> = count + 1   
+        <span style="color: #dcaeea;">m</span>= <span style="color: #c678dd;">int</span><span style="color: #51afef;">(</span>h/2<span style="color: #51afef;">)</span>
+        <span style="color: #dcaeea;">frame</span> = cv.rectangle<span style="color: #51afef;">(</span>frame, <span style="color: #c678dd;">(</span>x,y<span style="color: #c678dd;">)</span>, <span style="color: #c678dd;">(</span>x+w, y+h<span style="color: #c678dd;">)</span>, <span style="color: #c678dd;">(</span>0, 255, 0<span style="color: #c678dd;">)</span>, 2<span style="color: #51afef;">)</span>
+        <span style="color: #dcaeea;">frame</span> = cv.rectangle<span style="color: #51afef;">(</span>frame, <span style="color: #c678dd;">(</span>x,y+m<span style="color: #c678dd;">)</span>, <span style="color: #c678dd;">(</span>x+w, y+h<span style="color: #c678dd;">)</span>, <span style="color: #c678dd;">(</span>255, 0 ,0<span style="color: #c678dd;">)</span>, 2 <span style="color: #51afef;">)</span>
+        <span style="color: #dcaeea;">img</span> = 180- frame<span style="color: #51afef;">[</span>y:y+h,x:x+w<span style="color: #51afef;">]</span>
+        <span style="color: #dcaeea;">count</span> = count + 1   
     
-    <span style="color: #62686E;">#</span><span style="color: #62686E;">name = '/home/likcos/imgs/cara'+str(count)+'.jpg'</span>
-    <span style="color: #62686E;">#</span><span style="color: #62686E;">cv.imwrite(name, frame)</span>
-    cv.imshow<span style="color: #51afef;">(</span><span style="color: #7bc275;">'rostros'</span>, frame<span style="color: #51afef;">)</span>
-    cv.imshow<span style="color: #51afef;">(</span><span style="color: #7bc275;">'cara'</span>, img<span style="color: #51afef;">)</span>
+    <span style="color: #5B6268;">#</span><span style="color: #5B6268;">name = '/home/likcos/imgs/cara'+str(count)+'.jpg'</span>
+    <span style="color: #5B6268;">#</span><span style="color: #5B6268;">cv.imwrite(name, frame)</span>
+    cv.imshow<span style="color: #51afef;">(</span><span style="color: #98be65;">'rostros'</span>, frame<span style="color: #51afef;">)</span>
+    cv.imshow<span style="color: #51afef;">(</span><span style="color: #98be65;">'cara'</span>, img<span style="color: #51afef;">)</span>
     
-    <span style="color: #DFDFDF;">k</span> = cv.waitKey<span style="color: #51afef;">(</span>1<span style="color: #51afef;">)</span>
+    <span style="color: #dcaeea;">k</span> = cv.waitKey<span style="color: #51afef;">(</span>1<span style="color: #51afef;">)</span>
     <span style="color: #51afef;">if</span> k == 27:
         <span style="color: #51afef;">break</span>
 cap.release<span style="color: #51afef;">()</span>
@@ -1527,9 +1528,9 @@ cv.destroyAllWindows<span style="color: #51afef;">()</span>
 </div>
 </div>
 
-<div id="outline-container-org8b5baff" class="outline-3">
-<h3 id="org8b5baff">Segmentación de Color</h3>
-<div class="outline-text-3" id="text-org8b5baff">
+<div id="outline-container-orge9f4b35" class="outline-3">
+<h3 id="orge9f4b35">Segmentación de Color</h3>
+<div class="outline-text-3" id="text-orge9f4b35">
 <p>
 La segmentación de imágenes es un tema ampliamente estudiado para la
 extracción y reconocimiento de objetos, de acuerdo a las
@@ -1563,22 +1564,16 @@ seguro es que responda “rojo y rosa, respectivamente”; es importante
 mencionar que los cuadros (c) y (d) tienen la misma intensidad pero
 diferentes cromaticidades.
 </p>
-
-
-
-
-
-<div class="org-src-container">
-<pre class="src src-python">
-</pre>
-</div>
 </div>
 </div>
 
 
-<div id="outline-container-org4844128" class="outline-3">
-<h3 id="org4844128">Árboles de decisión</h3>
-<div class="outline-text-3" id="text-org4844128">
+
+
+
+<div id="outline-container-org6468cba" class="outline-3">
+<h3 id="org6468cba">Árboles de decisión</h3>
+<div class="outline-text-3" id="text-org6468cba">
 <p>
 Los árboles de decisión (DT) son un método de aprendizaje supervisado
 no paramétrico que se utiliza para la clasificación y la regresión. El
@@ -1603,9 +1598,9 @@ son las reglas de decisión y más ajustado es el modelo
 </div>
 
 
-<div id="outline-container-org3d572f1" class="outline-4">
-<h4 id="org3d572f1">Elementos</h4>
-<div class="outline-text-4" id="text-org3d572f1">
+<div id="outline-container-org58aa0a7" class="outline-4">
+<h4 id="org58aa0a7">Elementos</h4>
+<div class="outline-text-4" id="text-org58aa0a7">
 <p>
 Los árboles de decisión están formados por nodos, vectores de números,
 flechas y etiquetas.
@@ -1629,9 +1624,9 @@ a cada acción.</li>
 </div>
 </div>
 
-<div id="outline-container-org3ff0ebb" class="outline-4">
-<h4 id="org3ff0ebb">Algunas ventajas de los árboles de decisión son:</h4>
-<div class="outline-text-4" id="text-org3ff0ebb">
+<div id="outline-container-org8690231" class="outline-4">
+<h4 id="org8690231">Algunas ventajas de los árboles de decisión son:</h4>
+<div class="outline-text-4" id="text-org8690231">
 <ul class="org-ul">
 <li>Fácil de entender y de interpretar. Los árboles se pueden
 visualizar.</li>
@@ -1666,9 +1661,9 @@ por el verdadero modelo a partir del cual se generaron los dato</li>
 </div>
 </div>
 
-<div id="outline-container-org55fe396" class="outline-4">
-<h4 id="org55fe396">Desventajas de los árboles de decisión:</h4>
-<div class="outline-text-4" id="text-org55fe396">
+<div id="outline-container-org4bf0318" class="outline-4">
+<h4 id="org4bf0318">Desventajas de los árboles de decisión:</h4>
+<div class="outline-text-4" id="text-org4bf0318">
 <ul class="org-ul">
 <li>El aprendizaje de los  árboles de decisión pueden crear árboles demasiado
 complejos que no generalizan bien los datos. Esto se llama
@@ -1708,9 +1703,9 @@ conjunto de datos antes de ajustarlo al árbol de decisión.</li>
 </div>
 </div>
 
-<div id="outline-container-org20deeaa" class="outline-4">
-<h4 id="org20deeaa">Ejemplo de Clasificación, Árbol de decisión scikit-learn</h4>
-<div class="outline-text-4" id="text-org20deeaa">
+<div id="outline-container-org8740219" class="outline-4">
+<h4 id="org8740219">Ejemplo de Clasificación, Árbol de decisión scikit-learn</h4>
+<div class="outline-text-4" id="text-org8740219">
 <p>
 <b>DecisionTreeClassifier</b> es una clase capaz de realizar una
 clasificación de varias clases en un conjunto de datos.
@@ -1727,24 +1722,21 @@ entrenamiento:
 
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #51afef;">from</span> sklearn <span style="color: #51afef;">import</span> tree
-<span style="color: #DFDFDF;">X</span> = <span style="color: #51afef;">[</span><span style="color: #C57BDB;">[</span>0, 0<span style="color: #C57BDB;">]</span>, <span style="color: #C57BDB;">[</span>1, 1<span style="color: #C57BDB;">]</span><span style="color: #51afef;">]</span>
-<span style="color: #DFDFDF;">Y</span> = <span style="color: #51afef;">[</span>0, 1<span style="color: #51afef;">]</span>
-<span style="color: #DFDFDF;">clf</span> = tree.DecisionTreeClassifier<span style="color: #51afef;">()</span>
-<span style="color: #DFDFDF;">clf</span> = clf.fit<span style="color: #51afef;">(</span>X, Y<span style="color: #51afef;">)</span>
-clf.predict<span style="color: #51afef;">(</span><span style="color: #C57BDB;">[</span><span style="color: #7bc275;">[</span>2.,2.<span style="color: #7bc275;">]</span><span style="color: #C57BDB;">]</span><span style="color: #51afef;">)</span> 
+<span style="color: #dcaeea;">X</span> = <span style="color: #51afef;">[</span><span style="color: #c678dd;">[</span>0, 0<span style="color: #c678dd;">]</span>, <span style="color: #c678dd;">[</span>1, 1<span style="color: #c678dd;">]</span><span style="color: #51afef;">]</span>
+<span style="color: #dcaeea;">Y</span> = <span style="color: #51afef;">[</span>0, 1<span style="color: #51afef;">]</span>
+<span style="color: #dcaeea;">clf</span> = tree.DecisionTreeClassifier<span style="color: #51afef;">()</span>
+<span style="color: #dcaeea;">clf</span> = clf.fit<span style="color: #51afef;">(</span>X, Y<span style="color: #51afef;">)</span>
 </pre>
 </div>
-
 
 <p>
 Despues de ajustarce el modelo se puede usar, para predecir la clase 
 </p>
 <div class="org-src-container">
-<pre class="src src-python">clf.predict<span style="color: #51afef;">(</span><span style="color: #C57BDB;">[</span><span style="color: #7bc275;">[</span>2.,2.<span style="color: #7bc275;">]</span><span style="color: #C57BDB;">]</span><span style="color: #51afef;">)</span> 
-<span style="color: #62686E;">#</span><span style="color: #62686E;">array([1])</span>
+<pre class="src src-python">clf.predict<span style="color: #51afef;">(</span><span style="color: #c678dd;">[</span><span style="color: #98be65;">[</span>2.,2.<span style="color: #98be65;">]</span><span style="color: #c678dd;">]</span><span style="color: #51afef;">)</span> 
+<span style="color: #5B6268;">#</span><span style="color: #5B6268;">array([1])</span>
 </pre>
 </div>
-
 
 
 <p>
@@ -1760,11 +1752,10 @@ entrenamiento de la clase en una hoja:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">clf.predict_proba<span style="color: #51afef;">(</span><span style="color: #C57BDB;">[</span><span style="color: #7bc275;">[</span>2., 2.<span style="color: #7bc275;">]</span><span style="color: #C57BDB;">]</span><span style="color: #51afef;">)</span>
-<span style="color: #62686E;">#</span><span style="color: #62686E;">array([[0., 1.]])</span>
+<pre class="src src-python">clf.predict_proba<span style="color: #51afef;">(</span><span style="color: #c678dd;">[</span><span style="color: #98be65;">[</span>2., 2.<span style="color: #98be65;">]</span><span style="color: #c678dd;">]</span><span style="color: #51afef;">)</span>
+<span style="color: #5B6268;">#</span><span style="color: #5B6268;">array([[0., 1.]])</span>
 </pre>
 </div>
-
 
 <p>
 DecisionTreeClassifier es capaz tanto de clasificación binaria (donde
@@ -1781,25 +1772,33 @@ siguiente manera:
 <pre class="src src-python"><span style="color: #51afef;">from</span> sklearn.datasets <span style="color: #51afef;">import</span> load_iris
 <span style="color: #51afef;">from</span> sklearn <span style="color: #51afef;">import</span> tree
 <span style="color: #51afef;">import</span> graphviz
-<span style="color: #DFDFDF;">iris</span> = load_iris<span style="color: #51afef;">()</span>
-<span style="color: #DFDFDF;">X</span>, <span style="color: #DFDFDF;">y</span> = iris.data, iris.target
-<span style="color: #DFDFDF;">clf</span> = tree.DecisionTreeClassifier<span style="color: #51afef;">()</span>
-<span style="color: #DFDFDF;">clf</span> = clf.fit<span style="color: #51afef;">(</span>X, y<span style="color: #51afef;">)</span>
-<span style="color: #62686E;">#</span><span style="color: #62686E;">dot_data = tree.export_graphviz(clf, out_file=None) </span>
-<span style="color: #62686E;">#</span><span style="color: #62686E;">graph = graphviz.Source(dot_data)</span>
-<span style="color: #62686E;">#</span><span style="color: #62686E;">graph.render("iris")</span>
-<span style="color: #DFDFDF;">dot_data</span> = tree.export_graphviz<span style="color: #51afef;">(</span>clf, out_file=<span style="color: #a991f1;">None</span>, 
+<span style="color: #dcaeea;">iris</span> = load_iris<span style="color: #51afef;">()</span>
+<span style="color: #dcaeea;">X</span>, <span style="color: #dcaeea;">y</span> = iris.data, iris.target
+<span style="color: #dcaeea;">clf</span> = tree.DecisionTreeClassifier<span style="color: #51afef;">()</span>
+<span style="color: #dcaeea;">clf</span> = clf.fit<span style="color: #51afef;">(</span>X, y<span style="color: #51afef;">)</span>
+<span style="color: #5B6268;">#</span><span style="color: #5B6268;">dot_data = tree.export_graphviz(clf, out_file=None) </span>
+<span style="color: #5B6268;">#</span><span style="color: #5B6268;">graph = graphviz.Source(dot_data)</span>
+<span style="color: #5B6268;">#</span><span style="color: #5B6268;">graph.render("iris")</span>
+<span style="color: #dcaeea;">dot_data</span> = tree.export_graphviz<span style="color: #51afef;">(</span>clf, out_file=<span style="color: #a9a1e1;">None</span>, 
                                 feature_names=iris.feature_names,  
                                 class_names=iris.target_names,  
-                                filled=<span style="color: #a991f1;">True</span>, rounded=<span style="color: #a991f1;">True</span>,  
-                                special_characters=<span style="color: #a991f1;">True</span><span style="color: #51afef;">)</span>  
-<span style="color: #DFDFDF;">graph</span> = graphviz.Source<span style="color: #51afef;">(</span>dot_data<span style="color: #51afef;">)</span> 
-graph.view<span style="color: #51afef;">()</span>
+                                filled=<span style="color: #a9a1e1;">True</span>, rounded=<span style="color: #a9a1e1;">True</span>,  
+                                special_characters=<span style="color: #a9a1e1;">True</span><span style="color: #51afef;">)</span>  
+<span style="color: #dcaeea;">graph</span> = graphviz.Source<span style="color: #51afef;">(</span>dot_data<span style="color: #51afef;">)</span> 
+graph
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #51afef;">print</span><span style="color: #51afef;">(</span><span style="color: #7bc275;">"Hola"</span><span style="color: #51afef;">)</span>
+<pre class="src src-python"><span style="color: #51afef;">import</span> matplotlib, numpy
+matplotlib.use<span style="color: #51afef;">(</span><span style="color: #98be65;">'Agg'</span><span style="color: #51afef;">)</span>
+<span style="color: #51afef;">import</span> matplotlib.pyplot <span style="color: #51afef;">as</span> plt
+<span style="color: #dcaeea;">fig</span>=plt.figure<span style="color: #51afef;">(</span>figsize=<span style="color: #c678dd;">(</span>4,2<span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+<span style="color: #dcaeea;">x</span>=numpy.linspace<span style="color: #51afef;">(</span>-15,15<span style="color: #51afef;">)</span>
+plt.plot<span style="color: #51afef;">(</span>numpy.sin<span style="color: #c678dd;">(</span>x<span style="color: #c678dd;">)</span>/x<span style="color: #51afef;">)</span>
+fig.tight_layout<span style="color: #51afef;">()</span>
+plt.savefig<span style="color: #51afef;">(</span><span style="color: #98be65;">'img/python-matplot-fig.png'</span><span style="color: #51afef;">)</span>
+<span style="color: #51afef;">return</span> <span style="color: #98be65;">'img/python-matplot-fig.png'</span> <span style="color: #5B6268;"># </span><span style="color: #5B6268;">return filename to org-mode</span>
 </pre>
 </div>
 </div>
@@ -1809,7 +1808,7 @@ graph.view<span style="color: #51afef;">()</span>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Eduardo Alcaraz</p>
-<p class="date">Created: 2023-09-03 dom 21:26</p>
+<p class="date">Created: 2022-03-22 mar 21:52</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
