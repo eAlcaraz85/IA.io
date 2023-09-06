@@ -261,8 +261,9 @@ cv.destroyAllWindows()
 
 
 
-
 *** Haarcascades  
+
+[[https://github.com/opencv/opencv/tree/master/data/haarcascades][Haarcascades]]
 
 La detección de objetos utilizando clasificadores en cascada basados
 en características Haar es un método efectivo de detección de objetos
@@ -305,6 +306,7 @@ while True:
 cap.release()
 cv.destroyAllWindows()
 #+END_SRC
+
 * Espacio de estados
 
 Muchos de los problemas que pueden ser resueltos aplicando técnicas de
@@ -510,6 +512,7 @@ Un pasaje de estados para ir de (3,3,0,0,O) a (0,0,3,3,E) es el siguiente:
  limitaban el uso de memoria. Dos de los algoritmos más representativos
  de esta última tendencia son el IDA* (Iterative-Deepening A*) y el
  SMA* (Simplified Memory-bounded A*).
+
 
 * Técnicas de Búsqueda
 
