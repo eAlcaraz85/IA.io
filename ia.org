@@ -5,6 +5,7 @@
 #+EXPORT_FILE_NAME: index.html
 #+OPTIONS: num:nil
 #+HTML_HEAD: <style> #content{max-width:1800px;}</style>
+#+HTML_HEAD: <style>pre.src {background-color: #303030; color: #e5e5e5;}</style>
 
 
 * Inteligencia Artificial
@@ -282,6 +283,7 @@ valor único obtenido restando la suma de los píxeles bajo el
 rectángulo blanco de la suma de los píxeles bajo el rectángulo negro.
 
 [[https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html][Haarcascades]]
+
 
 #+BEGIN_SRC python
 import numpy as np
