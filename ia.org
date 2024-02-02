@@ -61,15 +61,17 @@ computador, y otros videojuegos.
     como humanos; es decir, imitan el comportamiento humano; por
     ejemplo la robótica. El estudio de cómo lograr que los
     computadores realicen tareas que, por el momento, los humanos
+
+** 
     hacen mejor.7
   - *Sistemas que piensan racionalmente*.- Es decir, con lógica (idealmente), tratan de
     imitar o emular el pensamiento lógico racional del ser humano; por ejemplo los sistemas
     expertos. El estudio de los cálculos que hacen posible percibir, razonar y actuar.8
   - *Sistemas que actúan racionalmente (idealmente)*.– Tratan de emular de forma
     racional el comportamiento humano; por ejemplo los agentes inteligentes.Está relacionado con
-    conductas inteligentes en artefactos.9
+    conductas inteligentes en artefactos.[^1]
  
-** Inteligencia artificial convencional
+**  Inteligencia artificial convencional
 
  Se conoce también como IA simbólico-deductiva. Está basada en el análisis formal y
  estadístico del comportamiento humano ante diferentes problemas:
