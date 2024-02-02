@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
 <head>
-<!-- 2023-11-07 mar 23:17 -->
+<!-- 2023-11-07 mar 23:19 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ejemplo de clasificación utilizando Haarcascades</title>
+<title>Clasificador en Cascada</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Eduardo Alcaraz" />
 <style type="text/css">
@@ -250,7 +250,148 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Ejemplo de clasificación utilizando Haarcascades</h1>
+<h1 class="title">Clasificador en Cascada</h1>
+<div id="table-of-contents">
+<h2>&Iacute;ndice</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org195d7f5">Ejemplo de clasificación utilizando Haarcascades</a></li>
+</ul>
+</div>
+</div>
+<p>
+La detección de objetos usando un clasificador en cascada basado en
+características de Haar es un método efectivo de detección de objetos
+propuesto en 2001 por Paul Viola y Michael Jones en su artículo
+"Detección rápida de objetos usando cascada mejorada de
+características simples". Este es un método basado en el aprendizaje
+automático en el que se entrena una función en cascada a partir de
+muchas imágenes positivas y negativas. Luego se usa para detectar
+objetos en otras imágenes.
+</p>
+
+<p>
+El algoritmo requiere una gran cantidad de imágenes positivas
+(imágenes faciales) e imágenes negativas (no imágenes faciales) para
+entrenar al clasificador. Luego, necesitamos extraer características
+de él. Para hacer esto, use la función Haar que se muestra en la
+siguiente figura. Son como nuestros núcleos de convolución. Cada
+característica es un valor único que se obtiene restando la suma de
+píxeles debajo del rectángulo blanco de la suma de píxeles debajo del
+rectángulo negro.
+</p>
+
+
+<div class="figure">
+<p><img src="img/har.png" alt="har.png" />
+</p>
+</div>
+
+<p>
+Ahora, todos los tamaños y posiciones posibles de cada kernel se
+utilizan para calcular muchas funciones. (Imagínese cuántos cálculos
+genera. Incluso una ventana de 24x24 generará más de 160.000
+características). Para el cálculo de cada característica, necesitamos
+encontrar la suma de los píxeles debajo de los rectángulos blanco y
+negro. Para resolver este problema, introdujeron la imagen general. No
+importa qué tan grande sea su imagen, reducirá el cálculo de un píxel
+dado a operaciones que involucren solo cuatro píxeles.
+</p>
+
+<p>
+Pero de todas estas características que calculamos, la mayoría de
+ellas no son relevantes. Por ejemplo, considere la siguiente
+figura. La primera fila muestra dos buenas características. La primera
+característica elegida pareció centrarse en la naturaleza del área de
+los ojos, que generalmente es más oscura que las áreas de la nariz y
+las mejillas. La segunda característica elegida se basa en que las
+propiedades de los ojos son más oscuras que el puente de la nariz. Sin
+embargo, aplicar la misma ventana en las mejillas o en cualquier otro
+lugar es irrelevante. Entonces, ¿cómo elegimos la mejor función entre
+más de 160.000 funciones?.
+</p>
+
+
+<div class="figure">
+<p><img src="img/har2.png" alt="har2.png" />
+</p>
+</div>
+
+
+<p>
+Para ello, aplicamos todas las funciones a todas las imágenes de
+entrenamiento. Para cada característica, encontrará el mejor umbral,
+que divide el rostro en positivo y negativo. Obviamente, habrá errores
+o clasificaciones erróneas. Elegimos las características con la tasa
+de error más baja, lo que significa que son las características más
+precisas para clasificar imágenes faciales y no faciales. (Este
+proceso no es tan simple. Al principio, el peso de cada imagen es
+igual. Después de cada clasificación, el peso de la imagen mal
+clasificada aumentará. Luego se realizará el mismo proceso. Se
+calculará la nueva tasa de error. También calcular Peso
+nuevo. Continúe con este proceso hasta que se alcance la precisión o
+la tasa de error requeridas o se encuentre el número requerido de
+funciones.
+</p>
+
+<p>
+El clasificador final es la suma ponderada de estos clasificadores
+débiles. Se denomina clasificación débil porque no puede clasificar
+imágenes por sí sola, sino que forma un clasificador fuerte junto con
+otras clasificaciones. El documento dice que incluso 200 funciones
+pueden proporcionar una detección de precisión del 95%. Su
+configuración final tiene aproximadamente 6000 funciones. (Imagínese
+reducir de más de 160.000 funciones a 6.000 funciones. Esto es una
+gran ganancia).
+</p>
+
+<p>
+Entonces ahora toma una foto. Toma cada ventana de 24x24. Aplicarle
+6000 funciones. Busque caras. Vaya &#x2026; ¿No es esto ineficiente y
+requiere mucho tiempo? Si. El autor tiene una buena solución para
+esto.
+</p>
+
+<p>
+En la imagen, la mayoría de las imágenes son áreas sin caras. Por lo
+tanto, es mejor tener una manera fácil de verificar si la ventana no
+es un área frontal. Si no es así, deséchelo todo de una vez y no lo
+vuelva a procesar. En cambio, concéntrese en las áreas que pueden
+tener caras. De esta forma, dedicaremos más tiempo a comprobar
+posibles zonas faciales.
+</p>
+
+<p>
+Con este fin, introdujeron el concepto de clasificadores en
+cascada. En lugar de aplicar los 6000 componentes funcionales a una
+ventana, estos componentes funcionales se agrupan en diferentes etapas
+de clasificación y se aplican uno por uno. (Por lo general, las
+primeras etapas contendrán muy pocas funciones). Si la ventana falla
+en la primera etapa, se descarta. No consideramos sus funciones
+restantes. Si pasa, se aplica la segunda etapa de la función y el
+proceso continúa. La ventana a través de todas las etapas es un área
+facial. ¡Qué tal este plan!
+</p>
+
+<p>
+El detector del autor tiene más de 6000 características con 38 etapas,
+con 1, 10, 25, 25 y 50 características en las primeras cinco
+etapas. (Las dos funciones en la imagen de arriba son en realidad las
+dos mejores funciones obtenidas de Adaboost). Según el autor, cada
+subventana evaluó un promedio de 10 características de más de 6000
+características.
+</p>
+
+<p>
+Por lo tanto, esta es una explicación simple e intuitiva del principio
+de funcionamiento de la detección de rostros Viola-Jones. Lea este
+artículo para obtener más detalles o consulte las referencias en la
+sección de otros recursos.
+</p>
+
+<div id="outline-container-org195d7f5" class="outline-2">
+<h2 id="org195d7f5">Ejemplo de clasificación utilizando Haarcascades</h2>
+<div class="outline-text-2" id="text-org195d7f5">
 <ul class="org-ul">
 <li><a href="https://github.com/opencv/opencv/tree/master/data/haarcascades">Clasificadores Haarcascades de la librería Opencv</a></li>
 <li><a href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html">Tutorial Haarcascades</a></li>
@@ -291,9 +432,11 @@ cv.destroyAllWindows<span style="color: #51afef;">()</span>
 </pre>
 </div>
 </div>
+</div>
+</div>
 <div id="postamble" class="status">
 <p class="author">Autor: Eduardo Alcaraz</p>
-<p class="date">Created: 2023-11-07 mar 23:17</p>
+<p class="date">Created: 2023-11-07 mar 23:19</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
