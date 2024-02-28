@@ -1,3 +1,4 @@
+
 #+TITLE: Apuntes IA
 #+LANGUAGE: es
 #+LaTeX_HEADER: \usepackage[spanish]{inputenc}
@@ -8,99 +9,195 @@
 #+HTML_HEAD: <style>pre.src {background-color: #303030; color: #e5e5e5;}</style>
 
 
-* Inteligencia Artificial
+* Introducción a la Inteligencia Artificial
 
-  
+**  Introducción a la Inteligencia Artificial.
 La inteligencia artificial (IA) es un área multidisciplinaria que, a
-través de ciencias como las ciencias de la computación, la lógica y la
-filosofía, estudia la creación y diseño de entidades capaces de
-resolver cuestiones por sí mismas utilizando como paradigma la
-inteligencia humana.
+  través de ciencias como las ciencias de la computación, la lógica y la
+  filosofía, estudia la creación y diseño de entidades capaces de
+  resolver cuestiones por sí mismas utilizando como paradigma la
+  inteligencia humana.
 
 
-General y amplio como eso, reúne a amplios campos, los cuales tienen
-en común la creación de máquinas capaces de pensar. En ciencias de la
-computación se denomina inteligencia artificial a la capacidad de
-razonar de un agente no vivo. John McCarthy acuñó la expresión
-inteligencia artificial en 1956, y la definió así: Es la ciencia e
-ingenio de hacer máquinas inteligentes, especialmente programas de
-cómputo inteligentes.
+  General y amplio como eso, reúne a amplios campos, los cuales tienen
+  en común la creación de máquinas capaces de pensar. En ciencias de la
+  computación se denomina inteligencia artificial a la capacidad de
+  razonar de un agente no vivo. John McCarthy acuñó la expresión
+  inteligencia artificial en 1956, y la definió así: Es la ciencia e
+  ingenio de hacer máquinas inteligentes, especialmente programas de
+  cómputo inteligentes.
 
-- Búsqueda del estado requerido en el conjunto de los estados
-  producidos por las acciones posibles.
-- Algoritmos genéticos (análogo al proceso de evolución de las cadenas
-  de ADN).
-- Redes neuronales artificiales (análogo al funcionamiento físico del
-  cerebro de animales y humanos).  
-- Razonamiento mediante una lógica formal análogo al pensamiento
-  abstracto humano.  
+  - Búsqueda del estado requerido en el conjunto de los estados
+	producidos por las acciones posibles.
+  - Algoritmos genéticos (análogo al proceso de evolución de las cadenas
+	de ADN).
+  - Redes neuronales artificiales (análogo al funcionamiento físico del
+	cerebro de animales y humanos).  
+  - Razonamiento mediante una lógica formal análogo al pensamiento
+	abstracto humano.  
 
 
-También existen distintos tipos de percepciones y acciones, que pueden
-ser obtenidas y producidas, respectivamente, por sensores físicos y
-sensores mecánicos en máquinas, pulsos eléctricos u ópticos en
-computadoras, tanto como por entradas y salidas de bits de un software
-y su entorno software.
-Varios ejemplos se encuentran en el área de control de sistemas,
-planificación automática, la habilidad de responder a diagnósticos y a
-consultas de los consumidores, reconocimiento de escritura,
-reconocimiento del habla y reconocimiento de patrones. Los sistemas de
-IA actualmente son parte de la rutina en campos como economía,
-medicina, ingeniería y la milicia, y se ha usado en gran variedad de
-aplicaciones de software, juegos de estrategia, como ajedrez de
-computador, y otros videojuegos.
+  También existen distintos tipos de percepciones y acciones, que pueden
+  ser obtenidas y producidas, respectivamente, por sensores físicos y
+  sensores mecánicos en máquinas, pulsos eléctricos u ópticos en
+  computadoras, tanto como por entradas y salidas de bits de un software
+  y su entorno software.
+  Varios ejemplos se encuentran en el área de control de sistemas,
+  planificación automática, la habilidad de responder a diagnósticos y a
+  consultas de los consumidores, reconocimiento de escritura,
+  reconocimiento del habla y reconocimiento de patrones. Los sistemas de
+  IA actualmente son parte de la rutina en campos como economía,
+  medicina, ingeniería y la milicia, y se ha usado en gran variedad de
+  aplicaciones de software, juegos de estrategia, como ajedrez de
+  computador, y otros videojuegos.
 
-** Categorías de la Inteligencia Artificial
+*** Categorías de la Inteligencia Artificial 
 
-  - *Sistemas que piensan como humanos*. Estos sistemas tratan de emular
-    el pensamiento humano; por ejemplo las redes neuronales
-    artificiales. La automatización de actividades que vinculamos con
-    procesos de pensamiento humano, actividades como la Toma de
-    decisiones, Resolución de problemas y aprendizaje.
-  - *Sistemas que actúan como humanos*: Estos sistemas tratan de actuar
-    como humanos; es decir, imitan el comportamiento humano; por
-    ejemplo la robótica. El estudio de cómo lograr que los
-    computadores realicen tareas que, por el momento, los humanos hacen mejor
-  - *Sistemas que piensan racionalmente*.- Es decir, con lógica (idealmente), tratan de
-    imitar o emular el pensamiento lógico racional del ser humano; por ejemplo los sistemas
-    expertos. El estudio de los cálculos que hacen posible percibir, razonar y actuar.8
-  - *Sistemas que actúan racionalmente (idealmente)*.– Tratan de emular de forma
-    racional el comportamiento humano; por ejemplo los agentes inteligentes.Está relacionado con
-    conductas inteligentes en artefactos. cite:russell2004inteligencia
+   - *Sistemas que piensan como humanos*. Estos sistemas tratan de emular
+     el pensamiento humano; por ejemplo las redes neuronales
+     artificiales. La automatización de actividades que vinculamos con
+     procesos de pensamiento humano, actividades como la Toma de
+     decisiones, Resolución de problemas y aprendizaje. cite:Russell
+   - *Sistemas que actúan como humanos*: Estos sistemas tratan de actuar
+     como humanos; es decir, imitan el comportamiento humano; por
+     ejemplo la robótica. El estudio de cómo lograr que los
+     computadores realicen tareas que, por el momento, los humanos hacen mejor. cite:Russell
+   - *Sistemas que piensan racionalmente*.- Es decir, con lógica (idealmente), tratan de
+     imitar o emular el pensamiento lógico racional del ser humano; por ejemplo los sistemas
+     expertos. El estudio de los cálculos que hacen posible percibir, razonar y actuar. cite:Russell
+   - *Sistemas que actúan racionalmente (idealmente)*.– Tratan de emular de forma
+     racional el comportamiento humano; por ejemplo los agentes inteligentes.Está relacionado con
+     conductas inteligentes en artefactos. cite:Russell
  
-**  Inteligencia artificial convencional
+***  Inteligencia artificial convencional
 
- Se conoce también como IA simbólico-deductiva. Está basada en el análisis formal y
- estadístico del comportamiento humano ante diferentes problemas:
+  Se conoce también como IA simbólico-deductiva. Está basada en el análisis formal y
+  estadístico del comportamiento humano ante diferentes problemas:
  
-  - Razonamiento basado en casos: Ayuda a tomar decisiones mientras se
-    resuelven ciertos problemas concretos y, aparte de que son muy
-    importantes, requieren de un buen funcionamiento.
-  - Sistemas expertos: Infieren una solución a través del conocimiento
-    previo del contexto en que se aplica y ocupa de ciertas reglas o
-    relaciones.
-  - Redes bayesianas: Propone soluciones mediante inferencia probabilística.
-  - Inteligencia artificial basada en comportamientos: Esta
-    inteligencia contiene autonomía y puede auto-regularse y
-    controlarse para mejorar.
-  - Smart process management: Facilita la toma de decisiones
-    complejas, proponiendo una solución a un determinado problema al
-    igual que lo haría un especialista en la dicha actividad.
- 
+   - Razonamiento basado en casos: Ayuda a tomar decisiones mientras se
+     resuelven ciertos problemas concretos y, aparte de que son muy
+     importantes, requieren de un buen funcionamiento.
+   - Sistemas expertos: Infieren una solución a través del conocimiento
+     previo del contexto en que se aplica y ocupa de ciertas reglas o
+     relaciones.
+   - Redes bayesianas: Propone soluciones mediante inferencia probabilística.
+   - Inteligencia artificial basada en comportamientos: Esta
+     inteligencia contiene autonomía y puede auto-regularse y
+     controlarse para mejorar.
+   - Smart process management: Facilita la toma de decisiones
+     complejas, proponiendo una solución a un determinado problema al
+     igual que lo haría un especialista en la dicha actividad.
 
-* Algoritmo A* 
-La heurística de búsqueda A* (pronunciado "A asterisco", "A estrella"
-o "A star" en inglés) se clasifica dentro de los algoritmos de
-búsqueda en grafos de tipo heurístico o informado. Presentado por
-primera vez en 1968 por Peter E. Hart, Nils J. Nilsson y Bertram
-Raphael, el algoritmo A* encuentra, siempre y cuando se cumplan unas
-determinadas condiciones, el camino de menor coste entre un nodo
-origen y uno objetivo.
+
+
+**  Historia de la Inteligencia Artificial.
+
+
+
+**  Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).
+Las habilidades cognoscitivas son capacidades mentales que nos
+permiten procesar toda la información que nos llega del
+entorno. Incluyen procesos como la percepción, la memoria, el
+aprendizaje, la solución de problemas, el razonamiento y el
+pensamiento crítico. La psicología ha estudiado extensamente estas
+habilidades, y diferentes teorías han surgido para explicar cómo se
+desarrollan y funcionan, especialmente en relación con la
+inteligencia.
+
+***  Teorías de la Inteligencia
+
+ 1. *Conductismo* El conductismo, representado por figuras como
+ John B. Watson y B.F. Skinner, se centra en el estudio de
+ comportamientos observables y medibles, dejando de lado los procesos
+ mentales internos. Desde esta perspectiva, la inteligencia se ve como
+ una serie de respuestas aprendidas ante estímulos específicos. Los
+ conductistas creen que cualquier diferencia en la inteligencia entre
+ individuos se debe a diferencias en sus experiencias de
+ aprendizaje. Aunque esta teoría ha sido crítica por su falta de
+ atención a los procesos cognitivos internos, ha sido influyente en el
+ desarrollo de técnicas de aprendizaje y modificación del
+ comportamiento.
+
+ 2. *Teoría de las Inteligencias Múltiples (Howard Gardner)*
+ Contrastando con el enfoque unitario de la inteligencia, Howard
+ Gardner propuso en 1983 la Teoría de las Inteligencias
+ Múltiples. Gardner argumentó que la inteligencia no es un dominio
+ único y general, sino un conjunto de capacidades cognitivas distintas
+ e independientes. Originalmente identificó siete inteligencias
+ (lingüístico-verbal, lógico-matemática, espacial, musical,
+ corporal-cinestésica, interpersonal e intrapersonal), a las cuales
+ más tarde añadió la inteligencia naturalista y posiblemente
+ otras. Esta teoría ha tenido un impacto significativo en la
+ educación, promoviendo un enfoque más personalizado en la enseñanza.
+
+ 3. *Teoría Triárquica de la Inteligencia (Robert Sternberg)*
+ Robert Sternberg propuso la Teoría Triárquica de la Inteligencia, que
+ divide la inteligencia en tres aspectos: analítico, creativo y
+ práctico. La inteligencia analítica se refiere a la capacidad de
+ analizar, evaluar, juzgar, comparar y contrastar. La inteligencia
+ creativa implica la capacidad de crear, diseñar, inventar, originar y
+ imaginar. La inteligencia práctica se relaciona con la capacidad de
+ usar, aplicar, implementar y poner en práctica. Sternberg sugiere que
+ una inteligencia equilibrada implica la capacidad de adaptarse a,
+ moldear y seleccionar entornos para satisfacer tanto las necesidades
+ personales como las de la sociedad.
+
+ 4. *Teoría del Procesamiento de la Información*
+ Esta teoría se enfoca en cómo las personas procesan la información
+ que reciben. Implica la atención, percepción, memoria y pensamiento,
+ y cómo estas operaciones mentales influyen en nuestra capacidad para
+ resolver problemas y tomar decisiones. Desde esta perspectiva, la
+ inteligencia se ve como un conjunto de procesos mentales que permiten
+ a la persona comprender y manejar el mundo que la rodea.
+
+ 5. *Inteligencia Emocional (Daniel Goleman)*
+ Daniel Goleman popularizó el concepto de inteligencia emocional en
+ los años 90, definiéndola como la capacidad para reconocer, entender
+ y manejar nuestras emociones y las de los demás. La inteligencia
+ emocional incluye habilidades como la autoconciencia, la
+ autoregulación, la motivación, la empatía y las habilidades
+ sociales. Esta teoría amplió el concepto de inteligencia más allá de
+ las capacidades cognitivas tradicionales, incluyendo aspectos
+ emocionales y sociales.
+
+ *Conclusión*: Las teorías de la inteligencia en la psicología
+ reflejan la complejidad y diversidad de la mente humana. Desde el
+ conductismo, que enfatiza el aprendizaje observable, hasta las
+ teorías de inteligencias múltiples y emocional, que reconocen una
+ amplia gama de capacidades cognitivas y emocionales, estas teorías
+ nos ofrecen diferentes puntos de vista a través de los cuales podemos entender
+ la inteligencia humana. Cada teoría aporta su visión única,
+ sugiriendo que la inteligencia es un fenómeno multifacético que no
+ puede ser completamente comprendido a través de un solo enfoque.
+
+
+**  El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).
+**  El modelo de adquisición del conocimiento según la filosofía.
+**  El modelo cognoscitivo.
+**  El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.
+**  El papel de la heurística.
+*** 1.8.1 Algoritmos de exploración de alternativas.
+
+
+*** 1.8.2 Algoritmo A*.
+**** Algoritmo A* 
+   La heurística de búsqueda A* (pronunciado "A asterisco", "A estrella"
+   o "A star" en inglés) se clasifica dentro de los algoritmos de
+   búsqueda en grafos de tipo heurístico o informado. Presentado por
+   primera vez en 1968 por Peter E. Hart, Nils J. Nilsson y Bertram
+   Raphael, el algoritmo A* encuentra, siempre y cuando se cumplan unas
+   determinadas condiciones, el camino de menor coste entre un nodo
+   origen y uno objetivo.
+
+
+*** 1.8.3 Algoritmos de búsqueda local.
+  
+   
+
+
 
 
 * Análisis de información  
-
-
 ** Programación 
 *** Carga de imágenes y propiedades  
 
@@ -512,7 +609,6 @@ Un pasaje de estados para ir de (3,3,0,0,O) a (0,0,3,3,E) es el siguiente:
  de esta última tendencia son el IDA* (Iterative-Deepening A*) y el
  SMA* (Simplified Memory-bounded A*).
 
-
 * Técnicas de Búsqueda
 
 ** Solución de problemas con búsqueda.
@@ -777,7 +873,6 @@ Cada lado se representa entre ángulos, separando sus vértices por comas y
 teniendo en cuenta <Vi ,Vj>!=<Vj ,Vi>. En grafos dirigidos, para cada lado <A,B>,
 A, el cual es el vértice origen, se conoce como la cola del lado y B, el cual es
 el vértice destino, se conoce como cabeza del lado.
-
 
 * Machine Learning 
 
@@ -1321,6 +1416,4 @@ print("Hola")
 #+END_SRC
 
 * Bibliografía
-
-bibliographystyle:ieeetr
 bibliography:bibliografia.bib
