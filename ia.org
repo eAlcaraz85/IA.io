@@ -1878,6 +1878,8 @@ cv.destroyAllWindows()
 #+RESULTS:
 : None
 
+** Segmentación de color en vídeo
+
 #+BEGIN_SRC python 
 import cv2 as cv
 import numpy as np 
@@ -1910,6 +1912,7 @@ cv.destroyAllWindows()
 #+RESULTS:
 : None
 
+** Seguimiento Por color 
 
 #+BEGIN_SRC python 
 import cv2
