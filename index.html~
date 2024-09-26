@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
 <head>
-<!-- 2024-09-26 jue 07:21 -->
+<!-- 2024-09-26 jue 07:28 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Apuntes IA</title>
@@ -230,140 +230,140 @@
 <h2>&Iacute;ndice</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7d71168">Introducción a la Inteligencia Artificial</a>
+<li><a href="#orgfce0a04">Introducción a la Inteligencia Artificial</a>
 <ul>
-<li><a href="#orgce5a1d9">Introducción a la Inteligencia Artificial.</a>
+<li><a href="#org1089626">Introducción a la Inteligencia Artificial.</a>
 <ul>
-<li><a href="#orgab81ef9">Categorías de la Inteligencia Artificial</a></li>
-<li><a href="#org5dde258">Inteligencia artificial convencional</a></li>
+<li><a href="#org4007d10">Categorías de la Inteligencia Artificial</a></li>
+<li><a href="#orgaf0e762">Inteligencia artificial convencional</a></li>
 </ul>
 </li>
-<li><a href="#org12d64a0">Historia de la Inteligencia Artificial.</a></li>
-<li><a href="#org58bab5e">Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).</a>
+<li><a href="#orgd35e832">Historia de la Inteligencia Artificial.</a></li>
+<li><a href="#orgb8565be">Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).</a>
 <ul>
-<li><a href="#org3d33395">Teorías de la Inteligencia</a></li>
+<li><a href="#orgbf6edb5">Teorías de la Inteligencia</a></li>
 </ul>
 </li>
-<li><a href="#org24c4c5e">El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).</a></li>
-<li><a href="#org39a50a7">El modelo de adquisición del conocimiento según la filosofía.</a></li>
-<li><a href="#orgc112412">El modelo cognoscitivo.</a>
+<li><a href="#orgea5b243">El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).</a></li>
+<li><a href="#org115a630">El modelo de adquisición del conocimiento según la filosofía.</a></li>
+<li><a href="#orgca967dd">El modelo cognoscitivo.</a>
 <ul>
-<li><a href="#org41dbcf0">Fundamentos del Modelo Cognoscitivo</a></li>
-<li><a href="#orgfdfc21f">Aplicaciones del Modelo Cognoscitivo</a></li>
-<li><a href="#org9f2089b">Críticas y Limitaciones</a></li>
-<li><a href="#orgaf24df0">Evolución y Expansión</a></li>
-<li><a href="#org050eff6">Conclusión</a></li>
+<li><a href="#org37e3ebc">Fundamentos del Modelo Cognoscitivo</a></li>
+<li><a href="#org63747e6">Aplicaciones del Modelo Cognoscitivo</a></li>
+<li><a href="#org11c68a7">Críticas y Limitaciones</a></li>
+<li><a href="#orgcad03d2">Evolución y Expansión</a></li>
+<li><a href="#org3c17870">Conclusión</a></li>
 </ul>
 </li>
-<li><a href="#orgd65161c">El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.</a>
+<li><a href="#orgb6484a5">El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.</a>
 <ul>
-<li><a href="#org8f6a25b">El Modelo del Agente Inteligente</a></li>
-<li><a href="#orgf10c060">Sistemas Multi-Agente (SMA)</a></li>
-<li><a href="#org4fb8a0c">Sistemas Ubicuos</a></li>
-<li><a href="#org77a1ded">Integración y Aplicaciones</a></li>
-<li><a href="#orga5e14ac">Conclusión</a></li>
+<li><a href="#org1a9c145">El Modelo del Agente Inteligente</a></li>
+<li><a href="#org061cd58">Sistemas Multi-Agente (SMA)</a></li>
+<li><a href="#org417e4ff">Sistemas Ubicuos</a></li>
+<li><a href="#orgac94c01">Integración y Aplicaciones</a></li>
+<li><a href="#org482cf10">Conclusión</a></li>
 </ul>
 </li>
-<li><a href="#orgea60730">El papel de la heurística.</a>
+<li><a href="#orgfee4a71">El papel de la heurística.</a>
 <ul>
-<li><a href="#org66de6a9">Ventajas y Limitaciones</a></li>
-<li><a href="#org687f5fc">1.8.1 Algoritmos de exploración de alternativas.</a></li>
-<li><a href="#orgc2093a8">1.8.2 Algoritmo A*.</a></li>
-<li><a href="#orgeeb2414">1.8.3 Algoritmos de búsqueda local.</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#org3161b23">Análisis de información</a>
-<ul>
-<li><a href="#org0490747">Programación</a>
-<ul>
-<li><a href="#orgefc7730">Carga de imágenes y propiedades</a></li>
-<li><a href="#orge2972a5">Operadores Puntuales</a></li>
-<li><a href="#orgd18b5f6">Modelos de color</a></li>
-<li><a href="#org3afbaed">Segmentación de Color</a></li>
-<li><a href="#org1835028">Haarcascades</a></li>
+<li><a href="#org61230f1">Ventajas y Limitaciones</a></li>
+<li><a href="#org61271c6">1.8.1 Algoritmos de exploración de alternativas.</a></li>
+<li><a href="#org4094c6f">1.8.2 Algoritmo A*.</a></li>
+<li><a href="#org37e599d">1.8.3 Algoritmos de búsqueda local.</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgae18b80">Espacio de estados</a>
+<li><a href="#orgc437a95">Análisis de información</a>
 <ul>
-<li><a href="#org05cee66">Ejemplo de espacio de estados</a>
+<li><a href="#org9675b8b">Programación</a>
 <ul>
-<li><a href="#org0e8e5b9">Descripción del problema</a></li>
-<li><a href="#orgee6e303">Representación de las configuraciones del universo del problema:</a></li>
-<li><a href="#orga968f4c">Definición de las reglas de transición:</a></li>
-<li><a href="#org2986f73">Generación del espacio de estados</a></li>
-<li><a href="#org837f249">Problemas de los Canibales y Monjes</a></li>
-<li><a href="#orgb1cb6be">El espacio de estados está definido por</a></li>
-</ul>
-</li>
-<li><a href="#org1b37cf3">Representación de espacio de estados</a></li>
-<li><a href="#org4cc59ab">El problema del n-Puzzle</a>
-<ul>
-<li><a href="#orgf6b3366">Caracterización de las búsquedas ciegas.</a></li>
-<li><a href="#org9173f75">Caracterización de las búsquedas heurísticas.</a></li>
+<li><a href="#orgf0395b3">Carga de imágenes y propiedades</a></li>
+<li><a href="#orge3445fc">Operadores Puntuales</a></li>
+<li><a href="#org8e42534">Modelos de color</a></li>
+<li><a href="#org975c283">Segmentación de Color</a></li>
+<li><a href="#org8af8839">Haarcascades</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgcfb893c">Técnicas de Búsqueda</a>
+<li><a href="#org1fc4052">Espacio de estados</a>
 <ul>
-<li><a href="#orgd7f0aea">Solución de problemas con búsqueda.</a></li>
-<li><a href="#org759a283">Espacios de Estados</a>
+<li><a href="#orge0a006d">Ejemplo de espacio de estados</a>
 <ul>
-<li><a href="#orgd4d5e0c">Deterministicos</a></li>
-<li><a href="#orgcd24e0b">No Deterministicos</a></li>
+<li><a href="#orgc69dc04">Descripción del problema</a></li>
+<li><a href="#orge3b47e9">Representación de las configuraciones del universo del problema:</a></li>
+<li><a href="#orga0ff863">Definición de las reglas de transición:</a></li>
+<li><a href="#orge6b686d">Generación del espacio de estados</a></li>
+<li><a href="#org81719e6">Problemas de los Canibales y Monjes</a></li>
+<li><a href="#orge897aff">El espacio de estados está definido por</a></li>
 </ul>
 </li>
-<li><a href="#org0f59665">Métodos de Búsqueda</a>
+<li><a href="#org0dac82e">Representación de espacio de estados</a></li>
+<li><a href="#orgd66db66">El problema del n-Puzzle</a>
 <ul>
-<li><a href="#org1fde4d8">Primero en anchura (breadthfirst)</a></li>
-<li><a href="#org6add957">Primero en profundidad (depthfirst).</a></li>
-<li><a href="#org862226b">Búsqueda Heurística</a></li>
-</ul>
-</li>
-<li><a href="#org9576441">Satisfacción de restricciones.</a></li>
-</ul>
-</li>
-<li><a href="#org8e2a086">Teoría de juegos.</a></li>
-<li><a href="#orgb7903d2">Grafos</a></li>
-<li><a href="#org7b34243">Tipos de grafos</a></li>
-<li><a href="#orgddd482a">Machine Learning</a>
-<ul>
-<li><a href="#orgc0f6528">Tipos de Algoritmos</a></li>
-<li><a href="#org7a800fe">Técnicas de clasificación</a></li>
-<li><a href="#orgbe3583c">Clasificador en Cascada</a>
-<ul>
-<li><a href="#org310304f">Ejemplo de clasificación utilizando Haarcascades</a></li>
-</ul>
-</li>
-<li><a href="#orgeae1190">Segmentación de Color</a></li>
-<li><a href="#org574b5de">Árboles de decisión</a>
-<ul>
-<li><a href="#org7c7685f">Elementos</a></li>
-<li><a href="#org333a0c4">Algunas ventajas de los árboles de decisión son:</a></li>
-<li><a href="#org099c9ec">Desventajas de los árboles de decisión:</a></li>
-<li><a href="#org008de6e">Ejemplo de Clasificación, Árbol de decisión scikit-learn</a></li>
+<li><a href="#org089290a">Caracterización de las búsquedas ciegas.</a></li>
+<li><a href="#org65ebf7b">Caracterización de las búsquedas heurísticas.</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgb2b9407">Programación</a></li>
-<li><a href="#org0225f62">Bibliografía</a></li>
+<li><a href="#org99f5ffe">Técnicas de Búsqueda</a>
+<ul>
+<li><a href="#orgc30f291">Solución de problemas con búsqueda.</a></li>
+<li><a href="#orga0c0ef2">Espacios de Estados</a>
+<ul>
+<li><a href="#org5461443">Deterministicos</a></li>
+<li><a href="#org3d907c0">No Deterministicos</a></li>
+</ul>
+</li>
+<li><a href="#org576717a">Métodos de Búsqueda</a>
+<ul>
+<li><a href="#org1662cf7">Primero en anchura (breadthfirst)</a></li>
+<li><a href="#orge7945f5">Primero en profundidad (depthfirst).</a></li>
+<li><a href="#org3eb7a3b">Búsqueda Heurística</a></li>
+</ul>
+</li>
+<li><a href="#orged6cbaa">Satisfacción de restricciones.</a></li>
+</ul>
+</li>
+<li><a href="#org8c614cd">Teoría de juegos.</a></li>
+<li><a href="#orgc93e778">Grafos</a></li>
+<li><a href="#orga14974f">Tipos de grafos</a></li>
+<li><a href="#org84896bf">Machine Learning</a>
+<ul>
+<li><a href="#orgc53ae6d">Tipos de Algoritmos</a></li>
+<li><a href="#org77baf86">Técnicas de clasificación</a></li>
+<li><a href="#orgafe3b83">Clasificador en Cascada</a>
+<ul>
+<li><a href="#orgb0a18e1">Ejemplo de clasificación utilizando Haarcascades</a></li>
+</ul>
+</li>
+<li><a href="#org9ac9641">Segmentación de Color</a></li>
+<li><a href="#orgc439d47">Árboles de decisión</a>
+<ul>
+<li><a href="#org619846d">Elementos</a></li>
+<li><a href="#org0ca4782">Algunas ventajas de los árboles de decisión son:</a></li>
+<li><a href="#orgc4545bb">Desventajas de los árboles de decisión:</a></li>
+<li><a href="#org334da38">Ejemplo de Clasificación, Árbol de decisión scikit-learn</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org78ab48b">Programación</a></li>
+<li><a href="#org3fc4266">Bibliografía</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org7d71168" class="outline-2">
-<h2 id="org7d71168">Introducción a la Inteligencia Artificial</h2>
-<div class="outline-text-2" id="text-org7d71168">
+<div id="outline-container-orgfce0a04" class="outline-2">
+<h2 id="orgfce0a04">Introducción a la Inteligencia Artificial</h2>
+<div class="outline-text-2" id="text-orgfce0a04">
 </div>
-<div id="outline-container-orgce5a1d9" class="outline-3">
-<h3 id="orgce5a1d9">Introducción a la Inteligencia Artificial.</h3>
-<div class="outline-text-3" id="text-orgce5a1d9">
+<div id="outline-container-org1089626" class="outline-3">
+<h3 id="org1089626">Introducción a la Inteligencia Artificial.</h3>
+<div class="outline-text-3" id="text-org1089626">
 <p>
 La inteligencia artificial (IA) es un área multidisciplinaria que, a
  través de ciencias como las ciencias de la computación, la lógica y la
@@ -412,9 +412,9 @@ computador, y otros videojuegos.
 </p>
 </div>
 
-<div id="outline-container-orgab81ef9" class="outline-4">
-<h4 id="orgab81ef9">Categorías de la Inteligencia Artificial</h4>
-<div class="outline-text-4" id="text-orgab81ef9">
+<div id="outline-container-org4007d10" class="outline-4">
+<h4 id="org4007d10">Categorías de la Inteligencia Artificial</h4>
+<div class="outline-text-4" id="text-org4007d10">
 <ul class="org-ul">
 <li><b>Sistemas que piensan como humanos</b>. Estos sistemas tratan de emular
 el pensamiento humano; por ejemplo las redes neuronales
@@ -435,9 +435,9 @@ conductas inteligentes en artefactos. <a href="Russell">Russell</a></li>
 </div>
 </div>
 
-<div id="outline-container-org5dde258" class="outline-4">
-<h4 id="org5dde258">Inteligencia artificial convencional</h4>
-<div class="outline-text-4" id="text-org5dde258">
+<div id="outline-container-orgaf0e762" class="outline-4">
+<h4 id="orgaf0e762">Inteligencia artificial convencional</h4>
+<div class="outline-text-4" id="text-orgaf0e762">
 <p>
 Se conoce también como IA simbólico-deductiva. Está basada en el análisis formal y
 estadístico del comportamiento humano ante diferentes problemas:
@@ -464,15 +464,15 @@ igual que lo haría un especialista en la dicha actividad.</li>
 
 
 
-<div id="outline-container-org12d64a0" class="outline-3">
-<h3 id="org12d64a0">Historia de la Inteligencia Artificial.</h3>
+<div id="outline-container-orgd35e832" class="outline-3">
+<h3 id="orgd35e832">Historia de la Inteligencia Artificial.</h3>
 </div>
 
 
 
-<div id="outline-container-org58bab5e" class="outline-3">
-<h3 id="org58bab5e">Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).</h3>
-<div class="outline-text-3" id="text-org58bab5e">
+<div id="outline-container-orgb8565be" class="outline-3">
+<h3 id="orgb8565be">Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).</h3>
+<div class="outline-text-3" id="text-orgb8565be">
 <p>
 Las habilidades cognoscitivas son capacidades mentales que nos
 permiten procesar toda la información que nos llega del
@@ -485,9 +485,9 @@ inteligencia.
 </p>
 </div>
 
-<div id="outline-container-org3d33395" class="outline-4">
-<h4 id="org3d33395">Teorías de la Inteligencia</h4>
-<div class="outline-text-4" id="text-org3d33395">
+<div id="outline-container-orgbf6edb5" class="outline-4">
+<h4 id="orgbf6edb5">Teorías de la Inteligencia</h4>
+<div class="outline-text-4" id="text-orgbf6edb5">
 <ol class="org-ol">
 <li><b>Conductismo</b> El conductismo, representado por figuras como
 John B. Watson y B.F. Skinner, se centra en el estudio de
@@ -560,9 +560,9 @@ puede ser completamente comprendido a través de un solo enfoque.
 </div>
 
 
-<div id="outline-container-org24c4c5e" class="outline-3">
-<h3 id="org24c4c5e">El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).</h3>
-<div class="outline-text-3" id="text-org24c4c5e">
+<div id="outline-container-orgea5b243" class="outline-3">
+<h3 id="orgea5b243">El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).</h3>
+<div class="outline-text-3" id="text-orgea5b243">
 <p>
 El proceso de razonamiento según la lógica involucra varios conceptos
 fundamentales como axiomas, teoremas y demostraciones. Estos elementos
@@ -615,9 +615,9 @@ dependen de la lógica formal.
 </div>
 </div>
 
-<div id="outline-container-org39a50a7" class="outline-3">
-<h3 id="org39a50a7">El modelo de adquisición del conocimiento según la filosofía.</h3>
-<div class="outline-text-3" id="text-org39a50a7">
+<div id="outline-container-org115a630" class="outline-3">
+<h3 id="org115a630">El modelo de adquisición del conocimiento según la filosofía.</h3>
+<div class="outline-text-3" id="text-org115a630">
 <p>
 El modelo de adquisición del conocimiento según la filosofía aborda
 cómo los seres humanos entienden, aprenden y conocen el mundo que les
@@ -689,9 +689,9 @@ interactuamos con el mundo que nos rodea.
 </div>
 
 
-<div id="outline-container-orgc112412" class="outline-3">
-<h3 id="orgc112412">El modelo cognoscitivo.</h3>
-<div class="outline-text-3" id="text-orgc112412">
+<div id="outline-container-orgca967dd" class="outline-3">
+<h3 id="orgca967dd">El modelo cognoscitivo.</h3>
+<div class="outline-text-3" id="text-orgca967dd">
 <p>
 El modelo cognoscitivo es un enfoque teórico en la psicología que pone
 énfasis en la comprensión de los procesos mentales internos que
@@ -706,9 +706,9 @@ rama de la psicología que estudia los procesos mentales internos.
 </div>
 
 
-<div id="outline-container-org41dbcf0" class="outline-4">
-<h4 id="org41dbcf0">Fundamentos del Modelo Cognoscitivo</h4>
-<div class="outline-text-4" id="text-org41dbcf0">
+<div id="outline-container-org37e3ebc" class="outline-4">
+<h4 id="org37e3ebc">Fundamentos del Modelo Cognoscitivo</h4>
+<div class="outline-text-4" id="text-org37e3ebc">
 <p>
 El modelo cognoscitivo se basa en la premisa de que la mente funciona
 de manera similar a un ordenador: recibe datos (inputs), los procesa
@@ -733,9 +733,9 @@ ejecutamos el razonamiento lógico.</li>
 </div>
 
 
-<div id="outline-container-orgfdfc21f" class="outline-4">
-<h4 id="orgfdfc21f">Aplicaciones del Modelo Cognoscitivo</h4>
-<div class="outline-text-4" id="text-orgfdfc21f">
+<div id="outline-container-org63747e6" class="outline-4">
+<h4 id="org63747e6">Aplicaciones del Modelo Cognoscitivo</h4>
+<div class="outline-text-4" id="text-org63747e6">
 <p>
 El modelo cognoscitivo ha tenido aplicaciones extensas en varios campos, incluyendo:
 </p>
@@ -755,9 +755,9 @@ más intuitivas.</li>
 </div>
 </div>
 
-<div id="outline-container-org9f2089b" class="outline-4">
-<h4 id="org9f2089b">Críticas y Limitaciones</h4>
-<div class="outline-text-4" id="text-org9f2089b">
+<div id="outline-container-org11c68a7" class="outline-4">
+<h4 id="org11c68a7">Críticas y Limitaciones</h4>
+<div class="outline-text-4" id="text-org11c68a7">
 <p>
 A pesar de su influencia y aplicabilidad, el modelo cognoscitivo también ha enfrentado críticas, principalmente por:
 </p>
@@ -772,9 +772,9 @@ contexto social afectan el procesamiento cognitivo.</li>
 </div>
 </div>
 
-<div id="outline-container-orgaf24df0" class="outline-4">
-<h4 id="orgaf24df0">Evolución y Expansión</h4>
-<div class="outline-text-4" id="text-orgaf24df0">
+<div id="outline-container-orgcad03d2" class="outline-4">
+<h4 id="orgcad03d2">Evolución y Expansión</h4>
+<div class="outline-text-4" id="text-orgcad03d2">
 <p>
 En respuesta a estas críticas, el modelo cognoscitivo ha evolucionado
 para incorporar aspectos emocionales y sociales en el estudio de los
@@ -785,9 +785,9 @@ la interacción entre cognición, emoción y contextos sociales.
 </div>
 </div>
 
-<div id="outline-container-org050eff6" class="outline-4">
-<h4 id="org050eff6">Conclusión</h4>
-<div class="outline-text-4" id="text-org050eff6">
+<div id="outline-container-org3c17870" class="outline-4">
+<h4 id="org3c17870">Conclusión</h4>
+<div class="outline-text-4" id="text-org3c17870">
 <p>
 El modelo cognoscitivo ha sido fundamental en el avance de nuestra
 comprensión de los procesos mentales y ha revolucionado la forma en
@@ -804,9 +804,9 @@ cognición humana.
 
 
 
-<div id="outline-container-orgd65161c" class="outline-3">
-<h3 id="orgd65161c">El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.</h3>
-<div class="outline-text-3" id="text-orgd65161c">
+<div id="outline-container-orgb6484a5" class="outline-3">
+<h3 id="orgb6484a5">El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.</h3>
+<div class="outline-text-3" id="text-orgb6484a5">
 <p>
 El modelo del agente inteligente, los Sistemas Multi-Agente (SMA) y
 los Sistemas Ubicuos son conceptos fundamentales en el ámbito de la
@@ -819,9 +819,9 @@ significado, funcionamiento y aplicaciones.
 </p>
 </div>
 
-<div id="outline-container-org8f6a25b" class="outline-4">
-<h4 id="org8f6a25b">El Modelo del Agente Inteligente</h4>
-<div class="outline-text-4" id="text-org8f6a25b">
+<div id="outline-container-org1a9c145" class="outline-4">
+<h4 id="org1a9c145">El Modelo del Agente Inteligente</h4>
+<div class="outline-text-4" id="text-org1a9c145">
 <p>
 Un agente inteligente es una entidad autónoma capaz de percibir su
 entorno a través de sensores y actuar en ese entorno utilizando
@@ -837,9 +837,9 @@ establecidos.
 </div>
 
 
-<div id="outline-container-orgf10c060" class="outline-4">
-<h4 id="orgf10c060">Sistemas Multi-Agente (SMA)</h4>
-<div class="outline-text-4" id="text-orgf10c060">
+<div id="outline-container-org061cd58" class="outline-4">
+<h4 id="org061cd58">Sistemas Multi-Agente (SMA)</h4>
+<div class="outline-text-4" id="text-org061cd58">
 <p>
 Los Sistemas Multi-Agente son sistemas compuestos por varios agentes
 inteligentes que interactúan entre sí dentro de un entorno. Estos
@@ -855,9 +855,9 @@ juegos serios para la educación y la formación.
 </div>
 
 
-<div id="outline-container-org4fb8a0c" class="outline-4">
-<h4 id="org4fb8a0c">Sistemas Ubicuos</h4>
-<div class="outline-text-4" id="text-org4fb8a0c">
+<div id="outline-container-org417e4ff" class="outline-4">
+<h4 id="org417e4ff">Sistemas Ubicuos</h4>
+<div class="outline-text-4" id="text-org417e4ff">
 <p>
 Los Sistemas Ubicuos, también conocidos como computación ubicua, se
 refieren a la integración de la computación en el entorno cotidiano
@@ -875,9 +875,9 @@ monitorizan constantemente el bienestar del usuario.
 </div>
 
 
-<div id="outline-container-org77a1ded" class="outline-4">
-<h4 id="org77a1ded">Integración y Aplicaciones</h4>
-<div class="outline-text-4" id="text-org77a1ded">
+<div id="outline-container-orgac94c01" class="outline-4">
+<h4 id="orgac94c01">Integración y Aplicaciones</h4>
+<div class="outline-text-4" id="text-orgac94c01">
 <p>
 La integración de estos conceptos permite el desarrollo de soluciones
 innovadoras a problemas complejos. Por ejemplo, un SMA puede ser
@@ -891,9 +891,9 @@ maximizar la eficiencia y minimizar los costos.
 </div>
 </div>
 
-<div id="outline-container-orga5e14ac" class="outline-4">
-<h4 id="orga5e14ac">Conclusión</h4>
-<div class="outline-text-4" id="text-orga5e14ac">
+<div id="outline-container-org482cf10" class="outline-4">
+<h4 id="org482cf10">Conclusión</h4>
+<div class="outline-text-4" id="text-org482cf10">
 <p>
 El modelo del agente inteligente, los Sistemas Multi-Agente y los
 Sistemas Ubicuos representan áreas clave en la investigación y
@@ -908,9 +908,9 @@ adaptativas para una amplia gama de desafíos en la sociedad moderna.
 </div>
 </div>
 
-<div id="outline-container-orgea60730" class="outline-3">
-<h3 id="orgea60730">El papel de la heurística.</h3>
-<div class="outline-text-3" id="text-orgea60730">
+<div id="outline-container-orgfee4a71" class="outline-3">
+<h3 id="orgfee4a71">El papel de la heurística.</h3>
+<div class="outline-text-3" id="text-orgfee4a71">
 <p>
 <b>Búsqueda Heurística:</b> En la búsqueda heurística, las técnicas
 heurísticas se utilizan para acelerar el proceso de búsqueda de
@@ -947,9 +947,9 @@ y la predicción.</li>
 </ul>
 </div>
 
-<div id="outline-container-org66de6a9" class="outline-4">
-<h4 id="org66de6a9">Ventajas y Limitaciones</h4>
-<div class="outline-text-4" id="text-org66de6a9">
+<div id="outline-container-org61230f1" class="outline-4">
+<h4 id="org61230f1">Ventajas y Limitaciones</h4>
+<div class="outline-text-4" id="text-org61230f1">
 <p>
 Las principales ventajas de utilizar heurísticas en la IA incluyen la
 capacidad de encontrar soluciones de manera más rápida y eficiente que
@@ -974,18 +974,18 @@ IA en una amplia gama de aplicaciones prácticas.</li>
 
 
 
-<div id="outline-container-org687f5fc" class="outline-4">
-<h4 id="org687f5fc">1.8.1 Algoritmos de exploración de alternativas.</h4>
+<div id="outline-container-org61271c6" class="outline-4">
+<h4 id="org61271c6">1.8.1 Algoritmos de exploración de alternativas.</h4>
 </div>
 
 
-<div id="outline-container-orgc2093a8" class="outline-4">
-<h4 id="orgc2093a8">1.8.2 Algoritmo A*.</h4>
-<div class="outline-text-4" id="text-orgc2093a8">
+<div id="outline-container-org4094c6f" class="outline-4">
+<h4 id="org4094c6f">1.8.2 Algoritmo A*.</h4>
+<div class="outline-text-4" id="text-org4094c6f">
 </div>
 <ul class="org-ul">
-<li><a id="orged5eae4"></a>Algoritmo A*<br />
-<div class="outline-text-5" id="text-orged5eae4">
+<li><a id="orge470167"></a>Algoritmo A*<br />
+<div class="outline-text-5" id="text-orge470167">
 <p>
 La heurística de búsqueda A* (pronunciado "A asterisco", "A estrella"
 o "A star" en inglés) se clasifica dentro de los algoritmos de
@@ -1001,8 +1001,8 @@ origen y uno objetivo.
 </div>
 
 
-<div id="outline-container-orgeeb2414" class="outline-4">
-<h4 id="orgeeb2414">1.8.3 Algoritmos de búsqueda local.</h4>
+<div id="outline-container-org37e599d" class="outline-4">
+<h4 id="org37e599d">1.8.3 Algoritmos de búsqueda local.</h4>
 </div>
 </div>
 </div>
@@ -1012,17 +1012,17 @@ origen y uno objetivo.
 
 
 
-<div id="outline-container-org3161b23" class="outline-2">
-<h2 id="org3161b23">Análisis de información</h2>
-<div class="outline-text-2" id="text-org3161b23">
+<div id="outline-container-orgc437a95" class="outline-2">
+<h2 id="orgc437a95">Análisis de información</h2>
+<div class="outline-text-2" id="text-orgc437a95">
 </div>
-<div id="outline-container-org0490747" class="outline-3">
-<h3 id="org0490747">Programación</h3>
-<div class="outline-text-3" id="text-org0490747">
+<div id="outline-container-org9675b8b" class="outline-3">
+<h3 id="org9675b8b">Programación</h3>
+<div class="outline-text-3" id="text-org9675b8b">
 </div>
-<div id="outline-container-orgefc7730" class="outline-4">
-<h4 id="orgefc7730">Carga de imágenes y propiedades</h4>
-<div class="outline-text-4" id="text-orgefc7730">
+<div id="outline-container-orgf0395b3" class="outline-4">
+<h4 id="orgf0395b3">Carga de imágenes y propiedades</h4>
+<div class="outline-text-4" id="text-orgf0395b3">
 <p>
 Con el siguiente ejemplo, se puede cargar una imagen, utilizando la
 librería de opencv, mediante el método <a href="https://docs.opencv.org/3.4/d4/da8/group__imgcodecs.html">imread</a>, el cual carga en la
@@ -1039,11 +1039,11 @@ creadas por <b><b>imshow</b></b>.
 
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv 
-<span style="color: #ff98a4;">img</span> = cv.imread<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">"/home/likcos/Im&#225;genes/tr.png"</span><span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'marco'</span>, img<span style="color: #c099ff;">)</span>
-cv.waitKey<span style="color: #c099ff;">()</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+<pre class="src src-python"><span style="color: #a020f0;">import</span> cv2 <span style="color: #a020f0;">as</span> cv 
+<span style="color: #a0522d;">img</span> = cv.imread<span style="color: #707183;">(</span><span style="color: #8b2252;">"/home/likcos/Im&#225;genes/tr.png"</span><span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'marco'</span>, img<span style="color: #707183;">)</span>
+cv.waitKey<span style="color: #707183;">()</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
 </pre>
 </div>
 
@@ -1059,21 +1059,21 @@ solo podrá acceder al alto, ancho de la imagen.
 
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv 
-<span style="color: #ff98a4;">img</span> = cv.imread<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">"/home/likcos/Im&#225;genes/tr.png"</span>,1<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">w</span>,<span style="color: #ff98a4;">h</span>,<span style="color: #ff98a4;">c</span> = img.shape
-<span style="color: #c099ff;">print</span><span style="color: #c099ff;">(</span>w,h,c<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'marco'</span>, img<span style="color: #c099ff;">)</span>
-cv.waitKey<span style="color: #c099ff;">()</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+<pre class="src src-python"><span style="color: #a020f0;">import</span> cv2 <span style="color: #a020f0;">as</span> cv 
+<span style="color: #a0522d;">img</span> = cv.imread<span style="color: #707183;">(</span><span style="color: #8b2252;">"/home/likcos/Im&#225;genes/tr.png"</span>,1<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">w</span>,<span style="color: #a0522d;">h</span>,<span style="color: #a0522d;">c</span> = img.shape
+<span style="color: #483d8b;">print</span><span style="color: #707183;">(</span>w,h,c<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'marco'</span>, img<span style="color: #707183;">)</span>
+cv.waitKey<span style="color: #707183;">()</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
 
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orge2972a5" class="outline-4">
-<h4 id="orge2972a5">Operadores Puntuales</h4>
-<div class="outline-text-4" id="text-orge2972a5">
+<div id="outline-container-orge3445fc" class="outline-4">
+<h4 id="orge3445fc">Operadores Puntuales</h4>
+<div class="outline-text-4" id="text-orge3445fc">
 <p>
 De igual forma cargando la imagen, en un solo canal es posible aplicar
 operadores puntuales a la imagen. Las operaciones puntuales son
@@ -1083,35 +1083,35 @@ imagen pero en la misma posición, es decir, ( i , j ).
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
-<span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np
+<pre class="src src-python"><span style="color: #a020f0;">import</span> cv2 <span style="color: #a020f0;">as</span> cv
+<span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
 
-<span style="color: #ff98a4;">img</span> = cv.imread<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'tr.png'</span>, 0<span style="color: #c099ff;">)</span>
-<span style="color: #c099ff;">print</span><span style="color: #c099ff;">(</span>img.shape, img.size<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">w</span> = img.shape<span style="color: #c099ff;">[</span>0<span style="color: #c099ff;">]</span>
-<span style="color: #ff98a4;">h</span> = img.shape<span style="color: #c099ff;">[</span>1<span style="color: #c099ff;">]</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">c = img.shape[2]</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">w1, h1 = img.shape</span>
-<span style="color: #ff98a4;">img2</span> = img
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'imagen'</span>, img2<span style="color: #c099ff;">)</span>
-<span style="color: #c099ff;">for</span> x <span style="color: #c099ff;">in</span> <span style="color: #c099ff;">range</span><span style="color: #c099ff;">(</span>w<span style="color: #c099ff;">)</span>:
-    <span style="color: #c099ff;">for</span> y <span style="color: #c099ff;">in</span> <span style="color: #c099ff;">range</span><span style="color: #c099ff;">(</span>h<span style="color: #c099ff;">)</span>:
-        <span style="color: #c099ff;">if</span><span style="color: #c099ff;">(</span>img<span style="color: #ff995e;">[</span>x,y<span style="color: #ff995e;">]</span>&gt;50<span style="color: #c099ff;">)</span>:
-            <span style="color: #ff98a4;">img</span><span style="color: #c099ff;">[</span><span style="color: #ff98a4;">x</span>,<span style="color: #ff98a4;">y</span><span style="color: #c099ff;">]</span>=255
-        <span style="color: #c099ff;">else</span>:
-            img<span style="color: #c099ff;">[</span><span style="color: #ff98a4;">x</span>,<span style="color: #ff98a4;">y</span><span style="color: #c099ff;">]</span>=0
+<span style="color: #a0522d;">img</span> = cv.imread<span style="color: #707183;">(</span><span style="color: #8b2252;">'tr.png'</span>, 0<span style="color: #707183;">)</span>
+<span style="color: #483d8b;">print</span><span style="color: #707183;">(</span>img.shape, img.size<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">w</span> = img.shape<span style="color: #707183;">[</span>0<span style="color: #707183;">]</span>
+<span style="color: #a0522d;">h</span> = img.shape<span style="color: #707183;">[</span>1<span style="color: #707183;">]</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">c = img.shape[2]</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">w1, h1 = img.shape</span>
+<span style="color: #a0522d;">img2</span> = img
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'imagen'</span>, img2<span style="color: #707183;">)</span>
+<span style="color: #a020f0;">for</span> x <span style="color: #a020f0;">in</span> <span style="color: #483d8b;">range</span><span style="color: #707183;">(</span>w<span style="color: #707183;">)</span>:
+    <span style="color: #a020f0;">for</span> y <span style="color: #a020f0;">in</span> <span style="color: #483d8b;">range</span><span style="color: #707183;">(</span>h<span style="color: #707183;">)</span>:
+        <span style="color: #a020f0;">if</span><span style="color: #707183;">(</span>img<span style="color: #7388d6;">[</span>x,y<span style="color: #7388d6;">]</span>&gt;50<span style="color: #707183;">)</span>:
+            <span style="color: #a0522d;">img</span><span style="color: #707183;">[</span><span style="color: #a0522d;">x</span>,<span style="color: #a0522d;">y</span><span style="color: #707183;">]</span>=255
+        <span style="color: #a020f0;">else</span>:
+            img<span style="color: #707183;">[</span><span style="color: #a0522d;">x</span>,<span style="color: #a0522d;">y</span><span style="color: #707183;">]</span>=0
 
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'imagen1'</span>, img<span style="color: #c099ff;">)</span>
-cv.waitKey<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'imagen1'</span>, img<span style="color: #707183;">)</span>
+cv.waitKey<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgd18b5f6" class="outline-4">
-<h4 id="orgd18b5f6">Modelos de color</h4>
-<div class="outline-text-4" id="text-orgd18b5f6">
+<div id="outline-container-org8e42534" class="outline-4">
+<h4 id="org8e42534">Modelos de color</h4>
+<div class="outline-text-4" id="text-org8e42534">
 <p>
 El color es una de las características que nos permite a los seres
 humanos identificar y clasificar los objetos. La percepción visual del
@@ -1137,60 +1137,60 @@ espacio de color YCbCr.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #ff98a4;">img</span> = cv.imread<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'tr.png'</span>, 1<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">img2</span> = cv.cvtColor<span style="color: #c099ff;">(</span>img, cv.COLOR_BGR2RGB<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img'</span>, img<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img2'</span>, img2<span style="color: #c099ff;">)</span>
+<pre class="src src-python"><span style="color: #a0522d;">img</span> = cv.imread<span style="color: #707183;">(</span><span style="color: #8b2252;">'tr.png'</span>, 1<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">img2</span> = cv.cvtColor<span style="color: #707183;">(</span>img, cv.COLOR_BGR2RGB<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'img'</span>, img<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'img2'</span>, img2<span style="color: #707183;">)</span>
 
-<span style="color: #ff98a4;">zero</span> = np.zeros<span style="color: #c099ff;">(</span>img.shape<span style="color: #ff995e;">[</span>:2<span style="color: #ff995e;">]</span>, dtype=<span style="color: #c3e88d;">'uint8'</span><span style="color: #c099ff;">)</span>
-<span style="color: #c099ff;">(</span>r,g,b<span style="color: #c099ff;">)</span>= cv.split<span style="color: #c099ff;">(</span>img<span style="color: #c099ff;">)</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv.imshow('rg', r)</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv.imshow('gg', g)</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv.imshow('bg', b)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'GRB'</span>, cv.merge<span style="color: #ff995e;">(</span><span style="color: #ff98a4;">[</span>g,r,b<span style="color: #ff98a4;">]</span><span style="color: #ff995e;">)</span><span style="color: #c099ff;">)</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv.imshow('G', cv.merge([zero,g,zero]))</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv.imshow('R', cv.merge([zero,zero,r]))</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">(r1,g1,b1)= cv.split(img2)</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv.imshow('R1', cv.merge([r1,zero,zero]))</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv.imshow('G1', cv.merge([zero,g1,zero]))</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv.imshow('B1', cv.merge([zero,zero,b1]))</span>
+<span style="color: #a0522d;">zero</span> = np.zeros<span style="color: #707183;">(</span>img.shape<span style="color: #7388d6;">[</span>:2<span style="color: #7388d6;">]</span>, dtype=<span style="color: #8b2252;">'uint8'</span><span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span>r,g,b<span style="color: #707183;">)</span>= cv.split<span style="color: #707183;">(</span>img<span style="color: #707183;">)</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">cv.imshow('rg', r)</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">cv.imshow('gg', g)</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">cv.imshow('bg', b)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'GRB'</span>, cv.merge<span style="color: #7388d6;">(</span><span style="color: #909183;">[</span>g,r,b<span style="color: #909183;">]</span><span style="color: #7388d6;">)</span><span style="color: #707183;">)</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">cv.imshow('G', cv.merge([zero,g,zero]))</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">cv.imshow('R', cv.merge([zero,zero,r]))</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">(r1,g1,b1)= cv.split(img2)</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">cv.imshow('R1', cv.merge([r1,zero,zero]))</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">cv.imshow('G1', cv.merge([zero,g1,zero]))</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">cv.imshow('B1', cv.merge([zero,zero,b1]))</span>
 
-cv.waitKey<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+cv.waitKey<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3afbaed" class="outline-4">
-<h4 id="org3afbaed">Segmentación de Color</h4>
-<div class="outline-text-4" id="text-org3afbaed">
+<div id="outline-container-org975c283" class="outline-4">
+<h4 id="org975c283">Segmentación de Color</h4>
+<div class="outline-text-4" id="text-org975c283">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #ff98a4;">img</span> = cv.imread<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'man1.jpg'</span>, 1<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">img2</span> = cv.cvtColor<span style="color: #c099ff;">(</span>img, cv.COLOR_BGR2RGB<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">img3</span> = cv.cvtColor<span style="color: #c099ff;">(</span>img2, cv.COLOR_RGB2HSV<span style="color: #c099ff;">)</span>
+<pre class="src src-python"><span style="color: #a0522d;">img</span> = cv.imread<span style="color: #707183;">(</span><span style="color: #8b2252;">'man1.jpg'</span>, 1<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">img2</span> = cv.cvtColor<span style="color: #707183;">(</span>img, cv.COLOR_BGR2RGB<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">img3</span> = cv.cvtColor<span style="color: #707183;">(</span>img2, cv.COLOR_RGB2HSV<span style="color: #707183;">)</span>
 
-<span style="color: #ff98a4;">umbralBajo</span>=<span style="color: #c099ff;">(</span>0, 80, 80  <span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">umbralAlto</span>=<span style="color: #c099ff;">(</span>10, 255, 255<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">umbralBajoB</span>=<span style="color: #c099ff;">(</span>170, 80,80<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">umbralAltoB</span>=<span style="color: #c099ff;">(</span>180, 255, 255<span style="color: #c099ff;">)</span>
+<span style="color: #a0522d;">umbralBajo</span>=<span style="color: #707183;">(</span>0, 80, 80  <span style="color: #707183;">)</span>
+<span style="color: #a0522d;">umbralAlto</span>=<span style="color: #707183;">(</span>10, 255, 255<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">umbralBajoB</span>=<span style="color: #707183;">(</span>170, 80,80<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">umbralAltoB</span>=<span style="color: #707183;">(</span>180, 255, 255<span style="color: #707183;">)</span>
 
 
-<span style="color: #ff98a4;">mascara1</span> = cv.inRange<span style="color: #c099ff;">(</span>img3, umbralBajo, umbralAlto<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">mascara2</span> = cv.inRange<span style="color: #c099ff;">(</span>img3, umbralBajoB, umbralAltoB<span style="color: #c099ff;">)</span>
+<span style="color: #a0522d;">mascara1</span> = cv.inRange<span style="color: #707183;">(</span>img3, umbralBajo, umbralAlto<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">mascara2</span> = cv.inRange<span style="color: #707183;">(</span>img3, umbralBajoB, umbralAltoB<span style="color: #707183;">)</span>
 
-<span style="color: #ff98a4;">mascara</span> = mascara1 + mascara2
+<span style="color: #a0522d;">mascara</span> = mascara1 + mascara2
 
-<span style="color: #ff98a4;">resultado</span> = cv.bitwise_and<span style="color: #c099ff;">(</span>img, img, mask=mascara<span style="color: #c099ff;">)</span>
+<span style="color: #a0522d;">resultado</span> = cv.bitwise_and<span style="color: #707183;">(</span>img, img, mask=mascara<span style="color: #707183;">)</span>
 
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'resultado'</span>, resultado<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'mascara'</span>, mascara<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img'</span>,img<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img2'</span>, img2<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img3'</span>, img3<span style="color: #c099ff;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'resultado'</span>, resultado<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'mascara'</span>, mascara<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'img'</span>,img<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'img2'</span>, img2<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'img3'</span>, img3<span style="color: #707183;">)</span>
 
-cv.waitKey<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+cv.waitKey<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
 </pre>
 </div>
 </div>
@@ -1198,9 +1198,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 
 
 
-<div id="outline-container-org1835028" class="outline-4">
-<h4 id="org1835028">Haarcascades</h4>
-<div class="outline-text-4" id="text-org1835028">
+<div id="outline-container-org8af8839" class="outline-4">
+<h4 id="org8af8839">Haarcascades</h4>
+<div class="outline-text-4" id="text-org8af8839">
 <p>
 <a href="https://github.com/opencv/opencv/tree/master/data/haarcascades">Haarcascades</a>
 </p>
@@ -1233,24 +1233,24 @@ rectángulo blanco de la suma de los píxeles bajo el rectángulo negro.
 
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np
-<span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
-<span style="color: #c099ff;">import</span> math 
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+<span style="color: #a020f0;">import</span> cv2 <span style="color: #a020f0;">as</span> cv
+<span style="color: #a020f0;">import</span> math 
 
-<span style="color: #ff98a4;">rostro</span> = cv.CascadeClassifier<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'haarcascade_frontalface_alt.xml'</span><span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">cap</span> = cv.VideoCapture<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
-<span style="color: #c099ff;">while</span> <span style="color: #ff995e;">True</span>:
-    <span style="color: #ff98a4;">ret</span>, <span style="color: #ff98a4;">frame</span> = cap.read<span style="color: #c099ff;">()</span>
-    <span style="color: #ff98a4;">gray</span> = cv.cvtColor<span style="color: #c099ff;">(</span>frame, cv.COLOR_BGR2GRAY<span style="color: #c099ff;">)</span>
-    <span style="color: #ff98a4;">rostros</span> = rostro.detectMultiScale<span style="color: #c099ff;">(</span>gray, 1.3, 5<span style="color: #c099ff;">)</span>
-    <span style="color: #c099ff;">for</span><span style="color: #c099ff;">(</span>x, y, w, h<span style="color: #c099ff;">)</span> <span style="color: #c099ff;">in</span> <span style="color: #ff98a4;">rostros</span>:
-        frame = cv.rectangle<span style="color: #c099ff;">(</span>frame, <span style="color: #ff995e;">(</span>x,y<span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>x+w, y+h<span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>255, 0, 0<span style="color: #ff995e;">)</span>, 5<span style="color: #c099ff;">)</span>
-    cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'rostros'</span>, frame<span style="color: #c099ff;">)</span>
-    <span style="color: #ff98a4;">k</span> = cv.waitKey<span style="color: #c099ff;">(</span>1<span style="color: #c099ff;">)</span>
-    <span style="color: #c099ff;">if</span> k == 27:
-        <span style="color: #c099ff;">break</span>
-cap.release<span style="color: #c099ff;">()</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+<span style="color: #a0522d;">rostro</span> = cv.CascadeClassifier<span style="color: #707183;">(</span><span style="color: #8b2252;">'haarcascade_frontalface_alt.xml'</span><span style="color: #707183;">)</span>
+<span style="color: #a0522d;">cap</span> = cv.VideoCapture<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
+<span style="color: #a020f0;">while</span> <span style="color: #008b8b;">True</span>:
+    <span style="color: #a0522d;">ret</span>, <span style="color: #a0522d;">frame</span> = cap.read<span style="color: #707183;">()</span>
+    <span style="color: #a0522d;">gray</span> = cv.cvtColor<span style="color: #707183;">(</span>frame, cv.COLOR_BGR2GRAY<span style="color: #707183;">)</span>
+    <span style="color: #a0522d;">rostros</span> = rostro.detectMultiScale<span style="color: #707183;">(</span>gray, 1.3, 5<span style="color: #707183;">)</span>
+    <span style="color: #a020f0;">for</span><span style="color: #707183;">(</span>x, y, w, h<span style="color: #707183;">)</span> <span style="color: #a020f0;">in</span> <span style="color: #a0522d;">rostros</span>:
+        frame = cv.rectangle<span style="color: #707183;">(</span>frame, <span style="color: #7388d6;">(</span>x,y<span style="color: #7388d6;">)</span>, <span style="color: #7388d6;">(</span>x+w, y+h<span style="color: #7388d6;">)</span>, <span style="color: #7388d6;">(</span>255, 0, 0<span style="color: #7388d6;">)</span>, 5<span style="color: #707183;">)</span>
+    cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'rostros'</span>, frame<span style="color: #707183;">)</span>
+    <span style="color: #a0522d;">k</span> = cv.waitKey<span style="color: #707183;">(</span>1<span style="color: #707183;">)</span>
+    <span style="color: #a020f0;">if</span> k == 27:
+        <span style="color: #a020f0;">break</span>
+cap.release<span style="color: #707183;">()</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
 </pre>
 </div>
 </div>
@@ -1258,9 +1258,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-orgae18b80" class="outline-2">
-<h2 id="orgae18b80">Espacio de estados</h2>
-<div class="outline-text-2" id="text-orgae18b80">
+<div id="outline-container-org1fc4052" class="outline-2">
+<h2 id="org1fc4052">Espacio de estados</h2>
+<div class="outline-text-2" id="text-org1fc4052">
 <p>
 Muchos de los problemas que pueden ser resueltos aplicando técnicas de
 inteligencia artificial se modelan en forma simbólica y discreta
@@ -1311,13 +1311,13 @@ desde el estado inicial a un estado objetivo.
 </p>
 </div>
 
-<div id="outline-container-org05cee66" class="outline-3">
-<h3 id="org05cee66">Ejemplo de espacio de estados</h3>
-<div class="outline-text-3" id="text-org05cee66">
+<div id="outline-container-orge0a006d" class="outline-3">
+<h3 id="orge0a006d">Ejemplo de espacio de estados</h3>
+<div class="outline-text-3" id="text-orge0a006d">
 </div>
-<div id="outline-container-org0e8e5b9" class="outline-4">
-<h4 id="org0e8e5b9">Descripción del problema</h4>
-<div class="outline-text-4" id="text-org0e8e5b9">
+<div id="outline-container-orgc69dc04" class="outline-4">
+<h4 id="orgc69dc04">Descripción del problema</h4>
+<div class="outline-text-4" id="text-orgc69dc04">
 <p>
 Un arriero se encuentra en el borde de un rio llevando un puma, una
 cabra y una lechuga.  Debe cruzar a la otra orilla por medio de un
@@ -1329,9 +1329,9 @@ la lechuga. ¿Cómo cruzar sin perder ninguna pertenencia?
 </div>
 </div>
 
-<div id="outline-container-orgee6e303" class="outline-4">
-<h4 id="orgee6e303">Representación de las configuraciones del universo del problema:</h4>
-<div class="outline-text-4" id="text-orgee6e303">
+<div id="outline-container-orge3b47e9" class="outline-4">
+<h4 id="orge3b47e9">Representación de las configuraciones del universo del problema:</h4>
+<div class="outline-text-4" id="text-orge3b47e9">
 <p>
 Basta precisar la situación antes o después de cruzar. El arriero y
 cada una de sus pertenencias tienen que estar en alguna de las dos
@@ -1348,9 +1348,9 @@ estado(i,i,i,i). El estado objetivo es estado(d,d,d,d).
 </div>
 </div>
 
-<div id="outline-container-orga968f4c" class="outline-4">
-<h4 id="orga968f4c">Definición de las reglas de transición:</h4>
-<div class="outline-text-4" id="text-orga968f4c">
+<div id="outline-container-orga0ff863" class="outline-4">
+<h4 id="orga0ff863">Definición de las reglas de transición:</h4>
+<div class="outline-text-4" id="text-orga0ff863">
 <p>
 El arriero tiene cuatro acciones posibles: cruzar solo, cruzar con el
 puma, cruzar con la cabra y cruzar con la lechuga. Estas acciones
@@ -1362,16 +1362,16 @@ intercambiando los valores i y d para los pasajeros del bote.
 </div>
 </div>
 
-<div id="outline-container-org2986f73" class="outline-4">
-<h4 id="org2986f73">Generación del espacio de estados</h4>
-<div class="outline-text-4" id="text-org2986f73">
+<div id="outline-container-orge6b686d" class="outline-4">
+<h4 id="orge6b686d">Generación del espacio de estados</h4>
+<div class="outline-text-4" id="text-orge6b686d">
 <p>
 En este ejemplo se puede explicitar todo el espacio de estados (el
 número de configuraciones está acotado por 24).
 </p>
 
 
-<div id="org686203e" class="figure">
+<div id="org1cc2a97" class="figure">
 <p><img src="img/sd.png" alt="sd.png" />
 </p>
 </div>
@@ -1380,9 +1380,9 @@ número de configuraciones está acotado por 24).
 
 
 
-<div id="outline-container-org837f249" class="outline-4">
-<h4 id="org837f249">Problemas de los Canibales y Monjes</h4>
-<div class="outline-text-4" id="text-org837f249">
+<div id="outline-container-org81719e6" class="outline-4">
+<h4 id="org81719e6">Problemas de los Canibales y Monjes</h4>
+<div class="outline-text-4" id="text-org81719e6">
 <p>
 Se tienen 3 monjes y 3 caníbales en el margen Oeste de un río. Existe
 una canoa con capacidad para dos personas como máximo. Se desea que
@@ -1395,9 +1395,9 @@ conducida por alguien.<br />
 </div>
 
 
-<div id="outline-container-orgb1cb6be" class="outline-4">
-<h4 id="orgb1cb6be">El espacio de estados está definido por</h4>
-<div class="outline-text-4" id="text-orgb1cb6be">
+<div id="outline-container-orge897aff" class="outline-4">
+<h4 id="orge897aff">El espacio de estados está definido por</h4>
+<div class="outline-text-4" id="text-orge897aff">
 <p>
 {(Mo, Co, Me, Ce, C) / Mo es el número de monjes en el margen oeste con
 0&lt;=Mo&lt;=3<br />
@@ -1480,22 +1480,22 @@ Un pasaje de estados para ir de (3,3,0,0,O) a (0,0,3,3,E) es el siguiente:
 </div>
 </div>
 
-<div id="outline-container-org1b37cf3" class="outline-3">
-<h3 id="org1b37cf3">Representación de espacio de estados</h3>
-<div class="outline-text-3" id="text-org1b37cf3">
+<div id="outline-container-org0dac82e" class="outline-3">
+<h3 id="org0dac82e">Representación de espacio de estados</h3>
+<div class="outline-text-3" id="text-org0dac82e">
 <p>
 La primera pregunta es, como  
 </p>
 </div>
 </div>
 
-<div id="outline-container-org4cc59ab" class="outline-3">
-<h3 id="org4cc59ab">El problema del n-Puzzle</h3>
-<div class="outline-text-3" id="text-org4cc59ab">
+<div id="outline-container-orgd66db66" class="outline-3">
+<h3 id="orgd66db66">El problema del n-Puzzle</h3>
+<div class="outline-text-3" id="text-orgd66db66">
 </div>
-<div id="outline-container-orgf6b3366" class="outline-4">
-<h4 id="orgf6b3366">Caracterización de las búsquedas ciegas.</h4>
-<div class="outline-text-4" id="text-orgf6b3366">
+<div id="outline-container-org089290a" class="outline-4">
+<h4 id="org089290a">Caracterización de las búsquedas ciegas.</h4>
+<div class="outline-text-4" id="text-org089290a">
 <p>
 La búsqueda ciega o no informada sólo utiliza información acerca de si
 un estado es o no objetivo para guiar su procesu de búsqueda.
@@ -1531,9 +1531,9 @@ acrónimo de su nombre en inglés (Depth-First Iterative-Deepening).
 </div>
 
 
-<div id="outline-container-org9173f75" class="outline-4">
-<h4 id="org9173f75">Caracterización de las búsquedas heurísticas.</h4>
-<div class="outline-text-4" id="text-org9173f75">
+<div id="outline-container-org65ebf7b" class="outline-4">
+<h4 id="org65ebf7b">Caracterización de las búsquedas heurísticas.</h4>
+<div class="outline-text-4" id="text-org65ebf7b">
 <p>
 Las técnicas de búsqueda heurística se apoyan alc contrario de los
 métodos de búsqueda ciega se apoyan en información adicional para
@@ -1559,13 +1559,13 @@ SMA* (Simplified Memory-bounded A*).
 </div>
 </div>
 
-<div id="outline-container-orgcfb893c" class="outline-2">
-<h2 id="orgcfb893c">Técnicas de Búsqueda</h2>
-<div class="outline-text-2" id="text-orgcfb893c">
+<div id="outline-container-org99f5ffe" class="outline-2">
+<h2 id="org99f5ffe">Técnicas de Búsqueda</h2>
+<div class="outline-text-2" id="text-org99f5ffe">
 </div>
-<div id="outline-container-orgd7f0aea" class="outline-3">
-<h3 id="orgd7f0aea">Solución de problemas con búsqueda.</h3>
-<div class="outline-text-3" id="text-orgd7f0aea">
+<div id="outline-container-orgc30f291" class="outline-3">
+<h3 id="orgc30f291">Solución de problemas con búsqueda.</h3>
+<div class="outline-text-3" id="text-orgc30f291">
 <p>
 La solución de problemas es fundamental para la mayoría de las
 aplicaciones de IA; existen principalmente dos clases de problemas que
@@ -1611,9 +1611,9 @@ espacio paso a paso, hasta encontrar el estado objetivo.
 </div>
 
 
-<div id="outline-container-org759a283" class="outline-3">
-<h3 id="org759a283">Espacios de Estados</h3>
-<div class="outline-text-3" id="text-org759a283">
+<div id="outline-container-orga0c0ef2" class="outline-3">
+<h3 id="orga0c0ef2">Espacios de Estados</h3>
+<div class="outline-text-3" id="text-orga0c0ef2">
 <p>
 Muchos de los problemas que pueden ser resueltos aplicando técnicas de inteligencia artificial se modelan en forma simbólica y
 discreta definiendo las configuraciones posibles del universo estudiado. El problema se plantea entonces en términos de encontrar una configuración objetivo a partir de una configuración inicial dada, aplicando transformaciones válidas según el modelo del universo. La respuesta es la secuencia de transformaciones cuya aplicación succesiva lleva a la configuración deseada.
@@ -1624,9 +1624,9 @@ Cuando un problema se puede representar mediante un espacio de estados, la soluc
 </p>
 </div>
 
-<div id="outline-container-orgd4d5e0c" class="outline-4">
-<h4 id="orgd4d5e0c">Deterministicos</h4>
-<div class="outline-text-4" id="text-orgd4d5e0c">
+<div id="outline-container-org5461443" class="outline-4">
+<h4 id="org5461443">Deterministicos</h4>
+<div class="outline-text-4" id="text-org5461443">
 <p>
 El espacio de estados determinísticos contienen un único estado inicial y seguir la secuencia de estados para la solución. Los espacios de estados determinísticos son usados por los sistemas expertos.
 Se puede describir asu vez, que un sistema es determinístico si, para un estado dado, al menos aplica una regla a él y de solo una manera.
@@ -1634,9 +1634,9 @@ Se puede describir asu vez, que un sistema es determinístico si, para un estado
 </div>
 </div>
 
-<div id="outline-container-orgcd24e0b" class="outline-4">
-<h4 id="orgcd24e0b">No Deterministicos</h4>
-<div class="outline-text-4" id="text-orgcd24e0b">
+<div id="outline-container-org3d907c0" class="outline-4">
+<h4 id="org3d907c0">No Deterministicos</h4>
+<div class="outline-text-4" id="text-org3d907c0">
 <p>
 El no determinístico contiene un amplio número de estados iniciales y sigue la secuencia de estados perteneciente al estado inicial del espacio. Son usados por sistemas de lógica difusa.
 En otras palabras,  si más de una regla aplica a cualquier estado particular del sistema, o si una regla aplica a un estado particular del sistema en más de una manera, entonces el sistema es no determinístico.
@@ -1646,34 +1646,34 @@ En otras palabras,  si más de una regla aplica a cualquier estado particular de
 </div>
 
 
-<div id="outline-container-org0f59665" class="outline-3">
-<h3 id="org0f59665">Métodos de Búsqueda</h3>
-<div class="outline-text-3" id="text-org0f59665">
+<div id="outline-container-org576717a" class="outline-3">
+<h3 id="org576717a">Métodos de Búsqueda</h3>
+<div class="outline-text-3" id="text-org576717a">
 </div>
-<div id="outline-container-org1fde4d8" class="outline-4">
-<h4 id="org1fde4d8">Primero en anchura (breadthfirst)</h4>
-<div class="outline-text-4" id="text-org1fde4d8">
+<div id="outline-container-org1662cf7" class="outline-4">
+<h4 id="org1662cf7">Primero en anchura (breadthfirst)</h4>
+<div class="outline-text-4" id="text-org1662cf7">
 <p>
 En inglés, breadth-first search.
 Si el conjunto open se maneja como una lista FIFO, es decir, como una cola, siempre se estará visitando primero los primeros estados en ser generados. El recorrido del espacio de estados se hace por niveles de profundidad.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><span style="color: #ffc777;">procedure</span> <span style="color: #ff98a4;">Busqueda_en_amplitud</span> <span style="color: #c099ff;">{</span>
-   open <span style="color: #ff995e;">()[</span>estado_inicial<span style="color: #ff995e;">]</span>
-   closed <span style="color: #ff995e;">()</span> <span style="color: #ff995e;">{}</span>
-   <span style="color: #c099ff;">while</span> <span style="color: #ff995e;">(</span>open no <span style="color: #ffc777;">esta</span> <span style="color: #ff98a4;">vacia</span><span style="color: #ff995e;">)</span> <span style="color: #ff995e;">{</span>
-     remover el primer estado X de la <span style="color: #ffc777;">lista</span> <span style="color: #82aaff;">open</span>
-     <span style="color: #c099ff;">if</span> <span style="color: #ff98a4;">(</span>X es un <span style="color: #ffc777;">estado</span> <span style="color: #ff98a4;">objetivo</span><span style="color: #ff98a4;">)</span> <span style="color: #c099ff;">return</span> exito
-     <span style="color: #c099ff;">else</span> <span style="color: #ff98a4;">{</span>
+<pre class="src src-C"><span style="color: #228b22;">procedure</span> <span style="color: #a0522d;">Busqueda_en_amplitud</span> <span style="color: #707183;">{</span>
+   open <span style="color: #7388d6;">()[</span>estado_inicial<span style="color: #7388d6;">]</span>
+   closed <span style="color: #7388d6;">()</span> <span style="color: #7388d6;">{}</span>
+   <span style="color: #a020f0;">while</span> <span style="color: #7388d6;">(</span>open no <span style="color: #228b22;">esta</span> <span style="color: #a0522d;">vacia</span><span style="color: #7388d6;">)</span> <span style="color: #7388d6;">{</span>
+     remover el primer estado X de la <span style="color: #228b22;">lista</span> <span style="color: #0000ff;">open</span>
+     <span style="color: #a020f0;">if</span> <span style="color: #909183;">(</span>X es un <span style="color: #228b22;">estado</span> <span style="color: #a0522d;">objetivo</span><span style="color: #909183;">)</span> <span style="color: #a020f0;">return</span> exito
+     <span style="color: #a020f0;">else</span> <span style="color: #909183;">{</span>
        generar el conjunto de sucesores del estado X
        agregar el estado X al conjunto closed
        eliminar sucesores que ya estan en open o en closed
        agregar el resto de los sucesores al final de open
-     <span style="color: #ff98a4;">}</span>
-   <span style="color: #ff995e;">}</span>
-   <span style="color: #c099ff;">return</span> fracaso
- <span style="color: #c099ff;">}</span>
+     <span style="color: #909183;">}</span>
+   <span style="color: #7388d6;">}</span>
+   <span style="color: #a020f0;">return</span> fracaso
+ <span style="color: #707183;">}</span>
 
 </pre>
 </div>
@@ -1685,9 +1685,9 @@ Contrariamente a la búsqueda en profundidad, la búsqueda en amplitud garantiza
 </div>
 </div>
 
-<div id="outline-container-org6add957" class="outline-4">
-<h4 id="org6add957">Primero en profundidad (depthfirst).</h4>
-<div class="outline-text-4" id="text-org6add957">
+<div id="outline-container-orge7945f5" class="outline-4">
+<h4 id="orge7945f5">Primero en profundidad (depthfirst).</h4>
+<div class="outline-text-4" id="text-orge7945f5">
 <p>
 En inglés, depth-first search.
 Si el conjunto open se maneja como una lista LIFO, es decir, como un stack, siempre se estará
@@ -1698,21 +1698,21 @@ una rama antes de explorar ramas alternativas.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C"><span style="color: #ffc777;">procedure</span> <span style="color: #ff98a4;">Busqueda_en_profundidad</span> <span style="color: #c099ff;">{</span>
-   open <span style="color: #ff995e;">()</span> <span style="color: #ff995e;">[</span>estado_inicial<span style="color: #ff995e;">]</span>
-   closed <span style="color: #ff995e;">()</span> <span style="color: #ff995e;">{}</span>
-   <span style="color: #c099ff;">while</span> <span style="color: #ff995e;">(</span>open no <span style="color: #ffc777;">esta</span> <span style="color: #ff98a4;">vacia</span><span style="color: #ff995e;">)</span> <span style="color: #ff995e;">{</span>
-     remover el primer estado X de la <span style="color: #ffc777;">lista</span> <span style="color: #82aaff;">open</span>
-     <span style="color: #c099ff;">if</span> <span style="color: #ff98a4;">(</span>X es un <span style="color: #ffc777;">estado</span> <span style="color: #ff98a4;">objetivo</span><span style="color: #ff98a4;">)</span> <span style="color: #c099ff;">return</span> exito
-     <span style="color: #c099ff;">else</span> <span style="color: #ff98a4;">{</span>
+<pre class="src src-C"><span style="color: #228b22;">procedure</span> <span style="color: #a0522d;">Busqueda_en_profundidad</span> <span style="color: #707183;">{</span>
+   open <span style="color: #7388d6;">()</span> <span style="color: #7388d6;">[</span>estado_inicial<span style="color: #7388d6;">]</span>
+   closed <span style="color: #7388d6;">()</span> <span style="color: #7388d6;">{}</span>
+   <span style="color: #a020f0;">while</span> <span style="color: #7388d6;">(</span>open no <span style="color: #228b22;">esta</span> <span style="color: #a0522d;">vacia</span><span style="color: #7388d6;">)</span> <span style="color: #7388d6;">{</span>
+     remover el primer estado X de la <span style="color: #228b22;">lista</span> <span style="color: #0000ff;">open</span>
+     <span style="color: #a020f0;">if</span> <span style="color: #909183;">(</span>X es un <span style="color: #228b22;">estado</span> <span style="color: #a0522d;">objetivo</span><span style="color: #909183;">)</span> <span style="color: #a020f0;">return</span> exito
+     <span style="color: #a020f0;">else</span> <span style="color: #909183;">{</span>
        generar el conjunto de sucesores del estado X
        agregar el estado X al conjunto closed
        eliminar sucesores que ya estan en open o en closed
        agregar el resto de los sucesores al principio de open
-     <span style="color: #ff98a4;">}</span>
-   <span style="color: #ff995e;">}</span>
-   <span style="color: #c099ff;">return</span> fracaso
- <span style="color: #c099ff;">}</span>
+     <span style="color: #909183;">}</span>
+   <span style="color: #7388d6;">}</span>
+   <span style="color: #a020f0;">return</span> fracaso
+ <span style="color: #707183;">}</span>
 
 
 </pre>
@@ -1728,9 +1728,9 @@ El mayor problema de este algoritmo es que puede "perderse" en una rama sin enco
 </div>
 </div>
 
-<div id="outline-container-org862226b" class="outline-4">
-<h4 id="org862226b">Búsqueda Heurística</h4>
-<div class="outline-text-4" id="text-org862226b">
+<div id="outline-container-org3eb7a3b" class="outline-4">
+<h4 id="org3eb7a3b">Búsqueda Heurística</h4>
+<div class="outline-text-4" id="text-org3eb7a3b">
 <p>
 El algoritmo de búsqueda A* (pronunciado "A asterisco", "A estrella" o
 "Astar" en inglés) se clasifica dentro de los algoritmos de búsqueda
@@ -1779,8 +1779,8 @@ prometedores.
 
 
 <ul class="org-ul">
-<li><a id="orgfcd075c"></a>Propiedades<br />
-<div class="outline-text-5" id="text-orgfcd075c">
+<li><a id="org45d96ed"></a>Propiedades<br />
+<div class="outline-text-5" id="text-org45d96ed">
 <p>
 Como todo algoritmo de búsqueda en amplitud, A* es un algoritmo
 completo: en caso de existir una solución, siempre dará con ella.
@@ -1811,8 +1811,8 @@ más el coste de alcanzar el objetivo desde el sucesor.
 
 
 
-<li><a id="org8094488"></a>Complejidad<br />
-<div class="outline-text-5" id="text-org8094488">
+<li><a id="orgdaf2a39"></a>Complejidad<br />
+<div class="outline-text-5" id="text-orgdaf2a39">
 <p>
 La complejidad computacional del algoritmo está íntimamente
 relacionada con la calidad de la heurística que se utilice en el
@@ -1843,9 +1843,9 @@ como pueden ser RTA*, IDA* o SMA*.
 </div>
 </div>
 
-<div id="outline-container-org9576441" class="outline-3">
-<h3 id="org9576441">Satisfacción de restricciones.</h3>
-<div class="outline-text-3" id="text-org9576441">
+<div id="outline-container-orged6cbaa" class="outline-3">
+<h3 id="orged6cbaa">Satisfacción de restricciones.</h3>
+<div class="outline-text-3" id="text-orged6cbaa">
 <p>
 Los problemas pueden resolverse buscando en un espacio de estados, estos estados pueden evaluarse por heurísticas específicas para el dominio y probados para verificar si son estados meta.
 Los componentes del estado, son equivalentes a un grafo de restricciones, los cuales están compuestos de:\\[0.5cm]
@@ -1879,9 +1879,9 @@ Ejemplos:
 </div>
 </div>
 
-<div id="outline-container-org8e2a086" class="outline-2">
-<h2 id="org8e2a086">Teoría de juegos.</h2>
-<div class="outline-text-2" id="text-org8e2a086">
+<div id="outline-container-org8c614cd" class="outline-2">
+<h2 id="org8c614cd">Teoría de juegos.</h2>
+<div class="outline-text-2" id="text-org8c614cd">
 <p>
 Siendo una de las principales capacidades de la inteligencia humana su
 capacidad para resolver problemas, así como la habilidad para analizar
@@ -1920,9 +1920,9 @@ son las damas y el ajedrez.
 
 
 
-<div id="outline-container-orgb7903d2" class="outline-2">
-<h2 id="orgb7903d2">Grafos</h2>
-<div class="outline-text-2" id="text-orgb7903d2">
+<div id="outline-container-orgc93e778" class="outline-2">
+<h2 id="orgc93e778">Grafos</h2>
+<div class="outline-text-2" id="text-orgc93e778">
 <p>
 Un grafo es un conjunto de puntos (vértices) en el espacio, que están conectados
 por un conjunto de líneas (aristas). Otros conceptos básicos son:
@@ -1933,9 +1933,9 @@ Un grafo se dice que es finito si su número de vértices es finito.
 </div>
 </div>
 
-<div id="outline-container-org7b34243" class="outline-2">
-<h2 id="org7b34243">Tipos de grafos</h2>
-<div class="outline-text-2" id="text-org7b34243">
+<div id="outline-container-orga14974f" class="outline-2">
+<h2 id="orga14974f">Tipos de grafos</h2>
+<div class="outline-text-2" id="text-orga14974f">
 <p>
 Existen dos tipos de grafos los no dirigidos y los dirigidos.
 </p>
@@ -1956,9 +1956,9 @@ el vértice destino, se conoce como cabeza del lado.
 </div>
 </div>
 
-<div id="outline-container-orgddd482a" class="outline-2">
-<h2 id="orgddd482a">Machine Learning</h2>
-<div class="outline-text-2" id="text-orgddd482a">
+<div id="outline-container-org84896bf" class="outline-2">
+<h2 id="org84896bf">Machine Learning</h2>
+<div class="outline-text-2" id="text-org84896bf">
 <p>
 El aprendizaje automático o aprendizaje automatizado o aprendizaje de
 máquinas (del inglés, machine learning) es el subcampo de las ciencias
@@ -1997,9 +1997,9 @@ y del lenguaje escrito, juegos y robótica.
 </p>
 </div>
 
-<div id="outline-container-orgc0f6528" class="outline-3">
-<h3 id="orgc0f6528">Tipos de Algoritmos</h3>
-<div class="outline-text-3" id="text-orgc0f6528">
+<div id="outline-container-orgc53ae6d" class="outline-3">
+<h3 id="orgc53ae6d">Tipos de Algoritmos</h3>
+<div class="outline-text-3" id="text-orgc53ae6d">
 <p>
 Los diferentes algoritmos de Aprendizaje Automático se agrupan en una
 taxonomía en función de la salida de los mismos. Algunos tipos de
@@ -2080,9 +2080,9 @@ llevando a cabo, sino que solo será una secuencia repetitiva.</li>
 </div>
 </div>
 
-<div id="outline-container-org7a800fe" class="outline-3">
-<h3 id="org7a800fe">Técnicas de clasificación</h3>
-<div class="outline-text-3" id="text-org7a800fe">
+<div id="outline-container-org77baf86" class="outline-3">
+<h3 id="org77baf86">Técnicas de clasificación</h3>
+<div class="outline-text-3" id="text-org77baf86">
 <ul class="org-ul">
 <li><b>Árboles de decisiones</b>: Este tipo de aprendizaje usa un árbol de
 decisiones como modelo predictivo. Se mapean observaciones sobre un
@@ -2155,9 +2155,9 @@ aprenden usando este tipo de representación.</li>
 </div>
 
 
-<div id="outline-container-orgbe3583c" class="outline-3">
-<h3 id="orgbe3583c">Clasificador en Cascada</h3>
-<div class="outline-text-3" id="text-orgbe3583c">
+<div id="outline-container-orgafe3b83" class="outline-3">
+<h3 id="orgafe3b83">Clasificador en Cascada</h3>
+<div class="outline-text-3" id="text-orgafe3b83">
 <p>
 La detección de objetos usando un clasificador en cascada basado en
 características de Haar es un método efectivo de detección de objetos
@@ -2181,7 +2181,7 @@ rectángulo negro.
 </p>
 
 
-<div id="org541c939" class="figure">
+<div id="org29fe526" class="figure">
 <p><img src="img/har.png" alt="har.png" />
 </p>
 </div>
@@ -2211,7 +2211,7 @@ más de 160.000 funciones?.
 </p>
 
 
-<div id="orgb10ee16" class="figure">
+<div id="org9e4eeff" class="figure">
 <p><img src="img/har2.png" alt="har2.png" />
 </p>
 </div>
@@ -2289,9 +2289,9 @@ sección de otros recursos.
 </p>
 </div>
 
-<div id="outline-container-org310304f" class="outline-4">
-<h4 id="org310304f">Ejemplo de clasificación utilizando Haarcascades</h4>
-<div class="outline-text-4" id="text-org310304f">
+<div id="outline-container-orgb0a18e1" class="outline-4">
+<h4 id="orgb0a18e1">Ejemplo de clasificación utilizando Haarcascades</h4>
+<div class="outline-text-4" id="text-orgb0a18e1">
 <ul class="org-ul">
 <li><a href="https://github.com/opencv/opencv/tree/master/data/haarcascades">Clasificadores Haarcascades de la librería Opencv</a></li>
 <li><a href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html">Tutorial Haarcascades</a></li>
@@ -2300,44 +2300,44 @@ sección de otros recursos.
 
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np
-<span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+<span style="color: #a020f0;">import</span> cv2 <span style="color: #a020f0;">as</span> cv
 
-<span style="color: #ff98a4;">rostro</span> = cv.CascadeClassifier<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'haarcascade_frontalface_alt.xml'</span><span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">cap</span> = cv.VideoCapture<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">x</span>=<span style="color: #ff98a4;">y</span>=<span style="color: #ff98a4;">w</span>=<span style="color: #ff98a4;">h</span>= 0 
-<span style="color: #ff98a4;">img</span> = 0
-<span style="color: #ff98a4;">count</span> = 0
-<span style="color: #c099ff;">while</span> <span style="color: #ff995e;">True</span>:
-    <span style="color: #ff98a4;">ret</span>, <span style="color: #ff98a4;">frame</span> = cap.read<span style="color: #c099ff;">()</span>
-    <span style="color: #ff98a4;">gray</span> = cv.cvtColor<span style="color: #c099ff;">(</span>frame, cv.COLOR_BGR2GRAY<span style="color: #c099ff;">)</span>
-    <span style="color: #ff98a4;">rostros</span> = rostro.detectMultiScale<span style="color: #c099ff;">(</span>gray, 1.3, 5<span style="color: #c099ff;">)</span>
-    <span style="color: #c099ff;">for</span><span style="color: #c099ff;">(</span>x, y, w, h<span style="color: #c099ff;">)</span> <span style="color: #c099ff;">in</span> <span style="color: #ff98a4;">rostros</span>:
-        m= <span style="color: #c099ff;">int</span><span style="color: #c099ff;">(</span>h/2<span style="color: #c099ff;">)</span>
-        <span style="color: #ff98a4;">frame</span> = cv.rectangle<span style="color: #c099ff;">(</span>frame, <span style="color: #ff995e;">(</span>x,y<span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>x+w, y+h<span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>0, 255, 0<span style="color: #ff995e;">)</span>, 2<span style="color: #c099ff;">)</span>
-        <span style="color: #ff98a4;">frame</span> = cv.rectangle<span style="color: #c099ff;">(</span>frame, <span style="color: #ff995e;">(</span>x,y+m<span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>x+w, y+h<span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>255, 0 ,0<span style="color: #ff995e;">)</span>, 2 <span style="color: #c099ff;">)</span>
-        <span style="color: #ff98a4;">img</span> = 180- frame<span style="color: #c099ff;">[</span>y:y+h,x:x+w<span style="color: #c099ff;">]</span>
-        <span style="color: #ff98a4;">count</span> = count + 1   
+<span style="color: #a0522d;">rostro</span> = cv.CascadeClassifier<span style="color: #707183;">(</span><span style="color: #8b2252;">'haarcascade_frontalface_alt.xml'</span><span style="color: #707183;">)</span>
+<span style="color: #a0522d;">cap</span> = cv.VideoCapture<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">x</span>=<span style="color: #a0522d;">y</span>=<span style="color: #a0522d;">w</span>=<span style="color: #a0522d;">h</span>= 0 
+<span style="color: #a0522d;">img</span> = 0
+<span style="color: #a0522d;">count</span> = 0
+<span style="color: #a020f0;">while</span> <span style="color: #008b8b;">True</span>:
+    <span style="color: #a0522d;">ret</span>, <span style="color: #a0522d;">frame</span> = cap.read<span style="color: #707183;">()</span>
+    <span style="color: #a0522d;">gray</span> = cv.cvtColor<span style="color: #707183;">(</span>frame, cv.COLOR_BGR2GRAY<span style="color: #707183;">)</span>
+    <span style="color: #a0522d;">rostros</span> = rostro.detectMultiScale<span style="color: #707183;">(</span>gray, 1.3, 5<span style="color: #707183;">)</span>
+    <span style="color: #a020f0;">for</span><span style="color: #707183;">(</span>x, y, w, h<span style="color: #707183;">)</span> <span style="color: #a020f0;">in</span> <span style="color: #a0522d;">rostros</span>:
+        m= <span style="color: #483d8b;">int</span><span style="color: #707183;">(</span>h/2<span style="color: #707183;">)</span>
+        <span style="color: #a0522d;">frame</span> = cv.rectangle<span style="color: #707183;">(</span>frame, <span style="color: #7388d6;">(</span>x,y<span style="color: #7388d6;">)</span>, <span style="color: #7388d6;">(</span>x+w, y+h<span style="color: #7388d6;">)</span>, <span style="color: #7388d6;">(</span>0, 255, 0<span style="color: #7388d6;">)</span>, 2<span style="color: #707183;">)</span>
+        <span style="color: #a0522d;">frame</span> = cv.rectangle<span style="color: #707183;">(</span>frame, <span style="color: #7388d6;">(</span>x,y+m<span style="color: #7388d6;">)</span>, <span style="color: #7388d6;">(</span>x+w, y+h<span style="color: #7388d6;">)</span>, <span style="color: #7388d6;">(</span>255, 0 ,0<span style="color: #7388d6;">)</span>, 2 <span style="color: #707183;">)</span>
+        <span style="color: #a0522d;">img</span> = 180- frame<span style="color: #707183;">[</span>y:y+h,x:x+w<span style="color: #707183;">]</span>
+        <span style="color: #a0522d;">count</span> = count + 1   
     
-    <span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">name = '/home/likcos/imgs/cara'+str(count)+'.jpg'</span>
-    <span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv.imwrite(name, frame)</span>
-    cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'rostros'</span>, frame<span style="color: #c099ff;">)</span>
-    cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'cara'</span>, img<span style="color: #c099ff;">)</span>
+    <span style="color: #b22222;">#</span><span style="color: #b22222;">name = '/home/likcos/imgs/cara'+str(count)+'.jpg'</span>
+    <span style="color: #b22222;">#</span><span style="color: #b22222;">cv.imwrite(name, frame)</span>
+    cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'rostros'</span>, frame<span style="color: #707183;">)</span>
+    cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'cara'</span>, img<span style="color: #707183;">)</span>
     
-    <span style="color: #ff98a4;">k</span> = cv.waitKey<span style="color: #c099ff;">(</span>1<span style="color: #c099ff;">)</span>
-    <span style="color: #c099ff;">if</span> k == 27:
-        <span style="color: #c099ff;">break</span>
-cap.release<span style="color: #c099ff;">()</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+    <span style="color: #a0522d;">k</span> = cv.waitKey<span style="color: #707183;">(</span>1<span style="color: #707183;">)</span>
+    <span style="color: #a020f0;">if</span> k == 27:
+        <span style="color: #a020f0;">break</span>
+cap.release<span style="color: #707183;">()</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgeae1190" class="outline-3">
-<h3 id="orgeae1190">Segmentación de Color</h3>
-<div class="outline-text-3" id="text-orgeae1190">
+<div id="outline-container-org9ac9641" class="outline-3">
+<h3 id="org9ac9641">Segmentación de Color</h3>
+<div class="outline-text-3" id="text-org9ac9641">
 <p>
 La segmentación de imágenes es un tema ampliamente estudiado para la
 extracción y reconocimiento de objetos, de acuerdo a las
@@ -2384,9 +2384,9 @@ diferentes cromaticidades.
 </div>
 
 
-<div id="outline-container-org574b5de" class="outline-3">
-<h3 id="org574b5de">Árboles de decisión</h3>
-<div class="outline-text-3" id="text-org574b5de">
+<div id="outline-container-orgc439d47" class="outline-3">
+<h3 id="orgc439d47">Árboles de decisión</h3>
+<div class="outline-text-3" id="text-orgc439d47">
 <p>
 Los árboles de decisión (DT) son un método de aprendizaje supervisado
 no paramétrico que se utiliza para la clasificación y la regresión. El
@@ -2404,16 +2404,16 @@ son las reglas de decisión y más ajustado es el modelo
 </p>
 
 
-<div id="org977b467" class="figure">
+<div id="org2d31c03" class="figure">
 <p><img src="img/dtr.png" alt="dtr.png" />
 </p>
 </div>
 </div>
 
 
-<div id="outline-container-org7c7685f" class="outline-4">
-<h4 id="org7c7685f">Elementos</h4>
-<div class="outline-text-4" id="text-org7c7685f">
+<div id="outline-container-org619846d" class="outline-4">
+<h4 id="org619846d">Elementos</h4>
+<div class="outline-text-4" id="text-org619846d">
 <p>
 Los árboles de decisión están formados por nodos, vectores de números,
 flechas y etiquetas.
@@ -2437,9 +2437,9 @@ a cada acción.</li>
 </div>
 </div>
 
-<div id="outline-container-org333a0c4" class="outline-4">
-<h4 id="org333a0c4">Algunas ventajas de los árboles de decisión son:</h4>
-<div class="outline-text-4" id="text-org333a0c4">
+<div id="outline-container-org0ca4782" class="outline-4">
+<h4 id="org0ca4782">Algunas ventajas de los árboles de decisión son:</h4>
+<div class="outline-text-4" id="text-org0ca4782">
 <ul class="org-ul">
 <li>Fácil de entender y de interpretar. Los árboles se pueden
 visualizar.</li>
@@ -2474,9 +2474,9 @@ por el verdadero modelo a partir del cual se generaron los dato</li>
 </div>
 </div>
 
-<div id="outline-container-org099c9ec" class="outline-4">
-<h4 id="org099c9ec">Desventajas de los árboles de decisión:</h4>
-<div class="outline-text-4" id="text-org099c9ec">
+<div id="outline-container-orgc4545bb" class="outline-4">
+<h4 id="orgc4545bb">Desventajas de los árboles de decisión:</h4>
+<div class="outline-text-4" id="text-orgc4545bb">
 <ul class="org-ul">
 <li>El aprendizaje de los  árboles de decisión pueden crear árboles demasiado
 complejos que no generalizan bien los datos. Esto se llama
@@ -2516,9 +2516,9 @@ conjunto de datos antes de ajustarlo al árbol de decisión.</li>
 </div>
 </div>
 
-<div id="outline-container-org008de6e" class="outline-4">
-<h4 id="org008de6e">Ejemplo de Clasificación, Árbol de decisión scikit-learn</h4>
-<div class="outline-text-4" id="text-org008de6e">
+<div id="outline-container-org334da38" class="outline-4">
+<h4 id="org334da38">Ejemplo de Clasificación, Árbol de decisión scikit-learn</h4>
+<div class="outline-text-4" id="text-org334da38">
 <p>
 <b>DecisionTreeClassifier</b> es una clase capaz de realizar una
 clasificación de varias clases en un conjunto de datos.
@@ -2534,12 +2534,12 @@ entrenamiento:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">from</span> sklearn <span style="color: #c099ff;">import</span> tree
-<span style="color: #ff98a4;">X</span> = <span style="color: #c099ff;">[</span><span style="color: #ff995e;">[</span>0, 0<span style="color: #ff995e;">]</span>, <span style="color: #ff995e;">[</span>1, 1<span style="color: #ff995e;">]</span><span style="color: #c099ff;">]</span>
-<span style="color: #ff98a4;">Y</span> = <span style="color: #c099ff;">[</span>0, 1<span style="color: #c099ff;">]</span>
-<span style="color: #ff98a4;">clf</span> = tree.DecisionTreeClassifier<span style="color: #c099ff;">()</span>
-<span style="color: #ff98a4;">clf</span> = clf.fit<span style="color: #c099ff;">(</span>X, Y<span style="color: #c099ff;">)</span>
-clf.predict<span style="color: #c099ff;">(</span><span style="color: #ff995e;">[</span><span style="color: #ff98a4;">[</span>2.,2.<span style="color: #ff98a4;">]</span><span style="color: #ff995e;">]</span><span style="color: #c099ff;">)</span> 
+<pre class="src src-python"><span style="color: #a020f0;">from</span> sklearn <span style="color: #a020f0;">import</span> tree
+<span style="color: #a0522d;">X</span> = <span style="color: #707183;">[</span><span style="color: #7388d6;">[</span>0, 0<span style="color: #7388d6;">]</span>, <span style="color: #7388d6;">[</span>1, 1<span style="color: #7388d6;">]</span><span style="color: #707183;">]</span>
+<span style="color: #a0522d;">Y</span> = <span style="color: #707183;">[</span>0, 1<span style="color: #707183;">]</span>
+<span style="color: #a0522d;">clf</span> = tree.DecisionTreeClassifier<span style="color: #707183;">()</span>
+<span style="color: #a0522d;">clf</span> = clf.fit<span style="color: #707183;">(</span>X, Y<span style="color: #707183;">)</span>
+clf.predict<span style="color: #707183;">(</span><span style="color: #7388d6;">[</span><span style="color: #909183;">[</span>2.,2.<span style="color: #909183;">]</span><span style="color: #7388d6;">]</span><span style="color: #707183;">)</span> 
 </pre>
 </div>
 
@@ -2548,8 +2548,8 @@ clf.predict<span style="color: #c099ff;">(</span><span style="color: #ff995e;">[
 Despues de ajustarce el modelo se puede usar, para predecir la clase 
 </p>
 <div class="org-src-container">
-<pre class="src src-python">clf.predict<span style="color: #c099ff;">(</span><span style="color: #ff995e;">[</span><span style="color: #ff98a4;">[</span>2.,2.<span style="color: #ff98a4;">]</span><span style="color: #ff995e;">]</span><span style="color: #c099ff;">)</span> 
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">array([1])</span>
+<pre class="src src-python">clf.predict<span style="color: #707183;">(</span><span style="color: #7388d6;">[</span><span style="color: #909183;">[</span>2.,2.<span style="color: #909183;">]</span><span style="color: #7388d6;">]</span><span style="color: #707183;">)</span> 
+<span style="color: #b22222;">#</span><span style="color: #b22222;">array([1])</span>
 </pre>
 </div>
 
@@ -2568,8 +2568,8 @@ entrenamiento de la clase en una hoja:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">clf.predict_proba<span style="color: #c099ff;">(</span><span style="color: #ff995e;">[</span><span style="color: #ff98a4;">[</span>2., 2.<span style="color: #ff98a4;">]</span><span style="color: #ff995e;">]</span><span style="color: #c099ff;">)</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">array([[0., 1.]])</span>
+<pre class="src src-python">clf.predict_proba<span style="color: #707183;">(</span><span style="color: #7388d6;">[</span><span style="color: #909183;">[</span>2., 2.<span style="color: #909183;">]</span><span style="color: #7388d6;">]</span><span style="color: #707183;">)</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">array([[0., 1.]])</span>
 </pre>
 </div>
 
@@ -2586,28 +2586,28 @@ siguiente manera:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">from</span> sklearn.datasets <span style="color: #c099ff;">import</span> load_iris
-<span style="color: #c099ff;">from</span> sklearn <span style="color: #c099ff;">import</span> tree
-<span style="color: #c099ff;">import</span> graphviz
-<span style="color: #ff98a4;">iris</span> = load_iris<span style="color: #c099ff;">()</span>
-<span style="color: #ff98a4;">X</span>, <span style="color: #ff98a4;">y</span> = iris.data, iris.target
-<span style="color: #ff98a4;">clf</span> = tree.DecisionTreeClassifier<span style="color: #c099ff;">()</span>
-<span style="color: #ff98a4;">clf</span> = clf.fit<span style="color: #c099ff;">(</span>X, y<span style="color: #c099ff;">)</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">dot_data = tree.export_graphviz(clf, out_file=None) </span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">graph = graphviz.Source(dot_data)</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">graph.render("iris")</span>
-<span style="color: #ff98a4;">dot_data</span> = tree.export_graphviz<span style="color: #c099ff;">(</span>clf, out_file=<span style="color: #ff995e;">None</span>, 
+<pre class="src src-python"><span style="color: #a020f0;">from</span> sklearn.datasets <span style="color: #a020f0;">import</span> load_iris
+<span style="color: #a020f0;">from</span> sklearn <span style="color: #a020f0;">import</span> tree
+<span style="color: #a020f0;">import</span> graphviz
+<span style="color: #a0522d;">iris</span> = load_iris<span style="color: #707183;">()</span>
+<span style="color: #a0522d;">X</span>, <span style="color: #a0522d;">y</span> = iris.data, iris.target
+<span style="color: #a0522d;">clf</span> = tree.DecisionTreeClassifier<span style="color: #707183;">()</span>
+<span style="color: #a0522d;">clf</span> = clf.fit<span style="color: #707183;">(</span>X, y<span style="color: #707183;">)</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">dot_data = tree.export_graphviz(clf, out_file=None) </span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">graph = graphviz.Source(dot_data)</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">graph.render("iris")</span>
+<span style="color: #a0522d;">dot_data</span> = tree.export_graphviz<span style="color: #707183;">(</span>clf, out_file=<span style="color: #008b8b;">None</span>, 
                                 feature_names=iris.feature_names,  
                                 class_names=iris.target_names,  
-                                filled=<span style="color: #ff995e;">True</span>, rounded=<span style="color: #ff995e;">True</span>,  
-                                special_characters=<span style="color: #ff995e;">True</span><span style="color: #c099ff;">)</span>  
-graph = graphviz.Source<span style="color: #c099ff;">(</span>dot_data<span style="color: #c099ff;">)</span> 
-graph.view<span style="color: #c099ff;">()</span>
+                                filled=<span style="color: #008b8b;">True</span>, rounded=<span style="color: #008b8b;">True</span>,  
+                                special_characters=<span style="color: #008b8b;">True</span><span style="color: #707183;">)</span>  
+graph = graphviz.Source<span style="color: #707183;">(</span>dot_data<span style="color: #707183;">)</span> 
+graph.view<span style="color: #707183;">()</span>
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">print</span><span style="color: #c099ff;">(</span><span style="color: #c3e88d;">"Hola"</span><span style="color: #c099ff;">)</span>
+<pre class="src src-python"><span style="color: #483d8b;">print</span><span style="color: #707183;">(</span><span style="color: #8b2252;">"Hola"</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
@@ -2615,148 +2615,148 @@ graph.view<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-orgb2b9407" class="outline-2">
-<h2 id="orgb2b9407">Programación</h2>
-<div class="outline-text-2" id="text-orgb2b9407">
+<div id="outline-container-org78ab48b" class="outline-2">
+<h2 id="org78ab48b">Programación</h2>
+<div class="outline-text-2" id="text-org78ab48b">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
-<span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np 
-<span style="color: #ff98a4;">img</span> = cv.imread<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'tr.png'</span>,0<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">x</span>,<span style="color: #ff98a4;">y</span>=img.shape
-<span style="color: #ff98a4;">img2</span> = np.zeros<span style="color: #c099ff;">(</span><span style="color: #ff995e;">(</span>x*2,y*2<span style="color: #ff995e;">)</span>, dtype=<span style="color: #c3e88d;">'uint8'</span><span style="color: #c099ff;">)</span>
-<span style="color: #c099ff;">for</span> i <span style="color: #c099ff;">in</span> <span style="color: #c099ff;">range</span><span style="color: #c099ff;">(</span>x<span style="color: #c099ff;">)</span>:
-    <span style="color: #c099ff;">for</span> j <span style="color: #c099ff;">in</span> <span style="color: #c099ff;">range</span><span style="color: #c099ff;">(</span>y<span style="color: #c099ff;">)</span>:
-        <span style="color: #c099ff;">if</span><span style="color: #c099ff;">(</span>img<span style="color: #ff995e;">[</span>i,j<span style="color: #ff995e;">]</span>&gt;150<span style="color: #c099ff;">)</span>:
-            img<span style="color: #c099ff;">[</span><span style="color: #ff98a4;">i</span>, <span style="color: #ff98a4;">j</span><span style="color: #c099ff;">]</span>=255
-        <span style="color: #c099ff;">else</span>:
-            img<span style="color: #c099ff;">[</span><span style="color: #ff98a4;">i</span>,<span style="color: #ff98a4;">j</span><span style="color: #c099ff;">]</span> = 0
+<pre class="src src-python"><span style="color: #a020f0;">import</span> cv2 <span style="color: #a020f0;">as</span> cv
+<span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np 
+<span style="color: #a0522d;">img</span> = cv.imread<span style="color: #707183;">(</span><span style="color: #8b2252;">'tr.png'</span>,0<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">x</span>,<span style="color: #a0522d;">y</span>=img.shape
+<span style="color: #a0522d;">img2</span> = np.zeros<span style="color: #707183;">(</span><span style="color: #7388d6;">(</span>x*2,y*2<span style="color: #7388d6;">)</span>, dtype=<span style="color: #8b2252;">'uint8'</span><span style="color: #707183;">)</span>
+<span style="color: #a020f0;">for</span> i <span style="color: #a020f0;">in</span> <span style="color: #483d8b;">range</span><span style="color: #707183;">(</span>x<span style="color: #707183;">)</span>:
+    <span style="color: #a020f0;">for</span> j <span style="color: #a020f0;">in</span> <span style="color: #483d8b;">range</span><span style="color: #707183;">(</span>y<span style="color: #707183;">)</span>:
+        <span style="color: #a020f0;">if</span><span style="color: #707183;">(</span>img<span style="color: #7388d6;">[</span>i,j<span style="color: #7388d6;">]</span>&gt;150<span style="color: #707183;">)</span>:
+            img<span style="color: #707183;">[</span><span style="color: #a0522d;">i</span>, <span style="color: #a0522d;">j</span><span style="color: #707183;">]</span>=255
+        <span style="color: #a020f0;">else</span>:
+            img<span style="color: #707183;">[</span><span style="color: #a0522d;">i</span>,<span style="color: #a0522d;">j</span><span style="color: #707183;">]</span> = 0
 
-<span style="color: #c099ff;">print</span><span style="color: #c099ff;">(</span>img.shape<span style="color: #c099ff;">)</span>
-<span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv.imshow('img2', img2)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img'</span>, img<span style="color: #c099ff;">)</span>
-cv.waitKey<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
-
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
-
-<span style="color: #ff98a4;">cap</span> = cv.VideoCapture<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
-
-<span style="color: #c099ff;">while</span><span style="color: #c099ff;">(</span><span style="color: #ff995e;">True</span><span style="color: #c099ff;">)</span>:
-    <span style="color: #ff98a4;">ret</span>, <span style="color: #ff98a4;">img</span> =cap.read<span style="color: #c099ff;">()</span>
-    <span style="color: #c099ff;">if</span> ret == <span style="color: #ff995e;">True</span>:
-        cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img'</span>, img<span style="color: #c099ff;">)</span>
-        k =cv.waitKey<span style="color: #c099ff;">(</span>1<span style="color: #c099ff;">)</span> &amp; 0xFF
-        <span style="color: #c099ff;">if</span> k == 27 :
-            <span style="color: #c099ff;">break</span>
-    <span style="color: #c099ff;">else</span>:
-        <span style="color: #c099ff;">break</span>
-
-cap.release<span style="color: #c099ff;">()</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+<span style="color: #483d8b;">print</span><span style="color: #707183;">(</span>img.shape<span style="color: #707183;">)</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">cv.imshow('img2', img2)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'img'</span>, img<span style="color: #707183;">)</span>
+cv.waitKey<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
 
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
-<span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np 
-<span style="color: #ff98a4;">img</span> = cv.imread<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'tr.png'</span>,0<span style="color: #c099ff;">)</span>
-<span style="color: #c099ff;">print</span><span style="color: #c099ff;">(</span>img.shape<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">x</span>,<span style="color: #ff98a4;">y</span> = img.shape
-<span style="color: #ff98a4;">img2</span> = np.zeros<span style="color: #c099ff;">(</span><span style="color: #ff995e;">(</span>x*2,y*2<span style="color: #ff995e;">)</span>, dtype=<span style="color: #c3e88d;">'uint8'</span><span style="color: #c099ff;">)</span>
-<span style="color: #c099ff;">for</span> i <span style="color: #c099ff;">in</span> <span style="color: #c099ff;">range</span><span style="color: #c099ff;">(</span>x<span style="color: #c099ff;">)</span>:
-    <span style="color: #c099ff;">for</span> j <span style="color: #c099ff;">in</span> <span style="color: #c099ff;">range</span><span style="color: #c099ff;">(</span>y<span style="color: #c099ff;">)</span>:
-        img2<span style="color: #c099ff;">[</span>i*2,j*2<span style="color: #c099ff;">]</span>=img<span style="color: #c099ff;">[</span>i,j<span style="color: #c099ff;">]</span>
+<pre class="src src-python"><span style="color: #a020f0;">import</span> cv2 <span style="color: #a020f0;">as</span> cv
 
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img'</span>, img<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img2'</span>, img2<span style="color: #c099ff;">)</span>
-cv.waitKey<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+<span style="color: #a0522d;">cap</span> = cv.VideoCapture<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
+
+<span style="color: #a020f0;">while</span><span style="color: #707183;">(</span><span style="color: #008b8b;">True</span><span style="color: #707183;">)</span>:
+    <span style="color: #a0522d;">ret</span>, <span style="color: #a0522d;">img</span> =cap.read<span style="color: #707183;">()</span>
+    <span style="color: #a020f0;">if</span> ret == <span style="color: #008b8b;">True</span>:
+        cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'img'</span>, img<span style="color: #707183;">)</span>
+        k =cv.waitKey<span style="color: #707183;">(</span>1<span style="color: #707183;">)</span> &amp; 0xFF
+        <span style="color: #a020f0;">if</span> k == 27 :
+            <span style="color: #a020f0;">break</span>
+    <span style="color: #a020f0;">else</span>:
+        <span style="color: #a020f0;">break</span>
+
+cap.release<span style="color: #707183;">()</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
+
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> cv2 <span style="color: #a020f0;">as</span> cv
+<span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np 
+<span style="color: #a0522d;">img</span> = cv.imread<span style="color: #707183;">(</span><span style="color: #8b2252;">'tr.png'</span>,0<span style="color: #707183;">)</span>
+<span style="color: #483d8b;">print</span><span style="color: #707183;">(</span>img.shape<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">x</span>,<span style="color: #a0522d;">y</span> = img.shape
+<span style="color: #a0522d;">img2</span> = np.zeros<span style="color: #707183;">(</span><span style="color: #7388d6;">(</span>x*2,y*2<span style="color: #7388d6;">)</span>, dtype=<span style="color: #8b2252;">'uint8'</span><span style="color: #707183;">)</span>
+<span style="color: #a020f0;">for</span> i <span style="color: #a020f0;">in</span> <span style="color: #483d8b;">range</span><span style="color: #707183;">(</span>x<span style="color: #707183;">)</span>:
+    <span style="color: #a020f0;">for</span> j <span style="color: #a020f0;">in</span> <span style="color: #483d8b;">range</span><span style="color: #707183;">(</span>y<span style="color: #707183;">)</span>:
+        img2<span style="color: #707183;">[</span>i*2,j*2<span style="color: #707183;">]</span>=img<span style="color: #707183;">[</span>i,j<span style="color: #707183;">]</span>
+
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'img'</span>, img<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'img2'</span>, img2<span style="color: #707183;">)</span>
+cv.waitKey<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
 
 </pre>
 </div>
 
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv 
+<pre class="src src-python"><span style="color: #a020f0;">import</span> cv2 <span style="color: #a020f0;">as</span> cv 
 
-<span style="color: #ff98a4;">img</span> = cv.imread<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'tr.png'</span>, 1<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">gray</span> = cv.cvtColor<span style="color: #c099ff;">(</span>img, cv.COLOR_BGR2GRAY<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">rgb</span> = cv.cvtColor<span style="color: #c099ff;">(</span>img, cv.COLOR_BGR2RGB<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">hsv</span> = cv.cvtColor<span style="color: #c099ff;">(</span>img, cv.COLOR_BGR2HSV<span style="color: #c099ff;">)</span>
+<span style="color: #a0522d;">img</span> = cv.imread<span style="color: #707183;">(</span><span style="color: #8b2252;">'tr.png'</span>, 1<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">gray</span> = cv.cvtColor<span style="color: #707183;">(</span>img, cv.COLOR_BGR2GRAY<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">rgb</span> = cv.cvtColor<span style="color: #707183;">(</span>img, cv.COLOR_BGR2RGB<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">hsv</span> = cv.cvtColor<span style="color: #707183;">(</span>img, cv.COLOR_BGR2HSV<span style="color: #707183;">)</span>
 
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img'</span>, img<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'gray'</span>, gray<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'rgb'</span>, rgb<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'hsv'</span>, hsv<span style="color: #c099ff;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'img'</span>, img<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'gray'</span>, gray<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'rgb'</span>, rgb<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'hsv'</span>, hsv<span style="color: #707183;">)</span>
 
-cv.waitKey<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+cv.waitKey<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
 
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
-<span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np 
+<pre class="src src-python"><span style="color: #a020f0;">import</span> cv2 <span style="color: #a020f0;">as</span> cv
+<span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np 
 
-<span style="color: #ff98a4;">cap</span> = cv.VideoCapture<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
+<span style="color: #a0522d;">cap</span> = cv.VideoCapture<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
 
-<span style="color: #c099ff;">while</span><span style="color: #c099ff;">(</span><span style="color: #ff995e;">True</span><span style="color: #c099ff;">)</span>:
-    <span style="color: #ff98a4;">ret</span>,<span style="color: #ff98a4;">img</span>=cap.read<span style="color: #c099ff;">()</span>
-    <span style="color: #c099ff;">if</span><span style="color: #c099ff;">(</span>ret == <span style="color: #ff995e;">True</span><span style="color: #c099ff;">)</span>:
-        cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'marco'</span>, img<span style="color: #c099ff;">)</span>
-        <span style="color: #ff98a4;">x</span>,<span style="color: #ff98a4;">y</span> = img.shape<span style="color: #c099ff;">[</span>:2<span style="color: #c099ff;">]</span>
-        img2 = np.zeros<span style="color: #c099ff;">(</span><span style="color: #ff995e;">(</span>x,y<span style="color: #ff995e;">)</span>, dtype=<span style="color: #c3e88d;">'uint8'</span><span style="color: #c099ff;">)</span>
+<span style="color: #a020f0;">while</span><span style="color: #707183;">(</span><span style="color: #008b8b;">True</span><span style="color: #707183;">)</span>:
+    <span style="color: #a0522d;">ret</span>,<span style="color: #a0522d;">img</span>=cap.read<span style="color: #707183;">()</span>
+    <span style="color: #a020f0;">if</span><span style="color: #707183;">(</span>ret == <span style="color: #008b8b;">True</span><span style="color: #707183;">)</span>:
+        cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'marco'</span>, img<span style="color: #707183;">)</span>
+        <span style="color: #a0522d;">x</span>,<span style="color: #a0522d;">y</span> = img.shape<span style="color: #707183;">[</span>:2<span style="color: #707183;">]</span>
+        img2 = np.zeros<span style="color: #707183;">(</span><span style="color: #7388d6;">(</span>x,y<span style="color: #7388d6;">)</span>, dtype=<span style="color: #8b2252;">'uint8'</span><span style="color: #707183;">)</span>
        
-        <span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)</span>
-        <span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv.imshow('hsv', hsv)</span>
-        <span style="color: #ff98a4;">b</span>,<span style="color: #ff98a4;">g</span>,<span style="color: #ff98a4;">r</span> = cv.split<span style="color: #c099ff;">(</span>img<span style="color: #c099ff;">)</span>
-        bm = cv.merge<span style="color: #c099ff;">(</span><span style="color: #ff995e;">[</span>b,img2, img2<span style="color: #ff995e;">]</span><span style="color: #c099ff;">)</span>
-        gm = cv.merge<span style="color: #c099ff;">(</span><span style="color: #ff995e;">[</span>img2, g, img2<span style="color: #ff995e;">]</span><span style="color: #c099ff;">)</span>
-        rm = cv.merge<span style="color: #c099ff;">(</span><span style="color: #ff995e;">[</span>img2, img2, r<span style="color: #ff995e;">]</span><span style="color: #c099ff;">)</span>
-        eje = cv.merge<span style="color: #c099ff;">(</span><span style="color: #ff995e;">[</span>b,r,g<span style="color: #ff995e;">]</span><span style="color: #c099ff;">)</span>
-        cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'b'</span>, bm<span style="color: #c099ff;">)</span>
-        cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'g'</span>, gm<span style="color: #c099ff;">)</span>
-        cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'r'</span>, rm<span style="color: #c099ff;">)</span>
-        cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'eje'</span>, eje<span style="color: #c099ff;">)</span>
-        k =cv.waitKey<span style="color: #c099ff;">(</span>1<span style="color: #c099ff;">)</span> &amp; 0xFF
-        <span style="color: #c099ff;">if</span> k == 27 :
-            <span style="color: #c099ff;">break</span>
-    <span style="color: #c099ff;">else</span>:
-        <span style="color: #c099ff;">break</span>
+        <span style="color: #b22222;">#</span><span style="color: #b22222;">hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)</span>
+        <span style="color: #b22222;">#</span><span style="color: #b22222;">cv.imshow('hsv', hsv)</span>
+        <span style="color: #a0522d;">b</span>,<span style="color: #a0522d;">g</span>,<span style="color: #a0522d;">r</span> = cv.split<span style="color: #707183;">(</span>img<span style="color: #707183;">)</span>
+        bm = cv.merge<span style="color: #707183;">(</span><span style="color: #7388d6;">[</span>b,img2, img2<span style="color: #7388d6;">]</span><span style="color: #707183;">)</span>
+        gm = cv.merge<span style="color: #707183;">(</span><span style="color: #7388d6;">[</span>img2, g, img2<span style="color: #7388d6;">]</span><span style="color: #707183;">)</span>
+        rm = cv.merge<span style="color: #707183;">(</span><span style="color: #7388d6;">[</span>img2, img2, r<span style="color: #7388d6;">]</span><span style="color: #707183;">)</span>
+        eje = cv.merge<span style="color: #707183;">(</span><span style="color: #7388d6;">[</span>b,r,g<span style="color: #7388d6;">]</span><span style="color: #707183;">)</span>
+        cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'b'</span>, bm<span style="color: #707183;">)</span>
+        cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'g'</span>, gm<span style="color: #707183;">)</span>
+        cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'r'</span>, rm<span style="color: #707183;">)</span>
+        cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'eje'</span>, eje<span style="color: #707183;">)</span>
+        k =cv.waitKey<span style="color: #707183;">(</span>1<span style="color: #707183;">)</span> &amp; 0xFF
+        <span style="color: #a020f0;">if</span> k == 27 :
+            <span style="color: #a020f0;">break</span>
+    <span style="color: #a020f0;">else</span>:
+        <span style="color: #a020f0;">break</span>
 
-cap.release<span style="color: #c099ff;">()</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+cap.release<span style="color: #707183;">()</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
+<pre class="src src-python"><span style="color: #a020f0;">import</span> cv2 <span style="color: #a020f0;">as</span> cv
 
-<span style="color: #ff98a4;">img</span> = cv.imread<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'man1.jpg'</span>, 1<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">hsv</span> = cv.cvtColor<span style="color: #c099ff;">(</span>img, cv.COLOR_BGR2HSV<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">ubb</span>=<span style="color: #c099ff;">(</span>0, 100, 100<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">uba</span>=<span style="color: #c099ff;">(</span>10, 255, 255<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">ubb2</span>=<span style="color: #c099ff;">(</span>170, 100, 100<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">uba2</span>=<span style="color: #c099ff;">(</span>180, 255, 255<span style="color: #c099ff;">)</span>
+<span style="color: #a0522d;">img</span> = cv.imread<span style="color: #707183;">(</span><span style="color: #8b2252;">'man1.jpg'</span>, 1<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">hsv</span> = cv.cvtColor<span style="color: #707183;">(</span>img, cv.COLOR_BGR2HSV<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">ubb</span>=<span style="color: #707183;">(</span>0, 100, 100<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">uba</span>=<span style="color: #707183;">(</span>10, 255, 255<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">ubb2</span>=<span style="color: #707183;">(</span>170, 100, 100<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">uba2</span>=<span style="color: #707183;">(</span>180, 255, 255<span style="color: #707183;">)</span>
 
-<span style="color: #ff98a4;">mask1</span> = cv.inRange<span style="color: #c099ff;">(</span>hsv, ubb, uba<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">mask2</span> = cv.inRange<span style="color: #c099ff;">(</span>hsv, ubb2, uba2<span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">mask</span> = mask1 + mask2
+<span style="color: #a0522d;">mask1</span> = cv.inRange<span style="color: #707183;">(</span>hsv, ubb, uba<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">mask2</span> = cv.inRange<span style="color: #707183;">(</span>hsv, ubb2, uba2<span style="color: #707183;">)</span>
+<span style="color: #a0522d;">mask</span> = mask1 + mask2
 
 
-<span style="color: #ff98a4;">res</span> = cv.bitwise_and<span style="color: #c099ff;">(</span>img, img, mask=mask<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'mask'</span>, mask<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'hsv'</span>, hsv<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'res'</span>, res<span style="color: #c099ff;">)</span>
-cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img'</span>, img<span style="color: #c099ff;">)</span>
-cv.waitKey<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+<span style="color: #a0522d;">res</span> = cv.bitwise_and<span style="color: #707183;">(</span>img, img, mask=mask<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'mask'</span>, mask<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'hsv'</span>, hsv<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'res'</span>, res<span style="color: #707183;">)</span>
+cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'img'</span>, img<span style="color: #707183;">)</span>
+cv.waitKey<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
 
 
 
@@ -2765,99 +2765,99 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
-<span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np 
+<pre class="src src-python"><span style="color: #a020f0;">import</span> cv2 <span style="color: #a020f0;">as</span> cv
+<span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np 
 
-<span style="color: #ff98a4;">cap</span> = cv.VideoCapture<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
+<span style="color: #a0522d;">cap</span> = cv.VideoCapture<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
 
-<span style="color: #c099ff;">while</span><span style="color: #c099ff;">(</span><span style="color: #ff995e;">True</span><span style="color: #c099ff;">)</span>:
-    <span style="color: #ff98a4;">ret</span>,<span style="color: #ff98a4;">img</span>=cap.read<span style="color: #c099ff;">()</span>
-    <span style="color: #c099ff;">if</span><span style="color: #c099ff;">(</span>ret == <span style="color: #ff995e;">True</span><span style="color: #c099ff;">)</span>:
-        hsv = cv.cvtColor<span style="color: #c099ff;">(</span>img, cv.COLOR_BGR2HSV<span style="color: #c099ff;">)</span>
-        ubb=<span style="color: #c099ff;">(</span>35, 40, 40<span style="color: #c099ff;">)</span>
-        uba=<span style="color: #c099ff;">(</span>95, 255, 255<span style="color: #c099ff;">)</span>
+<span style="color: #a020f0;">while</span><span style="color: #707183;">(</span><span style="color: #008b8b;">True</span><span style="color: #707183;">)</span>:
+    <span style="color: #a0522d;">ret</span>,<span style="color: #a0522d;">img</span>=cap.read<span style="color: #707183;">()</span>
+    <span style="color: #a020f0;">if</span><span style="color: #707183;">(</span>ret == <span style="color: #008b8b;">True</span><span style="color: #707183;">)</span>:
+        hsv = cv.cvtColor<span style="color: #707183;">(</span>img, cv.COLOR_BGR2HSV<span style="color: #707183;">)</span>
+        ubb=<span style="color: #707183;">(</span>35, 40, 40<span style="color: #707183;">)</span>
+        uba=<span style="color: #707183;">(</span>95, 255, 255<span style="color: #707183;">)</span>
 
-        mask = cv.inRange<span style="color: #c099ff;">(</span>hsv, ubb, uba<span style="color: #c099ff;">)</span>
-        res = cv.bitwise_or<span style="color: #c099ff;">(</span>img, img, mask=mask<span style="color: #c099ff;">)</span>
+        mask = cv.inRange<span style="color: #707183;">(</span>hsv, ubb, uba<span style="color: #707183;">)</span>
+        res = cv.bitwise_or<span style="color: #707183;">(</span>img, img, mask=mask<span style="color: #707183;">)</span>
 
-        cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img'</span>, img<span style="color: #c099ff;">)</span>
-        cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'res'</span>, res<span style="color: #c099ff;">)</span>
+        cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'img'</span>, img<span style="color: #707183;">)</span>
+        cv.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'res'</span>, res<span style="color: #707183;">)</span>
         
-        k =cv.waitKey<span style="color: #c099ff;">(</span>1<span style="color: #c099ff;">)</span> &amp; 0xFF
-        <span style="color: #c099ff;">if</span> k == 27 :
-            <span style="color: #c099ff;">break</span>
-    <span style="color: #c099ff;">else</span>:
-        <span style="color: #c099ff;">break</span>
+        k =cv.waitKey<span style="color: #707183;">(</span>1<span style="color: #707183;">)</span> &amp; 0xFF
+        <span style="color: #a020f0;">if</span> k == 27 :
+            <span style="color: #a020f0;">break</span>
+    <span style="color: #a020f0;">else</span>:
+        <span style="color: #a020f0;">break</span>
 
-cap.release<span style="color: #c099ff;">()</span>
-cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+cap.release<span style="color: #707183;">()</span>
+cv.destroyAllWindows<span style="color: #707183;">()</span>
 </pre>
 </div>
 
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c099ff;">import</span> cv2
-<span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np
+<pre class="src src-python"><span style="color: #a020f0;">import</span> cv2
+<span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
 
-<span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Iniciar la captura de video desde la c&#225;mara</span>
-<span style="color: #ff98a4;">cap</span> = cv2.VideoCapture<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Iniciar la captura de video desde la c&#225;mara</span>
+<span style="color: #a0522d;">cap</span> = cv2.VideoCapture<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
 
-<span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Definir el rango de color que quieres rastrear en el espacio de color HSV (en este caso, azul)</span>
-<span style="color: #ff98a4;">lower_blue</span> = np.array<span style="color: #c099ff;">(</span><span style="color: #ff995e;">[</span>100, 150, 0<span style="color: #ff995e;">]</span><span style="color: #c099ff;">)</span>
-<span style="color: #ff98a4;">upper_blue</span> = np.array<span style="color: #c099ff;">(</span><span style="color: #ff995e;">[</span>140, 255, 255<span style="color: #ff995e;">]</span><span style="color: #c099ff;">)</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Definir el rango de color que quieres rastrear en el espacio de color HSV (en este caso, azul)</span>
+<span style="color: #a0522d;">lower_blue</span> = np.array<span style="color: #707183;">(</span><span style="color: #7388d6;">[</span>40, 150, 0<span style="color: #7388d6;">]</span><span style="color: #707183;">)</span>
+<span style="color: #a0522d;">upper_blue</span> = np.array<span style="color: #707183;">(</span><span style="color: #7388d6;">[</span>85, 255, 255<span style="color: #7388d6;">]</span><span style="color: #707183;">)</span>
 
-<span style="color: #c099ff;">while</span> <span style="color: #ff995e;">True</span>:
-    <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Capturar frame por frame</span>
-    <span style="color: #ff98a4;">ret</span>, <span style="color: #ff98a4;">frame</span> = cap.read<span style="color: #c099ff;">()</span>
-    <span style="color: #c099ff;">if</span> <span style="color: #c099ff;">not</span> <span style="color: #ff98a4;">ret</span>:
-        <span style="color: #c099ff;">break</span>
+<span style="color: #a020f0;">while</span> <span style="color: #008b8b;">True</span>:
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Capturar frame por frame</span>
+    <span style="color: #a0522d;">ret</span>, <span style="color: #a0522d;">frame</span> = cap.read<span style="color: #707183;">()</span>
+    <span style="color: #a020f0;">if</span> <span style="color: #a020f0;">not</span> <span style="color: #a0522d;">ret</span>:
+        <span style="color: #a020f0;">break</span>
     
-    <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Convertir el frame de BGR a HSV</span>
-    hsv = cv2.cvtColor<span style="color: #c099ff;">(</span>frame, cv2.COLOR_BGR2HSV<span style="color: #c099ff;">)</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Convertir el frame de BGR a HSV</span>
+    hsv = cv2.cvtColor<span style="color: #707183;">(</span>frame, cv2.COLOR_BGR2HSV<span style="color: #707183;">)</span>
     
-    <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Crear una m&#225;scara que detecte solo el color azul</span>
-    <span style="color: #ff98a4;">mask</span> = cv2.inRange<span style="color: #c099ff;">(</span>hsv, lower_blue, upper_blue<span style="color: #c099ff;">)</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Crear una m&#225;scara que detecte solo el color azul</span>
+    <span style="color: #a0522d;">mask</span> = cv2.inRange<span style="color: #707183;">(</span>hsv, lower_blue, upper_blue<span style="color: #707183;">)</span>
     
-    <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Filtrar la m&#225;scara con operaciones morfol&#243;gicas</span>
-    <span style="color: #ff98a4;">mask</span> = cv2.erode<span style="color: #c099ff;">(</span>mask, <span style="color: #ff995e;">None</span>, iterations=2<span style="color: #c099ff;">)</span>
-    mask = cv2.dilate<span style="color: #c099ff;">(</span>mask, <span style="color: #ff995e;">None</span>, iterations=2<span style="color: #c099ff;">)</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Filtrar la m&#225;scara con operaciones morfol&#243;gicas</span>
+    <span style="color: #a0522d;">mask</span> = cv2.erode<span style="color: #707183;">(</span>mask, <span style="color: #008b8b;">None</span>, iterations=2<span style="color: #707183;">)</span>
+    mask = cv2.dilate<span style="color: #707183;">(</span>mask, <span style="color: #008b8b;">None</span>, iterations=2<span style="color: #707183;">)</span>
     
-    <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Encontrar contornos en la m&#225;scara</span>
-    contours, _ = cv2.findContours<span style="color: #c099ff;">(</span>mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE<span style="color: #c099ff;">)</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Encontrar contornos en la m&#225;scara</span>
+    contours, _ = cv2.findContours<span style="color: #707183;">(</span>mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE<span style="color: #707183;">)</span>
     
-    <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Si se encuentra al menos un contorno, seguir el objeto</span>
-    <span style="color: #c099ff;">if</span> contours:
-        <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Tomar el contorno m&#225;s grande</span>
-        largest_contour = <span style="color: #c099ff;">max</span><span style="color: #c099ff;">(</span>contours, key=cv2.contourArea<span style="color: #c099ff;">)</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Si se encuentra al menos un contorno, seguir el objeto</span>
+    <span style="color: #a020f0;">if</span> contours:
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">Tomar el contorno m&#225;s grande</span>
+        largest_contour = <span style="color: #483d8b;">max</span><span style="color: #707183;">(</span>contours, key=cv2.contourArea<span style="color: #707183;">)</span>
         
-        <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Encontrar el centro del contorno usando un c&#237;rculo m&#237;nimo que lo rodee</span>
-        <span style="color: #c099ff;">(</span><span style="color: #ff995e;">(</span>x, y<span style="color: #ff995e;">)</span>, radius<span style="color: #c099ff;">)</span> = cv2.minEnclosingCircle<span style="color: #c099ff;">(</span>largest_contour<span style="color: #c099ff;">)</span>
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">Encontrar el centro del contorno usando un c&#237;rculo m&#237;nimo que lo rodee</span>
+        <span style="color: #707183;">(</span><span style="color: #7388d6;">(</span>x, y<span style="color: #7388d6;">)</span>, radius<span style="color: #707183;">)</span> = cv2.minEnclosingCircle<span style="color: #707183;">(</span>largest_contour<span style="color: #707183;">)</span>
         
-        <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Dibujar el c&#237;rculo y el centro en el frame original si el radio es mayor que un umbral</span>
-        <span style="color: #c099ff;">if</span> radius &gt; 10:
-            cv2.circle<span style="color: #c099ff;">(</span>frame, <span style="color: #ff995e;">(</span><span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>x<span style="color: #ff98a4;">)</span>, <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>y<span style="color: #ff98a4;">)</span><span style="color: #ff995e;">)</span>, <span style="color: #c099ff;">int</span><span style="color: #ff995e;">(</span>radius<span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>0, 255, 255<span style="color: #ff995e;">)</span>, 2<span style="color: #c099ff;">)</span>
-            cv2.circle<span style="color: #c099ff;">(</span>frame, <span style="color: #ff995e;">(</span><span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>x<span style="color: #ff98a4;">)</span>, <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>y<span style="color: #ff98a4;">)</span><span style="color: #ff995e;">)</span>, 5, <span style="color: #ff995e;">(</span>0, 255, 255<span style="color: #ff995e;">)</span>, -1<span style="color: #c099ff;">)</span>
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">Dibujar el c&#237;rculo y el centro en el frame original si el radio es mayor que un umbral</span>
+        <span style="color: #a020f0;">if</span> radius &gt; 10:
+            cv2.circle<span style="color: #707183;">(</span>frame, <span style="color: #7388d6;">(</span><span style="color: #483d8b;">int</span><span style="color: #909183;">(</span>x<span style="color: #909183;">)</span>, <span style="color: #483d8b;">int</span><span style="color: #909183;">(</span>y<span style="color: #909183;">)</span><span style="color: #7388d6;">)</span>, <span style="color: #483d8b;">int</span><span style="color: #7388d6;">(</span>radius<span style="color: #7388d6;">)</span>, <span style="color: #7388d6;">(</span>0, 255, 255<span style="color: #7388d6;">)</span>, 2<span style="color: #707183;">)</span>
+            cv2.circle<span style="color: #707183;">(</span>frame, <span style="color: #7388d6;">(</span><span style="color: #483d8b;">int</span><span style="color: #909183;">(</span>x<span style="color: #909183;">)</span>, <span style="color: #483d8b;">int</span><span style="color: #909183;">(</span>y<span style="color: #909183;">)</span><span style="color: #7388d6;">)</span>, 5, <span style="color: #7388d6;">(</span>0, 255, 255<span style="color: #7388d6;">)</span>, -1<span style="color: #707183;">)</span>
     
-    <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Mostrar el frame</span>
-    cv2.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'Frame'</span>, frame<span style="color: #c099ff;">)</span>
-    cv2.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'Mask'</span>, mask<span style="color: #c099ff;">)</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Mostrar el frame</span>
+    cv2.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'Frame'</span>, frame<span style="color: #707183;">)</span>
+    cv2.imshow<span style="color: #707183;">(</span><span style="color: #8b2252;">'Mask'</span>, mask<span style="color: #707183;">)</span>
 
-    <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Salir si se presiona la tecla 'q'</span>
-    <span style="color: #c099ff;">if</span> cv2.waitKey<span style="color: #c099ff;">(</span>1<span style="color: #c099ff;">)</span> &amp; 0xFF == <span style="color: #c099ff;">ord</span><span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'q'</span><span style="color: #c099ff;">)</span>:
-        <span style="color: #c099ff;">break</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Salir si se presiona la tecla 'q'</span>
+    <span style="color: #a020f0;">if</span> cv2.waitKey<span style="color: #707183;">(</span>1<span style="color: #707183;">)</span> &amp; 0xFF == <span style="color: #483d8b;">ord</span><span style="color: #707183;">(</span><span style="color: #8b2252;">'q'</span><span style="color: #707183;">)</span>:
+        <span style="color: #a020f0;">break</span>
 
-<span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Liberar la captura y cerrar todas las ventanas</span>
-cap.release<span style="color: #c099ff;">()</span>
-cv2.destroyAllWindows<span style="color: #c099ff;">()</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Liberar la captura y cerrar todas las ventanas</span>
+cap.release<span style="color: #707183;">()</span>
+cv2.destroyAllWindows<span style="color: #707183;">()</span>
 
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org0225f62" class="outline-2">
-<h2 id="org0225f62">Bibliografía</h2>
-<div class="outline-text-2" id="text-org0225f62">
+<div id="outline-container-org3fc4266" class="outline-2">
+<h2 id="org3fc4266">Bibliografía</h2>
+<div class="outline-text-2" id="text-org3fc4266">
 <p>
 <a href="bibliografia.bib">bibliografia.bib</a>
 </p>
@@ -2866,7 +2866,7 @@ cv2.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: likcos</p>
-<p class="date">Created: 2024-09-26 jue 07:21</p>
+<p class="date">Created: 2024-09-26 jue 07:28</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
