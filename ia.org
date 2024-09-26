@@ -1155,6 +1155,9 @@ artificial, por ejemplo comprensión del lenguaje, los juegos no
 necesitan grandes cantidades de algoritmos. Los juegos más utilizados
 son las damas y el ajedrez.
 
+
+
+
 * Grafos
 
 Un grafo es un conjunto de puntos (vértices) en el espacio, que están conectados
@@ -1718,5 +1721,256 @@ graph.view()
 print("Hola")
 #+END_SRC
 
+* Programación
+
+#+BEGIN_SRC python :results output
+import cv2 as cv
+import numpy as np 
+img = cv.imread('tr.png',0)
+x,y=img.shape
+img2 = np.zeros((x*2,y*2), dtype='uint8')
+for i in range(x):
+    for j in range(y):
+        if(img[i,j]>150):
+            img[i, j]=255
+        else:
+            img[i,j] = 0
+
+print(img.shape)
+#cv.imshow('img2', img2)
+cv.imshow('img', img)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+#+END_SRC
+
+#+BEGIN_SRC python
+import cv2 as cv
+
+cap = cv.VideoCapture(0)
+
+while(True):
+    ret, img =cap.read()
+    if ret == True:
+        cv.imshow('img', img)
+    	k =cv.waitKey(1) & 0xFF
+	if k == 27 :
+	    break
+    else:
+	break
+
+cap.release()
+cv.destroyAllWindows()
+
+#+END_SRC
+
+#+RESULTS:
+: None
+
+#+BEGIN_SRC python :results output
+import cv2 as cv
+import numpy as np 
+img = cv.imread('tr.png',0)
+print(img.shape)
+x,y = img.shape
+img2 = np.zeros((x*2,y*2), dtype='uint8')
+for i in range(x):
+    for j in range(y):
+        img2[i*2,j*2]=img[i,j]
+
+cv.imshow('img', img)
+cv.imshow('img2', img2)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+#+END_SRC
+
+#+RESULTS:
+: (632, 635)
+
+
+#+BEGIN_SRC python
+import cv2 as cv 
+
+img = cv.imread('tr.png', 1)
+gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+rgb = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+
+cv.imshow('img', img)
+cv.imshow('gray', gray)
+cv.imshow('rgb', rgb)
+cv.imshow('hsv', hsv)
+
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+#+END_SRC
+
+#+RESULTS:
+: None
+
+#+BEGIN_SRC python 
+import cv2 as cv
+import numpy as np 
+
+cap = cv.VideoCapture(0)
+
+while(True):
+    ret,img=cap.read()
+    if(ret == True):
+        cv.imshow('marco', img)
+        x,y = img.shape[:2]
+        img2 = np.zeros((x,y), dtype='uint8')
+       
+        #hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        #cv.imshow('hsv', hsv)
+        b,g,r = cv.split(img)
+        bm = cv.merge([b,img2, img2])
+        gm = cv.merge([img2, g, img2])
+        rm = cv.merge([img2, img2, r])
+        eje = cv.merge([b,r,g])
+        cv.imshow('b', bm)
+        cv.imshow('g', gm)
+        cv.imshow('r', rm)
+        cv.imshow('eje', eje)
+        k =cv.waitKey(1) & 0xFF
+	if k == 27 :
+	    break
+    else:
+        break
+
+cap.release()
+cv.destroyAllWindows()
+#+END_SRC
+
+#+RESULTS:
+: None
+
+#+BEGIN_SRC python
+import cv2 as cv
+
+img = cv.imread('man1.jpg', 1)
+hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+ubb=(0, 100, 100)
+uba=(10, 255, 255)
+ubb2=(170, 100, 100)
+uba2=(180, 255, 255)
+
+mask1 = cv.inRange(hsv, ubb, uba)
+mask2 = cv.inRange(hsv, ubb2, uba2)
+mask = mask1 + mask2
+
+
+res = cv.bitwise_and(img, img, mask=mask)
+cv.imshow('mask', mask)
+cv.imshow('hsv', hsv)
+cv.imshow('res', res)
+cv.imshow('img', img)
+cv.waitKey(0)
+cv.destroyAllWindows()
+
+
+
+
+#+END_SRC
+
+#+RESULTS:
+: None
+
+#+BEGIN_SRC python 
+import cv2 as cv
+import numpy as np 
+
+cap = cv.VideoCapture(0)
+
+while(True):
+    ret,img=cap.read()
+    if(ret == True):
+        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        ubb=(35, 40, 40)
+        uba=(95, 255, 255)
+
+        mask = cv.inRange(hsv, ubb, uba)
+        res = cv.bitwise_or(img, img, mask=mask)
+
+        cv.imshow('img', img)
+        cv.imshow('res', res)
+        
+        k =cv.waitKey(1) & 0xFF
+	if k == 27 :
+	    break
+    else:
+        break
+
+cap.release()
+cv.destroyAllWindows()
+#+END_SRC
+
+#+RESULTS:
+: None
+
+
+#+BEGIN_SRC python 
+import cv2
+import numpy as np
+
+# Iniciar la captura de video desde la cámara
+cap = cv2.VideoCapture(0)
+
+# Definir el rango de color que quieres rastrear en el espacio de color HSV (en este caso, azul)
+lower_blue = np.array([40, 150, 0])
+upper_blue = np.array([85, 255, 255])
+
+while True:
+    # Capturar frame por frame
+    ret, frame = cap.read()
+    if not ret:
+        break
+    
+    # Convertir el frame de BGR a HSV
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    
+    # Crear una máscara que detecte solo el color azul
+    mask = cv2.inRange(hsv, lower_blue, upper_blue)
+    
+    # Filtrar la máscara con operaciones morfológicas
+    mask = cv2.erode(mask, None, iterations=2)
+    mask = cv2.dilate(mask, None, iterations=2)
+    
+    # Encontrar contornos en la máscara
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    
+    # Si se encuentra al menos un contorno, seguir el objeto
+    if contours:
+        # Tomar el contorno más grande
+        largest_contour = max(contours, key=cv2.contourArea)
+        
+        # Encontrar el centro del contorno usando un círculo mínimo que lo rodee
+        ((x, y), radius) = cv2.minEnclosingCircle(largest_contour)
+        
+        # Dibujar el círculo y el centro en el frame original si el radio es mayor que un umbral
+        if radius > 10:
+            cv2.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
+            cv2.circle(frame, (int(x), int(y)), 5, (0, 255, 255), -1)
+    
+    # Mostrar el frame
+    cv2.imshow('Frame', frame)
+    cv2.imshow('Mask', mask)
+
+    # Salir si se presiona la tecla 'q'
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# Liberar la captura y cerrar todas las ventanas
+cap.release()
+cv2.destroyAllWindows()
+
+#+END_SRC
+
+#+RESULTS:
+: None
+
 * Bibliografía
 bibliography:bibliografia.bib
+
