@@ -1979,7 +1979,7 @@ cv2.destroyAllWindows()
 #+RESULTS:
 : None
 
-*** Haarcascades 
+** Haarcascades 
 Los Haar Cascades son una técnica utilizada en el campo de la visión
 por computadora para la detección de objetos. Fueron introducidos por
 Paul Viola y Michael Jones en su artículo seminal "Rapid Object
@@ -1992,7 +1992,7 @@ objetos.
 #+ATTR_LATEX: :width 0.3\textwidth
 [[file:img/cascade.png]]
 
-**** Conceptos Clave: 
+*** Conceptos Clave: 
 Características de Haar: Son patrones visuales
  simples que se pueden calcular rápidamente en una imagen. Estas
  características se asemejan a pequeñas versiones de núcleos de wavelet
@@ -2000,20 +2000,20 @@ Características de Haar: Son patrones visuales
  de textura, y otras propiedades visuales.
 
  
-**** Imágenes Integrales: 
+*** Imágenes Integrales: 
 Para acelerar el cálculo de las características
  de Haar, se utiliza un concepto llamado imagen integral. Una imagen
  integral permite calcular la suma de los valores de los píxeles en
  cualquier área rectangular de la imagen en tiempo constante.
 
-****  Adaboost: 
+***  Adaboost: 
 Es un método de aprendizaje automático utilizado para
  mejorar la eficiencia de la detección. Selecciona un pequeño número
  de características críticas de un conjunto más grande y construye
  clasificadores "débiles". Luego, estos se combinan en un clasificador
  más fuerte y eficiente.
 
-****  Cascadas: 
+***  Cascadas: 
 En lugar de aplicar todas las características a una ventana de la
 imagen, se organizan en una secuencia de etapas (cascadas). Cada etapa
 tiene su propio clasificador (hecho con Adaboost) y solo pasa las
@@ -2044,7 +2044,7 @@ Pre-procesamiento: Se convierte la imagen en
  profundo. Sin embargo, siguen siendo utilizados debido a su
  simplicidad y bajo requerimiento de recursos computacionales.
 
-**** Ejemplo de un Haarcascade
+*** Ejemplo de un Haarcascade
 
 https://github.com/opencv/opencv/tree/master/data/haarcascades
 

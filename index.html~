@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
 <head>
-<!-- 2024-09-26 jue 10:04 -->
+<!-- 2024-10-02 mié 07:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Apuntes IA</title>
@@ -230,145 +230,149 @@
 <h2>&Iacute;ndice</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org56674df">Introducción a la Inteligencia Artificial</a>
+<li><a href="#org192595a">Introducción a la Inteligencia Artificial</a>
 <ul>
-<li><a href="#org3d90fe9">Introducción a la Inteligencia Artificial.</a>
+<li><a href="#org7853144">Introducción a la Inteligencia Artificial.</a>
 <ul>
-<li><a href="#orgd8332a9">Categorías de la Inteligencia Artificial</a></li>
-<li><a href="#org54df40b">Inteligencia artificial convencional</a></li>
+<li><a href="#org753df08">Categorías de la Inteligencia Artificial</a></li>
+<li><a href="#org22681af">Inteligencia artificial convencional</a></li>
 </ul>
 </li>
-<li><a href="#org5d6a4cd">Historia de la Inteligencia Artificial.</a></li>
-<li><a href="#orgbffabce">Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).</a>
+<li><a href="#orga0f15d8">Historia de la Inteligencia Artificial.</a></li>
+<li><a href="#org3564d0e">Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).</a>
 <ul>
-<li><a href="#orgab9c17e">Teorías de la Inteligencia</a></li>
+<li><a href="#orgad036c2">Teorías de la Inteligencia</a></li>
 </ul>
 </li>
-<li><a href="#orgcb620e0">El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).</a></li>
-<li><a href="#org0f63e1f">El modelo de adquisición del conocimiento según la filosofía.</a></li>
-<li><a href="#org479e902">El modelo cognoscitivo.</a>
+<li><a href="#org0879ec6">El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).</a></li>
+<li><a href="#orgc82af8a">El modelo de adquisición del conocimiento según la filosofía.</a></li>
+<li><a href="#org57f9289">El modelo cognoscitivo.</a>
 <ul>
-<li><a href="#orgd76277b">Fundamentos del Modelo Cognoscitivo</a></li>
-<li><a href="#org188f449">Aplicaciones del Modelo Cognoscitivo</a></li>
-<li><a href="#org11a0690">Críticas y Limitaciones</a></li>
-<li><a href="#org2fdd49b">Evolución y Expansión</a></li>
-<li><a href="#orgadc67c6">Conclusión</a></li>
+<li><a href="#org0ac95aa">Fundamentos del Modelo Cognoscitivo</a></li>
+<li><a href="#orga3c78d9">Aplicaciones del Modelo Cognoscitivo</a></li>
+<li><a href="#orged28ba8">Críticas y Limitaciones</a></li>
+<li><a href="#org19781a3">Evolución y Expansión</a></li>
+<li><a href="#org5f7bacf">Conclusión</a></li>
 </ul>
 </li>
-<li><a href="#org045d1de">El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.</a>
+<li><a href="#orgc08de72">El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.</a>
 <ul>
-<li><a href="#org5bb1149">El Modelo del Agente Inteligente</a></li>
-<li><a href="#org3bad433">Sistemas Multi-Agente (SMA)</a></li>
-<li><a href="#org9ce7e50">Sistemas Ubicuos</a></li>
-<li><a href="#org558c98f">Integración y Aplicaciones</a></li>
-<li><a href="#org5ebf83f">Conclusión</a></li>
+<li><a href="#orgabc27fa">El Modelo del Agente Inteligente</a></li>
+<li><a href="#org9a4bb97">Sistemas Multi-Agente (SMA)</a></li>
+<li><a href="#org5f3ad13">Sistemas Ubicuos</a></li>
+<li><a href="#orgcb87b07">Integración y Aplicaciones</a></li>
+<li><a href="#orgdd0c6ea">Conclusión</a></li>
 </ul>
 </li>
-<li><a href="#org101bc3c">El papel de la heurística.</a>
+<li><a href="#orgc75d171">El papel de la heurística.</a>
 <ul>
-<li><a href="#org543314f">Ventajas y Limitaciones</a></li>
-<li><a href="#org9fd561b">1.8.1 Algoritmos de exploración de alternativas.</a></li>
-<li><a href="#org31c7c94">1.8.2 Algoritmo A*.</a></li>
-<li><a href="#org7006e5b">1.8.3 Algoritmos de búsqueda local.</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#org8be7f5c">Análisis de información</a>
-<ul>
-<li><a href="#orgde46ce6">Programación</a>
-<ul>
-<li><a href="#org88fdc3b">Carga de imágenes y propiedades</a></li>
-<li><a href="#org1a5a40b">Operadores Puntuales</a></li>
-<li><a href="#orgdc25c75">Modelos de color</a></li>
-<li><a href="#org9c61267">Segmentación de Color</a></li>
-<li><a href="#org5251740">Haarcascades</a></li>
+<li><a href="#orgd38091f">Ventajas y Limitaciones</a></li>
+<li><a href="#org69f60b2">1.8.1 Algoritmos de exploración de alternativas.</a></li>
+<li><a href="#org76cc936">1.8.2 Algoritmo A*.</a></li>
+<li><a href="#orgdf3af58">1.8.3 Algoritmos de búsqueda local.</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org243522d">Espacio de estados</a>
+<li><a href="#org1548639">Análisis de información</a>
 <ul>
-<li><a href="#orgef058ed">Ejemplo de espacio de estados</a>
+<li><a href="#orgeef5986">Programación</a>
 <ul>
-<li><a href="#orgcd057bf">Descripción del problema</a></li>
-<li><a href="#org28465d8">Representación de las configuraciones del universo del problema:</a></li>
-<li><a href="#org490ecda">Definición de las reglas de transición:</a></li>
-<li><a href="#org771cc4c">Generación del espacio de estados</a></li>
-<li><a href="#org4c28461">Problemas de los Canibales y Monjes</a></li>
-<li><a href="#orge00fb95">El espacio de estados está definido por</a></li>
-</ul>
-</li>
-<li><a href="#org30ac53f">Representación de espacio de estados</a></li>
-<li><a href="#org66e079c">El problema del n-Puzzle</a>
-<ul>
-<li><a href="#org4c071bf">Caracterización de las búsquedas ciegas.</a></li>
-<li><a href="#org3e41fc8">Caracterización de las búsquedas heurísticas.</a></li>
+<li><a href="#org17c2498">Carga de imágenes y propiedades</a></li>
+<li><a href="#org745e441">Operadores Puntuales</a></li>
+<li><a href="#orgd1ba6cc">Modelos de color</a></li>
+<li><a href="#org9390eef">Segmentación de Color</a></li>
+<li><a href="#org5438f00">Haarcascades</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org4e831b6">Técnicas de Búsqueda</a>
+<li><a href="#org6bfc5a1">Espacio de estados</a>
 <ul>
-<li><a href="#org143f20b">Solución de problemas con búsqueda.</a></li>
-<li><a href="#org5a9cb81">Espacios de Estados</a>
+<li><a href="#org7f0f921">Ejemplo de espacio de estados</a>
 <ul>
-<li><a href="#orgff21a8c">Deterministicos</a></li>
-<li><a href="#org7583cb8">No Deterministicos</a></li>
+<li><a href="#org979fdc1">Descripción del problema</a></li>
+<li><a href="#orgf4667f3">Representación de las configuraciones del universo del problema:</a></li>
+<li><a href="#org0cc054a">Definición de las reglas de transición:</a></li>
+<li><a href="#org2e4778e">Generación del espacio de estados</a></li>
+<li><a href="#orgeccac0d">Problemas de los Canibales y Monjes</a></li>
+<li><a href="#orgea23254">El espacio de estados está definido por</a></li>
 </ul>
 </li>
-<li><a href="#orge14a946">Métodos de Búsqueda</a>
+<li><a href="#org38e3501">Representación de espacio de estados</a></li>
+<li><a href="#org912ea11">El problema del n-Puzzle</a>
 <ul>
-<li><a href="#org41bd1eb">Primero en anchura (breadthfirst)</a></li>
-<li><a href="#orgfe27c4d">Primero en profundidad (depthfirst).</a></li>
-<li><a href="#org0e2f6f1">Búsqueda Heurística</a></li>
-</ul>
-</li>
-<li><a href="#org0bf51d4">Satisfacción de restricciones.</a></li>
-</ul>
-</li>
-<li><a href="#orga850820">Teoría de juegos.</a></li>
-<li><a href="#orgbf35f09">Grafos</a></li>
-<li><a href="#org1a4ad63">Tipos de grafos</a></li>
-<li><a href="#org88447f3">Machine Learning</a>
-<ul>
-<li><a href="#orgb46f7f9">Tipos de Algoritmos</a></li>
-<li><a href="#orgebae709">Técnicas de clasificación</a></li>
-<li><a href="#org24db5c5">Clasificador en Cascada</a>
-<ul>
-<li><a href="#orgf683d7d">Ejemplo de clasificación utilizando Haarcascades</a></li>
-</ul>
-</li>
-<li><a href="#orga8a682a">Segmentación de Color</a></li>
-<li><a href="#org87e7c4f">Árboles de decisión</a>
-<ul>
-<li><a href="#orgb2f02b7">Elementos</a></li>
-<li><a href="#orga2648da">Algunas ventajas de los árboles de decisión son:</a></li>
-<li><a href="#org9de6883">Desventajas de los árboles de decisión:</a></li>
-<li><a href="#orgc9b9f63">Ejemplo de Clasificación, Árbol de decisión scikit-learn</a></li>
+<li><a href="#org25d1578">Caracterización de las búsquedas ciegas.</a></li>
+<li><a href="#org6e3de81">Caracterización de las búsquedas heurísticas.</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org2de198d">Programación</a>
+<li><a href="#org0059f86">Técnicas de Búsqueda</a>
 <ul>
-<li><a href="#org7cac072">Segmentación de color en vídeo</a></li>
-<li><a href="#orgb1415fb">Seguimiento Por color</a></li>
+<li><a href="#org60225bf">Solución de problemas con búsqueda.</a></li>
+<li><a href="#org8c17049">Espacios de Estados</a>
+<ul>
+<li><a href="#org00528a7">Deterministicos</a></li>
+<li><a href="#org3ee4e6f">No Deterministicos</a></li>
 </ul>
 </li>
-<li><a href="#org7fad296">Bibliografía</a></li>
+<li><a href="#orgb2afb67">Métodos de Búsqueda</a>
+<ul>
+<li><a href="#org8228c98">Primero en anchura (breadthfirst)</a></li>
+<li><a href="#org688c471">Primero en profundidad (depthfirst).</a></li>
+<li><a href="#org1f42d8f">Búsqueda Heurística</a></li>
+</ul>
+</li>
+<li><a href="#orgf990a26">Satisfacción de restricciones.</a></li>
+</ul>
+</li>
+<li><a href="#org01957b9">Teoría de juegos.</a></li>
+<li><a href="#org883a021">Grafos</a></li>
+<li><a href="#orgef6d270">Tipos de grafos</a></li>
+<li><a href="#org4c4102a">Machine Learning</a>
+<ul>
+<li><a href="#org52539e8">Tipos de Algoritmos</a></li>
+<li><a href="#orgdc1e171">Técnicas de clasificación</a></li>
+<li><a href="#orge621230">Clasificador en Cascada</a>
+<ul>
+<li><a href="#org0e0e27a">Ejemplo de clasificación utilizando Haarcascades</a></li>
+</ul>
+</li>
+<li><a href="#org3aaa8d8">Segmentación de Color</a></li>
+<li><a href="#org2f48a31">Árboles de decisión</a>
+<ul>
+<li><a href="#orgb55f994">Elementos</a></li>
+<li><a href="#org7d43b87">Algunas ventajas de los árboles de decisión son:</a></li>
+<li><a href="#orgaaabceb">Desventajas de los árboles de decisión:</a></li>
+<li><a href="#orga4e691b">Ejemplo de Clasificación, Árbol de decisión scikit-learn</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org9b8091e">Programación</a>
+<ul>
+<li><a href="#org943a6b7">Segmentación de color en vídeo</a></li>
+<li><a href="#org6d72ad1">Seguimiento Por color</a>
+<ul>
+<li><a href="#org506bf48">Haarcascades</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orge2042a5">Bibliografía</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org56674df" class="outline-2">
-<h2 id="org56674df">Introducción a la Inteligencia Artificial</h2>
-<div class="outline-text-2" id="text-org56674df">
+<div id="outline-container-org192595a" class="outline-2">
+<h2 id="org192595a">Introducción a la Inteligencia Artificial</h2>
+<div class="outline-text-2" id="text-org192595a">
 </div>
-<div id="outline-container-org3d90fe9" class="outline-3">
-<h3 id="org3d90fe9">Introducción a la Inteligencia Artificial.</h3>
-<div class="outline-text-3" id="text-org3d90fe9">
+<div id="outline-container-org7853144" class="outline-3">
+<h3 id="org7853144">Introducción a la Inteligencia Artificial.</h3>
+<div class="outline-text-3" id="text-org7853144">
 <p>
 La inteligencia artificial (IA) es un área multidisciplinaria que, a
  través de ciencias como las ciencias de la computación, la lógica y la
@@ -417,9 +421,9 @@ computador, y otros videojuegos.
 </p>
 </div>
 
-<div id="outline-container-orgd8332a9" class="outline-4">
-<h4 id="orgd8332a9">Categorías de la Inteligencia Artificial</h4>
-<div class="outline-text-4" id="text-orgd8332a9">
+<div id="outline-container-org753df08" class="outline-4">
+<h4 id="org753df08">Categorías de la Inteligencia Artificial</h4>
+<div class="outline-text-4" id="text-org753df08">
 <ul class="org-ul">
 <li><b>Sistemas que piensan como humanos</b>. Estos sistemas tratan de emular
 el pensamiento humano; por ejemplo las redes neuronales
@@ -440,9 +444,9 @@ conductas inteligentes en artefactos. <a href="Russell">Russell</a></li>
 </div>
 </div>
 
-<div id="outline-container-org54df40b" class="outline-4">
-<h4 id="org54df40b">Inteligencia artificial convencional</h4>
-<div class="outline-text-4" id="text-org54df40b">
+<div id="outline-container-org22681af" class="outline-4">
+<h4 id="org22681af">Inteligencia artificial convencional</h4>
+<div class="outline-text-4" id="text-org22681af">
 <p>
 Se conoce también como IA simbólico-deductiva. Está basada en el análisis formal y
 estadístico del comportamiento humano ante diferentes problemas:
@@ -469,15 +473,15 @@ igual que lo haría un especialista en la dicha actividad.</li>
 
 
 
-<div id="outline-container-org5d6a4cd" class="outline-3">
-<h3 id="org5d6a4cd">Historia de la Inteligencia Artificial.</h3>
+<div id="outline-container-orga0f15d8" class="outline-3">
+<h3 id="orga0f15d8">Historia de la Inteligencia Artificial.</h3>
 </div>
 
 
 
-<div id="outline-container-orgbffabce" class="outline-3">
-<h3 id="orgbffabce">Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).</h3>
-<div class="outline-text-3" id="text-orgbffabce">
+<div id="outline-container-org3564d0e" class="outline-3">
+<h3 id="org3564d0e">Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).</h3>
+<div class="outline-text-3" id="text-org3564d0e">
 <p>
 Las habilidades cognoscitivas son capacidades mentales que nos
 permiten procesar toda la información que nos llega del
@@ -490,9 +494,9 @@ inteligencia.
 </p>
 </div>
 
-<div id="outline-container-orgab9c17e" class="outline-4">
-<h4 id="orgab9c17e">Teorías de la Inteligencia</h4>
-<div class="outline-text-4" id="text-orgab9c17e">
+<div id="outline-container-orgad036c2" class="outline-4">
+<h4 id="orgad036c2">Teorías de la Inteligencia</h4>
+<div class="outline-text-4" id="text-orgad036c2">
 <ol class="org-ol">
 <li><b>Conductismo</b> El conductismo, representado por figuras como
 John B. Watson y B.F. Skinner, se centra en el estudio de
@@ -565,9 +569,9 @@ puede ser completamente comprendido a través de un solo enfoque.
 </div>
 
 
-<div id="outline-container-orgcb620e0" class="outline-3">
-<h3 id="orgcb620e0">El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).</h3>
-<div class="outline-text-3" id="text-orgcb620e0">
+<div id="outline-container-org0879ec6" class="outline-3">
+<h3 id="org0879ec6">El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).</h3>
+<div class="outline-text-3" id="text-org0879ec6">
 <p>
 El proceso de razonamiento según la lógica involucra varios conceptos
 fundamentales como axiomas, teoremas y demostraciones. Estos elementos
@@ -620,9 +624,9 @@ dependen de la lógica formal.
 </div>
 </div>
 
-<div id="outline-container-org0f63e1f" class="outline-3">
-<h3 id="org0f63e1f">El modelo de adquisición del conocimiento según la filosofía.</h3>
-<div class="outline-text-3" id="text-org0f63e1f">
+<div id="outline-container-orgc82af8a" class="outline-3">
+<h3 id="orgc82af8a">El modelo de adquisición del conocimiento según la filosofía.</h3>
+<div class="outline-text-3" id="text-orgc82af8a">
 <p>
 El modelo de adquisición del conocimiento según la filosofía aborda
 cómo los seres humanos entienden, aprenden y conocen el mundo que les
@@ -694,9 +698,9 @@ interactuamos con el mundo que nos rodea.
 </div>
 
 
-<div id="outline-container-org479e902" class="outline-3">
-<h3 id="org479e902">El modelo cognoscitivo.</h3>
-<div class="outline-text-3" id="text-org479e902">
+<div id="outline-container-org57f9289" class="outline-3">
+<h3 id="org57f9289">El modelo cognoscitivo.</h3>
+<div class="outline-text-3" id="text-org57f9289">
 <p>
 El modelo cognoscitivo es un enfoque teórico en la psicología que pone
 énfasis en la comprensión de los procesos mentales internos que
@@ -711,9 +715,9 @@ rama de la psicología que estudia los procesos mentales internos.
 </div>
 
 
-<div id="outline-container-orgd76277b" class="outline-4">
-<h4 id="orgd76277b">Fundamentos del Modelo Cognoscitivo</h4>
-<div class="outline-text-4" id="text-orgd76277b">
+<div id="outline-container-org0ac95aa" class="outline-4">
+<h4 id="org0ac95aa">Fundamentos del Modelo Cognoscitivo</h4>
+<div class="outline-text-4" id="text-org0ac95aa">
 <p>
 El modelo cognoscitivo se basa en la premisa de que la mente funciona
 de manera similar a un ordenador: recibe datos (inputs), los procesa
@@ -738,9 +742,9 @@ ejecutamos el razonamiento lógico.</li>
 </div>
 
 
-<div id="outline-container-org188f449" class="outline-4">
-<h4 id="org188f449">Aplicaciones del Modelo Cognoscitivo</h4>
-<div class="outline-text-4" id="text-org188f449">
+<div id="outline-container-orga3c78d9" class="outline-4">
+<h4 id="orga3c78d9">Aplicaciones del Modelo Cognoscitivo</h4>
+<div class="outline-text-4" id="text-orga3c78d9">
 <p>
 El modelo cognoscitivo ha tenido aplicaciones extensas en varios campos, incluyendo:
 </p>
@@ -760,9 +764,9 @@ más intuitivas.</li>
 </div>
 </div>
 
-<div id="outline-container-org11a0690" class="outline-4">
-<h4 id="org11a0690">Críticas y Limitaciones</h4>
-<div class="outline-text-4" id="text-org11a0690">
+<div id="outline-container-orged28ba8" class="outline-4">
+<h4 id="orged28ba8">Críticas y Limitaciones</h4>
+<div class="outline-text-4" id="text-orged28ba8">
 <p>
 A pesar de su influencia y aplicabilidad, el modelo cognoscitivo también ha enfrentado críticas, principalmente por:
 </p>
@@ -777,9 +781,9 @@ contexto social afectan el procesamiento cognitivo.</li>
 </div>
 </div>
 
-<div id="outline-container-org2fdd49b" class="outline-4">
-<h4 id="org2fdd49b">Evolución y Expansión</h4>
-<div class="outline-text-4" id="text-org2fdd49b">
+<div id="outline-container-org19781a3" class="outline-4">
+<h4 id="org19781a3">Evolución y Expansión</h4>
+<div class="outline-text-4" id="text-org19781a3">
 <p>
 En respuesta a estas críticas, el modelo cognoscitivo ha evolucionado
 para incorporar aspectos emocionales y sociales en el estudio de los
@@ -790,9 +794,9 @@ la interacción entre cognición, emoción y contextos sociales.
 </div>
 </div>
 
-<div id="outline-container-orgadc67c6" class="outline-4">
-<h4 id="orgadc67c6">Conclusión</h4>
-<div class="outline-text-4" id="text-orgadc67c6">
+<div id="outline-container-org5f7bacf" class="outline-4">
+<h4 id="org5f7bacf">Conclusión</h4>
+<div class="outline-text-4" id="text-org5f7bacf">
 <p>
 El modelo cognoscitivo ha sido fundamental en el avance de nuestra
 comprensión de los procesos mentales y ha revolucionado la forma en
@@ -809,9 +813,9 @@ cognición humana.
 
 
 
-<div id="outline-container-org045d1de" class="outline-3">
-<h3 id="org045d1de">El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.</h3>
-<div class="outline-text-3" id="text-org045d1de">
+<div id="outline-container-orgc08de72" class="outline-3">
+<h3 id="orgc08de72">El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.</h3>
+<div class="outline-text-3" id="text-orgc08de72">
 <p>
 El modelo del agente inteligente, los Sistemas Multi-Agente (SMA) y
 los Sistemas Ubicuos son conceptos fundamentales en el ámbito de la
@@ -824,9 +828,9 @@ significado, funcionamiento y aplicaciones.
 </p>
 </div>
 
-<div id="outline-container-org5bb1149" class="outline-4">
-<h4 id="org5bb1149">El Modelo del Agente Inteligente</h4>
-<div class="outline-text-4" id="text-org5bb1149">
+<div id="outline-container-orgabc27fa" class="outline-4">
+<h4 id="orgabc27fa">El Modelo del Agente Inteligente</h4>
+<div class="outline-text-4" id="text-orgabc27fa">
 <p>
 Un agente inteligente es una entidad autónoma capaz de percibir su
 entorno a través de sensores y actuar en ese entorno utilizando
@@ -842,9 +846,9 @@ establecidos.
 </div>
 
 
-<div id="outline-container-org3bad433" class="outline-4">
-<h4 id="org3bad433">Sistemas Multi-Agente (SMA)</h4>
-<div class="outline-text-4" id="text-org3bad433">
+<div id="outline-container-org9a4bb97" class="outline-4">
+<h4 id="org9a4bb97">Sistemas Multi-Agente (SMA)</h4>
+<div class="outline-text-4" id="text-org9a4bb97">
 <p>
 Los Sistemas Multi-Agente son sistemas compuestos por varios agentes
 inteligentes que interactúan entre sí dentro de un entorno. Estos
@@ -860,9 +864,9 @@ juegos serios para la educación y la formación.
 </div>
 
 
-<div id="outline-container-org9ce7e50" class="outline-4">
-<h4 id="org9ce7e50">Sistemas Ubicuos</h4>
-<div class="outline-text-4" id="text-org9ce7e50">
+<div id="outline-container-org5f3ad13" class="outline-4">
+<h4 id="org5f3ad13">Sistemas Ubicuos</h4>
+<div class="outline-text-4" id="text-org5f3ad13">
 <p>
 Los Sistemas Ubicuos, también conocidos como computación ubicua, se
 refieren a la integración de la computación en el entorno cotidiano
@@ -880,9 +884,9 @@ monitorizan constantemente el bienestar del usuario.
 </div>
 
 
-<div id="outline-container-org558c98f" class="outline-4">
-<h4 id="org558c98f">Integración y Aplicaciones</h4>
-<div class="outline-text-4" id="text-org558c98f">
+<div id="outline-container-orgcb87b07" class="outline-4">
+<h4 id="orgcb87b07">Integración y Aplicaciones</h4>
+<div class="outline-text-4" id="text-orgcb87b07">
 <p>
 La integración de estos conceptos permite el desarrollo de soluciones
 innovadoras a problemas complejos. Por ejemplo, un SMA puede ser
@@ -896,9 +900,9 @@ maximizar la eficiencia y minimizar los costos.
 </div>
 </div>
 
-<div id="outline-container-org5ebf83f" class="outline-4">
-<h4 id="org5ebf83f">Conclusión</h4>
-<div class="outline-text-4" id="text-org5ebf83f">
+<div id="outline-container-orgdd0c6ea" class="outline-4">
+<h4 id="orgdd0c6ea">Conclusión</h4>
+<div class="outline-text-4" id="text-orgdd0c6ea">
 <p>
 El modelo del agente inteligente, los Sistemas Multi-Agente y los
 Sistemas Ubicuos representan áreas clave en la investigación y
@@ -913,9 +917,9 @@ adaptativas para una amplia gama de desafíos en la sociedad moderna.
 </div>
 </div>
 
-<div id="outline-container-org101bc3c" class="outline-3">
-<h3 id="org101bc3c">El papel de la heurística.</h3>
-<div class="outline-text-3" id="text-org101bc3c">
+<div id="outline-container-orgc75d171" class="outline-3">
+<h3 id="orgc75d171">El papel de la heurística.</h3>
+<div class="outline-text-3" id="text-orgc75d171">
 <p>
 <b>Búsqueda Heurística:</b> En la búsqueda heurística, las técnicas
 heurísticas se utilizan para acelerar el proceso de búsqueda de
@@ -952,9 +956,9 @@ y la predicción.</li>
 </ul>
 </div>
 
-<div id="outline-container-org543314f" class="outline-4">
-<h4 id="org543314f">Ventajas y Limitaciones</h4>
-<div class="outline-text-4" id="text-org543314f">
+<div id="outline-container-orgd38091f" class="outline-4">
+<h4 id="orgd38091f">Ventajas y Limitaciones</h4>
+<div class="outline-text-4" id="text-orgd38091f">
 <p>
 Las principales ventajas de utilizar heurísticas en la IA incluyen la
 capacidad de encontrar soluciones de manera más rápida y eficiente que
@@ -979,18 +983,18 @@ IA en una amplia gama de aplicaciones prácticas.</li>
 
 
 
-<div id="outline-container-org9fd561b" class="outline-4">
-<h4 id="org9fd561b">1.8.1 Algoritmos de exploración de alternativas.</h4>
+<div id="outline-container-org69f60b2" class="outline-4">
+<h4 id="org69f60b2">1.8.1 Algoritmos de exploración de alternativas.</h4>
 </div>
 
 
-<div id="outline-container-org31c7c94" class="outline-4">
-<h4 id="org31c7c94">1.8.2 Algoritmo A*.</h4>
-<div class="outline-text-4" id="text-org31c7c94">
+<div id="outline-container-org76cc936" class="outline-4">
+<h4 id="org76cc936">1.8.2 Algoritmo A*.</h4>
+<div class="outline-text-4" id="text-org76cc936">
 </div>
 <ul class="org-ul">
-<li><a id="org947885d"></a>Algoritmo A*<br />
-<div class="outline-text-5" id="text-org947885d">
+<li><a id="orgb1c6428"></a>Algoritmo A*<br />
+<div class="outline-text-5" id="text-orgb1c6428">
 <p>
 La heurística de búsqueda A* (pronunciado "A asterisco", "A estrella"
 o "A star" en inglés) se clasifica dentro de los algoritmos de
@@ -1006,8 +1010,8 @@ origen y uno objetivo.
 </div>
 
 
-<div id="outline-container-org7006e5b" class="outline-4">
-<h4 id="org7006e5b">1.8.3 Algoritmos de búsqueda local.</h4>
+<div id="outline-container-orgdf3af58" class="outline-4">
+<h4 id="orgdf3af58">1.8.3 Algoritmos de búsqueda local.</h4>
 </div>
 </div>
 </div>
@@ -1017,17 +1021,17 @@ origen y uno objetivo.
 
 
 
-<div id="outline-container-org8be7f5c" class="outline-2">
-<h2 id="org8be7f5c">Análisis de información</h2>
-<div class="outline-text-2" id="text-org8be7f5c">
+<div id="outline-container-org1548639" class="outline-2">
+<h2 id="org1548639">Análisis de información</h2>
+<div class="outline-text-2" id="text-org1548639">
 </div>
-<div id="outline-container-orgde46ce6" class="outline-3">
-<h3 id="orgde46ce6">Programación</h3>
-<div class="outline-text-3" id="text-orgde46ce6">
+<div id="outline-container-orgeef5986" class="outline-3">
+<h3 id="orgeef5986">Programación</h3>
+<div class="outline-text-3" id="text-orgeef5986">
 </div>
-<div id="outline-container-org88fdc3b" class="outline-4">
-<h4 id="org88fdc3b">Carga de imágenes y propiedades</h4>
-<div class="outline-text-4" id="text-org88fdc3b">
+<div id="outline-container-org17c2498" class="outline-4">
+<h4 id="org17c2498">Carga de imágenes y propiedades</h4>
+<div class="outline-text-4" id="text-org17c2498">
 <p>
 Con el siguiente ejemplo, se puede cargar una imagen, utilizando la
 librería de opencv, mediante el método <a href="https://docs.opencv.org/3.4/d4/da8/group__imgcodecs.html">imread</a>, el cual carga en la
@@ -1076,9 +1080,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 </div>
-<div id="outline-container-org1a5a40b" class="outline-4">
-<h4 id="org1a5a40b">Operadores Puntuales</h4>
-<div class="outline-text-4" id="text-org1a5a40b">
+<div id="outline-container-org745e441" class="outline-4">
+<h4 id="org745e441">Operadores Puntuales</h4>
+<div class="outline-text-4" id="text-org745e441">
 <p>
 De igual forma cargando la imagen, en un solo canal es posible aplicar
 operadores puntuales a la imagen. Las operaciones puntuales son
@@ -1114,9 +1118,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-orgdc25c75" class="outline-4">
-<h4 id="orgdc25c75">Modelos de color</h4>
-<div class="outline-text-4" id="text-orgdc25c75">
+<div id="outline-container-orgd1ba6cc" class="outline-4">
+<h4 id="orgd1ba6cc">Modelos de color</h4>
+<div class="outline-text-4" id="text-orgd1ba6cc">
 <p>
 El color es una de las características que nos permite a los seres
 humanos identificar y clasificar los objetos. La percepción visual del
@@ -1167,9 +1171,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-org9c61267" class="outline-4">
-<h4 id="org9c61267">Segmentación de Color</h4>
-<div class="outline-text-4" id="text-org9c61267">
+<div id="outline-container-org9390eef" class="outline-4">
+<h4 id="org9390eef">Segmentación de Color</h4>
+<div class="outline-text-4" id="text-org9390eef">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #ff98a4;">img</span> = cv.imread<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'man1.jpg'</span>, 1<span style="color: #c099ff;">)</span>
 <span style="color: #ff98a4;">img2</span> = cv.cvtColor<span style="color: #c099ff;">(</span>img, cv.COLOR_BGR2RGB<span style="color: #c099ff;">)</span>
@@ -1203,9 +1207,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 
 
 
-<div id="outline-container-org5251740" class="outline-4">
-<h4 id="org5251740">Haarcascades</h4>
-<div class="outline-text-4" id="text-org5251740">
+<div id="outline-container-org5438f00" class="outline-4">
+<h4 id="org5438f00">Haarcascades</h4>
+<div class="outline-text-4" id="text-org5438f00">
 <p>
 <a href="https://github.com/opencv/opencv/tree/master/data/haarcascades">Haarcascades</a>
 </p>
@@ -1263,9 +1267,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-org243522d" class="outline-2">
-<h2 id="org243522d">Espacio de estados</h2>
-<div class="outline-text-2" id="text-org243522d">
+<div id="outline-container-org6bfc5a1" class="outline-2">
+<h2 id="org6bfc5a1">Espacio de estados</h2>
+<div class="outline-text-2" id="text-org6bfc5a1">
 <p>
 Muchos de los problemas que pueden ser resueltos aplicando técnicas de
 inteligencia artificial se modelan en forma simbólica y discreta
@@ -1316,13 +1320,13 @@ desde el estado inicial a un estado objetivo.
 </p>
 </div>
 
-<div id="outline-container-orgef058ed" class="outline-3">
-<h3 id="orgef058ed">Ejemplo de espacio de estados</h3>
-<div class="outline-text-3" id="text-orgef058ed">
+<div id="outline-container-org7f0f921" class="outline-3">
+<h3 id="org7f0f921">Ejemplo de espacio de estados</h3>
+<div class="outline-text-3" id="text-org7f0f921">
 </div>
-<div id="outline-container-orgcd057bf" class="outline-4">
-<h4 id="orgcd057bf">Descripción del problema</h4>
-<div class="outline-text-4" id="text-orgcd057bf">
+<div id="outline-container-org979fdc1" class="outline-4">
+<h4 id="org979fdc1">Descripción del problema</h4>
+<div class="outline-text-4" id="text-org979fdc1">
 <p>
 Un arriero se encuentra en el borde de un rio llevando un puma, una
 cabra y una lechuga.  Debe cruzar a la otra orilla por medio de un
@@ -1334,9 +1338,9 @@ la lechuga. ¿Cómo cruzar sin perder ninguna pertenencia?
 </div>
 </div>
 
-<div id="outline-container-org28465d8" class="outline-4">
-<h4 id="org28465d8">Representación de las configuraciones del universo del problema:</h4>
-<div class="outline-text-4" id="text-org28465d8">
+<div id="outline-container-orgf4667f3" class="outline-4">
+<h4 id="orgf4667f3">Representación de las configuraciones del universo del problema:</h4>
+<div class="outline-text-4" id="text-orgf4667f3">
 <p>
 Basta precisar la situación antes o después de cruzar. El arriero y
 cada una de sus pertenencias tienen que estar en alguna de las dos
@@ -1353,9 +1357,9 @@ estado(i,i,i,i). El estado objetivo es estado(d,d,d,d).
 </div>
 </div>
 
-<div id="outline-container-org490ecda" class="outline-4">
-<h4 id="org490ecda">Definición de las reglas de transición:</h4>
-<div class="outline-text-4" id="text-org490ecda">
+<div id="outline-container-org0cc054a" class="outline-4">
+<h4 id="org0cc054a">Definición de las reglas de transición:</h4>
+<div class="outline-text-4" id="text-org0cc054a">
 <p>
 El arriero tiene cuatro acciones posibles: cruzar solo, cruzar con el
 puma, cruzar con la cabra y cruzar con la lechuga. Estas acciones
@@ -1367,16 +1371,16 @@ intercambiando los valores i y d para los pasajeros del bote.
 </div>
 </div>
 
-<div id="outline-container-org771cc4c" class="outline-4">
-<h4 id="org771cc4c">Generación del espacio de estados</h4>
-<div class="outline-text-4" id="text-org771cc4c">
+<div id="outline-container-org2e4778e" class="outline-4">
+<h4 id="org2e4778e">Generación del espacio de estados</h4>
+<div class="outline-text-4" id="text-org2e4778e">
 <p>
 En este ejemplo se puede explicitar todo el espacio de estados (el
 número de configuraciones está acotado por 24).
 </p>
 
 
-<div id="orgd32509b" class="figure">
+<div id="org37ee232" class="figure">
 <p><img src="img/sd.png" alt="sd.png" />
 </p>
 </div>
@@ -1385,9 +1389,9 @@ número de configuraciones está acotado por 24).
 
 
 
-<div id="outline-container-org4c28461" class="outline-4">
-<h4 id="org4c28461">Problemas de los Canibales y Monjes</h4>
-<div class="outline-text-4" id="text-org4c28461">
+<div id="outline-container-orgeccac0d" class="outline-4">
+<h4 id="orgeccac0d">Problemas de los Canibales y Monjes</h4>
+<div class="outline-text-4" id="text-orgeccac0d">
 <p>
 Se tienen 3 monjes y 3 caníbales en el margen Oeste de un río. Existe
 una canoa con capacidad para dos personas como máximo. Se desea que
@@ -1400,9 +1404,9 @@ conducida por alguien.<br />
 </div>
 
 
-<div id="outline-container-orge00fb95" class="outline-4">
-<h4 id="orge00fb95">El espacio de estados está definido por</h4>
-<div class="outline-text-4" id="text-orge00fb95">
+<div id="outline-container-orgea23254" class="outline-4">
+<h4 id="orgea23254">El espacio de estados está definido por</h4>
+<div class="outline-text-4" id="text-orgea23254">
 <p>
 {(Mo, Co, Me, Ce, C) / Mo es el número de monjes en el margen oeste con
 0&lt;=Mo&lt;=3<br />
@@ -1485,22 +1489,22 @@ Un pasaje de estados para ir de (3,3,0,0,O) a (0,0,3,3,E) es el siguiente:
 </div>
 </div>
 
-<div id="outline-container-org30ac53f" class="outline-3">
-<h3 id="org30ac53f">Representación de espacio de estados</h3>
-<div class="outline-text-3" id="text-org30ac53f">
+<div id="outline-container-org38e3501" class="outline-3">
+<h3 id="org38e3501">Representación de espacio de estados</h3>
+<div class="outline-text-3" id="text-org38e3501">
 <p>
 La primera pregunta es, como  
 </p>
 </div>
 </div>
 
-<div id="outline-container-org66e079c" class="outline-3">
-<h3 id="org66e079c">El problema del n-Puzzle</h3>
-<div class="outline-text-3" id="text-org66e079c">
+<div id="outline-container-org912ea11" class="outline-3">
+<h3 id="org912ea11">El problema del n-Puzzle</h3>
+<div class="outline-text-3" id="text-org912ea11">
 </div>
-<div id="outline-container-org4c071bf" class="outline-4">
-<h4 id="org4c071bf">Caracterización de las búsquedas ciegas.</h4>
-<div class="outline-text-4" id="text-org4c071bf">
+<div id="outline-container-org25d1578" class="outline-4">
+<h4 id="org25d1578">Caracterización de las búsquedas ciegas.</h4>
+<div class="outline-text-4" id="text-org25d1578">
 <p>
 La búsqueda ciega o no informada sólo utiliza información acerca de si
 un estado es o no objetivo para guiar su procesu de búsqueda.
@@ -1536,9 +1540,9 @@ acrónimo de su nombre en inglés (Depth-First Iterative-Deepening).
 </div>
 
 
-<div id="outline-container-org3e41fc8" class="outline-4">
-<h4 id="org3e41fc8">Caracterización de las búsquedas heurísticas.</h4>
-<div class="outline-text-4" id="text-org3e41fc8">
+<div id="outline-container-org6e3de81" class="outline-4">
+<h4 id="org6e3de81">Caracterización de las búsquedas heurísticas.</h4>
+<div class="outline-text-4" id="text-org6e3de81">
 <p>
 Las técnicas de búsqueda heurística se apoyan alc contrario de los
 métodos de búsqueda ciega se apoyan en información adicional para
@@ -1564,13 +1568,13 @@ SMA* (Simplified Memory-bounded A*).
 </div>
 </div>
 
-<div id="outline-container-org4e831b6" class="outline-2">
-<h2 id="org4e831b6">Técnicas de Búsqueda</h2>
-<div class="outline-text-2" id="text-org4e831b6">
+<div id="outline-container-org0059f86" class="outline-2">
+<h2 id="org0059f86">Técnicas de Búsqueda</h2>
+<div class="outline-text-2" id="text-org0059f86">
 </div>
-<div id="outline-container-org143f20b" class="outline-3">
-<h3 id="org143f20b">Solución de problemas con búsqueda.</h3>
-<div class="outline-text-3" id="text-org143f20b">
+<div id="outline-container-org60225bf" class="outline-3">
+<h3 id="org60225bf">Solución de problemas con búsqueda.</h3>
+<div class="outline-text-3" id="text-org60225bf">
 <p>
 La solución de problemas es fundamental para la mayoría de las
 aplicaciones de IA; existen principalmente dos clases de problemas que
@@ -1616,9 +1620,9 @@ espacio paso a paso, hasta encontrar el estado objetivo.
 </div>
 
 
-<div id="outline-container-org5a9cb81" class="outline-3">
-<h3 id="org5a9cb81">Espacios de Estados</h3>
-<div class="outline-text-3" id="text-org5a9cb81">
+<div id="outline-container-org8c17049" class="outline-3">
+<h3 id="org8c17049">Espacios de Estados</h3>
+<div class="outline-text-3" id="text-org8c17049">
 <p>
 Muchos de los problemas que pueden ser resueltos aplicando técnicas de inteligencia artificial se modelan en forma simbólica y
 discreta definiendo las configuraciones posibles del universo estudiado. El problema se plantea entonces en términos de encontrar una configuración objetivo a partir de una configuración inicial dada, aplicando transformaciones válidas según el modelo del universo. La respuesta es la secuencia de transformaciones cuya aplicación succesiva lleva a la configuración deseada.
@@ -1629,9 +1633,9 @@ Cuando un problema se puede representar mediante un espacio de estados, la soluc
 </p>
 </div>
 
-<div id="outline-container-orgff21a8c" class="outline-4">
-<h4 id="orgff21a8c">Deterministicos</h4>
-<div class="outline-text-4" id="text-orgff21a8c">
+<div id="outline-container-org00528a7" class="outline-4">
+<h4 id="org00528a7">Deterministicos</h4>
+<div class="outline-text-4" id="text-org00528a7">
 <p>
 El espacio de estados determinísticos contienen un único estado inicial y seguir la secuencia de estados para la solución. Los espacios de estados determinísticos son usados por los sistemas expertos.
 Se puede describir asu vez, que un sistema es determinístico si, para un estado dado, al menos aplica una regla a él y de solo una manera.
@@ -1639,9 +1643,9 @@ Se puede describir asu vez, que un sistema es determinístico si, para un estado
 </div>
 </div>
 
-<div id="outline-container-org7583cb8" class="outline-4">
-<h4 id="org7583cb8">No Deterministicos</h4>
-<div class="outline-text-4" id="text-org7583cb8">
+<div id="outline-container-org3ee4e6f" class="outline-4">
+<h4 id="org3ee4e6f">No Deterministicos</h4>
+<div class="outline-text-4" id="text-org3ee4e6f">
 <p>
 El no determinístico contiene un amplio número de estados iniciales y sigue la secuencia de estados perteneciente al estado inicial del espacio. Son usados por sistemas de lógica difusa.
 En otras palabras,  si más de una regla aplica a cualquier estado particular del sistema, o si una regla aplica a un estado particular del sistema en más de una manera, entonces el sistema es no determinístico.
@@ -1651,13 +1655,13 @@ En otras palabras,  si más de una regla aplica a cualquier estado particular de
 </div>
 
 
-<div id="outline-container-orge14a946" class="outline-3">
-<h3 id="orge14a946">Métodos de Búsqueda</h3>
-<div class="outline-text-3" id="text-orge14a946">
+<div id="outline-container-orgb2afb67" class="outline-3">
+<h3 id="orgb2afb67">Métodos de Búsqueda</h3>
+<div class="outline-text-3" id="text-orgb2afb67">
 </div>
-<div id="outline-container-org41bd1eb" class="outline-4">
-<h4 id="org41bd1eb">Primero en anchura (breadthfirst)</h4>
-<div class="outline-text-4" id="text-org41bd1eb">
+<div id="outline-container-org8228c98" class="outline-4">
+<h4 id="org8228c98">Primero en anchura (breadthfirst)</h4>
+<div class="outline-text-4" id="text-org8228c98">
 <p>
 En inglés, breadth-first search.
 Si el conjunto open se maneja como una lista FIFO, es decir, como una cola, siempre se estará visitando primero los primeros estados en ser generados. El recorrido del espacio de estados se hace por niveles de profundidad.
@@ -1690,9 +1694,9 @@ Contrariamente a la búsqueda en profundidad, la búsqueda en amplitud garantiza
 </div>
 </div>
 
-<div id="outline-container-orgfe27c4d" class="outline-4">
-<h4 id="orgfe27c4d">Primero en profundidad (depthfirst).</h4>
-<div class="outline-text-4" id="text-orgfe27c4d">
+<div id="outline-container-org688c471" class="outline-4">
+<h4 id="org688c471">Primero en profundidad (depthfirst).</h4>
+<div class="outline-text-4" id="text-org688c471">
 <p>
 En inglés, depth-first search.
 Si el conjunto open se maneja como una lista LIFO, es decir, como un stack, siempre se estará
@@ -1733,9 +1737,9 @@ El mayor problema de este algoritmo es que puede "perderse" en una rama sin enco
 </div>
 </div>
 
-<div id="outline-container-org0e2f6f1" class="outline-4">
-<h4 id="org0e2f6f1">Búsqueda Heurística</h4>
-<div class="outline-text-4" id="text-org0e2f6f1">
+<div id="outline-container-org1f42d8f" class="outline-4">
+<h4 id="org1f42d8f">Búsqueda Heurística</h4>
+<div class="outline-text-4" id="text-org1f42d8f">
 <p>
 El algoritmo de búsqueda A* (pronunciado "A asterisco", "A estrella" o
 "Astar" en inglés) se clasifica dentro de los algoritmos de búsqueda
@@ -1784,8 +1788,8 @@ prometedores.
 
 
 <ul class="org-ul">
-<li><a id="org63b708b"></a>Propiedades<br />
-<div class="outline-text-5" id="text-org63b708b">
+<li><a id="orgccf5af9"></a>Propiedades<br />
+<div class="outline-text-5" id="text-orgccf5af9">
 <p>
 Como todo algoritmo de búsqueda en amplitud, A* es un algoritmo
 completo: en caso de existir una solución, siempre dará con ella.
@@ -1816,8 +1820,8 @@ más el coste de alcanzar el objetivo desde el sucesor.
 
 
 
-<li><a id="orgcadc690"></a>Complejidad<br />
-<div class="outline-text-5" id="text-orgcadc690">
+<li><a id="orgd394eb5"></a>Complejidad<br />
+<div class="outline-text-5" id="text-orgd394eb5">
 <p>
 La complejidad computacional del algoritmo está íntimamente
 relacionada con la calidad de la heurística que se utilice en el
@@ -1848,9 +1852,9 @@ como pueden ser RTA*, IDA* o SMA*.
 </div>
 </div>
 
-<div id="outline-container-org0bf51d4" class="outline-3">
-<h3 id="org0bf51d4">Satisfacción de restricciones.</h3>
-<div class="outline-text-3" id="text-org0bf51d4">
+<div id="outline-container-orgf990a26" class="outline-3">
+<h3 id="orgf990a26">Satisfacción de restricciones.</h3>
+<div class="outline-text-3" id="text-orgf990a26">
 <p>
 Los problemas pueden resolverse buscando en un espacio de estados, estos estados pueden evaluarse por heurísticas específicas para el dominio y probados para verificar si son estados meta.
 Los componentes del estado, son equivalentes a un grafo de restricciones, los cuales están compuestos de:\\[0.5cm]
@@ -1884,9 +1888,9 @@ Ejemplos:
 </div>
 </div>
 
-<div id="outline-container-orga850820" class="outline-2">
-<h2 id="orga850820">Teoría de juegos.</h2>
-<div class="outline-text-2" id="text-orga850820">
+<div id="outline-container-org01957b9" class="outline-2">
+<h2 id="org01957b9">Teoría de juegos.</h2>
+<div class="outline-text-2" id="text-org01957b9">
 <p>
 Siendo una de las principales capacidades de la inteligencia humana su
 capacidad para resolver problemas, así como la habilidad para analizar
@@ -1924,10 +1928,9 @@ son las damas y el ajedrez.
 
 
 
-
-<div id="outline-container-orgbf35f09" class="outline-2">
-<h2 id="orgbf35f09">Grafos</h2>
-<div class="outline-text-2" id="text-orgbf35f09">
+<div id="outline-container-org883a021" class="outline-2">
+<h2 id="org883a021">Grafos</h2>
+<div class="outline-text-2" id="text-org883a021">
 <p>
 Un grafo es un conjunto de puntos (vértices) en el espacio, que están conectados
 por un conjunto de líneas (aristas). Otros conceptos básicos son:
@@ -1938,9 +1941,9 @@ Un grafo se dice que es finito si su número de vértices es finito.
 </div>
 </div>
 
-<div id="outline-container-org1a4ad63" class="outline-2">
-<h2 id="org1a4ad63">Tipos de grafos</h2>
-<div class="outline-text-2" id="text-org1a4ad63">
+<div id="outline-container-orgef6d270" class="outline-2">
+<h2 id="orgef6d270">Tipos de grafos</h2>
+<div class="outline-text-2" id="text-orgef6d270">
 <p>
 Existen dos tipos de grafos los no dirigidos y los dirigidos.
 </p>
@@ -1961,9 +1964,9 @@ el vértice destino, se conoce como cabeza del lado.
 </div>
 </div>
 
-<div id="outline-container-org88447f3" class="outline-2">
-<h2 id="org88447f3">Machine Learning</h2>
-<div class="outline-text-2" id="text-org88447f3">
+<div id="outline-container-org4c4102a" class="outline-2">
+<h2 id="org4c4102a">Machine Learning</h2>
+<div class="outline-text-2" id="text-org4c4102a">
 <p>
 El aprendizaje automático o aprendizaje automatizado o aprendizaje de
 máquinas (del inglés, machine learning) es el subcampo de las ciencias
@@ -2002,9 +2005,9 @@ y del lenguaje escrito, juegos y robótica.
 </p>
 </div>
 
-<div id="outline-container-orgb46f7f9" class="outline-3">
-<h3 id="orgb46f7f9">Tipos de Algoritmos</h3>
-<div class="outline-text-3" id="text-orgb46f7f9">
+<div id="outline-container-org52539e8" class="outline-3">
+<h3 id="org52539e8">Tipos de Algoritmos</h3>
+<div class="outline-text-3" id="text-org52539e8">
 <p>
 Los diferentes algoritmos de Aprendizaje Automático se agrupan en una
 taxonomía en función de la salida de los mismos. Algunos tipos de
@@ -2085,9 +2088,9 @@ llevando a cabo, sino que solo será una secuencia repetitiva.</li>
 </div>
 </div>
 
-<div id="outline-container-orgebae709" class="outline-3">
-<h3 id="orgebae709">Técnicas de clasificación</h3>
-<div class="outline-text-3" id="text-orgebae709">
+<div id="outline-container-orgdc1e171" class="outline-3">
+<h3 id="orgdc1e171">Técnicas de clasificación</h3>
+<div class="outline-text-3" id="text-orgdc1e171">
 <ul class="org-ul">
 <li><b>Árboles de decisiones</b>: Este tipo de aprendizaje usa un árbol de
 decisiones como modelo predictivo. Se mapean observaciones sobre un
@@ -2160,9 +2163,9 @@ aprenden usando este tipo de representación.</li>
 </div>
 
 
-<div id="outline-container-org24db5c5" class="outline-3">
-<h3 id="org24db5c5">Clasificador en Cascada</h3>
-<div class="outline-text-3" id="text-org24db5c5">
+<div id="outline-container-orge621230" class="outline-3">
+<h3 id="orge621230">Clasificador en Cascada</h3>
+<div class="outline-text-3" id="text-orge621230">
 <p>
 La detección de objetos usando un clasificador en cascada basado en
 características de Haar es un método efectivo de detección de objetos
@@ -2186,7 +2189,7 @@ rectángulo negro.
 </p>
 
 
-<div id="org4aa2d4f" class="figure">
+<div id="org7fbf9d6" class="figure">
 <p><img src="img/har.png" alt="har.png" />
 </p>
 </div>
@@ -2216,7 +2219,7 @@ más de 160.000 funciones?.
 </p>
 
 
-<div id="org419dee4" class="figure">
+<div id="org71c4c49" class="figure">
 <p><img src="img/har2.png" alt="har2.png" />
 </p>
 </div>
@@ -2294,9 +2297,9 @@ sección de otros recursos.
 </p>
 </div>
 
-<div id="outline-container-orgf683d7d" class="outline-4">
-<h4 id="orgf683d7d">Ejemplo de clasificación utilizando Haarcascades</h4>
-<div class="outline-text-4" id="text-orgf683d7d">
+<div id="outline-container-org0e0e27a" class="outline-4">
+<h4 id="org0e0e27a">Ejemplo de clasificación utilizando Haarcascades</h4>
+<div class="outline-text-4" id="text-org0e0e27a">
 <ul class="org-ul">
 <li><a href="https://github.com/opencv/opencv/tree/master/data/haarcascades">Clasificadores Haarcascades de la librería Opencv</a></li>
 <li><a href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html">Tutorial Haarcascades</a></li>
@@ -2340,9 +2343,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-orga8a682a" class="outline-3">
-<h3 id="orga8a682a">Segmentación de Color</h3>
-<div class="outline-text-3" id="text-orga8a682a">
+<div id="outline-container-org3aaa8d8" class="outline-3">
+<h3 id="org3aaa8d8">Segmentación de Color</h3>
+<div class="outline-text-3" id="text-org3aaa8d8">
 <p>
 La segmentación de imágenes es un tema ampliamente estudiado para la
 extracción y reconocimiento de objetos, de acuerdo a las
@@ -2389,9 +2392,9 @@ diferentes cromaticidades.
 </div>
 
 
-<div id="outline-container-org87e7c4f" class="outline-3">
-<h3 id="org87e7c4f">Árboles de decisión</h3>
-<div class="outline-text-3" id="text-org87e7c4f">
+<div id="outline-container-org2f48a31" class="outline-3">
+<h3 id="org2f48a31">Árboles de decisión</h3>
+<div class="outline-text-3" id="text-org2f48a31">
 <p>
 Los árboles de decisión (DT) son un método de aprendizaje supervisado
 no paramétrico que se utiliza para la clasificación y la regresión. El
@@ -2409,16 +2412,16 @@ son las reglas de decisión y más ajustado es el modelo
 </p>
 
 
-<div id="org734a681" class="figure">
+<div id="orgd23b624" class="figure">
 <p><img src="img/dtr.png" alt="dtr.png" />
 </p>
 </div>
 </div>
 
 
-<div id="outline-container-orgb2f02b7" class="outline-4">
-<h4 id="orgb2f02b7">Elementos</h4>
-<div class="outline-text-4" id="text-orgb2f02b7">
+<div id="outline-container-orgb55f994" class="outline-4">
+<h4 id="orgb55f994">Elementos</h4>
+<div class="outline-text-4" id="text-orgb55f994">
 <p>
 Los árboles de decisión están formados por nodos, vectores de números,
 flechas y etiquetas.
@@ -2442,9 +2445,9 @@ a cada acción.</li>
 </div>
 </div>
 
-<div id="outline-container-orga2648da" class="outline-4">
-<h4 id="orga2648da">Algunas ventajas de los árboles de decisión son:</h4>
-<div class="outline-text-4" id="text-orga2648da">
+<div id="outline-container-org7d43b87" class="outline-4">
+<h4 id="org7d43b87">Algunas ventajas de los árboles de decisión son:</h4>
+<div class="outline-text-4" id="text-org7d43b87">
 <ul class="org-ul">
 <li>Fácil de entender y de interpretar. Los árboles se pueden
 visualizar.</li>
@@ -2479,9 +2482,9 @@ por el verdadero modelo a partir del cual se generaron los dato</li>
 </div>
 </div>
 
-<div id="outline-container-org9de6883" class="outline-4">
-<h4 id="org9de6883">Desventajas de los árboles de decisión:</h4>
-<div class="outline-text-4" id="text-org9de6883">
+<div id="outline-container-orgaaabceb" class="outline-4">
+<h4 id="orgaaabceb">Desventajas de los árboles de decisión:</h4>
+<div class="outline-text-4" id="text-orgaaabceb">
 <ul class="org-ul">
 <li>El aprendizaje de los  árboles de decisión pueden crear árboles demasiado
 complejos que no generalizan bien los datos. Esto se llama
@@ -2521,9 +2524,9 @@ conjunto de datos antes de ajustarlo al árbol de decisión.</li>
 </div>
 </div>
 
-<div id="outline-container-orgc9b9f63" class="outline-4">
-<h4 id="orgc9b9f63">Ejemplo de Clasificación, Árbol de decisión scikit-learn</h4>
-<div class="outline-text-4" id="text-orgc9b9f63">
+<div id="outline-container-orga4e691b" class="outline-4">
+<h4 id="orga4e691b">Ejemplo de Clasificación, Árbol de decisión scikit-learn</h4>
+<div class="outline-text-4" id="text-orga4e691b">
 <p>
 <b>DecisionTreeClassifier</b> es una clase capaz de realizar una
 clasificación de varias clases en un conjunto de datos.
@@ -2620,9 +2623,9 @@ graph.view<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-org2de198d" class="outline-2">
-<h2 id="org2de198d">Programación</h2>
-<div class="outline-text-2" id="text-org2de198d">
+<div id="outline-container-org9b8091e" class="outline-2">
+<h2 id="org9b8091e">Programación</h2>
+<div class="outline-text-2" id="text-org9b8091e">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
 <span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np 
@@ -2770,9 +2773,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-org7cac072" class="outline-3">
-<h3 id="org7cac072">Segmentación de color en vídeo</h3>
-<div class="outline-text-3" id="text-org7cac072">
+<div id="outline-container-org943a6b7" class="outline-3">
+<h3 id="org943a6b7">Segmentación de color en vídeo</h3>
+<div class="outline-text-3" id="text-org943a6b7">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
 <span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np 
@@ -2805,20 +2808,20 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-orgb1415fb" class="outline-3">
-<h3 id="orgb1415fb">Seguimiento Por color</h3>
-<div class="outline-text-3" id="text-orgb1415fb">
+<div id="outline-container-org6d72ad1" class="outline-3">
+<h3 id="org6d72ad1">Seguimiento Por color</h3>
+<div class="outline-text-3" id="text-org6d72ad1">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #c099ff;">import</span> cv2
 <span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np
 
 <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Iniciar la captura de video desde la c&#225;mara</span>
 <span style="color: #ff98a4;">cap</span> = cv2.VideoCapture<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
-
 <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Definir el rango de color que quieres rastrear en el espacio de color HSV (en este caso, azul)</span>
 <span style="color: #ff98a4;">lower_blue</span> = np.array<span style="color: #c099ff;">(</span><span style="color: #ff995e;">[</span>100, 150, 0<span style="color: #ff995e;">]</span><span style="color: #c099ff;">)</span>
 <span style="color: #ff98a4;">upper_blue</span> = np.array<span style="color: #c099ff;">(</span><span style="color: #ff995e;">[</span>140, 255, 255<span style="color: #ff995e;">]</span><span style="color: #c099ff;">)</span>
-
+<span style="color: #ff98a4;">img2</span>=<span style="color: #ff995e;">None</span>
+<span style="color: #ff98a4;">i</span>=0 
 <span style="color: #c099ff;">while</span> <span style="color: #ff995e;">True</span>:
     <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Capturar frame por frame</span>
     <span style="color: #ff98a4;">ret</span>, <span style="color: #ff98a4;">frame</span> = cap.read<span style="color: #c099ff;">()</span>
@@ -2848,10 +2851,17 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
         
         <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Dibujar el c&#237;rculo y el centro en el frame original si el radio es mayor que un umbral</span>
         <span style="color: #c099ff;">if</span> radius &gt; 10:
-            cv2.circle<span style="color: #c099ff;">(</span>frame, <span style="color: #ff995e;">(</span><span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>x<span style="color: #ff98a4;">)</span>, <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>y<span style="color: #ff98a4;">)</span><span style="color: #ff995e;">)</span>, <span style="color: #c099ff;">int</span><span style="color: #ff995e;">(</span>radius<span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>0, 255, 255<span style="color: #ff995e;">)</span>, 2<span style="color: #c099ff;">)</span>
-            cv2.circle<span style="color: #c099ff;">(</span>frame, <span style="color: #ff995e;">(</span><span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>x<span style="color: #ff98a4;">)</span>, <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>y<span style="color: #ff98a4;">)</span><span style="color: #ff995e;">)</span>, 5, <span style="color: #ff995e;">(</span>0, 255, 255<span style="color: #ff995e;">)</span>, -1<span style="color: #c099ff;">)</span>
+            i=i+1
+            <span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv2.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)</span>
+            <span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv2.circle(frame, (int(x), int(y)), 5, (0, 255, 255), -1)</span>
+            <span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv2.rectangle(frame, (int(x-radius), int(y-radius)), (int(x+radius), int(y+radius)), (0, 0, 255), 3)</span>
+            img2 = frame<span style="color: #c099ff;">[</span><span style="color: #c099ff;">int</span><span style="color: #ff995e;">(</span>y-radius<span style="color: #ff995e;">)</span>:<span style="color: #c099ff;">int</span><span style="color: #ff995e;">(</span>y+radius<span style="color: #ff995e;">)</span>, <span style="color: #c099ff;">int</span><span style="color: #ff995e;">(</span>x-radius<span style="color: #ff995e;">)</span>:<span style="color: #c099ff;">int</span><span style="color: #ff995e;">(</span>x+radius<span style="color: #ff995e;">)</span><span style="color: #c099ff;">]</span>
+            cv2.imwrite<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'/home/likcos/recorte/recorte'</span>+<span style="color: #c099ff;">str</span><span style="color: #ff995e;">(</span>i<span style="color: #ff995e;">)</span>+<span style="color: #c3e88d;">'.jpg'</span>,  img2<span style="color: #c099ff;">)</span>
+            
+            cv2.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img2'</span>, img2<span style="color: #c099ff;">)</span>
     <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Mostrar el frame</span>
     cv2.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'Frame'</span>, frame<span style="color: #c099ff;">)</span>
+    <span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv2.imshow('img2', img2)</span>
     cv2.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'Mask'</span>, mask<span style="color: #c099ff;">)</span>
 
     <span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Salir si se presiona la tecla 'q'</span>
@@ -2865,12 +2875,198 @@ cv2.destroyAllWindows<span style="color: #c099ff;">()</span>
 </pre>
 </div>
 </div>
+
+<div id="outline-container-org506bf48" class="outline-4">
+<h4 id="org506bf48">Haarcascades</h4>
+<div class="outline-text-4" id="text-org506bf48">
+<p>
+Los Haar Cascades son una técnica utilizada en el campo de la visión
+por computadora para la detección de objetos. Fueron introducidos por
+Paul Viola y Michael Jones en su artículo seminal "Rapid Object
+Detection using a Boosted Cascade of Simple Features" en 2001. Esta
+técnica es particularmente conocida por su eficacia en la detección de
+rostros, aunque puede ser utilizada para detectar otros tipos de
+objetos.
+</p>
+
+
+<div id="orgce10a03" class="figure">
+<p><img src="img/cascade.png" alt="cascade.png" />
+</p>
 </div>
 </div>
 
-<div id="outline-container-org7fad296" class="outline-2">
-<h2 id="org7fad296">Bibliografía</h2>
-<div class="outline-text-2" id="text-org7fad296">
+<ul class="org-ul">
+<li><a id="orgdd2f9d3"></a>Conceptos Clave:<br />
+<div class="outline-text-5" id="text-orgdd2f9d3">
+<p>
+Características de Haar: Son patrones visuales
+ simples que se pueden calcular rápidamente en una imagen. Estas
+ características se asemejan a pequeñas versiones de núcleos de wavelet
+ de Haar y son utilizadas para capturar la presencia de bordes, cambios
+ de textura, y otras propiedades visuales.
+</p>
+</div>
+</li>
+
+
+<li><a id="orge6fd1d7"></a>Imágenes Integrales:<br />
+<div class="outline-text-5" id="text-orge6fd1d7">
+<p>
+Para acelerar el cálculo de las características
+ de Haar, se utiliza un concepto llamado imagen integral. Una imagen
+ integral permite calcular la suma de los valores de los píxeles en
+ cualquier área rectangular de la imagen en tiempo constante.
+</p>
+</div>
+</li>
+
+<li><a id="orgce417f8"></a>Adaboost:<br />
+<div class="outline-text-5" id="text-orgce417f8">
+<p>
+Es un método de aprendizaje automático utilizado para
+ mejorar la eficiencia de la detección. Selecciona un pequeño número
+ de características críticas de un conjunto más grande y construye
+ clasificadores "débiles". Luego, estos se combinan en un clasificador
+ más fuerte y eficiente.
+</p>
+</div>
+</li>
+
+<li><a id="org6b6d4c0"></a>Cascadas:<br />
+<div class="outline-text-5" id="text-org6b6d4c0">
+<p>
+En lugar de aplicar todas las características a una ventana de la
+imagen, se organizan en una secuencia de etapas (cascadas). Cada etapa
+tiene su propio clasificador (hecho con Adaboost) y solo pasa las
+ventanas de la imagen que parecen prometedoras. Esto reduce
+significativamente el tiempo de cálculo, ya que muchas ventanas no
+pasan las primeras etapas.
+</p>
+
+<p>
+ <b>Proceso de Detección</b>: 
+Pre-procesamiento: Se convierte la imagen en
+ escala de grises y se crea su imagen integral.
+</p>
+
+<p>
+<b>Aplicación de las Características</b>: Se desplaza una ventana sobre la
+imagen, y en cada posición, se calculan las características de Haar.
+</p>
+
+<p>
+<b>Clasificación en Cascada</b>: Cada ventana es evaluada a través de la
+cascada de clasificadores. Si una ventana falla en alguna etapa, se
+descarta. Si pasa todas las etapas, se considera como una detección.
+</p>
+
+<p>
+<b>Post-procesamiento</b>: Finalmente, se pueden aplicar técnicas como la
+supresión de no máximos para reducir falsos positivos y mejorar la
+precisión.
+</p>
+
+<p>
+<b>Aplicaciones</b>: Detección de rostros en imágenes y videos.  Detección
+de peatones u otros objetos en sistemas de vigilancia.  Aplicaciones
+de realidad aumentada.  Es importante mencionar que, aunque los Haar
+Cascades fueron revolucionarios en su momento, han sido superados en
+precisión y velocidad por técnicas más modernas de aprendizaje
+profundo. Sin embargo, siguen siendo utilizados debido a su
+simplicidad y bajo requerimiento de recursos computacionales.
+</p>
+</div>
+</li>
+
+<li><a id="org98471e5"></a>Ejemplo de un Haarcascade<br />
+<div class="outline-text-5" id="text-org98471e5">
+<p>
+<a href="https://github.com/opencv/opencv/tree/master/data/haarcascades">https://github.com/opencv/opencv/tree/master/data/haarcascades</a>
+</p>
+
+<p>
+<a href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html">https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html</a>
+</p>
+
+<p>
+<a href="https://docs.opencv.org/2.4/doc/user_guide/ug_traincascade.html">https://docs.opencv.org/2.4/doc/user_guide/ug_traincascade.html</a>
+</p>
+
+<p>
+<a href="https://amin-ahmadi.com/cascade-trainer-gui/">https://amin-ahmadi.com/cascade-trainer-gui/</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np
+<span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
+<span style="color: #c099ff;">import</span> math 
+
+<span style="color: #ff98a4;">rostro</span> = cv.CascadeClassifier<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'haarcascade_frontalface_alt.xml'</span><span style="color: #c099ff;">)</span>
+<span style="color: #ff98a4;">cap</span> = cv.VideoCapture<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
+<span style="color: #ff98a4;">i</span> = 0  
+<span style="color: #c099ff;">while</span> <span style="color: #ff995e;">True</span>:
+    <span style="color: #ff98a4;">ret</span>, <span style="color: #ff98a4;">frame</span> = cap.read<span style="color: #c099ff;">()</span>
+    <span style="color: #ff98a4;">gray</span> = cv.cvtColor<span style="color: #c099ff;">(</span>frame, cv.COLOR_BGR2GRAY<span style="color: #c099ff;">)</span>
+    <span style="color: #ff98a4;">rostros</span> = rostro.detectMultiScale<span style="color: #c099ff;">(</span>gray, 1.3, 5<span style="color: #c099ff;">)</span>
+    <span style="color: #c099ff;">for</span><span style="color: #c099ff;">(</span>x, y, w, h<span style="color: #c099ff;">)</span> <span style="color: #c099ff;">in</span> <span style="color: #ff98a4;">rostros</span>:
+       frame = cv.rectangle<span style="color: #c099ff;">(</span>frame, <span style="color: #ff995e;">(</span>x,y<span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>x+w, y+h<span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>0, 255, 0<span style="color: #ff995e;">)</span>, 2<span style="color: #c099ff;">)</span>
+       <span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">frame2 = frame[ y:y+h, x:x+w]</span>
+        <span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">frame3 = frame[x+30:x+w-30, y+30:y+h-30]</span>
+       <span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">frame2 = cv.resize(frame2, (100, 100), interpolation=cv.INTER_AREA)</span>
+       <span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv.imwrite('/home/likcos/pruebacaras/juan/juan'+str(i)+'.jpg', frame2)</span>
+       <span style="color: #7a88cf;">#</span><span style="color: #7a88cf;">cv.imshow('rostror', frame2)</span>
+    cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'rostros'</span>, frame<span style="color: #c099ff;">)</span>
+    <span style="color: #ff98a4;">i</span> = i+1
+    <span style="color: #ff98a4;">k</span> = cv.waitKey<span style="color: #c099ff;">(</span>1<span style="color: #c099ff;">)</span>
+    <span style="color: #c099ff;">if</span> k == 27:
+        <span style="color: #c099ff;">break</span>
+cap.release<span style="color: #c099ff;">()</span>
+cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv 
+
+<span style="color: #ff98a4;">rostro</span> = cv.CascadeClassifier<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'data/haarcascade_frontalface_alt.xml'</span><span style="color: #c099ff;">)</span>
+<span style="color: #ff98a4;">cap</span> = cv.VideoCapture<span style="color: #c099ff;">(</span>0<span style="color: #c099ff;">)</span>
+
+<span style="color: #c099ff;">while</span> <span style="color: #ff995e;">True</span>:
+    <span style="color: #ff98a4;">ret</span>, <span style="color: #ff98a4;">img</span> = cap.read<span style="color: #c099ff;">()</span>
+    <span style="color: #ff98a4;">gris</span> = cv.cvtColor<span style="color: #c099ff;">(</span>img, cv.COLOR_BGR2GRAY<span style="color: #c099ff;">)</span>
+    <span style="color: #ff98a4;">rostros</span> = rostro.detectMultiScale<span style="color: #c099ff;">(</span>gris, 1.3, 5<span style="color: #c099ff;">)</span>
+    <span style="color: #c099ff;">for</span><span style="color: #c099ff;">(</span>x,y,w,h<span style="color: #c099ff;">)</span> <span style="color: #c099ff;">in</span> <span style="color: #ff98a4;">rostros</span>:
+        res = <span style="color: #c099ff;">int</span><span style="color: #c099ff;">(</span><span style="color: #ff995e;">(</span>w+h<span style="color: #ff995e;">)</span>/8<span style="color: #c099ff;">)</span>
+        <span style="color: #ff98a4;">img</span> = cv.rectangle<span style="color: #c099ff;">(</span>img, <span style="color: #ff995e;">(</span>x,y<span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>x+w, y+h<span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>234, 23,23<span style="color: #ff995e;">)</span>, 2<span style="color: #c099ff;">)</span>
+        <span style="color: #ff98a4;">img</span> = cv.rectangle<span style="color: #c099ff;">(</span>img, <span style="color: #ff995e;">(</span>x,<span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>y+h/2<span style="color: #ff98a4;">)</span><span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>x+w, y+h<span style="color: #ff995e;">)</span>, <span style="color: #ff995e;">(</span>0,255,0<span style="color: #ff995e;">)</span>,5 <span style="color: #c099ff;">)</span>
+        <span style="color: #ff98a4;">img</span> = cv.circle<span style="color: #c099ff;">(</span>img, <span style="color: #ff995e;">(</span>x + <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>w*0.3<span style="color: #ff98a4;">)</span>, y + <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>h*0.4<span style="color: #ff98a4;">)</span><span style="color: #ff995e;">)</span> , 21, <span style="color: #ff995e;">(</span>0, 0, 0<span style="color: #ff995e;">)</span>, 2 <span style="color: #c099ff;">)</span>
+        <span style="color: #ff98a4;">img</span> = cv.circle<span style="color: #c099ff;">(</span>img, <span style="color: #ff995e;">(</span>x + <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>w*0.7<span style="color: #ff98a4;">)</span>, y + <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>h*0.4<span style="color: #ff98a4;">)</span><span style="color: #ff995e;">)</span> , 21, <span style="color: #ff995e;">(</span>0, 0, 0<span style="color: #ff995e;">)</span>, 2 <span style="color: #c099ff;">)</span>
+        <span style="color: #ff98a4;">img</span> = cv.circle<span style="color: #c099ff;">(</span>img, <span style="color: #ff995e;">(</span>x + <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>w*0.3<span style="color: #ff98a4;">)</span>, y + <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>h*0.4<span style="color: #ff98a4;">)</span><span style="color: #ff995e;">)</span> , 20, <span style="color: #ff995e;">(</span>255, 255, 255<span style="color: #ff995e;">)</span>, -1 <span style="color: #c099ff;">)</span>
+        <span style="color: #ff98a4;">img</span> = cv.circle<span style="color: #c099ff;">(</span>img, <span style="color: #ff995e;">(</span>x + <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>w*0.7<span style="color: #ff98a4;">)</span>, y + <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>h*0.4<span style="color: #ff98a4;">)</span><span style="color: #ff995e;">)</span> , 20, <span style="color: #ff995e;">(</span>255, 255, 255<span style="color: #ff995e;">)</span>, -1 <span style="color: #c099ff;">)</span>
+        <span style="color: #ff98a4;">img</span> = cv.circle<span style="color: #c099ff;">(</span>img, <span style="color: #ff995e;">(</span>x + <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>w*0.3<span style="color: #ff98a4;">)</span>, y + <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>h*0.4<span style="color: #ff98a4;">)</span><span style="color: #ff995e;">)</span> , 5, <span style="color: #ff995e;">(</span>0, 0, 255<span style="color: #ff995e;">)</span>, -1 <span style="color: #c099ff;">)</span>
+        <span style="color: #ff98a4;">img</span> = cv.circle<span style="color: #c099ff;">(</span>img, <span style="color: #ff995e;">(</span>x + <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>w*0.7<span style="color: #ff98a4;">)</span>, y + <span style="color: #c099ff;">int</span><span style="color: #ff98a4;">(</span>h*0.4<span style="color: #ff98a4;">)</span><span style="color: #ff995e;">)</span> , 5, <span style="color: #ff995e;">(</span>0, 0, 255<span style="color: #ff995e;">)</span>, -1 <span style="color: #c099ff;">)</span>
+
+    cv.imshow<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'img'</span>, img<span style="color: #c099ff;">)</span>
+    <span style="color: #c099ff;">if</span> cv.waitKey<span style="color: #c099ff;">(</span>1<span style="color: #c099ff;">)</span>== <span style="color: #c099ff;">ord</span><span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'q'</span><span style="color: #c099ff;">)</span>:
+        <span style="color: #c099ff;">break</span>
+    
+cap.release
+cv.destroyAllWindows<span style="color: #c099ff;">()</span>
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-orge2042a5" class="outline-2">
+<h2 id="orge2042a5">Bibliografía</h2>
+<div class="outline-text-2" id="text-orge2042a5">
 <p>
 <a href="bibliografia.bib">bibliografia.bib</a>
 </p>
@@ -2879,7 +3075,7 @@ cv2.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: likcos</p>
-<p class="date">Created: 2024-09-26 jue 10:04</p>
+<p class="date">Created: 2024-10-02 mié 07:40</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
