@@ -659,32 +659,80 @@ cv.destroyAllWindows()
 #+END_SRC
 
 
+*** Haarcascades 
+Los Haar Cascades son una técnica utilizada en el campo de la visión
+por computadora para la detección de objetos. Fueron introducidos por
+Paul Viola y Michael Jones en su artículo seminal "Rapid Object
+Detection using a Boosted Cascade of Simple Features" en 2001. Esta
+técnica es particularmente conocida por su eficacia en la detección de
+rostros, aunque puede ser utilizada para detectar otros tipos de
+objetos.
 
-*** Haarcascades  
+#+startup: inlineimages
+#+ATTR_LATEX: :width 0.3\textwidth
+[[file:img/cascade.png]]
 
-[[https://github.com/opencv/opencv/tree/master/data/haarcascades][Haarcascades]]
+**** Conceptos Clave: 
+Características de Haar: Son patrones visuales
+ simples que se pueden calcular rápidamente en una imagen. Estas
+ características se asemejan a pequeñas versiones de núcleos de wavelet
+ de Haar y son utilizadas para capturar la presencia de bordes, cambios
+ de textura, y otras propiedades visuales.
 
-La detección de objetos utilizando clasificadores en cascada basados
-en características Haar es un método efectivo de detección de objetos
-propuesto por Paul Viola y Michael Jones en su artículo "Detección
-rápida de objetos utilizando un conjunto potenciado de características
-simples" en 2001. Se trata de un enfoque basado en aprendizaje
-automático donde se entrena una función en cascada a partir de muchas
-imágenes positivas y negativas. Luego se utiliza para detectar objetos
-en otras imágenes.
+ 
+**** Imágenes Integrales: 
+Para acelerar el cálculo de las características
+ de Haar, se utiliza un concepto llamado imagen integral. Una imagen
+ integral permite calcular la suma de los valores de los píxeles en
+ cualquier área rectangular de la imagen en tiempo constante.
 
-Aquí trabajaremos con la detección de rostros. Inicialmente, el
-algoritmo necesita muchas imágenes positivas (imágenes de rostros) y
-negativas (imágenes sin rostros) para entrenar el clasificador. Luego,
-necesitamos extraer características de ellas. Para ello, se utilizan
-las características Haar mostradas en la imagen de abajo. Son
-similares a nuestros núcleos de convolución. Cada característica es un
-valor único obtenido restando la suma de los píxeles bajo el
-rectángulo blanco de la suma de los píxeles bajo el rectángulo negro.
+****  Adaboost: 
+Es un método de aprendizaje automático utilizado para
+ mejorar la eficiencia de la detección. Selecciona un pequeño número
+ de características críticas de un conjunto más grande y construye
+ clasificadores "débiles". Luego, estos se combinan en un clasificador
+ más fuerte y eficiente.
 
-[[https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html][Haarcascades]]
+****  Cascadas: 
+En lugar de aplicar todas las características a una ventana de la
+imagen, se organizan en una secuencia de etapas (cascadas). Cada etapa
+tiene su propio clasificador (hecho con Adaboost) y solo pasa las
+ventanas de la imagen que parecen prometedoras. Esto reduce
+significativamente el tiempo de cálculo, ya que muchas ventanas no
+pasan las primeras etapas.
 
+ *Proceso de Detección*: 
+Pre-procesamiento: Se convierte la imagen en
+ escala de grises y se crea su imagen integral.
 
+ *Aplicación de las Características*: Se desplaza una ventana sobre la
+ imagen, y en cada posición, se calculan las características de Haar.
+
+ *Clasificación en Cascada*: Cada ventana es evaluada a través de la
+ cascada de clasificadores. Si una ventana falla en alguna etapa, se
+ descarta. Si pasa todas las etapas, se considera como una detección.
+
+ *Post-procesamiento*: Finalmente, se pueden aplicar técnicas como la
+ supresión de no máximos para reducir falsos positivos y mejorar la
+ precisión.
+
+ *Aplicaciones*: Detección de rostros en imágenes y videos.  Detección
+ de peatones u otros objetos en sistemas de vigilancia.  Aplicaciones
+ de realidad aumentada.  Es importante mencionar que, aunque los Haar
+ Cascades fueron revolucionarios en su momento, han sido superados en
+ precisión y velocidad por técnicas más modernas de aprendizaje
+ profundo. Sin embargo, siguen siendo utilizados debido a su
+ simplicidad y bajo requerimiento de recursos computacionales.
+
+**** Ejemplo de un Haarcascade
+
+https://github.com/opencv/opencv/tree/master/data/haarcascades
+
+https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html
+
+https://docs.opencv.org/2.4/doc/user_guide/ug_traincascade.html
+
+https://amin-ahmadi.com/cascade-trainer-gui/
 #+BEGIN_SRC python
 import numpy as np
 import cv2 as cv
@@ -692,19 +740,65 @@ import math
 
 rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
 cap = cv.VideoCapture(0)
+i = 0  
 while True:
     ret, frame = cap.read()
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
     rostros = rostro.detectMultiScale(gray, 1.3, 5)
     for(x, y, w, h) in rostros:
-        frame = cv.rectangle(frame, (x,y), (x+w, y+h), (255, 0, 0), 5)
+       frame = cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 2)
+       #frame2 = frame[ y:y+h, x:x+w]
+        #frame3 = frame[x+30:x+w-30, y+30:y+h-30]
+       #frame2 = cv.resize(frame2, (100, 100), interpolation=cv.INTER_AREA)
+       #cv.imwrite('/home/likcos/pruebacaras/juan/juan'+str(i)+'.jpg', frame2)
+       #cv.imshow('rostror', frame2)
     cv.imshow('rostros', frame)
+    i = i+1
     k = cv.waitKey(1)
     if k == 27:
         break
 cap.release()
 cv.destroyAllWindows()
 #+END_SRC
+
+#+RESULTS:
+: None
+
+#+BEGIN_SRC python
+import cv2 as cv 
+
+rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
+cap = cv.VideoCapture(0)
+
+while True:
+    ret, img = cap.read()
+    gris = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    rostros = rostro.detectMultiScale(gris, 1.3, 5)
+    for(x,y,w,h) in rostros:
+        res = int((w+h)/8)
+        img = cv.rectangle(img, (x,y), (x+w, y+h), (234, 23,23), 2)
+        img = cv.rectangle(img, (x,int(y+h/2)), (x+w, y+h), (0,255,0),5 )
+        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 21, (0, 0, 0), 2 )
+        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 21, (0, 0, 0), 2 )
+        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 20, (255, 255, 255), -1 )
+        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 20, (255, 255, 255), -1 )
+        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 5, (0, 0, 255), -1 )
+        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 5, (0, 0, 255), -1 )
+
+    cv.imshow('img', img)
+    if cv.waitKey(1)== ord('q'):
+        break
+    
+cap.release
+cv.destroyAllWindows()
+#+END_SRC
+
+#+RESULTS:
+: None
+
+
+
+
 
 * Espacio de estados
 
@@ -1979,142 +2073,6 @@ cv2.destroyAllWindows()
 #+RESULTS:
 : None
 
-** Haarcascades 
-Los Haar Cascades son una técnica utilizada en el campo de la visión
-por computadora para la detección de objetos. Fueron introducidos por
-Paul Viola y Michael Jones en su artículo seminal "Rapid Object
-Detection using a Boosted Cascade of Simple Features" en 2001. Esta
-técnica es particularmente conocida por su eficacia en la detección de
-rostros, aunque puede ser utilizada para detectar otros tipos de
-objetos.
-
-#+startup: inlineimages
-#+ATTR_LATEX: :width 0.3\textwidth
-[[file:img/cascade.png]]
-
-*** Conceptos Clave: 
-Características de Haar: Son patrones visuales
- simples que se pueden calcular rápidamente en una imagen. Estas
- características se asemejan a pequeñas versiones de núcleos de wavelet
- de Haar y son utilizadas para capturar la presencia de bordes, cambios
- de textura, y otras propiedades visuales.
-
- 
-*** Imágenes Integrales: 
-Para acelerar el cálculo de las características
- de Haar, se utiliza un concepto llamado imagen integral. Una imagen
- integral permite calcular la suma de los valores de los píxeles en
- cualquier área rectangular de la imagen en tiempo constante.
-
-***  Adaboost: 
-Es un método de aprendizaje automático utilizado para
- mejorar la eficiencia de la detección. Selecciona un pequeño número
- de características críticas de un conjunto más grande y construye
- clasificadores "débiles". Luego, estos se combinan en un clasificador
- más fuerte y eficiente.
-
-***  Cascadas: 
-En lugar de aplicar todas las características a una ventana de la
-imagen, se organizan en una secuencia de etapas (cascadas). Cada etapa
-tiene su propio clasificador (hecho con Adaboost) y solo pasa las
-ventanas de la imagen que parecen prometedoras. Esto reduce
-significativamente el tiempo de cálculo, ya que muchas ventanas no
-pasan las primeras etapas.
-
- *Proceso de Detección*: 
-Pre-procesamiento: Se convierte la imagen en
- escala de grises y se crea su imagen integral.
-
- *Aplicación de las Características*: Se desplaza una ventana sobre la
- imagen, y en cada posición, se calculan las características de Haar.
-
- *Clasificación en Cascada*: Cada ventana es evaluada a través de la
- cascada de clasificadores. Si una ventana falla en alguna etapa, se
- descarta. Si pasa todas las etapas, se considera como una detección.
-
- *Post-procesamiento*: Finalmente, se pueden aplicar técnicas como la
- supresión de no máximos para reducir falsos positivos y mejorar la
- precisión.
-
- *Aplicaciones*: Detección de rostros en imágenes y videos.  Detección
- de peatones u otros objetos en sistemas de vigilancia.  Aplicaciones
- de realidad aumentada.  Es importante mencionar que, aunque los Haar
- Cascades fueron revolucionarios en su momento, han sido superados en
- precisión y velocidad por técnicas más modernas de aprendizaje
- profundo. Sin embargo, siguen siendo utilizados debido a su
- simplicidad y bajo requerimiento de recursos computacionales.
-
-*** Ejemplo de un Haarcascade
-
-https://github.com/opencv/opencv/tree/master/data/haarcascades
-
-https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html
-
-https://docs.opencv.org/2.4/doc/user_guide/ug_traincascade.html
-
-https://amin-ahmadi.com/cascade-trainer-gui/
-#+BEGIN_SRC python
-import numpy as np
-import cv2 as cv
-import math 
-
-rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
-cap = cv.VideoCapture(0)
-i = 0  
-while True:
-    ret, frame = cap.read()
-    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    rostros = rostro.detectMultiScale(gray, 1.3, 5)
-    for(x, y, w, h) in rostros:
-       frame = cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 2)
-       #frame2 = frame[ y:y+h, x:x+w]
-        #frame3 = frame[x+30:x+w-30, y+30:y+h-30]
-       #frame2 = cv.resize(frame2, (100, 100), interpolation=cv.INTER_AREA)
-       #cv.imwrite('/home/likcos/pruebacaras/juan/juan'+str(i)+'.jpg', frame2)
-       #cv.imshow('rostror', frame2)
-    cv.imshow('rostros', frame)
-    i = i+1
-    k = cv.waitKey(1)
-    if k == 27:
-        break
-cap.release()
-cv.destroyAllWindows()
-#+END_SRC
-
-#+RESULTS:
-: None
-
-#+BEGIN_SRC python
-import cv2 as cv 
-
-rostro = cv.CascadeClassifier('data/haarcascade_frontalface_alt.xml')
-cap = cv.VideoCapture(0)
-
-while True:
-    ret, img = cap.read()
-    gris = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    rostros = rostro.detectMultiScale(gris, 1.3, 5)
-    for(x,y,w,h) in rostros:
-        res = int((w+h)/8)
-        img = cv.rectangle(img, (x,y), (x+w, y+h), (234, 23,23), 2)
-        img = cv.rectangle(img, (x,int(y+h/2)), (x+w, y+h), (0,255,0),5 )
-        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 21, (0, 0, 0), 2 )
-        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 21, (0, 0, 0), 2 )
-        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 20, (255, 255, 255), -1 )
-        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 20, (255, 255, 255), -1 )
-        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 5, (0, 0, 255), -1 )
-        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 5, (0, 0, 255), -1 )
-
-    cv.imshow('img', img)
-    if cv.waitKey(1)== ord('q'):
-        break
-    
-cap.release
-cv.destroyAllWindows()
-#+END_SRC
-
-#+RESULTS:
-: None
 
 
 
