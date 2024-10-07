@@ -9,9 +9,8 @@
 #+HTML_HEAD: <style>pre.src {background-color: #303030; color: #e5e5e5;}</style>
 
 
-* Introducción a la Inteligencia Artificial
 
-**  Introducción a la Inteligencia Artificial.
+*  Introducción a la Inteligencia Artificial.
  La inteligencia artificial (IA) es un área multidisciplinaria que, a
   través de ciencias como las ciencias de la computación, la lógica y la
   filosofía, estudia la creación y diseño de entidades capaces de
@@ -51,7 +50,7 @@
   aplicaciones de software, juegos de estrategia, como ajedrez de
   computador, y otros videojuegos.
 
-*** Categorías de la Inteligencia Artificial 
+** Categorías de la Inteligencia Artificial 
 
    - *Sistemas que piensan como humanos*. Estos sistemas tratan de emular
      el pensamiento humano; por ejemplo las redes neuronales
@@ -69,7 +68,7 @@
      racional el comportamiento humano; por ejemplo los agentes inteligentes.Está relacionado con
      conductas inteligentes en artefactos. cite:Russell
  
-***  Inteligencia artificial convencional
+**  Inteligencia artificial convencional
 
   Se conoce también como IA simbólico-deductiva. Está basada en el análisis formal y
   estadístico del comportamiento humano ante diferentes problemas:
@@ -89,12 +88,9 @@
      igual que lo haría un especialista en la dicha actividad.
 
 
-
 **  Historia de la Inteligencia Artificial.
-
-
-
 **  Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).
+
 Las habilidades cognoscitivas son capacidades mentales que nos
 permiten procesar toda la información que nos llega del
 entorno. Incluyen procesos como la percepción, la memoria, el
@@ -169,7 +165,6 @@ inteligencia.
  la inteligencia humana. Cada teoría aporta su visión única,
  sugiriendo que la inteligencia es un fenómeno multifacético que no
  puede ser completamente comprendido a través de un solo enfoque.
-
 
 **  El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).
 El proceso de razonamiento según la lógica involucra varios conceptos
@@ -279,7 +274,6 @@ estudio vibrante y en evolución, que continúa desafiando nuestras
 concepciones sobre la mente, la realidad y la forma en que
 interactuamos con el mundo que nos rodea.
 
-
 **  El modelo cognoscitivo.
 El modelo cognoscitivo es un enfoque teórico en la psicología que pone
 énfasis en la comprensión de los procesos mentales internos que
@@ -353,7 +347,6 @@ demostrado ser una herramienta invaluable para mejorar diversos
 aspectos de la vida humana. Con el tiempo, continúa adaptándose y
 expandiéndose para incluir una comprensión más holística de la
 cognición humana.
-
 
 
 **  El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.
@@ -479,323 +472,459 @@ elección de la función heurística.
 
 
 
-*** 1.8.1 Algoritmos de exploración de alternativas.
+*** Algoritmos de exploración de alternativas.
 
 
-*** 1.8.2 Algoritmo A*.
-**** Algoritmo A* 
-   La heurística de búsqueda A* (pronunciado "A asterisco", "A estrella"
-   o "A star" en inglés) se clasifica dentro de los algoritmos de
-   búsqueda en grafos de tipo heurístico o informado. Presentado por
-   primera vez en 1968 por Peter E. Hart, Nils J. Nilsson y Bertram
-   Raphael, el algoritmo A* encuentra, siempre y cuando se cumplan unas
-   determinadas condiciones, el camino de menor coste entre un nodo
-   origen y uno objetivo.
+
+*** Algoritmo A*
+
+El *algoritmo A** es uno de los algoritmos de búsqueda más populares
+y eficientes para encontrar el camino más corto entre dos puntos,
+especialmente en grafos o espacios de búsqueda con grandes cantidades
+de nodos, como mapas o rejillas de nodos (grids). Es muy utilizado en
+problemas de búsqueda de rutas, por ejemplo, en videojuegos y sistemas
+de navegación.
+
+**** *Conceptos Básicos*
+
+A* combina las ventajas de los algoritmos de búsqueda de costo
+uniforme (como Dijkstra) y búsqueda heurística (como la búsqueda en
+anchura) para obtener un algoritmo que es tanto **óptimo** (encuentra
+la mejor solución) como **completable** (lo hace en un tiempo
+razonable).
+
+A* utiliza una función de evaluación que combina dos valores clave:
+- **g(n)**: El costo real desde el nodo inicial hasta el nodo actual \(n\).
+- **h(n)**: Una estimación heurística del costo desde el nodo actual \(n\) hasta el nodo final (objetivo).
+
+La función de evaluación se define como:
+#+begin_src latex
+f(n) = g(n) + h(n)
+#+end_src
+donde \(g(n)\) es el costo acumulado y \(h(n)\) es la estimación
+heurística. La idea es expandir primero los nodos que parecen estar
+más cerca del objetivo, mientras se asegura que el costo acumulado sea
+mínimo.
+
+*Características del Algoritmo A**
+- *Óptimo*: Si la heurística es admisible, es decir, nunca sobreestima
+  el costo restante (por ejemplo, si se usa la *distancia Manhattan*
+  o la *distancia Euclidiana* como heurística en un espacio
+  euclidiano), A* siempre encontrará el camino más corto.
+- *Completo*: Si existe un camino desde el punto inicial al punto
+  objetivo, A* lo encontrará, siempre que el espacio de búsqueda sea
+  finito.
+
+*Etapas del Algoritmo*
+
+1. *Inicialización*:
+   - Se parte de un nodo inicial (el punto de partida) y se agrega a una estructura de datos (generalmente una **cola de prioridad**).
+   - Cada nodo tiene un valor de \(f(n)\) calculado como la suma de \(g(n)\) y \(h(n)\), donde \(g(n)\) es 0 para el nodo inicial y \(h(n)\) es el valor heurístico estimado.
+
+2. **Expansión de Nodos**:
+   - En cada paso, el algoritmo extrae el nodo con el menor valor \(f(n)\) de la cola de prioridad.
+   - Luego, el algoritmo **expande** este nodo, es decir, explora todos sus nodos vecinos.
+   - Para cada vecino, se calcula el nuevo costo \(g(n)\) como la distancia acumulada desde el nodo inicial y se actualiza el valor de \(f(n)\).
+
+3. **Actualización de Nodos Vecinos**:
+   - Si un vecino aún no ha sido explorado, o si se ha encontrado un camino más corto a dicho vecino, se actualizan sus valores de \(g(n)\) y \(f(n)\), y se agrega a la cola de prioridad para ser evaluado más adelante.
+
+4. **Heurística**:
+   - La heurística \(h(n)\) es crucial para guiar la búsqueda hacia el objetivo. Una **buena heurística** hace que A* sea más eficiente, ya que prioriza la expansión de los nodos más prometedores.
+   - Las heurísticas comunes incluyen la **distancia Manhattan** (para cuadrículas donde solo se puede mover en horizontal o vertical) y la **distancia Euclidiana** (para espacios donde se puede mover en diagonal).
+
+5. **Terminación**:
+   - El algoritmo termina cuando se extrae el nodo objetivo (el nodo final) de la cola de prioridad, lo que significa que se ha encontrado el camino más corto.
+
+6. **Reconstrucción del Camino**:
+   - Una vez que se ha encontrado el nodo final, el camino se reconstruye retrocediendo desde el nodo final al nodo inicial a través de los nodos predecesores.
+
+**** *Pseudocódigo*
+
+Pseudocódigo simplificado del algoritmo A*:
+
+#+begin_src python
+Function A*(inicio, objetivo)
+    crear una cola de prioridad `open_set`
+    agregar `inicio` a `open_set` con f(inicio) = h(inicio)
+    
+    g_score[inicio] = 0
+    f_score[inicio] = h(inicio)  // Heurística desde inicio hasta objetivo
+
+    While `open_set` no esté vacío:
+        current = nodo en `open_set` con menor valor de f_score
+        If current == objetivo:
+            return reconstruir_camino(current)  // Camino encontrado
+
+        quitar current de `open_set`
+
+        For cada vecino de current:
+            tentative_g_score = g_score[current] + costo para moverse a vecino
+            
+            If tentative_g_score < g_score[vecino]:  // Mejor camino encontrado
+                came_from[vecino] = current
+                g_score[vecino] = tentative_g_score
+                f_score[vecino] = g_score[vecino] + h(vecino, objetivo)
+                
+                If vecino no está en `open_set`:
+                    agregar vecino a `open_set`
+
+    Return fracaso  // Si no se encuentra un camino
+#+end_src
+
+*Ejemplo de Heurística: Distancia Manhattan*
+
+Si se está trabajando en una cuadrícula donde solo se permiten movimientos horizontales y verticales, la **distancia Manhattan** es una heurística común:
+
+\(h(n) = |x1 - x2| + |y1 - y2|\)
+
+donde \((x1, y1)\) son las coordenadas del nodo actual \(n\) y \((x2, y2)\) son las coordenadas del nodo objetivo.
+
+*Complejidad del Algoritmo*
+
+- *Complejidad espacial*: A* puede consumir bastante memoria, ya que mantiene una lista de nodos abiertos y cerrados (nodos que han sido evaluados).
+- *Complejidad temporal*: En el peor de los casos, A* tiene una complejidad de tiempo de \(O(b^d)\), donde \(b\) es el factor de ramificación (número promedio de vecinos por nodo) y \(d\) es la profundidad del camino más corto.
+
+*Ventajas de A**
+
+1. *Eficiente*: Encuentra el camino más corto de manera eficiente si la heurística es adecuada.
+2. *Óptimo*: Siempre encuentra el camino más corto si la heurística es admisible.
+3. *Flexible*: Funciona en muchos tipos de grafos y mapas.
+
+*Desventajas de A**
+1. *Costoso en memoria*: Puede requerir mucho espacio, especialmente en problemas de gran escala.
+2. *Dependencia de la heurística*: Si la heurística no es adecuada, el rendimiento de A* puede degradarse significativamente.
+
+*Aplicaciones*
+
+- *Videojuegos*: Usado en motores de IA para encontrar rutas en mapas grandes, por ejemplo, en juegos de estrategia.
+- *Sistemas de navegación*: GPS y otros sistemas de navegación utilizan variantes de A* para encontrar rutas óptimas.
+- *Robótica*: En sistemas de planificación de rutas para robots autónomos.
 
 
-*** 1.8.3 Algoritmos de búsqueda local.
+*Visualización de Nodos, Cascaron A** 
+
+#+BEGIN_SRC python 
+import pygame
+
+# Configuraciones iniciales
+ANCHO_VENTANA = 800
+VENTANA = pygame.display.set_mode((ANCHO_VENTANA, ANCHO_VENTANA))
+pygame.display.set_caption("Visualización de Nodos")
+
+# Colores (RGB)
+BLANCO = (255, 255, 255)
+NEGRO = (0, 0, 0)
+GRIS = (128, 128, 128)
+VERDE = (0, 255, 0)
+ROJO = (255, 0, 0)
+NARANJA = (255, 165, 0)
+PURPURA = (128, 0, 128)
+
+class Nodo:
+    def __init__(self, fila, col, ancho, total_filas):
+        self.fila = fila
+        self.col = col
+        self.x = fila * ancho
+        self.y = col * ancho
+        self.color = BLANCO
+        self.ancho = ancho
+        self.total_filas = total_filas
+
+    def get_pos(self):
+        return self.fila, self.col
+
+    def es_pared(self):
+        return self.color == NEGRO
+
+    def es_inicio(self):
+        return self.color == NARANJA
+
+    def es_fin(self):
+        return self.color == PURPURA
+
+    def restablecer(self):
+        self.color = BLANCO
+
+    def hacer_inicio(self):
+        self.color = NARANJA
+
+    def hacer_pared(self):
+        self.color = NEGRO
+
+    def hacer_fin(self):
+        self.color = PURPURA
+
+    def dibujar(self, ventana):
+        pygame.draw.rect(ventana, self.color, (self.x, self.y, self.ancho, self.ancho))
+
+def crear_grid(filas, ancho):
+    grid = []
+    ancho_nodo = ancho // filas
+    for i in range(filas):
+        grid.append([])
+        for j in range(filas):
+            nodo = Nodo(i, j, ancho_nodo, filas)
+            grid[i].append(nodo)
+    return grid
+
+def dibujar_grid(ventana, filas, ancho):
+    ancho_nodo = ancho // filas
+    for i in range(filas):
+        pygame.draw.line(ventana, GRIS, (0, i * ancho_nodo), (ancho, i * ancho_nodo))
+        for j in range(filas):
+            pygame.draw.line(ventana, GRIS, (j * ancho_nodo, 0), (j * ancho_nodo, ancho))
+
+def dibujar(ventana, grid, filas, ancho):
+    ventana.fill(BLANCO)
+    for fila in grid:
+        for nodo in fila:
+            nodo.dibujar(ventana)
+
+    dibujar_grid(ventana, filas, ancho)
+    pygame.display.update()
+
+def obtener_click_pos(pos, filas, ancho):
+    ancho_nodo = ancho // filas
+    y, x = pos
+    fila = y // ancho_nodo
+    col = x // ancho_nodo
+    return fila, col
+
+def main(ventana, ancho):
+    FILAS = 10
+    grid = crear_grid(FILAS, ancho)
+
+    inicio = None
+    fin = None
+
+    corriendo = True
+
+    while corriendo:
+        dibujar(ventana, grid, FILAS, ancho)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                corriendo = False
+
+            if pygame.mouse.get_pressed()[0]:  # Click izquierdo
+                pos = pygame.mouse.get_pos()
+                fila, col = obtener_click_pos(pos, FILAS, ancho)
+                nodo = grid[fila][col]
+                if not inicio and nodo != fin:
+                    inicio = nodo
+                    inicio.hacer_inicio()
+
+                elif not fin and nodo != inicio:
+                    fin = nodo
+                    fin.hacer_fin()
+
+                elif nodo != fin and nodo != inicio:
+                    nodo.hacer_pared()
+
+            elif pygame.mouse.get_pressed()[2]:  # Click derecho
+                pos = pygame.mouse.get_pos()
+                fila, col = obtener_click_pos(pos, FILAS, ancho)
+                nodo = grid[fila][col]
+                nodo.restablecer()
+                if nodo == inicio:
+                    inicio = None
+                elif nodo == fin:
+                    fin = None
+
+    pygame.quit()
+
+main(VENTANA, ANCHO_VENTANA)
+
+#+END_SRC
+
+#+RESULTS:
+: None
+
+
+**** *Tutorial de Pygame: Visualización de Nodos, Cascaron A**
+
+Este programa utiliza la biblioteca Pygame para crear una cuadrícula
+interactiva donde puedes definir un nodo de inicio, un nodo final, y
+establecer paredes. Es una base para implementar algoritmos como A*
+para la búsqueda de caminos.
+
+***** 1. Importar Pygame
+
+El primer paso es importar Pygame, que es una biblioteca para la creación de videojuegos en Python:
+
+#+begin_src python
+import pygame
+#+end_src
+
+***** 2. Configuraciones iniciales
+Se configuran la ventana y los colores que se usarán en la
+cuadrícula. `ANCHO_VENTANA` define el tamaño de la ventana, y
+`VENTANA` se usa para crear la ventana donde se dibujarán los
+elementos:
+
+#+begin_src python
+ANCHO_VENTANA = 800
+VENTANA = pygame.display.set_mode((ANCHO_VENTANA, ANCHO_VENTANA))
+pygame.display.set_caption("Visualización de Nodos")
+#+end_src
+
+- *`ANCHO_VENTANA`*: Define que la ventana será de 800x800 píxeles.
+- *`pygame.display.set_mode`*: Crea la ventana con las dimensiones dadas.
+- *`pygame.display.set_caption`*: Establece el título de la ventana.
+
+***** 3. Definir colores en formato RGB
+Definimos algunos colores que se usarán para los nodos y las paredes. Los colores se expresan en el formato RGB:
+
+#+begin_src python
+BLANCO = (255, 255, 255)
+NEGRO = (0, 0, 0)
+GRIS = (128, 128, 128)
+VERDE = (0, 255, 0)
+ROJO = (255, 0, 0)
+NARANJA = (255, 165, 0)
+PURPURA = (128, 0, 128)
+#+end_src
+
+***** 4. Clase Nodo
+La clase `Nodo` representa cada celda de la cuadrícula. Cada nodo
+tiene una posición (fila y columna), un color, y puede tener
+diferentes estados (inicio, fin, pared, etc.):
+
+#+begin_src python
+class Nodo:
+    def __init__(self, fila, col, ancho, total_filas):
+        self.fila = fila
+        self.col = col
+        self.x = fila * ancho
+        self.y = col * ancho
+        self.color = BLANCO
+        self.ancho = ancho
+        self.total_filas = total_filas
+#+end_src
+
+Esta clase contiene varios métodos útiles:
+- *`get_pos()`*: Devuelve la posición del nodo.
+- *`es_pared()`, `es_inicio()`, `es_fin()`*: Determinan el estado del nodo.
+- *`hacer_pared()`, `hacer_inicio()`, `hacer_fin()`*: Cambian el estado del nodo.
+- *`dibujar()`*: Dibuja el nodo en la ventana.
+
+***** 5. Crear la cuadrícula
+El método `crear_grid` crea una lista de nodos organizados en una
+cuadrícula. Cada nodo tiene un tamaño calculado dividiendo el ancho
+total de la ventana por el número de filas.
+
+#+begin_src python
+def crear_grid(filas, ancho):
+    grid = []
+    ancho_nodo = ancho // filas
+    for i in range(filas):
+        grid.append([])
+        for j in range(filas):
+            nodo = Nodo(i, j, ancho_nodo, filas)
+            grid[i].append(nodo)
+    return grid
+#+end_src
+
+Este método crea una lista bidimensional que representa la cuadrícula de nodos.
+
+***** 6. Dibujar la cuadrícula y los nodos
+El método `dibujar_grid` dibuja las líneas que separan los nodos en la cuadrícula, mientras que `dibujar` dibuja cada nodo en la ventana.
+
+#+begin_src python
+def dibujar_grid(ventana, filas, ancho):
+    ancho_nodo = ancho // filas
+    for i in range(filas):
+        pygame.draw.line(ventana, GRIS, (0, i * ancho_nodo), (ancho, i * ancho_nodo))
+        for j in range(filas):
+            pygame.draw.line(ventana, GRIS, (j * ancho_nodo, 0), (j * ancho_nodo, ancho))
+#+end_src
+
+- *`dibujar_grid`*: Dibuja las líneas horizontales y verticales para formar la cuadrícula.
+- *`dibujar`*: Llama al método `dibujar()` de cada nodo para mostrar su estado (color).
+
+***** 7. Obtener la posición del clic
+El método `obtener_click_pos` convierte la posición en píxeles del ratón a la posición de la cuadrícula (fila y columna).
+
+#+begin_src python
+def obtener_click_pos(pos, filas, ancho):
+    ancho_nodo = ancho // filas
+    y, x = pos
+    fila = y // ancho_nodo
+    col = x // ancho_nodo
+    return fila, col
+#+end_src
+
+Esto permite identificar qué nodo fue clicado con precisión.
+
+***** 8. Ciclo principal
+El ciclo principal del programa está en la función `main`, que
+controla la interacción del usuario. Escucha eventos como el cierre de
+la ventana o clics del ratón para definir los nodos de inicio, fin, y
+las paredes.
+
+#+begin_src python
+def main(ventana, ancho):
+    FILAS = 10
+    grid = crear_grid(FILAS, ancho)
+
+    inicio = None
+    fin = None
+
+    corriendo = True
+
+    while corriendo:
+        dibujar(ventana, grid, FILAS, ancho)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                corriendo = False
+
+            if pygame.mouse.get_pressed()[0]:  # Click izquierdo
+                pos = pygame.mouse.get_pos()
+                fila, col = obtener_click_pos(pos, FILAS, ancho)
+                nodo = grid[fila][col]
+                if not inicio and nodo != fin:
+                    inicio = nodo
+                    inicio.hacer_inicio()
+
+                elif not fin and nodo != inicio:
+                    fin = nodo
+                    fin.hacer_fin()
+
+                elif nodo != fin and nodo != inicio:
+                    nodo.hacer_pared()
+
+            elif pygame.mouse.get_pressed()[2]:  # Click derecho
+                pos = pygame.mouse.get_pos()
+                fila, col = obtener_click_pos(pos, FILAS, ancho)
+                nodo = grid[fila][col]
+                nodo.restablecer()
+                if nodo == inicio:
+                    inicio = None
+                elif nodo == fin:
+                    fin = None
+
+    pygame.quit()
+#+end_src
+
+- *Interacción del ratón*:
+  - *Clic izquierdo*: Define el nodo de inicio, el nodo final, o establece una pared.
+  - *Clic derecho*: Restablece el nodo (lo borra).
+
+Finalmente, la función `pygame.quit()` se encarga de cerrar correctamente el programa.
+
+
+
+**** Fuentes sobre el Algoritmo A*
+
+1. [[https://en.wikipedia.org/wiki/A*_search_algorithm][Wikipedia: A* Search Algorithm]] 
+2. [[https://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html][Stanford University: Introduction to A*]] 
+3. [[https://aquariusai.ca/a-star-algorithm/][Aquarius AI: A* Algorithm in AI]] 
+4. [[https://brilliant.org/wiki/a-star-search/][Brilliant Math & Science: A* Search Algorithm]] 
+
+
+*** Algoritmos de búsqueda local.
   
    
-
-
-
-
-* Análisis de información  
-** Programación 
-*** Carga de imágenes y propiedades  
-
-Con el siguiente ejemplo, se puede cargar una imagen, utilizando la
-librería de opencv, mediante el método [[https://docs.opencv.org/3.4/d4/da8/group__imgcodecs.html][imread]], el cual carga en la
-variable **img** la imagen contenida en el directorio que se puede
-observar en la linea 2 de igual forma el método [[https://www.geeksforgeeks.org/python-opencv-cv2-imshow-method/][imshow]] permite mostrar
-la imagen, dando como primer parámetro, el nombre del marco y
-posteriormente el nombre de la imagen, finalmente se utiliza el método
-[[https://www.geeksforgeeks.org/python-opencv-waitkey-function/][waitKey]] permite  mostrar una ventana durante un número
-específico de milisegundos o hasta que se presione cualquier tecla, a su vez 
-la el método [[https://www.geeksforgeeks.org/python-opencv-destroyallwindows-function/][destroyAllWindows]] permite destruir todas las ventanas abiertas 
-creadas por **imshow**. 
-
-
-
-#+BEGIN_SRC python :results output
-import cv2 as cv 
-img = cv.imread("/home/likcos/Imágenes/tr.png")
-cv.imshow('marco', img)
-cv.waitKey()
-cv.destroyAllWindows()
-#+END_SRC
-
-#+RESULTS:
-
-Opencv también permite acceder a las propiedades de la imagen mediante
-la función [[https://docs.opencv.org/3.4/d3/df2/tutorial_py_basic_ops.html][shape]], con la cual podremos acceder al tamaño de la imagen,
-los canales de color entre otras propiedades. En el ejemplo siguiente
-se muestra como al cargar la imagen utilizando la bandera de **1**
-podemos acceder al ancho, alto y al numero de canales de color de la
-imagen. En caso de cargar la imagen utilizando el **0**, **shape**
-solo podrá acceder al alto, ancho de la imagen.
-
-
-#+BEGIN_SRC python :results output
-import cv2 as cv 
-img = cv.imread("/home/likcos/Imágenes/tr.png",1)
-w,h,c = img.shape
-print(w,h,c)
-cv.imshow('marco', img)
-cv.waitKey()
-cv.destroyAllWindows()
-
-#+END_SRC
-
-#+RESULTS:
-: 632 635 3
-*** Operadores Puntuales
-
-De igual forma cargando la imagen, en un solo canal es posible aplicar
-operadores puntuales a la imagen. Las operaciones puntuales son
-transformaciones de uno a uno, es decir el nuevo valor de un pixel 'q'
-en la posición ( i , j ) esta en función de un pixel 'p' de otra
-imagen pero en la misma posición, es decir, ( i , j ).
-
-#+BEGIN_SRC python :results output
-import cv2 as cv
-import numpy as np
-
-img = cv.imread('tr.png', 0)
-print(img.shape, img.size)
-w = img.shape[0]
-h = img.shape[1]
-#c = img.shape[2]
-#w1, h1 = img.shape
-img2 = img
-cv.imshow('imagen', img2)
-for x in range(w):
-    for y in range(h):
-        if(img[x,y]>50):
-            img[x,y]=255
-        else:
-            img[x,y]=0
-
-cv.imshow('imagen1', img)
-cv.waitKey(0)
-cv.destroyAllWindows()
-#+END_SRC
-
-*** Modelos de color 
-
-El color es una de las características que nos permite a los seres
-humanos identificar y clasificar los objetos. La percepción visual del
-color se genera en nuestro cerebro a partir de las ondas
-electromagnéticas reflejadas por los objetos y captadas por los ojos.
-Desde el punto de vista del procesamiento de imágenes por computador,
-es preciso recurrir a los llamados espacios de color, se trata de
-conjuntos de fórmulas matemáticas que permiten describir los colores y
-descomponerlos en distintos canales. Los espacios de color más
-utilizados son el RGB y el CMYK, debido a que el modelo RGB se utiliza
-en periféricos como pantallas, cámaras y escáneres, y el modelo CMYK
-en impresoras. En este capítulo se analizará también el sistema de
-coordenadas tridimensional (tono, saturación e intensidad) del espacio
-de color HSI, donde cada color está representado por un punto en el
-espacio. Los dos espacios siguientes que se estudiarán fueron
-establecidos por la Comisión Internacional de Iluminación (CIE): el
-espacio de color XYZ se usa actualmente como referencia para definir
-los colores que percibe el ojo humano, mientras que el Lab se puede
-considerar como el más completo de los desarrollados por la CIE, ya
-que permite identificar cada color de una forma muy precisa mediante
-sus valores “a” y “b” y su brillo (“L”).  Finalmente, se analizará el
-espacio de color YCbCr.
-
-#+BEGIN_SRC python
-img = cv.imread('tr.png', 1)
-img2 = cv.cvtColor(img, cv.COLOR_BGR2RGB)
-cv.imshow('img', img)
-cv.imshow('img2', img2)
-
-zero = np.zeros(img.shape[:2], dtype='uint8')
-(r,g,b)= cv.split(img)
-#cv.imshow('rg', r)
-#cv.imshow('gg', g)
-#cv.imshow('bg', b)
-cv.imshow('GRB', cv.merge([g,r,b]))
-#cv.imshow('G', cv.merge([zero,g,zero]))
-#cv.imshow('R', cv.merge([zero,zero,r]))
-#(r1,g1,b1)= cv.split(img2)
-#cv.imshow('R1', cv.merge([r1,zero,zero]))
-#cv.imshow('G1', cv.merge([zero,g1,zero]))
-#cv.imshow('B1', cv.merge([zero,zero,b1]))
-
-cv.waitKey(0)
-cv.destroyAllWindows()
-#+END_SRC
-
-*** Segmentación de Color 
-
-#+BEGIN_SRC python
-img = cv.imread('man1.jpg', 1)
-img2 = cv.cvtColor(img, cv.COLOR_BGR2RGB)
-img3 = cv.cvtColor(img2, cv.COLOR_RGB2HSV)
-
-umbralBajo=(0, 80, 80  )
-umbralAlto=(10, 255, 255)
-umbralBajoB=(170, 80,80)
-umbralAltoB=(180, 255, 255)
-
-
-mascara1 = cv.inRange(img3, umbralBajo, umbralAlto)
-mascara2 = cv.inRange(img3, umbralBajoB, umbralAltoB)
-
-mascara = mascara1 + mascara2
-
-resultado = cv.bitwise_and(img, img, mask=mascara)
-
-cv.imshow('resultado', resultado)
-cv.imshow('mascara', mascara)
-cv.imshow('img',img)
-cv.imshow('img2', img2)
-cv.imshow('img3', img3)
-
-cv.waitKey(0)
-cv.destroyAllWindows()
-#+END_SRC
-
-
-*** Haarcascades 
-Los Haar Cascades son una técnica utilizada en el campo de la visión
-por computadora para la detección de objetos. Fueron introducidos por
-Paul Viola y Michael Jones en su artículo seminal "Rapid Object
-Detection using a Boosted Cascade of Simple Features" en 2001. Esta
-técnica es particularmente conocida por su eficacia en la detección de
-rostros, aunque puede ser utilizada para detectar otros tipos de
-objetos.
-
-#+startup: inlineimages
-#+ATTR_LATEX: :width 0.3\textwidth
-[[file:img/cascade.png]]
-
-**** Conceptos Clave: 
-Características de Haar: Son patrones visuales
- simples que se pueden calcular rápidamente en una imagen. Estas
- características se asemejan a pequeñas versiones de núcleos de wavelet
- de Haar y son utilizadas para capturar la presencia de bordes, cambios
- de textura, y otras propiedades visuales.
-
- 
-**** Imágenes Integrales: 
-Para acelerar el cálculo de las características
- de Haar, se utiliza un concepto llamado imagen integral. Una imagen
- integral permite calcular la suma de los valores de los píxeles en
- cualquier área rectangular de la imagen en tiempo constante.
-
-****  Adaboost: 
-Es un método de aprendizaje automático utilizado para
- mejorar la eficiencia de la detección. Selecciona un pequeño número
- de características críticas de un conjunto más grande y construye
- clasificadores "débiles". Luego, estos se combinan en un clasificador
- más fuerte y eficiente.
-
-****  Cascadas: 
-En lugar de aplicar todas las características a una ventana de la
-imagen, se organizan en una secuencia de etapas (cascadas). Cada etapa
-tiene su propio clasificador (hecho con Adaboost) y solo pasa las
-ventanas de la imagen que parecen prometedoras. Esto reduce
-significativamente el tiempo de cálculo, ya que muchas ventanas no
-pasan las primeras etapas.
-
- *Proceso de Detección*: 
-Pre-procesamiento: Se convierte la imagen en
- escala de grises y se crea su imagen integral.
-
- *Aplicación de las Características*: Se desplaza una ventana sobre la
- imagen, y en cada posición, se calculan las características de Haar.
-
- *Clasificación en Cascada*: Cada ventana es evaluada a través de la
- cascada de clasificadores. Si una ventana falla en alguna etapa, se
- descarta. Si pasa todas las etapas, se considera como una detección.
-
- *Post-procesamiento*: Finalmente, se pueden aplicar técnicas como la
- supresión de no máximos para reducir falsos positivos y mejorar la
- precisión.
-
- *Aplicaciones*: Detección de rostros en imágenes y videos.  Detección
- de peatones u otros objetos en sistemas de vigilancia.  Aplicaciones
- de realidad aumentada.  Es importante mencionar que, aunque los Haar
- Cascades fueron revolucionarios en su momento, han sido superados en
- precisión y velocidad por técnicas más modernas de aprendizaje
- profundo. Sin embargo, siguen siendo utilizados debido a su
- simplicidad y bajo requerimiento de recursos computacionales.
-
-**** Ejemplo de un Haarcascade
-
-https://github.com/opencv/opencv/tree/master/data/haarcascades
-
-https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html
-
-https://docs.opencv.org/2.4/doc/user_guide/ug_traincascade.html
-
-https://amin-ahmadi.com/cascade-trainer-gui/
-#+BEGIN_SRC python
-import numpy as np
-import cv2 as cv
-import math 
-
-rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
-cap = cv.VideoCapture(0)
-i = 0  
-while True:
-    ret, frame = cap.read()
-    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    rostros = rostro.detectMultiScale(gray, 1.3, 5)
-    for(x, y, w, h) in rostros:
-       frame = cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 2)
-       #frame2 = frame[ y:y+h, x:x+w]
-        #frame3 = frame[x+30:x+w-30, y+30:y+h-30]
-       #frame2 = cv.resize(frame2, (100, 100), interpolation=cv.INTER_AREA)
-       #cv.imwrite('/home/likcos/pruebacaras/juan/juan'+str(i)+'.jpg', frame2)
-       #cv.imshow('rostror', frame2)
-    cv.imshow('rostros', frame)
-    i = i+1
-    k = cv.waitKey(1)
-    if k == 27:
-        break
-cap.release()
-cv.destroyAllWindows()
-#+END_SRC
-
-#+RESULTS:
-: None
-
-#+BEGIN_SRC python
-import cv2 as cv 
-
-rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
-cap = cv.VideoCapture(0)
-
-while True:
-    ret, img = cap.read()
-    gris = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    rostros = rostro.detectMultiScale(gris, 1.3, 5)
-    for(x,y,w,h) in rostros:
-        res = int((w+h)/8)
-        img = cv.rectangle(img, (x,y), (x+w, y+h), (234, 23,23), 2)
-        img = cv.rectangle(img, (x,int(y+h/2)), (x+w, y+h), (0,255,0),5 )
-        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 21, (0, 0, 0), 2 )
-        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 21, (0, 0, 0), 2 )
-        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 20, (255, 255, 255), -1 )
-        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 20, (255, 255, 255), -1 )
-        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 5, (0, 0, 255), -1 )
-        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 5, (0, 0, 255), -1 )
-
-    cv.imshow('img', img)
-    if cv.waitKey(1)== ord('q'):
-        break
-    
-cap.release
-cv.destroyAllWindows()
-#+END_SRC
-
-#+RESULTS:
-: None
-
 
 
 
@@ -1814,6 +1943,306 @@ graph.view()
 print("Hola")
 #+END_SRC
 
+* Análisis de información  
+** Programación 
+*** Carga de imágenes y propiedades  
+
+Con el siguiente ejemplo, se puede cargar una imagen, utilizando la
+librería de opencv, mediante el método [[https://docs.opencv.org/3.4/d4/da8/group__imgcodecs.html][imread]], el cual carga en la
+variable **img** la imagen contenida en el directorio que se puede
+observar en la linea 2 de igual forma el método [[https://www.geeksforgeeks.org/python-opencv-cv2-imshow-method/][imshow]] permite mostrar
+la imagen, dando como primer parámetro, el nombre del marco y
+posteriormente el nombre de la imagen, finalmente se utiliza el método
+[[https://www.geeksforgeeks.org/python-opencv-waitkey-function/][waitKey]] permite  mostrar una ventana durante un número
+específico de milisegundos o hasta que se presione cualquier tecla, a su vez 
+la el método [[https://www.geeksforgeeks.org/python-opencv-destroyallwindows-function/][destroyAllWindows]] permite destruir todas las ventanas abiertas 
+creadas por **imshow**. 
+
+
+
+#+BEGIN_SRC python :results output
+import cv2 as cv 
+img = cv.imread("/home/likcos/Imágenes/tr.png")
+cv.imshow('marco', img)
+cv.waitKey()
+cv.destroyAllWindows()
+#+END_SRC
+
+#+RESULTS:
+
+Opencv también permite acceder a las propiedades de la imagen mediante
+la función [[https://docs.opencv.org/3.4/d3/df2/tutorial_py_basic_ops.html][shape]], con la cual podremos acceder al tamaño de la imagen,
+los canales de color entre otras propiedades. En el ejemplo siguiente
+se muestra como al cargar la imagen utilizando la bandera de **1**
+podemos acceder al ancho, alto y al numero de canales de color de la
+imagen. En caso de cargar la imagen utilizando el **0**, **shape**
+solo podrá acceder al alto, ancho de la imagen.
+
+
+#+BEGIN_SRC python :results output
+import cv2 as cv 
+img = cv.imread("/home/likcos/Imágenes/tr.png",1)
+w,h,c = img.shape
+print(w,h,c)
+cv.imshow('marco', img)
+cv.waitKey()
+cv.destroyAllWindows()
+
+#+END_SRC
+
+#+RESULTS:
+: 632 635 3
+*** Operadores Puntuales
+
+De igual forma cargando la imagen, en un solo canal es posible aplicar
+operadores puntuales a la imagen. Las operaciones puntuales son
+transformaciones de uno a uno, es decir el nuevo valor de un pixel 'q'
+en la posición ( i , j ) esta en función de un pixel 'p' de otra
+imagen pero en la misma posición, es decir, ( i , j ).
+
+#+BEGIN_SRC python :results output
+import cv2 as cv
+import numpy as np
+
+img = cv.imread('tr.png', 0)
+print(img.shape, img.size)
+w = img.shape[0]
+h = img.shape[1]
+#c = img.shape[2]
+#w1, h1 = img.shape
+img2 = img
+cv.imshow('imagen', img2)
+for x in range(w):
+    for y in range(h):
+        if(img[x,y]>50):
+            img[x,y]=255
+        else:
+            img[x,y]=0
+
+cv.imshow('imagen1', img)
+cv.waitKey(0)
+cv.destroyAllWindows()
+#+END_SRC
+
+*** Modelos de color 
+
+El color es una de las características que nos permite a los seres
+humanos identificar y clasificar los objetos. La percepción visual del
+color se genera en nuestro cerebro a partir de las ondas
+electromagnéticas reflejadas por los objetos y captadas por los ojos.
+Desde el punto de vista del procesamiento de imágenes por computador,
+es preciso recurrir a los llamados espacios de color, se trata de
+conjuntos de fórmulas matemáticas que permiten describir los colores y
+descomponerlos en distintos canales. Los espacios de color más
+utilizados son el RGB y el CMYK, debido a que el modelo RGB se utiliza
+en periféricos como pantallas, cámaras y escáneres, y el modelo CMYK
+en impresoras. En este capítulo se analizará también el sistema de
+coordenadas tridimensional (tono, saturación e intensidad) del espacio
+de color HSI, donde cada color está representado por un punto en el
+espacio. Los dos espacios siguientes que se estudiarán fueron
+establecidos por la Comisión Internacional de Iluminación (CIE): el
+espacio de color XYZ se usa actualmente como referencia para definir
+los colores que percibe el ojo humano, mientras que el Lab se puede
+considerar como el más completo de los desarrollados por la CIE, ya
+que permite identificar cada color de una forma muy precisa mediante
+sus valores “a” y “b” y su brillo (“L”).  Finalmente, se analizará el
+espacio de color YCbCr.
+
+#+BEGIN_SRC python
+img = cv.imread('tr.png', 1)
+img2 = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+cv.imshow('img', img)
+cv.imshow('img2', img2)
+
+zero = np.zeros(img.shape[:2], dtype='uint8')
+(r,g,b)= cv.split(img)
+#cv.imshow('rg', r)
+#cv.imshow('gg', g)
+#cv.imshow('bg', b)
+cv.imshow('GRB', cv.merge([g,r,b]))
+#cv.imshow('G', cv.merge([zero,g,zero]))
+#cv.imshow('R', cv.merge([zero,zero,r]))
+#(r1,g1,b1)= cv.split(img2)
+#cv.imshow('R1', cv.merge([r1,zero,zero]))
+#cv.imshow('G1', cv.merge([zero,g1,zero]))
+#cv.imshow('B1', cv.merge([zero,zero,b1]))
+
+cv.waitKey(0)
+cv.destroyAllWindows()
+#+END_SRC
+
+*** Segmentación de Color 
+
+#+BEGIN_SRC python
+img = cv.imread('man1.jpg', 1)
+img2 = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+img3 = cv.cvtColor(img2, cv.COLOR_RGB2HSV)
+
+umbralBajo=(0, 80, 80  )
+umbralAlto=(10, 255, 255)
+umbralBajoB=(170, 80,80)
+umbralAltoB=(180, 255, 255)
+
+
+mascara1 = cv.inRange(img3, umbralBajo, umbralAlto)
+mascara2 = cv.inRange(img3, umbralBajoB, umbralAltoB)
+
+mascara = mascara1 + mascara2
+
+resultado = cv.bitwise_and(img, img, mask=mascara)
+
+cv.imshow('resultado', resultado)
+cv.imshow('mascara', mascara)
+cv.imshow('img',img)
+cv.imshow('img2', img2)
+cv.imshow('img3', img3)
+
+cv.waitKey(0)
+cv.destroyAllWindows()
+#+END_SRC
+
+
+*** Haarcascades 
+Los Haar Cascades son una técnica utilizada en el campo de la visión
+por computadora para la detección de objetos. Fueron introducidos por
+Paul Viola y Michael Jones en su artículo seminal "Rapid Object
+Detection using a Boosted Cascade of Simple Features" en 2001. Esta
+técnica es particularmente conocida por su eficacia en la detección de
+rostros, aunque puede ser utilizada para detectar otros tipos de
+objetos.
+
+#+startup: inlineimages
+#+ATTR_LATEX: :width 0.3\textwidth
+[[file:img/cascade.png]]
+
+**** Conceptos Clave: 
+Características de Haar: Son patrones visuales simples que se pueden
+ calcular rápidamente en una imagen. Estas características se asemejan
+ a pequeñas versiones de núcleos de wavelet de Haar y son utilizadas
+ para capturar la presencia de bordes, cambios de textura, y otras
+ propiedades visuales.
+
+ 
+**** Imágenes Integrales: 
+Para acelerar el cálculo de las características
+ de Haar, se utiliza un concepto llamado imagen integral. Una imagen
+ integral permite calcular la suma de los valores de los píxeles en
+ cualquier área rectangular de la imagen en tiempo constante.
+
+****  Adaboost: 
+Es un método de aprendizaje automático utilizado para
+ mejorar la eficiencia de la detección. Selecciona un pequeño número
+ de características críticas de un conjunto más grande y construye
+ clasificadores "débiles". Luego, estos se combinan en un clasificador
+ más fuerte y eficiente.
+
+****  Cascadas: 
+En lugar de aplicar todas las características a una ventana de la
+imagen, se organizan en una secuencia de etapas (cascadas). Cada etapa
+tiene su propio clasificador (hecho con Adaboost) y solo pasa las
+ventanas de la imagen que parecen prometedoras. Esto reduce
+significativamente el tiempo de cálculo, ya que muchas ventanas no
+pasan las primeras etapas.
+
+ *Proceso de Detección*: 
+Pre-procesamiento: Se convierte la imagen en
+ escala de grises y se crea su imagen integral.
+
+ *Aplicación de las Características*: Se desplaza una ventana sobre la
+ imagen, y en cada posición, se calculan las características de Haar.
+
+ *Clasificación en Cascada*: Cada ventana es evaluada a través de la
+ cascada de clasificadores. Si una ventana falla en alguna etapa, se
+ descarta. Si pasa todas las etapas, se considera como una detección.
+
+ *Post-procesamiento*: Finalmente, se pueden aplicar técnicas como la
+ supresión de no máximos para reducir falsos positivos y mejorar la
+ precisión.
+
+ *Aplicaciones*: Detección de rostros en imágenes y videos.  Detección
+ de peatones u otros objetos en sistemas de vigilancia.  Aplicaciones
+ de realidad aumentada.  Es importante mencionar que, aunque los Haar
+ Cascades fueron revolucionarios en su momento, han sido superados en
+ precisión y velocidad por técnicas más modernas de aprendizaje
+ profundo. Sin embargo, siguen siendo utilizados debido a su
+ simplicidad y bajo requerimiento de recursos computacionales.
+
+**** Ejemplo de un Haarcascade
+
+https://github.com/opencv/opencv/tree/master/data/haarcascades
+
+https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html
+
+https://docs.opencv.org/2.4/doc/user_guide/ug_traincascade.html
+
+https://amin-ahmadi.com/cascade-trainer-gui/
+#+BEGIN_SRC python
+import numpy as np
+import cv2 as cv
+import math 
+
+rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
+cap = cv.VideoCapture(0)
+i = 0  
+while True:
+    ret, frame = cap.read()
+    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+    rostros = rostro.detectMultiScale(gray, 1.3, 5)
+    for(x, y, w, h) in rostros:
+       #frame = cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 2)
+       frame2 = frame[ y:y+h, x:x+w]
+       #frame3 = frame[x+30:x+w-30, y+30:y+h-30]
+       frame2 = cv.resize(frame2, (100, 100), interpolation=cv.INTER_AREA)
+       cv.imwrite('/home/likcos/recorte/lalo'+str(i)+'.jpg', frame2)
+       cv.imshow('rostror', frame2)
+    cv.imshow('rostros', frame)
+    i = i+1
+    k = cv.waitKey(1)
+    if k == 27:
+        break
+cap.release()
+cv.destroyAllWindows()
+#+END_SRC
+
+#+RESULTS:
+: None
+
+#+BEGIN_SRC python
+import cv2 as cv 
+
+rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
+cap = cv.VideoCapture(0)
+
+while True:
+    ret, img = cap.read()
+    gris = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    rostros = rostro.detectMultiScale(gris, 1.3, 5)
+    for(x,y,w,h) in rostros:
+        res = int((w+h)/8)
+        img = cv.rectangle(img, (x,y), (x+w, y+h), (234, 23,23), 2)
+        img = cv.rectangle(img, (x,int(y+h/2)), (x+w, y+h), (0,255,0),5 )
+        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 21, (0, 0, 0), 2 )
+        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 21, (0, 0, 0), 2 )
+        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 20, (255, 255, 255), -1 )
+        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 20, (255, 255, 255), -1 )
+        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 5, (0, 0, 255), -1 )
+        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 5, (0, 0, 255), -1 )
+
+    cv.imshow('img', img)
+    if cv.waitKey(1)== ord('q'):
+        break
+    
+cap.release
+cv.destroyAllWindows()
+#+END_SRC
+
+#+RESULTS:
+: None
+
+
+
+
+
 * Programación
 
 #+BEGIN_SRC python :results output
@@ -2058,7 +2487,7 @@ while True:
     # Mostrar el frame
     cv2.imshow('Frame', frame)
     #cv2.imshow('img2', img2)
-    cv2.imshow('Mask', mask)
+    #cv2.imshow('Mask', mask)
 
     # Salir si se presiona la tecla 'q'
     if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -2075,6 +2504,187 @@ cv2.destroyAllWindows()
 
 
 
+
+* Tutorial Básico de Pygame
+
+Pygame es una biblioteca de Python que facilita la creación de
+videojuegos y aplicaciones gráficas interactivas. Este tutorial te
+guiará a través de los conceptos básicos de Pygame, desde la
+instalación hasta la creación de una ventana básica y la interacción
+con el teclado.
+
+- [[https://www.pygame.org/docs/][Documentación Oficial de Pygame]]
+
+
+** Instalación de Pygame
+Para instalar Pygame, puedes usar `pip`, el gestor de paquetes de Python. Abre tu terminal y ejecuta el siguiente comando:
+
+
+#+begin_src sh
+pip install pygame
+#+end_src
+
+** Creación de una ventana básica
+
+El primer paso para cualquier aplicación en Pygame es crear una ventana. Este código inicializa Pygame y abre una ventana de 800x600 píxeles.
+
+#+begin_src python
+import pygame
+import sys
+
+# Inicialización de Pygame
+pygame.init()
+
+# Tamaño de la ventana
+ANCHO, ALTO = 800, 600
+ventana = pygame.display.set_mode((ANCHO, ALTO))
+pygame.display.set_caption("Ventana Básica en Pygame")
+
+# Ciclo principal
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    # Rellenar la ventana con un color (blanco)
+    ventana.fill((255, 255, 255))
+
+    # Actualizar la ventana
+    pygame.display.flip()
+#+end_src
+
+** Manejo de eventos
+
+Los eventos en Pygame incluyen entradas del teclado, del ratón, y el cierre de la ventana. A continuación te muestro cómo capturar eventos de teclado.
+
+#+begin_src python
+import pygame
+import sys
+
+# Inicialización de Pygame
+pygame.init()
+
+# Tamaño de la ventana
+ANCHO, ALTO = 800, 600
+ventana = pygame.display.set_mode((ANCHO, ALTO))
+pygame.display.set_caption("Manejo de Eventos en Pygame")
+
+# Colores
+BLANCO = (255, 255, 255)
+ROJO = (255, 0, 0)
+
+# Posición inicial del cuadrado
+x, y = 100, 100
+velocidad = 5
+
+# Ciclo principal
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    # Movimiento del cuadrado con teclas de flechas
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        x -= velocidad
+    if keys[pygame.K_RIGHT]:
+        x += velocidad
+    if keys[pygame.K_UP]:
+        y -= velocidad
+    if keys[pygame.K_DOWN]:
+        y += velocidad
+
+    # Dibujar el cuadrado
+    ventana.fill(BLANCO)
+    pygame.draw.rect(ventana, ROJO, (x, y, 50, 50))
+
+    # Actualizar la pantalla
+    pygame.display.flip()
+#+end_src
+
+** Dibujar formas y texto
+
+Pygame facilita el dibujo de formas básicas, como rectángulos, círculos, y también permite renderizar texto.
+
+#+begin_src python
+import pygame
+import sys
+
+# Inicialización de Pygame
+pygame.init()
+
+# Tamaño de la ventana
+ANCHO, ALTO = 800, 600
+ventana = pygame.display.set_mode((ANCHO, ALTO))
+pygame.display.set_caption("Dibujo de Formas y Texto en Pygame")
+
+# Colores
+BLANCO = (255, 255, 255)
+VERDE = (0, 255, 0)
+AZUL = (0, 0, 255)
+
+# Fuente de texto
+fuente = pygame.font.SysFont(None, 55)
+
+# Ciclo principal
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    # Rellenar la ventana
+    ventana.fill(BLANCO)
+
+    # Dibujar un rectángulo
+    pygame.draw.rect(ventana, VERDE, (150, 150, 200, 100))
+
+    # Dibujar un círculo
+    pygame.draw.circle(ventana, AZUL, (400, 300), 75)
+
+    # Renderizar texto
+    texto = fuente.render("Hola, Pygame!", True, AZUL)
+    ventana.blit(texto, (250, 500))
+
+    # Actualizar la ventana
+    pygame.display.flip()
+#+end_src
+
+** Cargar y mostrar imágenes
+
+Pygame permite cargar imágenes desde archivos externos. Aquí te muestro cómo hacerlo:
+
+#+begin_src python
+import pygame
+import sys
+
+# Inicialización de Pygame
+pygame.init()
+
+# Tamaño de la ventana
+ANCHO, ALTO = 800, 600
+ventana = pygame.display.set_mode((ANCHO, ALTO))
+pygame.display.set_caption("Mostrar Imágenes en Pygame")
+
+# Cargar la imagen
+imagen = pygame.image.load('ruta_a_tu_imagen.png')
+
+# Ciclo principal
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    # Dibujar la imagen en la ventana
+    ventana.fill((255, 255, 255))
+    ventana.blit(imagen, (100, 100))
+
+    # Actualizar la ventana
+    pygame.display.flip()
+#+end_src
 
 
 * Bibliografía
