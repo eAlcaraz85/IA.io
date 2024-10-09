@@ -2243,6 +2243,112 @@ cv.destroyAllWindows()
 
 
 
+*** Template Matching
+
+El **Template Matching** (emparejamiento de plantillas) es una técnica utilizada en procesamiento de imágenes y visión por computadora para buscar y encontrar una sub-imagen o patrón dentro de una imagen más grande. 
+
+**Descripción del algoritmo Template Matching**
+
+1. **Entrada**:
+   - Una **imagen de entrada**: Es la imagen en la cual se desea buscar la plantilla.
+   - Una **plantilla**: Es una sub-imagen más pequeña que se quiere localizar dentro de la imagen de entrada.
+
+2. **Desplazamiento de la plantilla**: 
+   - El algoritmo desplaza la plantilla sobre la imagen de entrada y compara las intensidades de los píxeles de la plantilla con los de la región correspondiente en la imagen.
+
+3. **Cálculo de la similitud**:
+   - Existen varias formas de medir la similitud entre la plantilla y la región correspondiente en la imagen:
+     - **Correlación Normalizada (NCC)**: La correlación normalizada mide el grado de similitud entre la plantilla y la región de la imagen.
+     - **Suma de diferencias cuadráticas (SSD)**: Esta métrica mide la diferencia entre los valores de los píxeles correspondientes en la plantilla y la imagen. Se busca minimizar esta diferencia.
+     - **Suma de diferencias absolutas (SAD)**: Similar a la SSD, pero se suma la diferencia absoluta entre los valores de los píxeles.
+
+4. **Localización de la mejor coincidencia**:
+   - El algoritmo calcula la similitud o diferencia para cada posible ubicación de la plantilla en la imagen de entrada. La posición con el valor más alto de similitud (o más bajo de diferencia) será la ubicación donde la plantilla se ajusta mejor a la imagen.
+
+5. **Resultado**:
+   - El algoritmo devuelve las coordenadas de la región que coincide mejor con la plantilla.
+
+**Formulaciones comunes**
+
+1. **Correlación Normalizada (NCC)**:
+\(
+ R(x, y) = \frac{\sum_{u,v} \left[ T(u, v) - \bar{T} \right] \left[ I(x+u, y+v) - \bar{I} \right]}{\sqrt{\sum_{u,v} \left[ T(u, v) - \bar{T} \right]^2 \sum_{u,v} \left[ I(x+u, y+v) - \bar{I} \right]^2}}
+\)
+
+2. **Suma de diferencias cuadráticas (SSD)**:
+\(
+R(x, y) = \sum_{u,v} \left[ I(x+u, y+v) - T(u, v) \right]^2
+\)
+
+3. **Suma de diferencias absolutas (SAD)**:
+\(
+R(x, y) = \sum_{u,v} \left| I(x+u, y+v) - T(u, v) \right|
+\)
+
+**Ventajas del Template Matching**
+
+- **Simplicidad**: Es un método sencillo y directo de encontrar una sub-imagen dentro de otra.
+- **Determinístico**: No requiere entrenamiento ni ajustes de parámetros complejos.
+- **Aplicaciones**: Útil en aplicaciones de localización precisa.
+
+**Desventajas del Template Matching**
+
+- **Sensibilidad a la escala y rotación**: No funciona bien si la plantilla y la imagen no están en la misma escala o rotadas.
+- **Ruido y variaciones de iluminación**: Se ve afectado por el ruido y las variaciones de iluminación.
+- **Costoso computacionalmente**: Es lento si la imagen es grande, ya que requiere hacer muchas comparaciones.
+
+**Mejoras del Template Matching**
+
+- **Uso de pirámides**: Se pueden utilizar pirámides de imágenes para mejorar el rendimiento.
+- **Métodos más robustos**: Se pueden utilizar métodos avanzados de coincidencia basados en características locales, como SIFT o SURF.
+
+
+#+begin_src python
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Cargar la imagen y la plantilla en color
+imagen_color = cv2.imread('gen.png')  # Imagen donde se buscará la plantilla
+plantilla_color = cv2.imread('wall.png')   # La plantilla que queremos encontrar
+
+# Convertir las imágenes a escala de grises para el template matching
+imagen_gris = cv2.cvtColor(imagen_color, cv2.COLOR_BGR2GRAY)
+plantilla_gris = cv2.cvtColor(plantilla_color, cv2.COLOR_BGR2GRAY)
+
+# Obtener las dimensiones de la plantilla
+altura, ancho = plantilla_gris.shape
+
+# Aplicar el método de Template Matching usando la correlación normalizada (TM_CCOEFF_NORMED)
+resultado = cv2.matchTemplate(imagen_gris, plantilla_gris, cv2.TM_CCOEFF_NORMED)
+
+# Encontrar la mejor coincidencia usando minMaxLoc
+min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(resultado)
+
+# Coordenadas del rectángulo de coincidencia
+top_left = max_loc
+bottom_right = (top_left[0] + ancho, top_left[1] + altura)
+
+# Dibujar un rectángulo alrededor de la coincidencia sobre la imagen original en color
+cv2.rectangle(imagen_color, top_left, bottom_right, (0, 255, 0), 2)
+
+# Convertir BGR a RGB para mostrar con matplotlib
+#imagen_rgb = cv2.cvtColor(imagen_color, cv2.COLOR_BGR2RGB)
+
+# Mostrar la imagen con el rectángulo en color
+cv2.imshow('resultado', imagen_color)
+cv2.imshow('resultado2', resultado)
+
+cv2.waitKey()
+cv2.destroyAllWindows()
+
+#+end_src
+
+#+RESULTS:
+: None
+
+
+
 * Programación
 
 #+BEGIN_SRC python :results output
