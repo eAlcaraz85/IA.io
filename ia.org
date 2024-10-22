@@ -1777,7 +1777,7 @@ diferentes cromaticidades.
  decisión if-then-else. Cuanto más profundo es el árbol, más complejas
  son las reglas de decisión y más ajustado es el modelo
 
- #+ATTR_ORG: :width 200
+ #+ATTR_ORG: :width 500
  [[file:img/dtr.png]]
 
 
@@ -1897,7 +1897,6 @@ clf.predict([[2.,2.]])
 #+END_SRC
 
 
-
 En caso de que haya múltiples clases con la misma y mayor
 probabilidad, el clasificador predecirá la clase con el índice más
 bajo entre esas clases.
@@ -1919,29 +1918,197 @@ etiquetas son [0, …, K-1]).
 Usando el conjunto de datos de Iris, podemos construir un árbol de la
 siguiente manera:
 
-#+BEGIN_SRC python :result output 
+#+BEGIN_SRC python :result output :tangle code/arbol.py
+# Importar las bibliotecas necesarias
 from sklearn.datasets import load_iris
 from sklearn import tree
 import graphviz
+
+# Cargar el conjunto de datos Iris
 iris = load_iris()
+
 X, y = iris.data, iris.target
+print(iris, X, y)
+# Crear el clasificador del Árbol de Decisión
 clf = tree.DecisionTreeClassifier()
+
+# Entrenar el modelo con los datos
 clf = clf.fit(X, y)
-#dot_data = tree.export_graphviz(clf, out_file=None) 
-#graph = graphviz.Source(dot_data)
-#graph.render("iris")
+
+# Exportar el árbol de decisión en formato DOT para su visualización
 dot_data = tree.export_graphviz(clf, out_file=None, 
                                 feature_names=iris.feature_names,  
                                 class_names=iris.target_names,  
                                 filled=True, rounded=True,  
                                 special_characters=True)  
-graph = graphviz.Source(dot_data) 
+
+# Crear el gráfico con graphviz
+graph = graphviz.Source(dot_data)
+
+# Guardar el gráfico como un archivo PDF (opcional)
+graph.render("iris_decision_tree")
+
+# Mostrar el gráfico directamente
 graph.view()
+
 #+END_SRC
 
-#+BEGIN_SRC python 
-print("Hola")
+#+RESULTS:
+: None
+
+*** Árbol de Decisión en el Conjunto de Datos Iris
+
+**** Estructura del Árbol de Decisión
+Un árbol de decisión tiene la siguiente estructura:
+- **Raíz del árbol**: El nodo inicial donde comienza la primera división.
+- **Nodos internos**: Nodos que dividen los datos en función de una característica.
+- **Hojas**: Nodos finales donde se realiza la clasificación. No hay más divisiones posibles en estos nodos.
+
+**** Nodo raíz
+La primera decisión se toma en base a **petal width (cm) ≤ 0.8**:
+- **gini = 0.667**: El índice de Gini mide la impureza del nodo. Un valor de 0 significa pureza total (todas las muestras pertenecen a una clase), mientras que un valor de 0.667 indica mezcla.
+- **samples = 150**: Hay 150 muestras en este nodo.
+- **value = [50, 50, 50]**: Hay 50 flores de cada clase (**setosa**, **versicolor**, **virginica**).
+- **class = setosa**: Aunque el nodo está mezclado, la clase mayoritaria es **setosa**.
+
+**** Primera división
+- **Si petal width (cm) ≤ 0.8**:
+  - **gini = 0.0**, **samples = 50**, **value = [50, 0, 0]**. Todas las flores en este nodo son de la clase **setosa**, por lo que el modelo puede clasificarlas sin más divisiones.
+  
+- **Si petal width (cm) > 0.8**:
+  - El modelo sigue dividiendo los datos de las otras dos clases (**versicolor** y **virginica**).
+
+**** Segunda división
+Para el resto de las flores, el modelo utiliza la característica **petal width (cm) ≤ 1.75**:
+- **gini = 0.5**, **samples = 100**, **value = [0, 50, 50]**. Aquí hay una mezcla equilibrada de las clases **versicolor** y **virginica**.
+- Si el ancho del pétalo es menor o igual a 1.75 cm, el modelo predice **versicolor**, mientras que si es mayor, predice **virginica**.
+
+**** Divisiones más profundas
+El árbol sigue dividiendo basándose en otras características, como **petal length (cm) ≤ 4.95**:
+- Si esta condición se cumple, el modelo predice **versicolor**. Si no, comienza a clasificar flores como **virginica**.
+
+**** Hojas finales
+Cada nodo hoja finaliza la clasificación:
+- Si un nodo tiene **gini = 0.0**, significa que todas las muestras en ese nodo pertenecen a una sola clase.
+- Por ejemplo, en un nodo final con **gini = 0.0**, **samples = 43**, **value = [0, 0, 43]**, todas las flores en ese nodo son de la clase **virginica**.
+
+*** Índice de Gini en Árboles de Decisión
+
+**** ¿Qué es el índice de Gini?
+El **índice de Gini** es una medida de impureza o diversidad que se
+utiliza en algoritmos de aprendizaje automático, como los Árboles de
+Decisión. Se utiliza para medir qué tan puras o mezcladas están las
+clases en un nodo del árbol.
+
+**** Concepto del Índice de Gini
+El índice de Gini mide la probabilidad de que una muestra elegida al
+azar sea clasificada incorrectamente si se la asigna una clase de
+manera aleatoria basada en la distribución de clases en ese nodo.
+
+- **Un nodo puro** tendrá un índice de Gini igual a 0, lo que significa que todas las muestras en ese nodo pertenecen a la misma clase.
+- **Un nodo impuro** tendrá un índice de Gini mayor, lo que indica que hay una mezcla de clases en ese nodo.
+
+**** Fórmula del Índice de Gini
+El índice de Gini se calcula como:
+
+\[
+Gini = 1 - \sum_{i=1}^{n} p_i^2
+\]
+
+Donde:
+- **n** es el número de clases.
+- **p_i** es la proporción de ejemplos de la clase **i** en el nodo.
+
+**** Ejemplos del Índice de Gini
+
+***** Ejemplo 1: Nodo completamente puro
+Si todas las muestras en un nodo pertenecen a una sola clase, entonces el índice de Gini es **0**.
+
+- Ejemplo: Si hay 100 muestras y todas pertenecen a la clase "A", entonces \( p_A = 1 \) y las demás probabilidades son 0.
+- Cálculo:
+#+BEGIN_SRC python
+Gini = 1 - (1^2) = 0
 #+END_SRC
+Esto indica que el nodo es completamente puro.
+
+***** Ejemplo 2: Nodo con clases mixtas
+Si las muestras están distribuidas equitativamente entre varias clases, el índice de Gini será mayor.
+
+- Ejemplo: Si hay 100 muestras, con 50 de la clase "A" y 50 de la clase "B", entonces \( p_A = 0.5 \) y \( p_B = 0.5 \).
+- Cálculo:
+#+BEGIN_SRC python
+Gini = 1 - (0.5^2 + 0.5^2) = 1 - 0.25 - 0.25 = 0.5
+#+END_SRC
+Esto indica que el nodo contiene una mezcla de clases.
+
+***** Ejemplo 3: Nodo con clases desbalanceadas
+Si en un nodo hay 90 muestras de la clase "A" y 10 de la clase "B", el índice de Gini será más bajo que en el caso de clases equilibradas.
+
+- Ejemplo: \( p_A = 0.9 \) y \( p_B = 0.1 \).
+- Cálculo:
+#+BEGIN_SRC python
+Gini = 1 - (0.9^2 + 0.1^2) = 1 - 0.81 - 0.01 = 0.18
+#+END_SRC
+Esto indica que la mayoría de las muestras pertenecen a una clase, pero el nodo aún no es completamente puro.
+
+**** Interpretación del Índice de Gini
+- **Gini = 0**: El nodo es completamente puro (todas las muestras pertenecen a una sola clase).
+- **Gini cercano a 0**: La mayoría de las muestras pertenecen a una clase, pero hay algo de mezcla.
+- **Gini cercano a 1**: El nodo es muy impuro, con una mezcla casi uniforme de varias clases.
+
+**** Uso en Árboles de Decisión
+El árbol de decisión selecciona la característica que minimiza el índice de Gini en los nodos hijos, creando divisiones que generen nodos lo más puros posibles.
+
+**** Ejemplo del Índice de Gini en tu Árbol de Decisión
+En el nodo raíz del árbol de decisión que generaste, el **índice de Gini** es 0.667:
+- Esto indica que hay una mezcla significativa de clases en ese nodo.
+- El árbol de decisión divide los datos para reducir el índice de Gini en los nodos hijos.
+
+*** Ejemplo con Dataset Phaser
+
+#+begin_src python
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier, export_graphviz
+import graphviz
+
+# Cargar el dataset
+file_path = 'phaser.csv'
+dataset = pd.read_csv(file_path)
+
+# Eliminar columnas innecesarias (como la vacía "Unnamed: 3")
+#dataset = dataset.drop(columns=['Unnamed: 3'])
+
+# Definir características (X) y etiquetas (y)
+X = dataset.iloc[:, :2]  # Las dos primeras columnas son las características
+y = dataset.iloc[:, 2]   # La tercera columna es la etiqueta
+
+# Dividir los datos en conjunto de entrenamiento y prueba
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Crear el clasificador de Árbol de Decisión
+clf = DecisionTreeClassifier()
+
+# Entrenar el modelo
+clf.fit(X_train, y_train)
+
+# Exportar el árbol de decisión en formato DOT para su visualización
+dot_data = export_graphviz(clf, out_file=None, 
+                           feature_names=['Feature 1', 'Feature 2'],  
+                           class_names=['Clase 0', 'Clase 1'],  
+                           filled=True, rounded=True,  
+                           special_characters=True)  
+
+# Crear el gráfico con graphviz
+graph = graphviz.Source(dot_data)
+
+# Mostrar el gráfico
+graph.view()
+
+#+end_src
+
+#+RESULTS:
+: None
 
 * Análisis de información  
 ** Programación 
@@ -2074,7 +2241,8 @@ cv.destroyAllWindows()
 *** Segmentación de Color 
 
 #+BEGIN_SRC python
-img = cv.imread('man1.jpg', 1)
+import cv2 as cv
+img = cv.imread('salida.jpg', 1)
 img2 = cv.cvtColor(img, cv.COLOR_BGR2RGB)
 img3 = cv.cvtColor(img2, cv.COLOR_RGB2HSV)
 
@@ -2100,6 +2268,9 @@ cv.imshow('img3', img3)
 cv.waitKey(0)
 cv.destroyAllWindows()
 #+END_SRC
+
+#+RESULTS:
+: None
 
 
 *** Haarcascades 
