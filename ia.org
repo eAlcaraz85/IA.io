@@ -2183,6 +2183,173 @@ graph.view()
  0 1 0 1 0 0 0 0 0 0 1]
 #+end_example
 
+
+** Arquitecturas de Redes Neuronales
+
+*** 1. Redes Neuronales Feedforward (FFNN)
+   - Las **redes neuronales feedforward** son las más simples y consisten en capas donde la información fluye en una sola dirección, desde la capa de entrada hasta la capa de salida, sin retroalimentación.
+   - La arquitectura de un perceptrón multicapa (MLP) es un ejemplo de red feedforward.
+   
+   *** Aplicaciones comunes:
+       - Clasificación de datos estructurados (tabulares).
+       - Problemas de regresión.
+
+*** 2. Redes Neuronales Convolucionales (CNN)
+   - Las **redes neuronales convolucionales** están diseñadas para procesar datos que tienen una estructura de cuadrícula, como imágenes. Las CNN usan convoluciones para reducir la cantidad de parámetros y hacen que las redes sean eficientes para el procesamiento de imágenes.
+
+   *** Componentes principales:
+       - **Capas de Convolución**: Detectan características en los datos, como bordes y texturas.
+       - **Capas de Pooling**: Reducen la dimensionalidad y ayudan a evitar el sobreajuste.
+       - **Capas de Conexión Completa**: Al final de la red, para clasificar o predecir.
+
+   *** Aplicaciones comunes:
+       - Clasificación de imágenes.
+       - Detección y segmentación de objetos.
+       - Procesamiento de video.
+
+   *** Ejemplo en Python:
+       #+begin_src python
+       import tensorflow as tf
+       from tensorflow.keras import layers, models
+
+       model = models.Sequential([
+           layers.Conv2D(32, (3, 3), activation='relu', input_shape=(64, 64, 3)),
+           layers.MaxPooling2D((2, 2)),
+           layers.Conv2D(64, (3, 3), activation='relu'),
+           layers.MaxPooling2D((2, 2)),
+           layers.Flatten(),
+           layers.Dense(64, activation='relu'),
+           layers.Dense(10, activation='softmax')
+       ])
+       #+end_src
+
+*** 3. Redes Neuronales Recurrentes (RNN)
+   - Las **redes neuronales recurrentes** están diseñadas para trabajar con datos secuenciales o series temporales. Las RNN tienen una conexión recurrente que les permite recordar información de entradas anteriores.
+   
+   *** Variantes de RNN:
+       - **LSTM (Long Short-Term Memory)**: Diseñadas para retener información en secuencias largas y resolver el problema del gradiente desvaneciente.
+       - **GRU (Gated Recurrent Unit)**: Variante simplificada de LSTM que es más eficiente computacionalmente.
+
+   *** Aplicaciones comunes:
+       - Procesamiento de lenguaje natural (NLP).
+       - Predicción de series temporales.
+       - Generación de texto.
+
+   *** Ejemplo en Python:
+       #+begin_src python
+       from tensorflow.keras.layers import SimpleRNN, LSTM, Dense
+       from tensorflow.keras.models import Sequential
+
+       model = Sequential([
+           LSTM(50, input_shape=(100, 1)),
+           Dense(1)
+       ])
+       #+end_src
+
+*** 4. Redes Generativas Antagónicas (GAN)
+   - Las **redes generativas antagónicas** (GAN) consisten en dos redes: una red generadora y una red discriminadora que compiten entre sí. La red generadora intenta crear datos similares a los datos reales, mientras que la red discriminadora trata de distinguir entre datos reales y generados.
+
+   *** Componentes principales:
+       - **Generador**: Produce datos falsos similares a los datos de entrenamiento.
+       - **Discriminador**: Evalúa la autenticidad de los datos.
+       - **Entrenamiento**: Ambos modelos se entrenan de forma simultánea en un proceso antagónico.
+
+   *** Aplicaciones comunes:
+       - Generación de imágenes realistas.
+       - Aumento de datos (data augmentation).
+       - Transferencia de estilo.
+
+   *** Ejemplo en Python:
+       #+begin_src python
+       from tensorflow.keras.layers import Dense, LeakyReLU
+       from tensorflow.keras.models import Sequential
+
+       # Modelo Generador
+       generator = Sequential([
+           Dense(256, input_dim=100),
+           LeakyReLU(0.2),
+           Dense(512),
+           LeakyReLU(0.2),
+           Dense(784, activation='tanh')
+       ])
+
+       # Modelo Discriminador
+       discriminator = Sequential([
+           Dense(512, input_shape=(784,)),
+           LeakyReLU(0.2),
+           Dense(256),
+           LeakyReLU(0.2),
+           Dense(1, activation='sigmoid')
+       ])
+       #+end_src
+
+*** 5. Redes de Memoria a Largo y Corto Plazo (LSTM)
+   - Las **LSTM** son una variante de las RNN que utilizan un sistema de puertas (input gate, forget gate y output gate) para controlar el flujo de información y decidir qué recordar y qué olvidar.
+
+   *** Aplicaciones comunes:
+       - Traducción automática.
+       - Generación de texto.
+       - Análisis de sentimientos.
+
+*** 6. Redes de Transformadores
+   - Los **transformadores** utilizan un mecanismo de auto-atención para procesar datos secuenciales en paralelo. Esta arquitectura ha revolucionado el procesamiento del lenguaje natural.
+
+   *** Componentes principales:
+       - **Auto-atención**: Permite a la red enfocarse en diferentes partes de la entrada sin procesarlas en orden secuencial.
+       - **Embeddings**: Representaciones vectoriales de las palabras.
+       - **Capas de Feedforward y Atención Multi-Cabeza**: Proveen capacidad de aprendizaje al procesar la información.
+
+   *** Aplicaciones comunes:
+       - Traducción automática.
+       - Resumen de texto.
+       - Generación de lenguaje (GPT-3, BERT).
+
+   *** Ejemplo en Python:
+       #+begin_src python
+       from transformers import AutoTokenizer, TFAutoModelForSequenceClassification
+
+       tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
+       model = TFAutoModelForSequenceClassification.from_pretrained("distilbert-base-uncased")
+
+       # Tokenización de entrada
+       inputs = tokenizer("Hello, how are you?", return_tensors="tf")
+
+       # Predicción
+       outputs = model(inputs)
+       #+end_src
+
+*** 7. Redes Autoencoders
+   - Los **autoencoders** son redes neuronales diseñadas para aprender representaciones de datos de alta dimensionalidad en un espacio de menor dimensión. Consisten en dos partes principales: el codificador y el decodificador.
+
+   *** Componentes principales:
+       - **Codificador (Encoder)**: Reduce la dimensión del dato de entrada.
+       - **Decodificador (Decoder)**: Reconstruye el dato original a partir de la representación reducida.
+
+   *** Aplicaciones comunes:
+       - Compresión de imágenes.
+       - Eliminación de ruido en datos.
+       - Detección de fraudes.
+
+   *** Ejemplo en Python:
+       #+begin_src python
+       from tensorflow.keras.layers import Input, Dense
+       from tensorflow.keras.models import Model
+
+       # Autoencoder simple
+       input_img = Input(shape=(784,))
+       encoded = Dense(32, activation='relu')(input_img)
+       decoded = Dense(784, activation='sigmoid')(encoded)
+
+       autoencoder = Model(input_img, decoded)
+       #+end_src
+
+*** 8. Redes de Cápsulas (Capsule Networks)
+   - Las **Capsule Networks** fueron propuestas para superar las limitaciones de las CNN en la detección de la rotación y posición espacial de los objetos en imágenes. Estas redes usan cápsulas (grupos de neuronas) para capturar mejor la orientación y jerarquía en las características de la imagen.
+
+   *** Aplicaciones comunes:
+       - Clasificación de imágenes donde la orientación y posición de los objetos son relevantes.
+
+
 * Análisis de información  
 ** Programación 
 *** Carga de imágenes y propiedades  
