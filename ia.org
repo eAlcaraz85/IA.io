@@ -2187,20 +2187,31 @@ graph.view()
 ** Arquitecturas de Redes Neuronales
 
 *** 1. Redes Neuronales Feedforward (FFNN)
-   - Las **redes neuronales feedforward** son las más simples y consisten en capas donde la información fluye en una sola dirección, desde la capa de entrada hasta la capa de salida, sin retroalimentación.
-   - La arquitectura de un perceptrón multicapa (MLP) es un ejemplo de red feedforward.
+   - Las **redes neuronales feedforward** son las más simples y
+     consisten en capas donde la información fluye en una sola
+     dirección, desde la capa de entrada hasta la capa de salida, sin
+     retroalimentación.
+   - La arquitectura de un perceptrón multicapa (MLP) es un ejemplo de
+     red feedforward.
    
    *** Aplicaciones comunes:
        - Clasificación de datos estructurados (tabulares).
        - Problemas de regresión.
 
 *** 2. Redes Neuronales Convolucionales (CNN)
-   - Las **redes neuronales convolucionales** están diseñadas para procesar datos que tienen una estructura de cuadrícula, como imágenes. Las CNN usan convoluciones para reducir la cantidad de parámetros y hacen que las redes sean eficientes para el procesamiento de imágenes.
+   - Las **redes neuronales convolucionales** están diseñadas para
+     procesar datos que tienen una estructura de cuadrícula, como
+     imágenes. Las CNN usan convoluciones para reducir la cantidad de
+     parámetros y hacen que las redes sean eficientes para el
+     procesamiento de imágenes.
 
    *** Componentes principales:
-       - **Capas de Convolución**: Detectan características en los datos, como bordes y texturas.
-       - **Capas de Pooling**: Reducen la dimensionalidad y ayudan a evitar el sobreajuste.
-       - **Capas de Conexión Completa**: Al final de la red, para clasificar o predecir.
+       - **Capas de Convolución**: Detectan características en los
+         datos, como bordes y texturas.
+       - **Capas de Pooling**: Reducen la dimensionalidad y ayudan a
+         evitar el sobreajuste.
+       - **Capas de Conexión Completa**: Al final de la red, para
+         clasificar o predecir.
 
    *** Aplicaciones comunes:
        - Clasificación de imágenes.
@@ -2224,10 +2235,15 @@ graph.view()
        #+end_src
 
 *** 3. Redes Neuronales Recurrentes (RNN)
-   - Las **redes neuronales recurrentes** están diseñadas para trabajar con datos secuenciales o series temporales. Las RNN tienen una conexión recurrente que les permite recordar información de entradas anteriores.
+   - Las **redes neuronales recurrentes** están diseñadas para trabajar
+     con datos secuenciales o series temporales. Las RNN tienen una
+     conexión recurrente que les permite recordar información de
+     entradas anteriores.
    
    *** Variantes de RNN:
-       - **LSTM (Long Short-Term Memory)**: Diseñadas para retener información en secuencias largas y resolver el problema del gradiente desvaneciente.
+       - **LSTM (Long Short-Term Memory)**: Diseñadas para retener
+         información en secuencias largas y resolver el problema del
+         gradiente desvaneciente.
        - **GRU (Gated Recurrent Unit)**: Variante simplificada de LSTM que es más eficiente computacionalmente.
 
    *** Aplicaciones comunes:
@@ -2247,7 +2263,11 @@ graph.view()
        #+end_src
 
 *** 4. Redes Generativas Antagónicas (GAN)
-   - Las **redes generativas antagónicas** (GAN) consisten en dos redes: una red generadora y una red discriminadora que compiten entre sí. La red generadora intenta crear datos similares a los datos reales, mientras que la red discriminadora trata de distinguir entre datos reales y generados.
+   - Las **redes generativas antagónicas** (GAN) consisten en dos redes:
+     una red generadora y una red discriminadora que compiten entre
+     sí. La red generadora intenta crear datos similares a los datos
+     reales, mientras que la red discriminadora trata de distinguir
+     entre datos reales y generados.
 
    *** Componentes principales:
        - **Generador**: Produce datos falsos similares a los datos de entrenamiento.
@@ -2292,12 +2312,16 @@ graph.view()
        - Análisis de sentimientos.
 
 *** 6. Redes de Transformadores
-   - Los **transformadores** utilizan un mecanismo de auto-atención para procesar datos secuenciales en paralelo. Esta arquitectura ha revolucionado el procesamiento del lenguaje natural.
+   - Los **transformadores** utilizan un mecanismo de auto-atención para
+     procesar datos secuenciales en paralelo. Esta arquitectura ha
+     revolucionado el procesamiento del lenguaje natural.
 
    *** Componentes principales:
-       - **Auto-atención**: Permite a la red enfocarse en diferentes partes de la entrada sin procesarlas en orden secuencial.
+       - **Auto-atención**: Permite a la red enfocarse en diferentes
+         partes de la entrada sin procesarlas en orden secuencial.
        - **Embeddings**: Representaciones vectoriales de las palabras.
-       - **Capas de Feedforward y Atención Multi-Cabeza**: Proveen capacidad de aprendizaje al procesar la información.
+       - **Capas de Feedforward y Atención Multi-Cabeza**: Proveen
+         capacidad de aprendizaje al procesar la información.
 
    *** Aplicaciones comunes:
        - Traducción automática.
@@ -3203,7 +3227,58 @@ while True:
     pygame.display.flip()
 #+end_src
 
+* Web scraping
+
+#+BEGIN_SRC python :results output :tangle code/snscrap.py
+import snscrape.modules.twitter as sntwitter
+
+query = "ley fula de tal"
+tetes = []
+
+for i, tweet in enumerate(sntwitter.TwitterSearchScraper(query).get_items()):
+    if i > 10:  # Limitar a los primeros 10 tweets
+        break
+    tweets.append((tweet.user.username, tweet.content))
+
+for user, content in tweets:
+    print(f"Usuario: {user}")
+    print(f"Texto: {content}\n")
+#+END_SRC
+
+#+RESULTS:
+
+
+
+* Preguntas
+
+** Preguntas para responder con el estudio y análisis a través de algoritmos de inteligencia artificial. 
+
+*** Preguntas Ley al poder Judicial
+- ¿El Diagnostico de la ley al poder judicial es conocido y qué estudios expertos tuvieron en cuenta?
+- ¿Por qué la reforma no incluyó a las fiscalías a las defensoría y sólo se limitó al poder judicial ?
+- ¿Qué medidas concretas se van a implementar para evitar la captación del crimen organizado y la violencia en el contexto electoral?
+- ¿Cómo garantizar que juristas probos y honestos se animen a competir
+  públicamente frente a los riesgos de la violencia y que la campaña
+  para ser incluidos en las listas no implique negociaciones indebidas?
+- ¿Cómo se conforman estos comités de postulación?
+- ¿Cómo asegurar la carrera judicial?
+- ¿Cómo compatibilizar la incorporación de medidas para preservar la identidad de los jueces conocidos en el sistema interamericano como "jueces sin rostro" con los estándares interamericanos  ?
+- ¿Cómo impactará el enorme costo económico que tendrá la implementación de esta reforma con la promoción y  ?        
+
+*** Ley Organismos Autónomos
+- ¿Es constitucional esta ley, considerando que algunos organismos autónomos están establecidos en la Constitución?
+- ¿Cómo afectaría la eliminación de estos organismos a la transparencia y rendición de cuentas en el gobierno?
+- ¿Qué funciones críticas podrían perder independencia y control al pasar al poder ejecutivo o a otras instituciones?
+- ¿Existen alternativas para mejorar la eficiencia de los organismos autónomos sin eliminarlos?
+- ¿Qué sectores de la sociedad civil y grupos de interés se verían afectados por la desaparición de estos organismos?
 
 * Bibliografía
 bibliography:bibliografia.bib
 
+
+
+snscrape facebook-page "https://www.facebook.com/share/v/19XLiKLLL8/" --jsonl > posts.jsonl
+
+snscrape facebook-page "https://www.facebook.com/eduardo.alcc" --jsonl > posts.jsonl
+
+https://www.facebook.com/share/v/19XLiKLLL8/
