@@ -3771,3 +3771,42 @@ por los clientes basándose en las siguientes características:
 5. ¿Son los datos linealmente separables?
 6. ¿Qué ajustes podrían hacer al modelo para mejorar la predicción?
 7. Describir cada una de las partes del modelo implementando
+
+
+* Problema: Clasificación de Clientes según su Perfil Financiero
+
+** Descripción del Problema
+Una institución financiera desea clasificar a sus clientes en tres categorías basándose en su perfil financiero y de comportamiento:
+
+1. **Riesgo Bajo**: Clientes que cumplen con todos los pagos a tiempo y tienen ingresos estables.
+2. **Riesgo Medio**: Clientes con retrasos esporádicos en los pagos o ingresos variables.
+3. **Riesgo Alto**: Clientes con historial de impagos o ingresos inestables.
+
+**Características de Entrada**:
+1. **Historial de pagos**: Porcentaje de pagos realizados a tiempo (normalizado entre 0 y 1).
+2. **Ingresos mensuales**: Ingresos promedio del cliente (normalizado entre 0 y 1).
+3. **Relación deuda-ingreso**: Proporción entre la deuda total y los ingresos totales (normalizado entre 0 y 1).
+
+**Categorías de Salida**:
+- `Riesgo Bajo`: [1, 0, 0]
+- `Riesgo Medio`: [0, 1, 0]
+- `Riesgo Alto`: [0, 0, 1]
+
+** Conjunto de Datos de Entrenamiento
+| Historial de pagos | Ingresos mensuales | Relación deuda-ingreso | Resultado       |
+|---------------------|--------------------|-------------------------|-----------------|
+| 0.9                | 0.8                | 0.2                     | [1, 0, 0]       |
+| 0.7                | 0.6                | 0.5                     | [0, 1, 0]       |
+| 0.4                | 0.4                | 0.8                     | [0, 0, 1]       |
+| 0.8                | 0.9                | 0.3                     | [1, 0, 0]       |
+| 0.5                | 0.7                | 0.6                     | [0, 1, 0]       |
+| 0.3                | 0.5                | 0.9                     | [0, 0, 1]       |
+
+
+** Actividades 
+1. Implementar una red neuronal multicapa para clasificar los clientes según su riesgo.
+2. Encontrar los valores óptimos para los pesos `w1`, `w2` 'wn' y el sesgo `b` mediante entrenamiento.
+3. Graficar la frontera de decisión que separa los clientes .
+4. ¿Son los datos linealmente separables?
+5. ¿Qué ajustes podrían hacer al modelo para mejorar la clasificación?
+6. Describir cada una de las partes del modelo implementando
