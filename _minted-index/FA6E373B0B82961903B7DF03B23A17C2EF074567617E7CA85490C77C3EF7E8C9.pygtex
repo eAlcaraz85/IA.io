@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{procedure}\PYG{+w}{ }\PYG{n}{Busqueda\PYGZus{}en\PYGZus{}profundidad}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{   }\PYG{n}{open}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{[}\PYG{n}{estado\PYGZus{}inicial}\PYG{p}{]}
+\PYG{+w}{   }\PYG{n}{closed}\PYG{+w}{ }\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{}}
+\PYG{+w}{   }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{open}\PYG{+w}{ }\PYG{n}{no}\PYG{+w}{ }\PYG{n}{esta}\PYG{+w}{ }\PYG{n}{vacia}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{     }\PYG{n}{remover}\PYG{+w}{ }\PYG{n}{el}\PYG{+w}{ }\PYG{n}{primer}\PYG{+w}{ }\PYG{n}{estado}\PYG{+w}{ }\PYG{n}{X}\PYG{+w}{ }\PYG{n}{de}\PYG{+w}{ }\PYG{n}{la}\PYG{+w}{ }\PYG{n}{lista}\PYG{+w}{ }\PYG{n}{open}
+\PYG{+w}{     }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{X}\PYG{+w}{ }\PYG{n}{es}\PYG{+w}{ }\PYG{n}{un}\PYG{+w}{ }\PYG{n}{estado}\PYG{+w}{ }\PYG{n}{objetivo}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{exito}
+\PYG{+w}{     }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{       }\PYG{n}{generar}\PYG{+w}{ }\PYG{n}{el}\PYG{+w}{ }\PYG{n}{conjunto}\PYG{+w}{ }\PYG{n}{de}\PYG{+w}{ }\PYG{n}{sucesores}\PYG{+w}{ }\PYG{n}{del}\PYG{+w}{ }\PYG{n}{estado}\PYG{+w}{ }\PYG{n}{X}
+\PYG{+w}{       }\PYG{n}{agregar}\PYG{+w}{ }\PYG{n}{el}\PYG{+w}{ }\PYG{n}{estado}\PYG{+w}{ }\PYG{n}{X}\PYG{+w}{ }\PYG{n}{al}\PYG{+w}{ }\PYG{n}{conjunto}\PYG{+w}{ }\PYG{n}{closed}
+\PYG{+w}{       }\PYG{n}{eliminar}\PYG{+w}{ }\PYG{n}{sucesores}\PYG{+w}{ }\PYG{n}{que}\PYG{+w}{ }\PYG{n}{ya}\PYG{+w}{ }\PYG{n}{estan}\PYG{+w}{ }\PYG{n}{en}\PYG{+w}{ }\PYG{n}{open}\PYG{+w}{ }\PYG{n}{o}\PYG{+w}{ }\PYG{n}{en}\PYG{+w}{ }\PYG{n}{closed}
+\PYG{+w}{       }\PYG{n}{agregar}\PYG{+w}{ }\PYG{n}{el}\PYG{+w}{ }\PYG{n}{resto}\PYG{+w}{ }\PYG{n}{de}\PYG{+w}{ }\PYG{n}{los}\PYG{+w}{ }\PYG{n}{sucesores}\PYG{+w}{ }\PYG{n}{al}\PYG{+w}{ }\PYG{n}{principio}\PYG{+w}{ }\PYG{n}{de}\PYG{+w}{ }\PYG{n}{open}
+\PYG{+w}{     }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{   }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{   }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{fracaso}
+\PYG{+w}{ }\PYG{p}{\PYGZcb{}}
+
+
+\end{Verbatim}

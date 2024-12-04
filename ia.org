@@ -3770,4 +3770,4 @@ por los clientes basándose en las siguientes características:
 4. Graficar la frontera de decisión que separa los productos aceptados de los rechazados.
 5. ¿Son los datos linealmente separables?
 6. ¿Qué ajustes podrían hacer al modelo para mejorar la predicción?
-
+7. Describir cada una de las partes del modelo implementando

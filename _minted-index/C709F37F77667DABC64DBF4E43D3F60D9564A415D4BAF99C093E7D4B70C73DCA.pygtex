@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{snscrape.modules.twitter} \PYG{k}{as} \PYG{n+nn}{sntwitter}
+
+\PYG{n}{query} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}ley fula de tal\PYGZdq{}}
+\PYG{n}{tetes} \PYG{o}{=} \PYG{p}{[]}
+
+\PYG{k}{for} \PYG{n}{i}\PYG{p}{,} \PYG{n}{tweet} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{sntwitter}\PYG{o}{.}\PYG{n}{TwitterSearchScraper}\PYG{p}{(}\PYG{n}{query}\PYG{p}{)}\PYG{o}{.}\PYG{n}{get\PYGZus{}items}\PYG{p}{()):}
+    \PYG{k}{if} \PYG{n}{i} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{10}\PYG{p}{:}  \PYG{c+c1}{\PYGZsh{} Limitar a los primeros 10 tweets}
+        \PYG{k}{break}
+    \PYG{n}{tweets}\PYG{o}{.}\PYG{n}{append}\PYG{p}{((}\PYG{n}{tweet}\PYG{o}{.}\PYG{n}{user}\PYG{o}{.}\PYG{n}{username}\PYG{p}{,} \PYG{n}{tweet}\PYG{o}{.}\PYG{n}{content}\PYG{p}{))}
+
+\PYG{k}{for} \PYG{n}{user}\PYG{p}{,} \PYG{n}{content} \PYG{o+ow}{in} \PYG{n}{tweets}\PYG{p}{:}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Usuario: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{user}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Texto: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{content}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

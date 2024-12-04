@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{dibujar\PYGZus{}grid}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{filas}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{):}
+    \PYG{n}{ancho\PYGZus{}nodo} \PYG{o}{=} \PYG{n}{ancho} \PYG{o}{//} \PYG{n}{filas}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{filas}\PYG{p}{):}
+        \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{line}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{GRIS}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{i} \PYG{o}{*} \PYG{n}{ancho\PYGZus{}nodo}\PYG{p}{),} \PYG{p}{(}\PYG{n}{ancho}\PYG{p}{,} \PYG{n}{i} \PYG{o}{*} \PYG{n}{ancho\PYGZus{}nodo}\PYG{p}{))}
+        \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{filas}\PYG{p}{):}
+            \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{line}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{GRIS}\PYG{p}{,} \PYG{p}{(}\PYG{n}{j} \PYG{o}{*} \PYG{n}{ancho\PYGZus{}nodo}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),} \PYG{p}{(}\PYG{n}{j} \PYG{o}{*} \PYG{n}{ancho\PYGZus{}nodo}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{))}
+\end{Verbatim}

@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{ollama}
+
+\PYG{c+c1}{\PYGZsh{} Configuración de cliente}
+\PYG{n}{client} \PYG{o}{=} \PYG{n}{ollama}\PYG{o}{.}\PYG{n}{Client}\PYG{p}{(}\PYG{n}{api\PYGZus{}key}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}TU\PYGZus{}API\PYGZus{}KEY\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Enviar consulta}
+\PYG{n}{response} \PYG{o}{=} \PYG{n}{client}\PYG{o}{.}\PYG{n}{query}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}¿Cuáles son las ventajas del aprendizaje supervisado?\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{response}\PYG{p}{)}
+\end{Verbatim}

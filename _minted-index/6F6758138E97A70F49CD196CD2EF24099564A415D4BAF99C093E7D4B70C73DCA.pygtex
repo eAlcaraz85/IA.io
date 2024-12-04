@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{cv2} \PYG{k}{as} \PYG{n+nn}{cv}
+\PYG{n}{img} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imread}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}/home/likcos/Imágenes/tr.png\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}marco\PYGZsq{}}\PYG{p}{,} \PYG{n}{img}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{waitKey}\PYG{p}{()}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{destroyAllWindows}\PYG{p}{()}
+\end{Verbatim}

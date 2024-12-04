@@ -1,0 +1,25 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{spacy}
+
+\PYG{c+c1}{\PYGZsh{} Cargar modelo de lenguaje en español}
+\PYG{n}{nlp} \PYG{o}{=} \PYG{n}{spacy}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}es\PYGZus{}core\PYGZus{}news\PYGZus{}md\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Texto de ejemplo (puede ser extraído de la Constitución)}
+\PYG{n}{texto} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+s2}{El Instituto Nacional Electoral (INE) es un organismo público autónomo encargado de organizar elecciones en México.}
+\PYG{l+s+s2}{Su autonomía está garantizada por el artículo 41 de la Constitución.}
+\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+\PYG{c+c1}{\PYGZsh{} Procesar el texto}
+\PYG{n}{doc} \PYG{o}{=} \PYG{n}{nlp}\PYG{p}{(}\PYG{n}{texto}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Extraer entidades relevantes}
+\PYG{k}{for} \PYG{n}{ent} \PYG{o+ow}{in} \PYG{n}{doc}\PYG{o}{.}\PYG{n}{ents}\PYG{p}{:}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Entidad: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{ent}\PYG{o}{.}\PYG{n}{text}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, Tipo: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{ent}\PYG{o}{.}\PYG{n}{label\PYGZus{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Buscar términos clave}
+\PYG{k}{for} \PYG{n}{token} \PYG{o+ow}{in} \PYG{n}{doc}\PYG{p}{:}
+    \PYG{k}{if} \PYG{n}{token}\PYG{o}{.}\PYG{n}{text}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}autonomía\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}independencia\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}organismo\PYGZdq{}}\PYG{p}{]:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Término clave encontrado: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{token}\PYG{o}{.}\PYG{n}{text}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, Contexto: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{token}\PYG{o}{.}\PYG{n}{sent}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\end{Verbatim}
