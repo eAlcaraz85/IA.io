@@ -1,0 +1,43 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{main}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{):}
+    \PYG{n}{FILAS} \PYG{o}{=} \PYG{l+m+mi}{10}
+    \PYG{n}{grid} \PYG{o}{=} \PYG{n}{crear\PYGZus{}grid}\PYG{p}{(}\PYG{n}{FILAS}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{)}
+
+    \PYG{n}{inicio} \PYG{o}{=} \PYG{k+kc}{None}
+    \PYG{n}{fin} \PYG{o}{=} \PYG{k+kc}{None}
+
+    \PYG{n}{corriendo} \PYG{o}{=} \PYG{k+kc}{True}
+
+    \PYG{k}{while} \PYG{n}{corriendo}\PYG{p}{:}
+        \PYG{n}{dibujar}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{grid}\PYG{p}{,} \PYG{n}{FILAS}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{event} \PYG{o+ow}{in} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{event}\PYG{o}{.}\PYG{n}{get}\PYG{p}{():}
+            \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{type} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{QUIT}\PYG{p}{:}
+                \PYG{n}{corriendo} \PYG{o}{=} \PYG{k+kc}{False}
+
+            \PYG{k}{if} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{mouse}\PYG{o}{.}\PYG{n}{get\PYGZus{}pressed}\PYG{p}{()[}\PYG{l+m+mi}{0}\PYG{p}{]:}  \PYG{c+c1}{\PYGZsh{} Click izquierdo}
+                \PYG{n}{pos} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{mouse}\PYG{o}{.}\PYG{n}{get\PYGZus{}pos}\PYG{p}{()}
+                \PYG{n}{fila}\PYG{p}{,} \PYG{n}{col} \PYG{o}{=} \PYG{n}{obtener\PYGZus{}click\PYGZus{}pos}\PYG{p}{(}\PYG{n}{pos}\PYG{p}{,} \PYG{n}{FILAS}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{)}
+                \PYG{n}{nodo} \PYG{o}{=} \PYG{n}{grid}\PYG{p}{[}\PYG{n}{fila}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]}
+                \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{inicio} \PYG{o+ow}{and} \PYG{n}{nodo} \PYG{o}{!=} \PYG{n}{fin}\PYG{p}{:}
+                    \PYG{n}{inicio} \PYG{o}{=} \PYG{n}{nodo}
+                    \PYG{n}{inicio}\PYG{o}{.}\PYG{n}{hacer\PYGZus{}inicio}\PYG{p}{()}
+
+                \PYG{k}{elif} \PYG{o+ow}{not} \PYG{n}{fin} \PYG{o+ow}{and} \PYG{n}{nodo} \PYG{o}{!=} \PYG{n}{inicio}\PYG{p}{:}
+                    \PYG{n}{fin} \PYG{o}{=} \PYG{n}{nodo}
+                    \PYG{n}{fin}\PYG{o}{.}\PYG{n}{hacer\PYGZus{}fin}\PYG{p}{()}
+
+                \PYG{k}{elif} \PYG{n}{nodo} \PYG{o}{!=} \PYG{n}{fin} \PYG{o+ow}{and} \PYG{n}{nodo} \PYG{o}{!=} \PYG{n}{inicio}\PYG{p}{:}
+                    \PYG{n}{nodo}\PYG{o}{.}\PYG{n}{hacer\PYGZus{}pared}\PYG{p}{()}
+
+            \PYG{k}{elif} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{mouse}\PYG{o}{.}\PYG{n}{get\PYGZus{}pressed}\PYG{p}{()[}\PYG{l+m+mi}{2}\PYG{p}{]:}  \PYG{c+c1}{\PYGZsh{} Click derecho}
+                \PYG{n}{pos} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{mouse}\PYG{o}{.}\PYG{n}{get\PYGZus{}pos}\PYG{p}{()}
+                \PYG{n}{fila}\PYG{p}{,} \PYG{n}{col} \PYG{o}{=} \PYG{n}{obtener\PYGZus{}click\PYGZus{}pos}\PYG{p}{(}\PYG{n}{pos}\PYG{p}{,} \PYG{n}{FILAS}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{)}
+                \PYG{n}{nodo} \PYG{o}{=} \PYG{n}{grid}\PYG{p}{[}\PYG{n}{fila}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]}
+                \PYG{n}{nodo}\PYG{o}{.}\PYG{n}{restablecer}\PYG{p}{()}
+                \PYG{k}{if} \PYG{n}{nodo} \PYG{o}{==} \PYG{n}{inicio}\PYG{p}{:}
+                    \PYG{n}{inicio} \PYG{o}{=} \PYG{k+kc}{None}
+                \PYG{k}{elif} \PYG{n}{nodo} \PYG{o}{==} \PYG{n}{fin}\PYG{p}{:}
+                    \PYG{n}{fin} \PYG{o}{=} \PYG{k+kc}{None}
+
+    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{quit}\PYG{p}{()}
+\end{Verbatim}

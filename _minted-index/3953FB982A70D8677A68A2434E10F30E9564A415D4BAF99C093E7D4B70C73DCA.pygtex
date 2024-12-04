@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+       \PYG{k+kn}{from} \PYG{n+nn}{transformers} \PYG{k+kn}{import} \PYG{n}{AutoTokenizer}\PYG{p}{,} \PYG{n}{TFAutoModelForSequenceClassification}
+
+       \PYG{n}{tokenizer} \PYG{o}{=} \PYG{n}{AutoTokenizer}\PYG{o}{.}\PYG{n}{from\PYGZus{}pretrained}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}distilbert\PYGZhy{}base\PYGZhy{}uncased\PYGZdq{}}\PYG{p}{)}
+       \PYG{n}{model} \PYG{o}{=} \PYG{n}{TFAutoModelForSequenceClassification}\PYG{o}{.}\PYG{n}{from\PYGZus{}pretrained}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}distilbert\PYGZhy{}base\PYGZhy{}uncased\PYGZdq{}}\PYG{p}{)}
+
+       \PYG{c+c1}{\PYGZsh{} Tokenización de entrada}
+       \PYG{n}{inputs} \PYG{o}{=} \PYG{n}{tokenizer}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Hello, how are you?\PYGZdq{}}\PYG{p}{,} \PYG{n}{return\PYGZus{}tensors}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}tf\PYGZdq{}}\PYG{p}{)}
+
+       \PYG{c+c1}{\PYGZsh{} Predicción}
+       \PYG{n}{outputs} \PYG{o}{=} \PYG{n}{model}\PYG{p}{(}\PYG{n}{inputs}\PYG{p}{)}
+\end{Verbatim}

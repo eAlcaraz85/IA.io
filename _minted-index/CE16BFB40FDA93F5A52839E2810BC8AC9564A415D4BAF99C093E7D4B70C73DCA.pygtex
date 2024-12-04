@@ -1,0 +1,33 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{cv2} \PYG{k}{as} \PYG{n+nn}{cv}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+
+\PYG{n}{cap} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{VideoCapture}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+
+\PYG{k}{while}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{):}
+    \PYG{n}{ret}\PYG{p}{,}\PYG{n}{img}\PYG{o}{=}\PYG{n}{cap}\PYG{o}{.}\PYG{n}{read}\PYG{p}{()}
+    \PYG{k}{if}\PYG{p}{(}\PYG{n}{ret} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{):}
+        \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}marco\PYGZsq{}}\PYG{p}{,} \PYG{n}{img}\PYG{p}{)}
+        \PYG{n}{x}\PYG{p}{,}\PYG{n}{y} \PYG{o}{=} \PYG{n}{img}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[:}\PYG{l+m+mi}{2}\PYG{p}{]}
+        \PYG{n}{img2} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{((}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{),} \PYG{n}{dtype}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}uint8\PYGZsq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{}hsv = cv.cvtColor(img, cv.COLOR\PYGZus{}BGR2HSV)}
+        \PYG{c+c1}{\PYGZsh{}cv.imshow(\PYGZsq{}hsv\PYGZsq{}, hsv)}
+        \PYG{n}{b}\PYG{p}{,}\PYG{n}{g}\PYG{p}{,}\PYG{n}{r} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{n}{img}\PYG{p}{)}
+        \PYG{n}{bm} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{merge}\PYG{p}{([}\PYG{n}{b}\PYG{p}{,}\PYG{n}{img2}\PYG{p}{,} \PYG{n}{img2}\PYG{p}{])}
+        \PYG{n}{gm} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{merge}\PYG{p}{([}\PYG{n}{img2}\PYG{p}{,} \PYG{n}{g}\PYG{p}{,} \PYG{n}{img2}\PYG{p}{])}
+        \PYG{n}{rm} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{merge}\PYG{p}{([}\PYG{n}{img2}\PYG{p}{,} \PYG{n}{img2}\PYG{p}{,} \PYG{n}{r}\PYG{p}{])}
+        \PYG{n}{eje} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{merge}\PYG{p}{([}\PYG{n}{b}\PYG{p}{,}\PYG{n}{r}\PYG{p}{,}\PYG{n}{g}\PYG{p}{])}
+        \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}b\PYGZsq{}}\PYG{p}{,} \PYG{n}{bm}\PYG{p}{)}
+        \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}g\PYGZsq{}}\PYG{p}{,} \PYG{n}{gm}\PYG{p}{)}
+        \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}r\PYGZsq{}}\PYG{p}{,} \PYG{n}{rm}\PYG{p}{)}
+        \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}eje\PYGZsq{}}\PYG{p}{,} \PYG{n}{eje}\PYG{p}{)}
+        \PYG{n}{k} \PYG{o}{=}\PYG{n}{cv}\PYG{o}{.}\PYG{n}{waitKey}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{\PYGZam{}} \PYG{l+m+mh}{0xFF}
+	\PYG{k}{if} \PYG{n}{k} \PYG{o}{==} \PYG{l+m+mi}{27} \PYG{p}{:}
+	    \PYG{k}{break}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{k}{break}
+
+\PYG{n}{cap}\PYG{o}{.}\PYG{n}{release}\PYG{p}{()}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{destroyAllWindows}\PYG{p}{()}
+\end{Verbatim}

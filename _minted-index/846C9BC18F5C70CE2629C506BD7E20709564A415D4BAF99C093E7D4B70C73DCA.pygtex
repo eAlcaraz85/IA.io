@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{obtener\PYGZus{}click\PYGZus{}pos}\PYG{p}{(}\PYG{n}{pos}\PYG{p}{,} \PYG{n}{filas}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{):}
+    \PYG{n}{ancho\PYGZus{}nodo} \PYG{o}{=} \PYG{n}{ancho} \PYG{o}{//} \PYG{n}{filas}
+    \PYG{n}{y}\PYG{p}{,} \PYG{n}{x} \PYG{o}{=} \PYG{n}{pos}
+    \PYG{n}{fila} \PYG{o}{=} \PYG{n}{y} \PYG{o}{//} \PYG{n}{ancho\PYGZus{}nodo}
+    \PYG{n}{col} \PYG{o}{=} \PYG{n}{x} \PYG{o}{//} \PYG{n}{ancho\PYGZus{}nodo}
+    \PYG{k}{return} \PYG{n}{fila}\PYG{p}{,} \PYG{n}{col}
+\end{Verbatim}

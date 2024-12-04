@@ -1,0 +1,40 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{cv2}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+
+\PYG{c+c1}{\PYGZsh{} Cargar la imagen y la plantilla en color}
+\PYG{n}{imagen\PYGZus{}color} \PYG{o}{=} \PYG{n}{cv2}\PYG{o}{.}\PYG{n}{imread}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}gen.png\PYGZsq{}}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} Imagen donde se buscará la plantilla}
+\PYG{n}{plantilla\PYGZus{}color} \PYG{o}{=} \PYG{n}{cv2}\PYG{o}{.}\PYG{n}{imread}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}wall.png\PYGZsq{}}\PYG{p}{)}   \PYG{c+c1}{\PYGZsh{} La plantilla que queremos encontrar}
+
+\PYG{c+c1}{\PYGZsh{} Convertir las imágenes a escala de grises para el template matching}
+\PYG{n}{imagen\PYGZus{}gris} \PYG{o}{=} \PYG{n}{cv2}\PYG{o}{.}\PYG{n}{cvtColor}\PYG{p}{(}\PYG{n}{imagen\PYGZus{}color}\PYG{p}{,} \PYG{n}{cv2}\PYG{o}{.}\PYG{n}{COLOR\PYGZus{}BGR2GRAY}\PYG{p}{)}
+\PYG{n}{plantilla\PYGZus{}gris} \PYG{o}{=} \PYG{n}{cv2}\PYG{o}{.}\PYG{n}{cvtColor}\PYG{p}{(}\PYG{n}{plantilla\PYGZus{}color}\PYG{p}{,} \PYG{n}{cv2}\PYG{o}{.}\PYG{n}{COLOR\PYGZus{}BGR2GRAY}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Obtener las dimensiones de la plantilla}
+\PYG{n}{altura}\PYG{p}{,} \PYG{n}{ancho} \PYG{o}{=} \PYG{n}{plantilla\PYGZus{}gris}\PYG{o}{.}\PYG{n}{shape}
+
+\PYG{c+c1}{\PYGZsh{} Aplicar el método de Template Matching usando la correlación normalizada (TM\PYGZus{}CCOEFF\PYGZus{}NORMED)}
+\PYG{n}{resultado} \PYG{o}{=} \PYG{n}{cv2}\PYG{o}{.}\PYG{n}{matchTemplate}\PYG{p}{(}\PYG{n}{imagen\PYGZus{}gris}\PYG{p}{,} \PYG{n}{plantilla\PYGZus{}gris}\PYG{p}{,} \PYG{n}{cv2}\PYG{o}{.}\PYG{n}{TM\PYGZus{}CCOEFF\PYGZus{}NORMED}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Encontrar la mejor coincidencia usando minMaxLoc}
+\PYG{n}{min\PYGZus{}val}\PYG{p}{,} \PYG{n}{max\PYGZus{}val}\PYG{p}{,} \PYG{n}{min\PYGZus{}loc}\PYG{p}{,} \PYG{n}{max\PYGZus{}loc} \PYG{o}{=} \PYG{n}{cv2}\PYG{o}{.}\PYG{n}{minMaxLoc}\PYG{p}{(}\PYG{n}{resultado}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Coordenadas del rectángulo de coincidencia}
+\PYG{n}{top\PYGZus{}left} \PYG{o}{=} \PYG{n}{max\PYGZus{}loc}
+\PYG{n}{bottom\PYGZus{}right} \PYG{o}{=} \PYG{p}{(}\PYG{n}{top\PYGZus{}left}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{n}{ancho}\PYG{p}{,} \PYG{n}{top\PYGZus{}left}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{n}{altura}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Dibujar un rectángulo alrededor de la coincidencia sobre la imagen original en color}
+\PYG{n}{cv2}\PYG{o}{.}\PYG{n}{rectangle}\PYG{p}{(}\PYG{n}{imagen\PYGZus{}color}\PYG{p}{,} \PYG{n}{top\PYGZus{}left}\PYG{p}{,} \PYG{n}{bottom\PYGZus{}right}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),} \PYG{l+m+mi}{2}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Convertir BGR a RGB para mostrar con matplotlib}
+\PYG{c+c1}{\PYGZsh{}imagen\PYGZus{}rgb = cv2.cvtColor(imagen\PYGZus{}color, cv2.COLOR\PYGZus{}BGR2RGB)}
+
+\PYG{c+c1}{\PYGZsh{} Mostrar la imagen con el rectángulo en color}
+\PYG{n}{cv2}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}resultado\PYGZsq{}}\PYG{p}{,} \PYG{n}{imagen\PYGZus{}color}\PYG{p}{)}
+\PYG{n}{cv2}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}resultado2\PYGZsq{}}\PYG{p}{,} \PYG{n}{resultado}\PYG{p}{)}
+
+\PYG{n}{cv2}\PYG{o}{.}\PYG{n}{waitKey}\PYG{p}{()}
+\PYG{n}{cv2}\PYG{o}{.}\PYG{n}{destroyAllWindows}\PYG{p}{()}
+
+\end{Verbatim}

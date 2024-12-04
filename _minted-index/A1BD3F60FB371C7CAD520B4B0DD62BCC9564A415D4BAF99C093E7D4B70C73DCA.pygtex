@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+       \PYG{k+kn}{from} \PYG{n+nn}{tensorflow.keras.layers} \PYG{k+kn}{import} \PYG{n}{SimpleRNN}\PYG{p}{,} \PYG{n}{LSTM}\PYG{p}{,} \PYG{n}{Dense}
+       \PYG{k+kn}{from} \PYG{n+nn}{tensorflow.keras.models} \PYG{k+kn}{import} \PYG{n}{Sequential}
+
+       \PYG{n}{model} \PYG{o}{=} \PYG{n}{Sequential}\PYG{p}{([}
+           \PYG{n}{LSTM}\PYG{p}{(}\PYG{l+m+mi}{50}\PYG{p}{,} \PYG{n}{input\PYGZus{}shape}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)),}
+           \PYG{n}{Dense}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}
+       \PYG{p}{])}
+\end{Verbatim}

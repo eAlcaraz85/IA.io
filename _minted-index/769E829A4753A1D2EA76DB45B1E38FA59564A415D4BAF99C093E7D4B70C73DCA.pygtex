@@ -1,0 +1,31 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{cv2} \PYG{k}{as} \PYG{n+nn}{cv}
+
+\PYG{n}{rostro} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{CascadeClassifier}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}haarcascade\PYGZus{}frontalface\PYGZus{}alt.xml\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{cap} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{VideoCapture}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{x}\PYG{o}{=}\PYG{n}{y}\PYG{o}{=}\PYG{n}{w}\PYG{o}{=}\PYG{n}{h}\PYG{o}{=} \PYG{l+m+mi}{0}
+\PYG{n}{img} \PYG{o}{=} \PYG{l+m+mi}{0}
+\PYG{n}{count} \PYG{o}{=} \PYG{l+m+mi}{0}
+\PYG{k}{while} \PYG{k+kc}{True}\PYG{p}{:}
+    \PYG{n}{ret}\PYG{p}{,} \PYG{n}{frame} \PYG{o}{=} \PYG{n}{cap}\PYG{o}{.}\PYG{n}{read}\PYG{p}{()}
+    \PYG{n}{gray} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{cvtColor}\PYG{p}{(}\PYG{n}{frame}\PYG{p}{,} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{COLOR\PYGZus{}BGR2GRAY}\PYG{p}{)}
+    \PYG{n}{rostros} \PYG{o}{=} \PYG{n}{rostro}\PYG{o}{.}\PYG{n}{detectMultiScale}\PYG{p}{(}\PYG{n}{gray}\PYG{p}{,} \PYG{l+m+mf}{1.3}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{)}
+    \PYG{k}{for}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{,} \PYG{n}{w}\PYG{p}{,} \PYG{n}{h}\PYG{p}{)} \PYG{o+ow}{in} \PYG{n}{rostros}\PYG{p}{:}
+        \PYG{n}{m}\PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{h}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)}
+        \PYG{n}{frame} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{rectangle}\PYG{p}{(}\PYG{n}{frame}\PYG{p}{,} \PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{),} \PYG{p}{(}\PYG{n}{x}\PYG{o}{+}\PYG{n}{w}\PYG{p}{,} \PYG{n}{y}\PYG{o}{+}\PYG{n}{h}\PYG{p}{),} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),} \PYG{l+m+mi}{2}\PYG{p}{)}
+        \PYG{n}{frame} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{rectangle}\PYG{p}{(}\PYG{n}{frame}\PYG{p}{,} \PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{o}{+}\PYG{n}{m}\PYG{p}{),} \PYG{p}{(}\PYG{n}{x}\PYG{o}{+}\PYG{n}{w}\PYG{p}{,} \PYG{n}{y}\PYG{o}{+}\PYG{n}{h}\PYG{p}{),} \PYG{p}{(}\PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{0} \PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{),} \PYG{l+m+mi}{2} \PYG{p}{)}
+        \PYG{n}{img} \PYG{o}{=} \PYG{l+m+mi}{180}\PYG{o}{\PYGZhy{}} \PYG{n}{frame}\PYG{p}{[}\PYG{n}{y}\PYG{p}{:}\PYG{n}{y}\PYG{o}{+}\PYG{n}{h}\PYG{p}{,}\PYG{n}{x}\PYG{p}{:}\PYG{n}{x}\PYG{o}{+}\PYG{n}{w}\PYG{p}{]}
+        \PYG{n}{count} \PYG{o}{=} \PYG{n}{count} \PYG{o}{+} \PYG{l+m+mi}{1}
+
+    \PYG{c+c1}{\PYGZsh{}name = \PYGZsq{}/home/likcos/imgs/cara\PYGZsq{}+str(count)+\PYGZsq{}.jpg\PYGZsq{}}
+    \PYG{c+c1}{\PYGZsh{}cv.imwrite(name, frame)}
+    \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}rostros\PYGZsq{}}\PYG{p}{,} \PYG{n}{frame}\PYG{p}{)}
+    \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}cara\PYGZsq{}}\PYG{p}{,} \PYG{n}{img}\PYG{p}{)}
+
+    \PYG{n}{k} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{waitKey}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{k}{if} \PYG{n}{k} \PYG{o}{==} \PYG{l+m+mi}{27}\PYG{p}{:}
+        \PYG{k}{break}
+\PYG{n}{cap}\PYG{o}{.}\PYG{n}{release}\PYG{p}{()}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{destroyAllWindows}\PYG{p}{()}
+\end{Verbatim}

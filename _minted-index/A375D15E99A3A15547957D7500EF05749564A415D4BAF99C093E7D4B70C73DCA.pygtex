@@ -1,0 +1,23 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{cv2} \PYG{k}{as} \PYG{n+nn}{cv}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+
+\PYG{n}{img} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imread}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}tr.png\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{img}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{,} \PYG{n}{img}\PYG{o}{.}\PYG{n}{size}\PYG{p}{)}
+\PYG{n}{w} \PYG{o}{=} \PYG{n}{img}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+\PYG{n}{h} \PYG{o}{=} \PYG{n}{img}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+\PYG{c+c1}{\PYGZsh{}c = img.shape[2]}
+\PYG{c+c1}{\PYGZsh{}w1, h1 = img.shape}
+\PYG{n}{img2} \PYG{o}{=} \PYG{n}{img}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}imagen\PYGZsq{}}\PYG{p}{,} \PYG{n}{img2}\PYG{p}{)}
+\PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{w}\PYG{p}{):}
+    \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{h}\PYG{p}{):}
+        \PYG{k}{if}\PYG{p}{(}\PYG{n}{img}\PYG{p}{[}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{]}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{50}\PYG{p}{):}
+            \PYG{n}{img}\PYG{p}{[}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{]}\PYG{o}{=}\PYG{l+m+mi}{255}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{img}\PYG{p}{[}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{]}\PYG{o}{=}\PYG{l+m+mi}{0}
+
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}imagen1\PYGZsq{}}\PYG{p}{,} \PYG{n}{img}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{waitKey}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{destroyAllWindows}\PYG{p}{()}
+\end{Verbatim}

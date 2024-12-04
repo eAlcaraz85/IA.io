@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{crear\PYGZus{}grid}\PYG{p}{(}\PYG{n}{filas}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{):}
+    \PYG{n}{grid} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{n}{ancho\PYGZus{}nodo} \PYG{o}{=} \PYG{n}{ancho} \PYG{o}{//} \PYG{n}{filas}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{filas}\PYG{p}{):}
+        \PYG{n}{grid}\PYG{o}{.}\PYG{n}{append}\PYG{p}{([])}
+        \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{filas}\PYG{p}{):}
+            \PYG{n}{nodo} \PYG{o}{=} \PYG{n}{Nodo}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{,} \PYG{n}{ancho\PYGZus{}nodo}\PYG{p}{,} \PYG{n}{filas}\PYG{p}{)}
+            \PYG{n}{grid}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{nodo}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{grid}
+\end{Verbatim}

@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{cv2} \PYG{k}{as} \PYG{n+nn}{cv}
+
+\PYG{n}{img} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imread}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}tr.png\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{n}{gray} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{cvtColor}\PYG{p}{(}\PYG{n}{img}\PYG{p}{,} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{COLOR\PYGZus{}BGR2GRAY}\PYG{p}{)}
+\PYG{n}{rgb} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{cvtColor}\PYG{p}{(}\PYG{n}{img}\PYG{p}{,} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{COLOR\PYGZus{}BGR2RGB}\PYG{p}{)}
+\PYG{n}{hsv} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{cvtColor}\PYG{p}{(}\PYG{n}{img}\PYG{p}{,} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{COLOR\PYGZus{}BGR2HSV}\PYG{p}{)}
+
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}img\PYGZsq{}}\PYG{p}{,} \PYG{n}{img}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}gray\PYGZsq{}}\PYG{p}{,} \PYG{n}{gray}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}rgb\PYGZsq{}}\PYG{p}{,} \PYG{n}{rgb}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}hsv\PYGZsq{}}\PYG{p}{,} \PYG{n}{hsv}\PYG{p}{)}
+
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{waitKey}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{destroyAllWindows}\PYG{p}{()}
+
+\end{Verbatim}

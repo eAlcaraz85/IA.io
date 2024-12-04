@@ -1,0 +1,22 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+       \PYG{k+kn}{from} \PYG{n+nn}{tensorflow.keras.layers} \PYG{k+kn}{import} \PYG{n}{Dense}\PYG{p}{,} \PYG{n}{LeakyReLU}
+       \PYG{k+kn}{from} \PYG{n+nn}{tensorflow.keras.models} \PYG{k+kn}{import} \PYG{n}{Sequential}
+
+       \PYG{c+c1}{\PYGZsh{} Modelo Generador}
+       \PYG{n}{generator} \PYG{o}{=} \PYG{n}{Sequential}\PYG{p}{([}
+           \PYG{n}{Dense}\PYG{p}{(}\PYG{l+m+mi}{256}\PYG{p}{,} \PYG{n}{input\PYGZus{}dim}\PYG{o}{=}\PYG{l+m+mi}{100}\PYG{p}{),}
+           \PYG{n}{LeakyReLU}\PYG{p}{(}\PYG{l+m+mf}{0.2}\PYG{p}{),}
+           \PYG{n}{Dense}\PYG{p}{(}\PYG{l+m+mi}{512}\PYG{p}{),}
+           \PYG{n}{LeakyReLU}\PYG{p}{(}\PYG{l+m+mf}{0.2}\PYG{p}{),}
+           \PYG{n}{Dense}\PYG{p}{(}\PYG{l+m+mi}{784}\PYG{p}{,} \PYG{n}{activation}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}tanh\PYGZsq{}}\PYG{p}{)}
+       \PYG{p}{])}
+
+       \PYG{c+c1}{\PYGZsh{} Modelo Discriminador}
+       \PYG{n}{discriminator} \PYG{o}{=} \PYG{n}{Sequential}\PYG{p}{([}
+           \PYG{n}{Dense}\PYG{p}{(}\PYG{l+m+mi}{512}\PYG{p}{,} \PYG{n}{input\PYGZus{}shape}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{784}\PYG{p}{,)),}
+           \PYG{n}{LeakyReLU}\PYG{p}{(}\PYG{l+m+mf}{0.2}\PYG{p}{),}
+           \PYG{n}{Dense}\PYG{p}{(}\PYG{l+m+mi}{256}\PYG{p}{),}
+           \PYG{n}{LeakyReLU}\PYG{p}{(}\PYG{l+m+mf}{0.2}\PYG{p}{),}
+           \PYG{n}{Dense}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{activation}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}sigmoid\PYGZsq{}}\PYG{p}{)}
+       \PYG{p}{])}
+\end{Verbatim}

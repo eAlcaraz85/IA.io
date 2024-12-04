@@ -1,0 +1,34 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} Importar las bibliotecas necesarias}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.datasets} \PYG{k+kn}{import} \PYG{n}{load\PYGZus{}iris}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn} \PYG{k+kn}{import} \PYG{n}{tree}
+\PYG{k+kn}{import} \PYG{n+nn}{graphviz}
+
+\PYG{c+c1}{\PYGZsh{} Cargar el conjunto de datos Iris}
+\PYG{n}{iris} \PYG{o}{=} \PYG{n}{load\PYGZus{}iris}\PYG{p}{()}
+
+\PYG{n}{X}\PYG{p}{,} \PYG{n}{y} \PYG{o}{=} \PYG{n}{iris}\PYG{o}{.}\PYG{n}{data}\PYG{p}{,} \PYG{n}{iris}\PYG{o}{.}\PYG{n}{target}
+\PYG{n+nb}{print}\PYG{p}{(} \PYG{n}{X}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} Crear el clasificador del Árbol de Decisión}
+\PYG{n}{clf} \PYG{o}{=} \PYG{n}{tree}\PYG{o}{.}\PYG{n}{DecisionTreeClassifier}\PYG{p}{()}
+
+\PYG{c+c1}{\PYGZsh{} Entrenar el modelo con los datos}
+\PYG{n}{clf} \PYG{o}{=} \PYG{n}{clf}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Exportar el árbol de decisión en formato DOT para su visualización}
+\PYG{n}{dot\PYGZus{}data} \PYG{o}{=} \PYG{n}{tree}\PYG{o}{.}\PYG{n}{export\PYGZus{}graphviz}\PYG{p}{(}\PYG{n}{clf}\PYG{p}{,} \PYG{n}{out\PYGZus{}file}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,}
+                                \PYG{n}{feature\PYGZus{}names}\PYG{o}{=}\PYG{n}{iris}\PYG{o}{.}\PYG{n}{feature\PYGZus{}names}\PYG{p}{,}
+                                \PYG{n}{class\PYGZus{}names}\PYG{o}{=}\PYG{n}{iris}\PYG{o}{.}\PYG{n}{target\PYGZus{}names}\PYG{p}{,}
+                                \PYG{n}{filled}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{rounded}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                                \PYG{n}{special\PYGZus{}characters}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Crear el gráfico con graphviz}
+\PYG{n}{graph} \PYG{o}{=} \PYG{n}{graphviz}\PYG{o}{.}\PYG{n}{Source}\PYG{p}{(}\PYG{n}{dot\PYGZus{}data}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Guardar el gráfico como un archivo PDF (opcional)}
+\PYG{n}{graph}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}iris\PYGZus{}decision\PYGZus{}tree\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Mostrar el gráfico directamente}
+\PYG{n}{graph}\PYG{o}{.}\PYG{n}{view}\PYG{p}{()}
+
+\end{Verbatim}

@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{cv2} \PYG{k}{as} \PYG{n+nn}{cv}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{n}{img} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imread}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}tr.png\PYGZsq{}}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{img}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{)}
+\PYG{n}{x}\PYG{p}{,}\PYG{n}{y} \PYG{o}{=} \PYG{n}{img}\PYG{o}{.}\PYG{n}{shape}
+\PYG{n}{img2} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{((}\PYG{n}{x}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{n}{y}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{),} \PYG{n}{dtype}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}uint8\PYGZsq{}}\PYG{p}{)}
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{x}\PYG{p}{):}
+    \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{y}\PYG{p}{):}
+        \PYG{n}{img2}\PYG{p}{[}\PYG{n}{i}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{n}{j}\PYG{o}{*}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{o}{=}\PYG{n}{img}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{]}
+
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}img\PYGZsq{}}\PYG{p}{,} \PYG{n}{img}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}img2\PYGZsq{}}\PYG{p}{,} \PYG{n}{img2}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{waitKey}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{destroyAllWindows}\PYG{p}{()}
+
+\end{Verbatim}

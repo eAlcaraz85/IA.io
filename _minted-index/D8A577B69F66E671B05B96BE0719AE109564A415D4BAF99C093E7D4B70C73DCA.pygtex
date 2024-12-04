@@ -1,0 +1,22 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{img} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imread}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}tr.png\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{n}{img2} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{cvtColor}\PYG{p}{(}\PYG{n}{img}\PYG{p}{,} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{COLOR\PYGZus{}BGR2RGB}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}img\PYGZsq{}}\PYG{p}{,} \PYG{n}{img}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}img2\PYGZsq{}}\PYG{p}{,} \PYG{n}{img2}\PYG{p}{)}
+
+\PYG{n}{zero} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{n}{img}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[:}\PYG{l+m+mi}{2}\PYG{p}{],} \PYG{n}{dtype}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}uint8\PYGZsq{}}\PYG{p}{)}
+\PYG{p}{(}\PYG{n}{r}\PYG{p}{,}\PYG{n}{g}\PYG{p}{,}\PYG{n}{b}\PYG{p}{)}\PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{n}{img}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{}cv.imshow(\PYGZsq{}rg\PYGZsq{}, r)}
+\PYG{c+c1}{\PYGZsh{}cv.imshow(\PYGZsq{}gg\PYGZsq{}, g)}
+\PYG{c+c1}{\PYGZsh{}cv.imshow(\PYGZsq{}bg\PYGZsq{}, b)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}GRB\PYGZsq{}}\PYG{p}{,} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{merge}\PYG{p}{([}\PYG{n}{g}\PYG{p}{,}\PYG{n}{r}\PYG{p}{,}\PYG{n}{b}\PYG{p}{]))}
+\PYG{c+c1}{\PYGZsh{}cv.imshow(\PYGZsq{}G\PYGZsq{}, cv.merge([zero,g,zero]))}
+\PYG{c+c1}{\PYGZsh{}cv.imshow(\PYGZsq{}R\PYGZsq{}, cv.merge([zero,zero,r]))}
+\PYG{c+c1}{\PYGZsh{}(r1,g1,b1)= cv.split(img2)}
+\PYG{c+c1}{\PYGZsh{}cv.imshow(\PYGZsq{}R1\PYGZsq{}, cv.merge([r1,zero,zero]))}
+\PYG{c+c1}{\PYGZsh{}cv.imshow(\PYGZsq{}G1\PYGZsq{}, cv.merge([zero,g1,zero]))}
+\PYG{c+c1}{\PYGZsh{}cv.imshow(\PYGZsq{}B1\PYGZsq{}, cv.merge([zero,zero,b1]))}
+
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{waitKey}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{destroyAllWindows}\PYG{p}{()}
+\end{Verbatim}

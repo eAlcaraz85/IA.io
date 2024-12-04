@@ -1,0 +1,43 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{pygame}
+\PYG{k+kn}{import} \PYG{n+nn}{sys}
+
+\PYG{c+c1}{\PYGZsh{} Inicialización de Pygame}
+\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{init}\PYG{p}{()}
+
+\PYG{c+c1}{\PYGZsh{} Tamaño de la ventana}
+\PYG{n}{ANCHO}\PYG{p}{,} \PYG{n}{ALTO} \PYG{o}{=} \PYG{l+m+mi}{800}\PYG{p}{,} \PYG{l+m+mi}{600}
+\PYG{n}{ventana} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}mode}\PYG{p}{((}\PYG{n}{ANCHO}\PYG{p}{,} \PYG{n}{ALTO}\PYG{p}{))}
+\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}caption}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Dibujo de Formas y Texto en Pygame\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Colores}
+\PYG{n}{BLANCO} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{)}
+\PYG{n}{VERDE} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{AZUL} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Fuente de texto}
+\PYG{n}{fuente} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{font}\PYG{o}{.}\PYG{n}{SysFont}\PYG{p}{(}\PYG{k+kc}{None}\PYG{p}{,} \PYG{l+m+mi}{55}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Ciclo principal}
+\PYG{k}{while} \PYG{k+kc}{True}\PYG{p}{:}
+    \PYG{k}{for} \PYG{n}{event} \PYG{o+ow}{in} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{event}\PYG{o}{.}\PYG{n}{get}\PYG{p}{():}
+        \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{type} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{QUIT}\PYG{p}{:}
+            \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{quit}\PYG{p}{()}
+            \PYG{n}{sys}\PYG{o}{.}\PYG{n}{exit}\PYG{p}{()}
+
+    \PYG{c+c1}{\PYGZsh{} Rellenar la ventana}
+    \PYG{n}{ventana}\PYG{o}{.}\PYG{n}{fill}\PYG{p}{(}\PYG{n}{BLANCO}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Dibujar un rectángulo}
+    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{VERDE}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{150}\PYG{p}{,} \PYG{l+m+mi}{150}\PYG{p}{,} \PYG{l+m+mi}{200}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{))}
+
+    \PYG{c+c1}{\PYGZsh{} Dibujar un círculo}
+    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{circle}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{AZUL}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{400}\PYG{p}{,} \PYG{l+m+mi}{300}\PYG{p}{),} \PYG{l+m+mi}{75}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Renderizar texto}
+    \PYG{n}{texto} \PYG{o}{=} \PYG{n}{fuente}\PYG{o}{.}\PYG{n}{render}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Hola, Pygame!\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{AZUL}\PYG{p}{)}
+    \PYG{n}{ventana}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n}{texto}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{250}\PYG{p}{,} \PYG{l+m+mi}{500}\PYG{p}{))}
+
+    \PYG{c+c1}{\PYGZsh{} Actualizar la ventana}
+    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{flip}\PYG{p}{()}
+\end{Verbatim}

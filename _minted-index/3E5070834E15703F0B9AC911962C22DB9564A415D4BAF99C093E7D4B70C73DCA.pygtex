@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{ANCHO\PYGZus{}VENTANA} \PYG{o}{=} \PYG{l+m+mi}{800}
+\PYG{n}{VENTANA} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}mode}\PYG{p}{((}\PYG{n}{ANCHO\PYGZus{}VENTANA}\PYG{p}{,} \PYG{n}{ANCHO\PYGZus{}VENTANA}\PYG{p}{))}
+\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}caption}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Visualización de Nodos\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

@@ -1,0 +1,28 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{cv2} \PYG{k}{as} \PYG{n+nn}{cv}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+
+\PYG{n}{cap} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{VideoCapture}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+
+\PYG{k}{while}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{):}
+    \PYG{n}{ret}\PYG{p}{,}\PYG{n}{img}\PYG{o}{=}\PYG{n}{cap}\PYG{o}{.}\PYG{n}{read}\PYG{p}{()}
+    \PYG{k}{if}\PYG{p}{(}\PYG{n}{ret} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{):}
+        \PYG{n}{hsv} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{cvtColor}\PYG{p}{(}\PYG{n}{img}\PYG{p}{,} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{COLOR\PYGZus{}BGR2HSV}\PYG{p}{)}
+        \PYG{n}{ubb}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{35}\PYG{p}{,} \PYG{l+m+mi}{40}\PYG{p}{,} \PYG{l+m+mi}{40}\PYG{p}{)}
+        \PYG{n}{uba}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{95}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{)}
+
+        \PYG{n}{mask} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{inRange}\PYG{p}{(}\PYG{n}{hsv}\PYG{p}{,} \PYG{n}{ubb}\PYG{p}{,} \PYG{n}{uba}\PYG{p}{)}
+        \PYG{n}{res} \PYG{o}{=} \PYG{n}{cv}\PYG{o}{.}\PYG{n}{bitwise\PYGZus{}or}\PYG{p}{(}\PYG{n}{img}\PYG{p}{,} \PYG{n}{img}\PYG{p}{,} \PYG{n}{mask}\PYG{o}{=}\PYG{n}{mask}\PYG{p}{)}
+
+        \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}img\PYGZsq{}}\PYG{p}{,} \PYG{n}{img}\PYG{p}{)}
+        \PYG{n}{cv}\PYG{o}{.}\PYG{n}{imshow}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}res\PYGZsq{}}\PYG{p}{,} \PYG{n}{res}\PYG{p}{)}
+
+        \PYG{n}{k} \PYG{o}{=}\PYG{n}{cv}\PYG{o}{.}\PYG{n}{waitKey}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{\PYGZam{}} \PYG{l+m+mh}{0xFF}
+	\PYG{k}{if} \PYG{n}{k} \PYG{o}{==} \PYG{l+m+mi}{27} \PYG{p}{:}
+	    \PYG{k}{break}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{k}{break}
+
+\PYG{n}{cap}\PYG{o}{.}\PYG{n}{release}\PYG{p}{()}
+\PYG{n}{cv}\PYG{o}{.}\PYG{n}{destroyAllWindows}\PYG{p}{()}
+\end{Verbatim}

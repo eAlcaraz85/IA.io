@@ -1,0 +1,45 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{pygame}
+\PYG{k+kn}{import} \PYG{n+nn}{sys}
+
+\PYG{c+c1}{\PYGZsh{} Inicialización de Pygame}
+\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{init}\PYG{p}{()}
+
+\PYG{c+c1}{\PYGZsh{} Tamaño de la ventana}
+\PYG{n}{ANCHO}\PYG{p}{,} \PYG{n}{ALTO} \PYG{o}{=} \PYG{l+m+mi}{800}\PYG{p}{,} \PYG{l+m+mi}{600}
+\PYG{n}{ventana} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}mode}\PYG{p}{((}\PYG{n}{ANCHO}\PYG{p}{,} \PYG{n}{ALTO}\PYG{p}{))}
+\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}caption}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Manejo de Eventos en Pygame\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Colores}
+\PYG{n}{BLANCO} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{)}
+\PYG{n}{ROJO} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Posición inicial del cuadrado}
+\PYG{n}{x}\PYG{p}{,} \PYG{n}{y} \PYG{o}{=} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{100}
+\PYG{n}{velocidad} \PYG{o}{=} \PYG{l+m+mi}{5}
+
+\PYG{c+c1}{\PYGZsh{} Ciclo principal}
+\PYG{k}{while} \PYG{k+kc}{True}\PYG{p}{:}
+    \PYG{k}{for} \PYG{n}{event} \PYG{o+ow}{in} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{event}\PYG{o}{.}\PYG{n}{get}\PYG{p}{():}
+        \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{type} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{QUIT}\PYG{p}{:}
+            \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{quit}\PYG{p}{()}
+            \PYG{n}{sys}\PYG{o}{.}\PYG{n}{exit}\PYG{p}{()}
+
+    \PYG{c+c1}{\PYGZsh{} Movimiento del cuadrado con teclas de flechas}
+    \PYG{n}{keys} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{key}\PYG{o}{.}\PYG{n}{get\PYGZus{}pressed}\PYG{p}{()}
+    \PYG{k}{if} \PYG{n}{keys}\PYG{p}{[}\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}LEFT}\PYG{p}{]:}
+        \PYG{n}{x} \PYG{o}{\PYGZhy{}=} \PYG{n}{velocidad}
+    \PYG{k}{if} \PYG{n}{keys}\PYG{p}{[}\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}RIGHT}\PYG{p}{]:}
+        \PYG{n}{x} \PYG{o}{+=} \PYG{n}{velocidad}
+    \PYG{k}{if} \PYG{n}{keys}\PYG{p}{[}\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}UP}\PYG{p}{]:}
+        \PYG{n}{y} \PYG{o}{\PYGZhy{}=} \PYG{n}{velocidad}
+    \PYG{k}{if} \PYG{n}{keys}\PYG{p}{[}\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}DOWN}\PYG{p}{]:}
+        \PYG{n}{y} \PYG{o}{+=} \PYG{n}{velocidad}
+
+    \PYG{c+c1}{\PYGZsh{} Dibujar el cuadrado}
+    \PYG{n}{ventana}\PYG{o}{.}\PYG{n}{fill}\PYG{p}{(}\PYG{n}{BLANCO}\PYG{p}{)}
+    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{ROJO}\PYG{p}{,} \PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{))}
+
+    \PYG{c+c1}{\PYGZsh{} Actualizar la pantalla}
+    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{flip}\PYG{p}{()}
+\end{Verbatim}

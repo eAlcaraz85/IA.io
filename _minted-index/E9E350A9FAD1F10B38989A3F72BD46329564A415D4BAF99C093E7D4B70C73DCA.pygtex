@@ -1,0 +1,132 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{pygame}
+
+\PYG{c+c1}{\PYGZsh{} Configuraciones iniciales}
+\PYG{n}{ANCHO\PYGZus{}VENTANA} \PYG{o}{=} \PYG{l+m+mi}{800}
+\PYG{n}{VENTANA} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}mode}\PYG{p}{((}\PYG{n}{ANCHO\PYGZus{}VENTANA}\PYG{p}{,} \PYG{n}{ANCHO\PYGZus{}VENTANA}\PYG{p}{))}
+\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}caption}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Visualización de Nodos\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Colores (RGB)}
+\PYG{n}{BLANCO} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{)}
+\PYG{n}{NEGRO} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{GRIS} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{128}\PYG{p}{,} \PYG{l+m+mi}{128}\PYG{p}{,} \PYG{l+m+mi}{128}\PYG{p}{)}
+\PYG{n}{VERDE} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{ROJO} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{NARANJA} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{165}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{PURPURA} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{128}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{128}\PYG{p}{)}
+
+\PYG{k}{class} \PYG{n+nc}{Nodo}\PYG{p}{:}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{fila}\PYG{p}{,} \PYG{n}{col}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{,} \PYG{n}{total\PYGZus{}filas}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fila} \PYG{o}{=} \PYG{n}{fila}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{col} \PYG{o}{=} \PYG{n}{col}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{x} \PYG{o}{=} \PYG{n}{fila} \PYG{o}{*} \PYG{n}{ancho}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{y} \PYG{o}{=} \PYG{n}{col} \PYG{o}{*} \PYG{n}{ancho}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{color} \PYG{o}{=} \PYG{n}{BLANCO}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ancho} \PYG{o}{=} \PYG{n}{ancho}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{total\PYGZus{}filas} \PYG{o}{=} \PYG{n}{total\PYGZus{}filas}
+
+    \PYG{k}{def} \PYG{n+nf}{get\PYGZus{}pos}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fila}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{col}
+
+    \PYG{k}{def} \PYG{n+nf}{es\PYGZus{}pared}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{color} \PYG{o}{==} \PYG{n}{NEGRO}
+
+    \PYG{k}{def} \PYG{n+nf}{es\PYGZus{}inicio}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{color} \PYG{o}{==} \PYG{n}{NARANJA}
+
+    \PYG{k}{def} \PYG{n+nf}{es\PYGZus{}fin}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{color} \PYG{o}{==} \PYG{n}{PURPURA}
+
+    \PYG{k}{def} \PYG{n+nf}{restablecer}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{color} \PYG{o}{=} \PYG{n}{BLANCO}
+
+    \PYG{k}{def} \PYG{n+nf}{hacer\PYGZus{}inicio}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{color} \PYG{o}{=} \PYG{n}{NARANJA}
+
+    \PYG{k}{def} \PYG{n+nf}{hacer\PYGZus{}pared}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{color} \PYG{o}{=} \PYG{n}{NEGRO}
+
+    \PYG{k}{def} \PYG{n+nf}{hacer\PYGZus{}fin}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{color} \PYG{o}{=} \PYG{n}{PURPURA}
+
+    \PYG{k}{def} \PYG{n+nf}{dibujar}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{ventana}\PYG{p}{):}
+        \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{color}\PYG{p}{,} \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{x}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ancho}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ancho}\PYG{p}{))}
+
+\PYG{k}{def} \PYG{n+nf}{crear\PYGZus{}grid}\PYG{p}{(}\PYG{n}{filas}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{):}
+    \PYG{n}{grid} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{n}{ancho\PYGZus{}nodo} \PYG{o}{=} \PYG{n}{ancho} \PYG{o}{//} \PYG{n}{filas}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{filas}\PYG{p}{):}
+        \PYG{n}{grid}\PYG{o}{.}\PYG{n}{append}\PYG{p}{([])}
+        \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{filas}\PYG{p}{):}
+            \PYG{n}{nodo} \PYG{o}{=} \PYG{n}{Nodo}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{,} \PYG{n}{ancho\PYGZus{}nodo}\PYG{p}{,} \PYG{n}{filas}\PYG{p}{)}
+            \PYG{n}{grid}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{nodo}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{grid}
+
+\PYG{k}{def} \PYG{n+nf}{dibujar\PYGZus{}grid}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{filas}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{):}
+    \PYG{n}{ancho\PYGZus{}nodo} \PYG{o}{=} \PYG{n}{ancho} \PYG{o}{//} \PYG{n}{filas}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{filas}\PYG{p}{):}
+        \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{line}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{GRIS}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{i} \PYG{o}{*} \PYG{n}{ancho\PYGZus{}nodo}\PYG{p}{),} \PYG{p}{(}\PYG{n}{ancho}\PYG{p}{,} \PYG{n}{i} \PYG{o}{*} \PYG{n}{ancho\PYGZus{}nodo}\PYG{p}{))}
+        \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{filas}\PYG{p}{):}
+            \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{line}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{GRIS}\PYG{p}{,} \PYG{p}{(}\PYG{n}{j} \PYG{o}{*} \PYG{n}{ancho\PYGZus{}nodo}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),} \PYG{p}{(}\PYG{n}{j} \PYG{o}{*} \PYG{n}{ancho\PYGZus{}nodo}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{))}
+
+\PYG{k}{def} \PYG{n+nf}{dibujar}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{grid}\PYG{p}{,} \PYG{n}{filas}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{):}
+    \PYG{n}{ventana}\PYG{o}{.}\PYG{n}{fill}\PYG{p}{(}\PYG{n}{BLANCO}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{fila} \PYG{o+ow}{in} \PYG{n}{grid}\PYG{p}{:}
+        \PYG{k}{for} \PYG{n}{nodo} \PYG{o+ow}{in} \PYG{n}{fila}\PYG{p}{:}
+            \PYG{n}{nodo}\PYG{o}{.}\PYG{n}{dibujar}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{)}
+
+    \PYG{n}{dibujar\PYGZus{}grid}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{filas}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{)}
+    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{update}\PYG{p}{()}
+
+\PYG{k}{def} \PYG{n+nf}{obtener\PYGZus{}click\PYGZus{}pos}\PYG{p}{(}\PYG{n}{pos}\PYG{p}{,} \PYG{n}{filas}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{):}
+    \PYG{n}{ancho\PYGZus{}nodo} \PYG{o}{=} \PYG{n}{ancho} \PYG{o}{//} \PYG{n}{filas}
+    \PYG{n}{y}\PYG{p}{,} \PYG{n}{x} \PYG{o}{=} \PYG{n}{pos}
+    \PYG{n}{fila} \PYG{o}{=} \PYG{n}{y} \PYG{o}{//} \PYG{n}{ancho\PYGZus{}nodo}
+    \PYG{n}{col} \PYG{o}{=} \PYG{n}{x} \PYG{o}{//} \PYG{n}{ancho\PYGZus{}nodo}
+    \PYG{k}{return} \PYG{n}{fila}\PYG{p}{,} \PYG{n}{col}
+
+\PYG{k}{def} \PYG{n+nf}{main}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{):}
+    \PYG{n}{FILAS} \PYG{o}{=} \PYG{l+m+mi}{10}
+    \PYG{n}{grid} \PYG{o}{=} \PYG{n}{crear\PYGZus{}grid}\PYG{p}{(}\PYG{n}{FILAS}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{)}
+
+    \PYG{n}{inicio} \PYG{o}{=} \PYG{k+kc}{None}
+    \PYG{n}{fin} \PYG{o}{=} \PYG{k+kc}{None}
+
+    \PYG{n}{corriendo} \PYG{o}{=} \PYG{k+kc}{True}
+
+    \PYG{k}{while} \PYG{n}{corriendo}\PYG{p}{:}
+        \PYG{n}{dibujar}\PYG{p}{(}\PYG{n}{ventana}\PYG{p}{,} \PYG{n}{grid}\PYG{p}{,} \PYG{n}{FILAS}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{event} \PYG{o+ow}{in} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{event}\PYG{o}{.}\PYG{n}{get}\PYG{p}{():}
+            \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{type} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{QUIT}\PYG{p}{:}
+                \PYG{n}{corriendo} \PYG{o}{=} \PYG{k+kc}{False}
+
+            \PYG{k}{if} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{mouse}\PYG{o}{.}\PYG{n}{get\PYGZus{}pressed}\PYG{p}{()[}\PYG{l+m+mi}{0}\PYG{p}{]:}  \PYG{c+c1}{\PYGZsh{} Click izquierdo}
+                \PYG{n}{pos} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{mouse}\PYG{o}{.}\PYG{n}{get\PYGZus{}pos}\PYG{p}{()}
+                \PYG{n}{fila}\PYG{p}{,} \PYG{n}{col} \PYG{o}{=} \PYG{n}{obtener\PYGZus{}click\PYGZus{}pos}\PYG{p}{(}\PYG{n}{pos}\PYG{p}{,} \PYG{n}{FILAS}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{)}
+                \PYG{n}{nodo} \PYG{o}{=} \PYG{n}{grid}\PYG{p}{[}\PYG{n}{fila}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]}
+                \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{inicio} \PYG{o+ow}{and} \PYG{n}{nodo} \PYG{o}{!=} \PYG{n}{fin}\PYG{p}{:}
+                    \PYG{n}{inicio} \PYG{o}{=} \PYG{n}{nodo}
+                    \PYG{n}{inicio}\PYG{o}{.}\PYG{n}{hacer\PYGZus{}inicio}\PYG{p}{()}
+
+                \PYG{k}{elif} \PYG{o+ow}{not} \PYG{n}{fin} \PYG{o+ow}{and} \PYG{n}{nodo} \PYG{o}{!=} \PYG{n}{inicio}\PYG{p}{:}
+                    \PYG{n}{fin} \PYG{o}{=} \PYG{n}{nodo}
+                    \PYG{n}{fin}\PYG{o}{.}\PYG{n}{hacer\PYGZus{}fin}\PYG{p}{()}
+
+                \PYG{k}{elif} \PYG{n}{nodo} \PYG{o}{!=} \PYG{n}{fin} \PYG{o+ow}{and} \PYG{n}{nodo} \PYG{o}{!=} \PYG{n}{inicio}\PYG{p}{:}
+                    \PYG{n}{nodo}\PYG{o}{.}\PYG{n}{hacer\PYGZus{}pared}\PYG{p}{()}
+
+            \PYG{k}{elif} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{mouse}\PYG{o}{.}\PYG{n}{get\PYGZus{}pressed}\PYG{p}{()[}\PYG{l+m+mi}{2}\PYG{p}{]:}  \PYG{c+c1}{\PYGZsh{} Click derecho}
+                \PYG{n}{pos} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{mouse}\PYG{o}{.}\PYG{n}{get\PYGZus{}pos}\PYG{p}{()}
+                \PYG{n}{fila}\PYG{p}{,} \PYG{n}{col} \PYG{o}{=} \PYG{n}{obtener\PYGZus{}click\PYGZus{}pos}\PYG{p}{(}\PYG{n}{pos}\PYG{p}{,} \PYG{n}{FILAS}\PYG{p}{,} \PYG{n}{ancho}\PYG{p}{)}
+                \PYG{n}{nodo} \PYG{o}{=} \PYG{n}{grid}\PYG{p}{[}\PYG{n}{fila}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]}
+                \PYG{n}{nodo}\PYG{o}{.}\PYG{n}{restablecer}\PYG{p}{()}
+                \PYG{k}{if} \PYG{n}{nodo} \PYG{o}{==} \PYG{n}{inicio}\PYG{p}{:}
+                    \PYG{n}{inicio} \PYG{o}{=} \PYG{k+kc}{None}
+                \PYG{k}{elif} \PYG{n}{nodo} \PYG{o}{==} \PYG{n}{fin}\PYG{p}{:}
+                    \PYG{n}{fin} \PYG{o}{=} \PYG{k+kc}{None}
+
+    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{quit}\PYG{p}{()}
+
+\PYG{n}{main}\PYG{p}{(}\PYG{n}{VENTANA}\PYG{p}{,} \PYG{n}{ANCHO\PYGZus{}VENTANA}\PYG{p}{)}
+
+\end{Verbatim}

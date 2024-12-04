@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+       \PYG{k+kn}{from} \PYG{n+nn}{tensorflow.keras.layers} \PYG{k+kn}{import} \PYG{n}{Input}\PYG{p}{,} \PYG{n}{Dense}
+       \PYG{k+kn}{from} \PYG{n+nn}{tensorflow.keras.models} \PYG{k+kn}{import} \PYG{n}{Model}
+
+       \PYG{c+c1}{\PYGZsh{} Autoencoder simple}
+       \PYG{n}{input\PYGZus{}img} \PYG{o}{=} \PYG{n}{Input}\PYG{p}{(}\PYG{n}{shape}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{784}\PYG{p}{,))}
+       \PYG{n}{encoded} \PYG{o}{=} \PYG{n}{Dense}\PYG{p}{(}\PYG{l+m+mi}{32}\PYG{p}{,} \PYG{n}{activation}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}relu\PYGZsq{}}\PYG{p}{)(}\PYG{n}{input\PYGZus{}img}\PYG{p}{)}
+       \PYG{n}{decoded} \PYG{o}{=} \PYG{n}{Dense}\PYG{p}{(}\PYG{l+m+mi}{784}\PYG{p}{,} \PYG{n}{activation}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}sigmoid\PYGZsq{}}\PYG{p}{)(}\PYG{n}{encoded}\PYG{p}{)}
+
+       \PYG{n}{autoencoder} \PYG{o}{=} \PYG{n}{Model}\PYG{p}{(}\PYG{n}{input\PYGZus{}img}\PYG{p}{,} \PYG{n}{decoded}\PYG{p}{)}
+\end{Verbatim}
