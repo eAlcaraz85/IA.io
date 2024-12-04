@@ -3596,7 +3596,7 @@ Aquí usamos un modelo pre-entrenado para convertir texto a vectores:
 
 #+begin_src python
 from transformers zimport AutoTokenizer, AutoModel
-import torch
+import torch llama
 
 # Modelo pre-entrenado
 model_name = "distilbert-base-uncased"
@@ -3723,4 +3723,51 @@ https://www.facebook.com/share/v/19XLiKLLL8/
    organismos autónomos en términos de equidad y eficacia?
 
 
+
+
+
+* Actividad
+
+* Problema: Clasificación de Productos según su Aceptación por Clientes
+
+** Descripción del Problema
+Una empresa desea predecir si un producto será aceptado o rechazado
+por los clientes basándose en las siguientes características:
+
+1. **Precio relativo**: Precio del producto en comparación con productos
+   similares (normalizado entre 0 y 1).
+2. **Calidad percibida**: Opinión de los clientes sobre la calidad del
+   producto en encuestas (normalizada entre 0 y 1).
+
+**Criterios de Clasificación**:
+- Un producto se considera aceptado si cumple:
+  - El precio relativo es menor o igual a 0.6.
+  - La calidad percibida es mayor o igual a 0.7.
+- En caso contrario, será rechazado.
+
+**Entradas del Perceptrón**:
+- `x1`: Precio relativo (0-1).
+- `x2`: Calidad percibida (0-1).
+
+**Salida del Perceptrón**:
+- `1`: Aceptado.
+- `0`: Rechazado.
+
+**Conjunto de Datos de Entrenamiento**
+| Precio relativo | Calidad percibida | Resultado |
+|------------------|-------------------|-----------|
+| 0.5             | 0.8               | 1         |
+| 0.6             | 0.9               | 1         |
+| 0.7             | 0.6               | 0         |
+| 0.4             | 0.5               | 0         |
+| 0.3             | 0.9               | 1         |
+| 0.8             | 0.4               | 0         |
+
+** Actividades
+1. Normalizar los datos de entrada si no están ya en el rango (0-1).
+2. Implementar un perceptrón simple que pueda aprender esta clasificación.
+3. Encontrar los valores óptimos para los pesos `w1`, `w2` y el sesgo `b` mediante entrenamiento.
+4. Graficar la frontera de decisión que separa los productos aceptados de los rechazados.
+5. ¿Son los datos linealmente separables?
+6. ¿Qué ajustes podrían hacer al modelo para mejorar la predicción?
 
