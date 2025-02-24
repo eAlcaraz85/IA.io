@@ -1,4 +1,3 @@
-
 #+TITLE: Apuntes IA
 #+LANGUAGE: es
 #+LaTeX_HEADER: \usepackage[spanish]{inputenc}
@@ -1763,6 +1762,9 @@ diferentes cromaticidades.
 #+END_SRC
 
 
+
+
+y
 ** Árboles de decisión 
 
  Los árboles de decisión (DT) son un método de aprendizaje supervisado
@@ -2198,6 +2200,186 @@ graph.view()
        - Clasificación de datos estructurados (tabulares).
        - Problemas de regresión.
 
+
+*** 1.1 Ejemplo de Redes Neuronales Feedforward
+
+****  fit_transform y transform
+
+Ambos son los métodos de la clase
+sklearn.preprocessing.StandardScaler() y se utilizan casi juntos
+mientras escalan o estandarizan nuestros datos de entrenamiento y
+prueba.
+
+
+- La estandarización de los datos es el proceso de reescalar los
+  atributos para que tengan una media de 0 y una varianza de 1.
+
+- El objetivo final de realizar la estandarización es reducir todas
+  las características a una escala común sin distorsionar las
+  diferencias en el rango de los valores.
+
+- En sklearn.preprocessing.StandardScaler(), el centrado y el escalado
+  ocurren independientemente en cada característica.
+
+
+***** fit_transform()
+
+fit_transform() se utiliza en los datos de entrenamiento para que
+podamos escalar los datos de entrenamiento y también aprender los
+parámetros de escalado de esos datos. Aquí, el modelo construido por
+nosotros aprenderá la media y la varianza de las características del
+conjunto de entrenamiento. Estos parámetros aprendidos se utilizan
+para escalar nuestros datos de prueba.
+
+
+
+***** transform()
+
+Utilizando el método transform() podemos utilizar la misma media y
+varianza que se calcula a partir de nuestros datos de entrenamiento
+para transformar nuestros datos de prueba. Así, los parámetros
+aprendidos por nuestro modelo utilizando los datos de entrenamiento
+nos ayudarán a transformar nuestros datos de prueba.
+
+
+#+BEGIN_SRC python
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import accuracy_score
+
+# Cargar el dataset Iris
+iris = load_iris()
+X, y = iris.data, iris.target
+
+# Dividir en conjunto de entrenamiento y prueba (80%-20%)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Normalizar las características (importante para MLP)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+# Definir la red neuronal con una capa oculta de 10 neuronas
+mlp = MLPClassifier(hidden_layer_sizes=(10,), activation='relu', solver='adam', max_iter=500, random_state=42)
+# Entrenar el modelo
+mlp.fit(X_train, y_train)
+# Hacer predicciones
+y_pred = mlp.predict(X_test)
+# Evaluar el modelo
+accuracy = accuracy_score(y_test, y_pred)
+print(f'\nPrecisión en test: {accuracy:.4f}')
+
+#+END_SRC
+
+**** ¿Qué es Softmax?
+La función *softmax* es una función de activación utilizada en la capa de salida de redes neuronales para clasificación multiclase. Convierte un conjunto de valores en una distribución de *probabilidades*.
+
+**** Fórmula:
+\[
+\sigma(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{n} e^{z_j}}
+\]
+Donde:
+- \( z_i \) es la activación de la neurona \( i \).
+- \( e^{z_i} \) es la exponencial de la activación.
+- \( \sum e^{z_j} \) es la suma de todas las exponenciales de las activaciones.
+
+**** Ejemplo práctico:
+Si la red neuronal genera los siguientes valores antes de aplicar *softmax* (logits):
+#+BEGIN_SRC python
+z = [2.0, 1.0, 0.1]
+#+END_SRC
+
+Aplicando la función softmax:
+
+\[
+\sigma(2.0) = \frac{e^2}{e^2 + e^1 + e^{0.1}} = 0.659
+\]
+
+\[
+\sigma(1.0) = \frac{e^1}{e^2 + e^1 + e^{0.1}} = 0.242
+\]
+
+\[
+\sigma(0.1) = \frac{e^{0.1}}{e^2 + e^1 + e^{0.1}} = 0.099
+\]
+
+Salida final:
+
+#+BEGIN_SRC python
+[0.659, 0.242, 0.099]
+#+END_SRC
+
+Esto significa que la red asigna una probabilidad del *65.9%* a la primera clase, *24.2%* a la segunda y *9.9%* a la tercera.
+
+-  *Convierte las salidas en probabilidades* (valores entre 0 y 1 que suman 1).
+-  *Permite interpretar las predicciones* fácilmente.
+-  *Destaca la clase más probable* con valores amplificados.
+
+Para clasificación binaria se usa la función *sigmoide* en vez de *softmax*.
+En *scikit-learn*, la función *softmax* ya está integrada en *MLPClassifier* para clasificación multiclase.
+
+
+
+
+**** Descenso del Gradiente 
+El descenso del gradiente o gradiente descendiente es un algoritmo de
+optimización iterativo de primer orden que permite encontrar mínimos
+locales en una función diferenciable. La idea es tomar pasos de manera
+repetida en dirección contraria al gradiente. Esto se hace ya que esta
+dirección es la del descenso más empinado. Si se toman pasos con la
+misma dirección del gradiente, se encontrará el máximo local de la
+función; a esto se le conoce como el gradiente ascendente. Este
+algoritmo es utilizado para entrenar modelos de aprendizaje máquina y
+redes neuronales.
+
+**** Momentum
+
+Stochastic Gradient Descent with Momentum o, simplemente, Momentum, es
+una variación del algoritmo de descenso de gradiente estocástico (SGD)
+que utiliza una técnica de suavizado para evitar oscilaciones
+excesivas en la dirección del gradiente y aumentar la velocidad de
+convergencia: En lugar de actualizar los parámetros utilizando solo la
+información del gradiente actual (tras evaluar n muestras), el
+algoritmo de Momentum utiliza un promedio ponderado del gradiente
+actual y de los gradientes anteriores para calcular la dirección de
+actualización (es decir, el gradiente a considerar para la
+actualización de los parámetros).
+
+Este algoritmo requiere dos parámetros: el coeficiente de aprendizaje
+que ya conocemos (learning rate) y el llamado coeficiente de
+momentum. El coeficiente de momentum controla la influencia de los
+gradientes anteriores en la dirección de actualización. En función de
+los datos, un coeficiente de momentum alto puede ayudar a superar los
+mínimos locales en la función de error y llevar a una convergencia más
+rápida.
+
+La actualización de los pesos en el algoritmo de Momentum se realiza,
+por lo tanto, de la siguiente manera:
+
+- Se evalúa el gradiente actual tras considerar n muestras
+- Se calcula la dirección de actualización como una combinación del gradiente actual y los gradientes anteriores ponderados usando el coeficiente de momentum
+- Se actualizan los parámetros del modelo utilizando la dirección de actualización y el coeficiente de aprendizaje
+- El algoritmo de Momentum se puede implementar de diferentes maneras, como utilizando un promedio ponderado simple de los gradientes anteriores o utilizando un promedio ponderado exponencial.
+
+**** Adam
+
+Adam, o Adaptive Moment Estimation, es un algoritmo de optimización
+que combina las ventajas de los algoritmos RMSprop y Momentum para
+mejorar el proceso de aprendizaje de un modelo. Al igual que Momentum,
+Adam utiliza una estimación del momento y de la magnitud de los
+gradientes anteriores para actualizar los parámetros del modelo en
+cada iteración. Sin embargo, en lugar de utilizar una tasa de
+aprendizaje constante para todos los parámetros, Adam adapta la tasa
+de aprendizaje de cada parámetro individualmente en función de su
+estimación del momento y de la magnitud del gradiente. Esto permite
+que el modelo se ajuste de manera más eficiente y efectiva a los datos
+de entrenamiento, lo que puede llevar a una mayor precisión de la
+predicción en comparación con otros métodos de optimización.
+
+
+	   
+
+	   
 *** 2. Redes Neuronales Convolucionales (CNN)
    - Las **redes neuronales convolucionales** están diseñadas para
      procesar datos que tienen una estructura de cuadrícula, como
@@ -2373,7 +2555,7 @@ graph.view()
    *** Aplicaciones comunes:
        - Clasificación de imágenes donde la orientación y posición de los objetos son relevantes.
 
-
+	   
 * Análisis de información  
 ** Programación 
 *** Carga de imágenes y propiedades  
@@ -3755,13 +3937,13 @@ por los clientes basándose en las siguientes características:
 
 **Conjunto de Datos de Entrenamiento**
 | Precio relativo | Calidad percibida | Resultado |
-|------------------|-------------------|-----------|
-| 0.5             | 0.8               | 1         |
-| 0.6             | 0.9               | 1         |
-| 0.7             | 0.6               | 0         |
-| 0.4             | 0.5               | 0         |
-| 0.3             | 0.9               | 1         |
-| 0.8             | 0.4               | 0         |
+|-----------------+-------------------+-----------|
+|             0.5 |               0.8 |         1 |
+|             0.6 |               0.9 |         1 |
+|             0.7 |               0.6 |         0 |
+|             0.4 |               0.5 |         0 |
+|             0.3 |               0.9 |         1 |
+|             0.8 |               0.4 |         0 |
 
 ** Actividades
 1. Normalizar los datos de entrada si no están ya en el rango (0-1).
@@ -3771,21 +3953,28 @@ por los clientes basándose en las siguientes características:
 5. ¿Son los datos linealmente separables?
 6. ¿Qué ajustes podrían hacer al modelo para mejorar la predicción?
 7. Describir cada una de las partes del modelo implementando
-
+   
 
 * Problema: Clasificación de Clientes según su Perfil Financiero
 
 ** Descripción del Problema
-Una institución financiera desea clasificar a sus clientes en tres categorías basándose en su perfil financiero y de comportamiento:
+Una institución financiera desea clasificar a sus clientes en tres
+categorías basándose en su perfil financiero y de comportamiento:
 
-1. **Riesgo Bajo**: Clientes que cumplen con todos los pagos a tiempo y tienen ingresos estables.
-2. **Riesgo Medio**: Clientes con retrasos esporádicos en los pagos o ingresos variables.
-3. **Riesgo Alto**: Clientes con historial de impagos o ingresos inestables.
+1. **Riesgo Bajo**: Clientes que cumplen con todos los pagos a tiempo y
+   tienen ingresos estables.
+2. **Riesgo Medio**: Clientes con retrasos esporádicos en los pagos o
+   ingresos variables.
+3. **Riesgo Alto**: Clientes con historial de impagos o ingresos
+   inestables.
 
 **Características de Entrada**:
-1. **Historial de pagos**: Porcentaje de pagos realizados a tiempo (normalizado entre 0 y 1).
-2. **Ingresos mensuales**: Ingresos promedio del cliente (normalizado entre 0 y 1).
-3. **Relación deuda-ingreso**: Proporción entre la deuda total y los ingresos totales (normalizado entre 0 y 1).
+1. **Historial de pagos**: Porcentaje de pagos realizados a tiempo
+   (normalizado entre 0 y 1).
+2. **Ingresos mensuales**: Ingresos promedio del cliente (normalizado
+   entre 0 y 1).
+3. **Relación deuda-ingreso**: Proporción entre la deuda total y los
+   ingresos totales (normalizado entre 0 y 1).
 
 **Categorías de Salida**:
 - `Riesgo Bajo`: [1, 0, 0]
@@ -3804,8 +3993,10 @@ Una institución financiera desea clasificar a sus clientes en tres categorías 
 
 
 ** Actividades 
-1. Implementar una red neuronal multicapa para clasificar los clientes según su riesgo.
-2. Encontrar los valores óptimos para los pesos `w1`, `w2` 'wn' y el sesgo `b` mediante entrenamiento.
+1. Implementar una red neuronal multicapa para clasificar los clientes
+   según su riesgo.
+2. Encontrar los valores óptimos para los pesos `w1`, `w2` 'wn' y el
+   sesgo `b` mediante entrenamiento.
 3. Graficar la frontera de decisión que separa los clientes .
 4. ¿Son los datos linealmente separables?
 5. ¿Qué ajustes podrían hacer al modelo para mejorar la clasificación?
