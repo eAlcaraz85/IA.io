@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
 <head>
-<!-- 2024-12-04 mié 10:11 -->
+<!-- 2025-02-24 lun 09:55 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Apuntes IA</title>
@@ -230,251 +230,261 @@
 <h2>&Iacute;ndice</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge5cac1e">Introducción a la Inteligencia Artificial.</a>
+<li><a href="#org29362e6">Introducción a la Inteligencia Artificial.</a>
 <ul>
-<li><a href="#org89e52a7">Categorías de la Inteligencia Artificial</a></li>
-<li><a href="#org2e1faec">Inteligencia artificial convencional</a></li>
-<li><a href="#org34ffd95">Historia de la Inteligencia Artificial.</a></li>
-<li><a href="#orgeeefa42">Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).</a>
+<li><a href="#orgba80195">Categorías de la Inteligencia Artificial</a></li>
+<li><a href="#org937daef">Inteligencia artificial convencional</a></li>
+<li><a href="#org3ce78d9">Historia de la Inteligencia Artificial.</a></li>
+<li><a href="#org84609a0">Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).</a>
 <ul>
-<li><a href="#org0ac0498">Teorías de la Inteligencia</a></li>
+<li><a href="#orgefd4c02">Teorías de la Inteligencia</a></li>
 </ul>
 </li>
-<li><a href="#org7aef5bc">El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).</a></li>
-<li><a href="#org23fceeb">El modelo de adquisición del conocimiento según la filosofía.</a></li>
-<li><a href="#orga62967a">El modelo cognoscitivo.</a>
+<li><a href="#orgcc4153a">El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).</a></li>
+<li><a href="#org516a033">El modelo de adquisición del conocimiento según la filosofía.</a></li>
+<li><a href="#orgd6ba39e">El modelo cognoscitivo.</a>
 <ul>
-<li><a href="#orgdec679c">Fundamentos del Modelo Cognoscitivo</a></li>
-<li><a href="#org9279a38">Aplicaciones del Modelo Cognoscitivo</a></li>
-<li><a href="#orga2e83d3">Críticas y Limitaciones</a></li>
-<li><a href="#orge20cdb2">Evolución y Expansión</a></li>
-<li><a href="#orgb820b89">Conclusión</a></li>
+<li><a href="#orgf513970">Fundamentos del Modelo Cognoscitivo</a></li>
+<li><a href="#org0d25337">Aplicaciones del Modelo Cognoscitivo</a></li>
+<li><a href="#orgf08f740">Críticas y Limitaciones</a></li>
+<li><a href="#org4255151">Evolución y Expansión</a></li>
+<li><a href="#orgb36c735">Conclusión</a></li>
 </ul>
 </li>
-<li><a href="#orgc34d8f8">El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.</a>
+<li><a href="#org112d1b4">El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.</a>
 <ul>
-<li><a href="#orgae522ef">El Modelo del Agente Inteligente</a></li>
-<li><a href="#org154da7f">Sistemas Multi-Agente (SMA)</a></li>
-<li><a href="#org47429b2">Sistemas Ubicuos</a></li>
-<li><a href="#orga475435">Integración y Aplicaciones</a></li>
-<li><a href="#orgee2d4a1">Conclusión</a></li>
+<li><a href="#orgfbbe346">El Modelo del Agente Inteligente</a></li>
+<li><a href="#orgfdc8e8e">Sistemas Multi-Agente (SMA)</a></li>
+<li><a href="#orgef5d361">Sistemas Ubicuos</a></li>
+<li><a href="#orgc5bed8d">Integración y Aplicaciones</a></li>
+<li><a href="#org16666d6">Conclusión</a></li>
 </ul>
 </li>
-<li><a href="#orgc03ea9f">El papel de la heurística.</a>
+<li><a href="#org7487e00">El papel de la heurística.</a>
 <ul>
-<li><a href="#org0c7595c">Ventajas y Limitaciones</a></li>
-<li><a href="#orgca27308">Algoritmos de exploración de alternativas.</a></li>
-<li><a href="#orgbb40d3a">Algoritmo A*</a></li>
-<li><a href="#org10208c9">Algoritmos de búsqueda local.</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#orged5a153">Espacio de estados</a>
-<ul>
-<li><a href="#org045e9ff">Ejemplo de espacio de estados</a>
-<ul>
-<li><a href="#orge17b8a3">Descripción del problema</a></li>
-<li><a href="#org8bebb03">Representación de las configuraciones del universo del problema:</a></li>
-<li><a href="#org09b5b56">Definición de las reglas de transición:</a></li>
-<li><a href="#orgd311e65">Generación del espacio de estados</a></li>
-<li><a href="#orga5c8352">Problemas de los Canibales y Monjes</a></li>
-<li><a href="#orgfe84fca">El espacio de estados está definido por</a></li>
-</ul>
-</li>
-<li><a href="#orge536021">Representación de espacio de estados</a></li>
-<li><a href="#org1649bef">El problema del n-Puzzle</a>
-<ul>
-<li><a href="#orgffbbb92">Caracterización de las búsquedas ciegas.</a></li>
-<li><a href="#org37968d6">Caracterización de las búsquedas heurísticas.</a></li>
+<li><a href="#orgef813f7">Ventajas y Limitaciones</a></li>
+<li><a href="#org76f8297">Algoritmos de exploración de alternativas.</a></li>
+<li><a href="#org13feaab">Algoritmo A*</a></li>
+<li><a href="#orgecb52c0">Algoritmos de búsqueda local.</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orga603937">Técnicas de Búsqueda</a>
+<li><a href="#org4518fac">Espacio de estados</a>
 <ul>
-<li><a href="#org9af1ad5">Solución de problemas con búsqueda.</a></li>
-<li><a href="#orgbfdfdc2">Espacios de Estados</a>
+<li><a href="#org3936fe7">Ejemplo de espacio de estados</a>
 <ul>
-<li><a href="#orgab076c3">Deterministicos</a></li>
-<li><a href="#org91cbdc6">No Deterministicos</a></li>
+<li><a href="#org5e86607">Descripción del problema</a></li>
+<li><a href="#org92bc8aa">Representación de las configuraciones del universo del problema:</a></li>
+<li><a href="#org74cdb7c">Definición de las reglas de transición:</a></li>
+<li><a href="#org39ad134">Generación del espacio de estados</a></li>
+<li><a href="#org6d11881">Problemas de los Canibales y Monjes</a></li>
+<li><a href="#org87b373b">El espacio de estados está definido por</a></li>
 </ul>
 </li>
-<li><a href="#orgcdf2e2a">Métodos de Búsqueda</a>
+<li><a href="#org138aa4b">Representación de espacio de estados</a></li>
+<li><a href="#org9ab06e3">El problema del n-Puzzle</a>
 <ul>
-<li><a href="#org642d65b">Primero en anchura (breadthfirst)</a></li>
-<li><a href="#org111b2b3">Primero en profundidad (depthfirst).</a></li>
-<li><a href="#orgd373312">Búsqueda Heurística</a></li>
-</ul>
-</li>
-<li><a href="#org5d3eff7">Satisfacción de restricciones.</a></li>
-</ul>
-</li>
-<li><a href="#org44412fc">Teoría de juegos.</a></li>
-<li><a href="#orgedcba94">Grafos</a></li>
-<li><a href="#org0d748ce">Tipos de grafos</a></li>
-<li><a href="#orgf44a917">Machine Learning</a>
-<ul>
-<li><a href="#org0860166">Tipos de Algoritmos</a></li>
-<li><a href="#orgb038c53">Técnicas de clasificación</a></li>
-<li><a href="#org148eda3">Clasificador en Cascada</a>
-<ul>
-<li><a href="#org34db673">Ejemplo de clasificación utilizando Haarcascades</a></li>
-</ul>
-</li>
-<li><a href="#orgdd1905c">Segmentación de Color</a></li>
-<li><a href="#orge816b54">Árboles de decisión</a>
-<ul>
-<li><a href="#org6ef220e">Elementos</a></li>
-<li><a href="#org602fcff">Algunas ventajas de los árboles de decisión son:</a></li>
-<li><a href="#org73330df">Desventajas de los árboles de decisión:</a></li>
-<li><a href="#org5d5d7a5">Ejemplo de Clasificación, Árbol de decisión scikit-learn</a></li>
-<li><a href="#org87e54e5">Árbol de Decisión en el Conjunto de Datos Iris</a></li>
-<li><a href="#org526d6e8">Índice de Gini en Árboles de Decisión</a></li>
-<li><a href="#orgf89a11a">Ejemplo con Dataset Phaser</a></li>
-</ul>
-</li>
-<li><a href="#orgd78c742">Arquitecturas de Redes Neuronales</a>
-<ul>
-<li><a href="#orgdd3377d">1. Redes Neuronales Feedforward (FFNN)</a></li>
-<li><a href="#orgebd09d8">2. Redes Neuronales Convolucionales (CNN)</a></li>
-<li><a href="#org41ebf28">3. Redes Neuronales Recurrentes (RNN)</a></li>
-<li><a href="#org26dffae">4. Redes Generativas Antagónicas (GAN)</a></li>
-<li><a href="#org844d09f">5. Redes de Memoria a Largo y Corto Plazo (LSTM)</a></li>
-<li><a href="#org97d8029">6. Redes de Transformadores</a></li>
-<li><a href="#orga945964">7. Redes Autoencoders</a></li>
-<li><a href="#orgb36c319">8. Redes de Cápsulas (Capsule Networks)</a></li>
+<li><a href="#org2720ed8">Caracterización de las búsquedas ciegas.</a></li>
+<li><a href="#org181d1fb">Caracterización de las búsquedas heurísticas.</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orga61046e">Análisis de información</a>
+<li><a href="#org8aca081">Técnicas de Búsqueda</a>
 <ul>
-<li><a href="#orgaa9a706">Programación</a>
+<li><a href="#org2cd0a13">Solución de problemas con búsqueda.</a></li>
+<li><a href="#orgc383ffd">Espacios de Estados</a>
 <ul>
-<li><a href="#org665fdac">Carga de imágenes y propiedades</a></li>
-<li><a href="#orge023cf2">Operadores Puntuales</a></li>
-<li><a href="#orge20880c">Modelos de color</a></li>
-<li><a href="#org67921ed">Segmentación de Color</a></li>
-<li><a href="#org062fe76">Haarcascades</a></li>
-<li><a href="#orgca03bd4">Template Matching</a></li>
+<li><a href="#org96fca18">Deterministicos</a></li>
+<li><a href="#orgfbbbaa9">No Deterministicos</a></li>
+</ul>
+</li>
+<li><a href="#org96c95dc">Métodos de Búsqueda</a>
+<ul>
+<li><a href="#org7f198da">Primero en anchura (breadthfirst)</a></li>
+<li><a href="#org7096db1">Primero en profundidad (depthfirst).</a></li>
+<li><a href="#orga5598fc">Búsqueda Heurística</a></li>
+</ul>
+</li>
+<li><a href="#org679c960">Satisfacción de restricciones.</a></li>
+</ul>
+</li>
+<li><a href="#orgf0ea58d">Teoría de juegos.</a></li>
+<li><a href="#org947fb72">Grafos</a></li>
+<li><a href="#org1929ed2">Tipos de grafos</a></li>
+<li><a href="#org5b280a5">Machine Learning</a>
+<ul>
+<li><a href="#orgaee44b8">Tipos de Algoritmos</a></li>
+<li><a href="#org3d2c075">Técnicas de clasificación</a></li>
+<li><a href="#org9ce983a">Clasificador en Cascada</a>
+<ul>
+<li><a href="#org0e8efab">Ejemplo de clasificación utilizando Haarcascades</a></li>
+</ul>
+</li>
+<li><a href="#orgece9092">Segmentación de Color</a></li>
+<li><a href="#org7f5ab7e">Árboles de decisión</a>
+<ul>
+<li><a href="#org47183eb">Elementos</a></li>
+<li><a href="#org7a9c15b">Algunas ventajas de los árboles de decisión son:</a></li>
+<li><a href="#org15c9bc7">Desventajas de los árboles de decisión:</a></li>
+<li><a href="#orgf6f26cb">Ejemplo de Clasificación, Árbol de decisión scikit-learn</a></li>
+<li><a href="#org11a6cf0">Árbol de Decisión en el Conjunto de Datos Iris</a></li>
+<li><a href="#org9243120">Índice de Gini en Árboles de Decisión</a></li>
+<li><a href="#orgc58d6ba">Ejemplo con Dataset Phaser</a></li>
+</ul>
+</li>
+<li><a href="#orge7c9e3c">Arquitecturas de Redes Neuronales</a>
+<ul>
+<li><a href="#orgae9a154">1. Redes Neuronales Feedforward (FFNN)</a></li>
+<li><a href="#orgea382cb">Ejemplo de Redes Neuronales Feedforward</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org287cfdf">Programación</a>
+<li><a href="#org6084f1a">¿Qué es Softmax?</a>
 <ul>
-<li><a href="#org4499b86">Segmentación de color en vídeo</a></li>
-<li><a href="#org36d606d">Seguimiento Por color</a></li>
-</ul>
-</li>
-<li><a href="#orga139513">Tutorial Básico de Pygame</a>
+<li><a href="#org410f5ed">Fórmula:</a></li>
+<li><a href="#org072759b">Ejemplo práctico:</a>
 <ul>
-<li><a href="#org0a6619a">Instalación de Pygame</a></li>
-<li><a href="#orgb690daa">Creación de una ventana básica</a></li>
-<li><a href="#org96dc705">Manejo de eventos</a></li>
-<li><a href="#org3e8b353">Dibujar formas y texto</a></li>
-<li><a href="#org4e91718">Cargar y mostrar imágenes</a></li>
-</ul>
-</li>
-<li><a href="#orgf6909ce">Web scraping</a></li>
-<li><a href="#orgfc7b4f9">Preguntas</a>
-<ul>
-<li><a href="#orge50aa0d">Preguntas para responder con el estudio y análisis a través de algoritmos de inteligencia artificial.</a>
-<ul>
-<li><a href="#org90ffc1e">Preguntas Ley al poder Judicial</a></li>
-<li><a href="#org1512375">Ley Organismos Autónomos</a></li>
+<li><a href="#org35f7772">2. Redes Neuronales Convolucionales (CNN)</a></li>
+<li><a href="#org66da680">3. Redes Neuronales Recurrentes (RNN)</a></li>
+<li><a href="#orgd1880e4">4. Redes Generativas Antagónicas (GAN)</a></li>
+<li><a href="#org6f8cf9b">5. Redes de Memoria a Largo y Corto Plazo (LSTM)</a></li>
+<li><a href="#org0b6ef04">6. Redes de Transformadores</a></li>
+<li><a href="#org8641d07">7. Redes Autoencoders</a></li>
+<li><a href="#org01c940f">8. Redes de Cápsulas (Capsule Networks)</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orge3b5fb5">Introducción a los  Embeddings</a>
+<li><a href="#org51fa967">Análisis de información</a>
 <ul>
-<li><a href="#orgf9465bc">Concepto de Embedding</a>
+<li><a href="#orgb1aded9">Programación</a>
 <ul>
-<li><a href="#org305068b">Propiedades de los Embeddings</a></li>
-</ul>
-</li>
-<li><a href="#orge4fd798">Ejemplos de Uso</a>
-<ul>
-<li><a href="#org795476b">Procesamiento del Lenguaje Natural (NLP)</a></li>
-<li><a href="#orgc4e9470">Recomendación de Contenido</a></li>
-</ul>
-</li>
-<li><a href="#orgf562f07">Visualización y Reducción Dimensional</a></li>
-<li><a href="#org7c7a139">Métodos para Generar Embeddings</a>
-<ul>
-<li><a href="#org32a03de">Redes Neuronales</a></li>
-<li><a href="#org4ce971e">Factorización Matricial</a></li>
-<li><a href="#orga5675bd">Modelos Gráficos</a></li>
-</ul>
-</li>
-<li><a href="#orgcec728c">Implementación Básica</a></li>
-</ul>
-</li>
-<li><a href="#orgebc5767">¿Qué es Ollama?</a>
-<ul>
-<li><a href="#org5241a7a">Características Principales</a></li>
-<li><a href="#org4d9f4e6">Usos Comunes de Ollama</a>
-<ul>
-<li><a href="#orgfadf0f3">Asistentes Virtuales</a></li>
-<li><a href="#org554077c">Análisis de Texto</a></li>
-<li><a href="#orge2ab2e6">Automatización de Redacción</a></li>
-</ul>
-</li>
-<li><a href="#org9c2b836">Ejemplo de Uso</a></li>
-<li><a href="#org1c63039">Conclusión</a></li>
-</ul>
-</li>
-<li><a href="#orgfa8ba73">Spacy</a></li>
-<li><a href="#orgdf6fce0">Proyectos IA Final</a>
-<ul>
-<li><a href="#orgd3fefe6">Actividad 1</a>
-<ul>
-<li><a href="#org7fa823a">Implementación del Algoritmo A*</a></li>
-</ul>
-</li>
-<li><a href="#org645ae7a">Actividad 2</a>
-<ul>
-<li><a href="#org8a19f49">Solución basada en Árboles de Decisión y Redes Neuronales Multicapa</a></li>
-</ul>
-</li>
-<li><a href="#org05c0eec">Actividad 3</a>
-<ul>
-<li><a href="#orge7c9371">Identificación de modelos de autos con CNN</a></li>
-</ul>
-</li>
-<li><a href="#org57da360">Actividad 4</a>
-<ul>
-<li><a href="#org0becf90">Fundamentación sobre la Reforma al Poder Judicial y Organismos Autónomos</a></li>
+<li><a href="#org2995fb4">Carga de imágenes y propiedades</a></li>
+<li><a href="#org6d8579e">Operadores Puntuales</a></li>
+<li><a href="#orgaff4fd7">Modelos de color</a></li>
+<li><a href="#org8df5590">Segmentación de Color</a></li>
+<li><a href="#org92aa54f">Haarcascades</a></li>
+<li><a href="#orgcfee429">Template Matching</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org310db61">Embedding de texto para vectorización en IA</a>
+<li><a href="#orgc52a993">Programación</a>
 <ul>
-<li><a href="#orgacfe8c5">Introducción</a></li>
-<li><a href="#org5364cd5">Requisitos</a></li>
-<li><a href="#org2697f48">Código básico: Generar embeddings con transformers</a></li>
-<li><a href="#org4590c14">Vectorización con sentence-transformers</a></li>
-<li><a href="#org631e2a3">Caso práctico: Búsqueda semántica</a></li>
-<li><a href="#org06f33e4">Recursos adicionales</a></li>
+<li><a href="#orga4d063e">Segmentación de color en vídeo</a></li>
+<li><a href="#org0adbda0">Seguimiento Por color</a></li>
 </ul>
 </li>
-<li><a href="#orgbaff99b">Bibliografía</a></li>
-<li><a href="#orgfb23f75">Examen</a></li>
-<li><a href="#orgfe95499">Actividad</a></li>
-<li><a href="#org5e1c3f9">Problema: Clasificación de Productos según su Aceptación por Clientes</a>
+<li><a href="#orgf9a94cd">Tutorial Básico de Pygame</a>
 <ul>
-<li><a href="#org17d9029">Descripción del Problema</a></li>
-<li><a href="#org8a84f5a">Actividades</a></li>
+<li><a href="#org6a815d0">Instalación de Pygame</a></li>
+<li><a href="#org8772fbb">Creación de una ventana básica</a></li>
+<li><a href="#org940e2b4">Manejo de eventos</a></li>
+<li><a href="#org1853ac2">Dibujar formas y texto</a></li>
+<li><a href="#org468be9f">Cargar y mostrar imágenes</a></li>
 </ul>
 </li>
-<li><a href="#org561e4da">Problema: Clasificación de Clientes según su Perfil Financiero</a>
+<li><a href="#orgc48e933">Web scraping</a></li>
+<li><a href="#org425c4e1">Preguntas</a>
 <ul>
-<li><a href="#org5ddff2a">Descripción del Problema</a></li>
-<li><a href="#orgf435c31">Conjunto de Datos de Entrenamiento</a></li>
-<li><a href="#org0735903">Actividades</a></li>
+<li><a href="#org49e3249">Preguntas para responder con el estudio y análisis a través de algoritmos de inteligencia artificial.</a>
+<ul>
+<li><a href="#org0cf8d29">Preguntas Ley al poder Judicial</a></li>
+<li><a href="#org836c7e9">Ley Organismos Autónomos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgf071c13">Introducción a los  Embeddings</a>
+<ul>
+<li><a href="#org3789a48">Concepto de Embedding</a>
+<ul>
+<li><a href="#org627d1cf">Propiedades de los Embeddings</a></li>
+</ul>
+</li>
+<li><a href="#org1abb545">Ejemplos de Uso</a>
+<ul>
+<li><a href="#org5baffc1">Procesamiento del Lenguaje Natural (NLP)</a></li>
+<li><a href="#org8ab5c6f">Recomendación de Contenido</a></li>
+</ul>
+</li>
+<li><a href="#org045940f">Visualización y Reducción Dimensional</a></li>
+<li><a href="#org04ce4ca">Métodos para Generar Embeddings</a>
+<ul>
+<li><a href="#org14f7b03">Redes Neuronales</a></li>
+<li><a href="#orgf07f8d5">Factorización Matricial</a></li>
+<li><a href="#org09fa6ff">Modelos Gráficos</a></li>
+</ul>
+</li>
+<li><a href="#org6698015">Implementación Básica</a></li>
+</ul>
+</li>
+<li><a href="#orgae271f2">¿Qué es Ollama?</a>
+<ul>
+<li><a href="#org751e18a">Características Principales</a></li>
+<li><a href="#org46dc4ef">Usos Comunes de Ollama</a>
+<ul>
+<li><a href="#orgd1cae59">Asistentes Virtuales</a></li>
+<li><a href="#orgbf24983">Análisis de Texto</a></li>
+<li><a href="#orgb521af3">Automatización de Redacción</a></li>
+</ul>
+</li>
+<li><a href="#org923a210">Ejemplo de Uso</a></li>
+<li><a href="#org68fad72">Conclusión</a></li>
+</ul>
+</li>
+<li><a href="#org05a3f04">Spacy</a></li>
+<li><a href="#org8f70eee">Proyectos IA Final</a>
+<ul>
+<li><a href="#orgf56475e">Actividad 1</a>
+<ul>
+<li><a href="#orge459b7a">Implementación del Algoritmo A*</a></li>
+</ul>
+</li>
+<li><a href="#org0186ce6">Actividad 2</a>
+<ul>
+<li><a href="#orga41bd26">Solución basada en Árboles de Decisión y Redes Neuronales Multicapa</a></li>
+</ul>
+</li>
+<li><a href="#org2cfabce">Actividad 3</a>
+<ul>
+<li><a href="#orgef8f7d7">Identificación de modelos de autos con CNN</a></li>
+</ul>
+</li>
+<li><a href="#orga7d749a">Actividad 4</a>
+<ul>
+<li><a href="#org5432ad4">Fundamentación sobre la Reforma al Poder Judicial y Organismos Autónomos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org6030e34">Embedding de texto para vectorización en IA</a>
+<ul>
+<li><a href="#org8acd23f">Introducción</a></li>
+<li><a href="#org135df94">Requisitos</a></li>
+<li><a href="#org16315f5">Código básico: Generar embeddings con transformers</a></li>
+<li><a href="#org773651c">Vectorización con sentence-transformers</a></li>
+<li><a href="#orga6f656d">Caso práctico: Búsqueda semántica</a></li>
+<li><a href="#orgdcb1c4e">Recursos adicionales</a></li>
+</ul>
+</li>
+<li><a href="#org77c19fd">Bibliografía</a></li>
+<li><a href="#org84bd54b">Examen</a></li>
+<li><a href="#org24e217b">Actividad</a></li>
+<li><a href="#orgb5f6068">Problema: Clasificación de Productos según su Aceptación por Clientes</a>
+<ul>
+<li><a href="#orgb1c262e">Descripción del Problema</a></li>
+<li><a href="#orgba9dfc2">Actividades</a></li>
+</ul>
+</li>
+<li><a href="#orgfb1e498">Problema: Clasificación de Clientes según su Perfil Financiero</a>
+<ul>
+<li><a href="#org3932a9b">Descripción del Problema</a></li>
+<li><a href="#org2cad50b">Conjunto de Datos de Entrenamiento</a></li>
+<li><a href="#orgad8a974">Actividades</a></li>
 </ul>
 </li>
 </ul>
@@ -483,9 +493,9 @@
 
 
 
-<div id="outline-container-orge5cac1e" class="outline-2">
-<h2 id="orge5cac1e">Introducción a la Inteligencia Artificial.</h2>
-<div class="outline-text-2" id="text-orge5cac1e">
+<div id="outline-container-org29362e6" class="outline-2">
+<h2 id="org29362e6">Introducción a la Inteligencia Artificial.</h2>
+<div class="outline-text-2" id="text-org29362e6">
 <p>
 La inteligencia artificial (IA) es un área multidisciplinaria que, a
  través de ciencias como las ciencias de la computación, la lógica y la
@@ -534,9 +544,9 @@ computador, y otros videojuegos.
 </p>
 </div>
 
-<div id="outline-container-org89e52a7" class="outline-3">
-<h3 id="org89e52a7">Categorías de la Inteligencia Artificial</h3>
-<div class="outline-text-3" id="text-org89e52a7">
+<div id="outline-container-orgba80195" class="outline-3">
+<h3 id="orgba80195">Categorías de la Inteligencia Artificial</h3>
+<div class="outline-text-3" id="text-orgba80195">
 <ul class="org-ul">
 <li><b>Sistemas que piensan como humanos</b>. Estos sistemas tratan de emular
 el pensamiento humano; por ejemplo las redes neuronales
@@ -557,9 +567,9 @@ conductas inteligentes en artefactos. <a href="Russell">Russell</a></li>
 </div>
 </div>
 
-<div id="outline-container-org2e1faec" class="outline-3">
-<h3 id="org2e1faec">Inteligencia artificial convencional</h3>
-<div class="outline-text-3" id="text-org2e1faec">
+<div id="outline-container-org937daef" class="outline-3">
+<h3 id="org937daef">Inteligencia artificial convencional</h3>
+<div class="outline-text-3" id="text-org937daef">
 <p>
 Se conoce también como IA simbólico-deductiva. Está basada en el análisis formal y
 estadístico del comportamiento humano ante diferentes problemas:
@@ -584,12 +594,12 @@ igual que lo haría un especialista en la dicha actividad.</li>
 </div>
 
 
-<div id="outline-container-org34ffd95" class="outline-3">
-<h3 id="org34ffd95">Historia de la Inteligencia Artificial.</h3>
+<div id="outline-container-org3ce78d9" class="outline-3">
+<h3 id="org3ce78d9">Historia de la Inteligencia Artificial.</h3>
 </div>
-<div id="outline-container-orgeeefa42" class="outline-3">
-<h3 id="orgeeefa42">Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).</h3>
-<div class="outline-text-3" id="text-orgeeefa42">
+<div id="outline-container-org84609a0" class="outline-3">
+<h3 id="org84609a0">Las habilidades cognoscitivas según la psicología. Teorías de la inteligencia (conductismo, Gardner, etc.).</h3>
+<div class="outline-text-3" id="text-org84609a0">
 <p>
 Las habilidades cognoscitivas son capacidades mentales que nos
 permiten procesar toda la información que nos llega del
@@ -602,9 +612,9 @@ inteligencia.
 </p>
 </div>
 
-<div id="outline-container-org0ac0498" class="outline-4">
-<h4 id="org0ac0498">Teorías de la Inteligencia</h4>
-<div class="outline-text-4" id="text-org0ac0498">
+<div id="outline-container-orgefd4c02" class="outline-4">
+<h4 id="orgefd4c02">Teorías de la Inteligencia</h4>
+<div class="outline-text-4" id="text-orgefd4c02">
 <ol class="org-ol">
 <li><b>Conductismo</b> El conductismo, representado por figuras como
 John B. Watson y B.F. Skinner, se centra en el estudio de
@@ -676,9 +686,9 @@ puede ser completamente comprendido a través de un solo enfoque.
 </div>
 </div>
 
-<div id="outline-container-org7aef5bc" class="outline-3">
-<h3 id="org7aef5bc">El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).</h3>
-<div class="outline-text-3" id="text-org7aef5bc">
+<div id="outline-container-orgcc4153a" class="outline-3">
+<h3 id="orgcc4153a">El proceso de razonamiento según la lógica (Axiomas, Teoremas, demostración).</h3>
+<div class="outline-text-3" id="text-orgcc4153a">
 <p>
 El proceso de razonamiento según la lógica involucra varios conceptos
 fundamentales como axiomas, teoremas y demostraciones. Estos elementos
@@ -731,9 +741,9 @@ dependen de la lógica formal.
 </div>
 </div>
 
-<div id="outline-container-org23fceeb" class="outline-3">
-<h3 id="org23fceeb">El modelo de adquisición del conocimiento según la filosofía.</h3>
-<div class="outline-text-3" id="text-org23fceeb">
+<div id="outline-container-org516a033" class="outline-3">
+<h3 id="org516a033">El modelo de adquisición del conocimiento según la filosofía.</h3>
+<div class="outline-text-3" id="text-org516a033">
 <p>
 El modelo de adquisición del conocimiento según la filosofía aborda
 cómo los seres humanos entienden, aprenden y conocen el mundo que les
@@ -804,9 +814,9 @@ interactuamos con el mundo que nos rodea.
 </div>
 </div>
 
-<div id="outline-container-orga62967a" class="outline-3">
-<h3 id="orga62967a">El modelo cognoscitivo.</h3>
-<div class="outline-text-3" id="text-orga62967a">
+<div id="outline-container-orgd6ba39e" class="outline-3">
+<h3 id="orgd6ba39e">El modelo cognoscitivo.</h3>
+<div class="outline-text-3" id="text-orgd6ba39e">
 <p>
 El modelo cognoscitivo es un enfoque teórico en la psicología que pone
 énfasis en la comprensión de los procesos mentales internos que
@@ -821,9 +831,9 @@ rama de la psicología que estudia los procesos mentales internos.
 </div>
 
 
-<div id="outline-container-orgdec679c" class="outline-4">
-<h4 id="orgdec679c">Fundamentos del Modelo Cognoscitivo</h4>
-<div class="outline-text-4" id="text-orgdec679c">
+<div id="outline-container-orgf513970" class="outline-4">
+<h4 id="orgf513970">Fundamentos del Modelo Cognoscitivo</h4>
+<div class="outline-text-4" id="text-orgf513970">
 <p>
 El modelo cognoscitivo se basa en la premisa de que la mente funciona
 de manera similar a un ordenador: recibe datos (inputs), los procesa
@@ -848,9 +858,9 @@ ejecutamos el razonamiento lógico.</li>
 </div>
 
 
-<div id="outline-container-org9279a38" class="outline-4">
-<h4 id="org9279a38">Aplicaciones del Modelo Cognoscitivo</h4>
-<div class="outline-text-4" id="text-org9279a38">
+<div id="outline-container-org0d25337" class="outline-4">
+<h4 id="org0d25337">Aplicaciones del Modelo Cognoscitivo</h4>
+<div class="outline-text-4" id="text-org0d25337">
 <p>
 El modelo cognoscitivo ha tenido aplicaciones extensas en varios campos, incluyendo:
 </p>
@@ -870,9 +880,9 @@ más intuitivas.</li>
 </div>
 </div>
 
-<div id="outline-container-orga2e83d3" class="outline-4">
-<h4 id="orga2e83d3">Críticas y Limitaciones</h4>
-<div class="outline-text-4" id="text-orga2e83d3">
+<div id="outline-container-orgf08f740" class="outline-4">
+<h4 id="orgf08f740">Críticas y Limitaciones</h4>
+<div class="outline-text-4" id="text-orgf08f740">
 <p>
 A pesar de su influencia y aplicabilidad, el modelo cognoscitivo también ha enfrentado críticas, principalmente por:
 </p>
@@ -887,9 +897,9 @@ contexto social afectan el procesamiento cognitivo.</li>
 </div>
 </div>
 
-<div id="outline-container-orge20cdb2" class="outline-4">
-<h4 id="orge20cdb2">Evolución y Expansión</h4>
-<div class="outline-text-4" id="text-orge20cdb2">
+<div id="outline-container-org4255151" class="outline-4">
+<h4 id="org4255151">Evolución y Expansión</h4>
+<div class="outline-text-4" id="text-org4255151">
 <p>
 En respuesta a estas críticas, el modelo cognoscitivo ha evolucionado
 para incorporar aspectos emocionales y sociales en el estudio de los
@@ -900,9 +910,9 @@ la interacción entre cognición, emoción y contextos sociales.
 </div>
 </div>
 
-<div id="outline-container-orgb820b89" class="outline-4">
-<h4 id="orgb820b89">Conclusión</h4>
-<div class="outline-text-4" id="text-orgb820b89">
+<div id="outline-container-orgb36c735" class="outline-4">
+<h4 id="orgb36c735">Conclusión</h4>
+<div class="outline-text-4" id="text-orgb36c735">
 <p>
 El modelo cognoscitivo ha sido fundamental en el avance de nuestra
 comprensión de los procesos mentales y ha revolucionado la forma en
@@ -918,9 +928,9 @@ cognición humana.
 </div>
 
 
-<div id="outline-container-orgc34d8f8" class="outline-3">
-<h3 id="orgc34d8f8">El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.</h3>
-<div class="outline-text-3" id="text-orgc34d8f8">
+<div id="outline-container-org112d1b4" class="outline-3">
+<h3 id="org112d1b4">El modelo del agente inteligente, Sistemas Multi Agentes, Sistemas Ubicuos.</h3>
+<div class="outline-text-3" id="text-org112d1b4">
 <p>
 El modelo del agente inteligente, los Sistemas Multi-Agente (SMA) y
 los Sistemas Ubicuos son conceptos fundamentales en el ámbito de la
@@ -933,9 +943,9 @@ significado, funcionamiento y aplicaciones.
 </p>
 </div>
 
-<div id="outline-container-orgae522ef" class="outline-4">
-<h4 id="orgae522ef">El Modelo del Agente Inteligente</h4>
-<div class="outline-text-4" id="text-orgae522ef">
+<div id="outline-container-orgfbbe346" class="outline-4">
+<h4 id="orgfbbe346">El Modelo del Agente Inteligente</h4>
+<div class="outline-text-4" id="text-orgfbbe346">
 <p>
 Un agente inteligente es una entidad autónoma capaz de percibir su
 entorno a través de sensores y actuar en ese entorno utilizando
@@ -951,9 +961,9 @@ establecidos.
 </div>
 
 
-<div id="outline-container-org154da7f" class="outline-4">
-<h4 id="org154da7f">Sistemas Multi-Agente (SMA)</h4>
-<div class="outline-text-4" id="text-org154da7f">
+<div id="outline-container-orgfdc8e8e" class="outline-4">
+<h4 id="orgfdc8e8e">Sistemas Multi-Agente (SMA)</h4>
+<div class="outline-text-4" id="text-orgfdc8e8e">
 <p>
 Los Sistemas Multi-Agente son sistemas compuestos por varios agentes
 inteligentes que interactúan entre sí dentro de un entorno. Estos
@@ -969,9 +979,9 @@ juegos serios para la educación y la formación.
 </div>
 
 
-<div id="outline-container-org47429b2" class="outline-4">
-<h4 id="org47429b2">Sistemas Ubicuos</h4>
-<div class="outline-text-4" id="text-org47429b2">
+<div id="outline-container-orgef5d361" class="outline-4">
+<h4 id="orgef5d361">Sistemas Ubicuos</h4>
+<div class="outline-text-4" id="text-orgef5d361">
 <p>
 Los Sistemas Ubicuos, también conocidos como computación ubicua, se
 refieren a la integración de la computación en el entorno cotidiano
@@ -989,9 +999,9 @@ monitorizan constantemente el bienestar del usuario.
 </div>
 
 
-<div id="outline-container-orga475435" class="outline-4">
-<h4 id="orga475435">Integración y Aplicaciones</h4>
-<div class="outline-text-4" id="text-orga475435">
+<div id="outline-container-orgc5bed8d" class="outline-4">
+<h4 id="orgc5bed8d">Integración y Aplicaciones</h4>
+<div class="outline-text-4" id="text-orgc5bed8d">
 <p>
 La integración de estos conceptos permite el desarrollo de soluciones
 innovadoras a problemas complejos. Por ejemplo, un SMA puede ser
@@ -1005,9 +1015,9 @@ maximizar la eficiencia y minimizar los costos.
 </div>
 </div>
 
-<div id="outline-container-orgee2d4a1" class="outline-4">
-<h4 id="orgee2d4a1">Conclusión</h4>
-<div class="outline-text-4" id="text-orgee2d4a1">
+<div id="outline-container-org16666d6" class="outline-4">
+<h4 id="org16666d6">Conclusión</h4>
+<div class="outline-text-4" id="text-org16666d6">
 <p>
 El modelo del agente inteligente, los Sistemas Multi-Agente y los
 Sistemas Ubicuos representan áreas clave en la investigación y
@@ -1022,9 +1032,9 @@ adaptativas para una amplia gama de desafíos en la sociedad moderna.
 </div>
 </div>
 
-<div id="outline-container-orgc03ea9f" class="outline-3">
-<h3 id="orgc03ea9f">El papel de la heurística.</h3>
-<div class="outline-text-3" id="text-orgc03ea9f">
+<div id="outline-container-org7487e00" class="outline-3">
+<h3 id="org7487e00">El papel de la heurística.</h3>
+<div class="outline-text-3" id="text-org7487e00">
 <p>
 <b>Búsqueda Heurística:</b> En la búsqueda heurística, las técnicas
 heurísticas se utilizan para acelerar el proceso de búsqueda de
@@ -1061,9 +1071,9 @@ y la predicción.</li>
 </ul>
 </div>
 
-<div id="outline-container-org0c7595c" class="outline-4">
-<h4 id="org0c7595c">Ventajas y Limitaciones</h4>
-<div class="outline-text-4" id="text-org0c7595c">
+<div id="outline-container-orgef813f7" class="outline-4">
+<h4 id="orgef813f7">Ventajas y Limitaciones</h4>
+<div class="outline-text-4" id="text-orgef813f7">
 <p>
 Las principales ventajas de utilizar heurísticas en la IA incluyen la
 capacidad de encontrar soluciones de manera más rápida y eficiente que
@@ -1088,15 +1098,15 @@ IA en una amplia gama de aplicaciones prácticas.</li>
 
 
 
-<div id="outline-container-orgca27308" class="outline-4">
-<h4 id="orgca27308">Algoritmos de exploración de alternativas.</h4>
+<div id="outline-container-org76f8297" class="outline-4">
+<h4 id="org76f8297">Algoritmos de exploración de alternativas.</h4>
 </div>
 
 
 
-<div id="outline-container-orgbb40d3a" class="outline-4">
-<h4 id="orgbb40d3a">Algoritmo A*</h4>
-<div class="outline-text-4" id="text-orgbb40d3a">
+<div id="outline-container-org13feaab" class="outline-4">
+<h4 id="org13feaab">Algoritmo A*</h4>
+<div class="outline-text-4" id="text-org13feaab">
 <p>
 El <b>algoritmo A*</b> es uno de los algoritmos de búsqueda más populares
 y eficientes para encontrar el camino más corto entre dos puntos,
@@ -1108,8 +1118,8 @@ de navegación.
 </div>
 
 <ul class="org-ul">
-<li><a id="org272e1e2"></a><b>Conceptos Básicos</b><br />
-<div class="outline-text-5" id="text-org272e1e2">
+<li><a id="org47e6ed1"></a><b>Conceptos Básicos</b><br />
+<div class="outline-text-5" id="text-org47e6ed1">
 <p>
 A* combina las ventajas de los algoritmos de búsqueda de costo
 uniforme (como Dijkstra) y búsqueda heurística (como la búsqueda en
@@ -1195,8 +1205,8 @@ finito.</li>
 </div>
 </li>
 
-<li><a id="orgd9aec0f"></a><b>Pseudocódigo</b><br />
-<div class="outline-text-5" id="text-orgd9aec0f">
+<li><a id="org072875c"></a><b>Pseudocódigo</b><br />
+<div class="outline-text-5" id="text-org072875c">
 <p>
 Pseudocódigo simplificado del algoritmo A*:
 </p>
@@ -1426,8 +1436,8 @@ main<span style="color: #c099ff;">(</span>VENTANA, ANCHO_VENTANA<span style="col
 </li>
 
 
-<li><a id="org932fd5f"></a><b>Tutorial de Pygame: Visualización de Nodos, Cascaron A*</b><br />
-<div class="outline-text-5" id="text-org932fd5f">
+<li><a id="org5a1828c"></a><b>Tutorial de Pygame: Visualización de Nodos, Cascaron A*</b><br />
+<div class="outline-text-5" id="text-org5a1828c">
 <p>
 Este programa utiliza la biblioteca Pygame para crear una cuadrícula
 interactiva donde puedes definir un nodo de inicio, un nodo final, y
@@ -1437,8 +1447,8 @@ para la búsqueda de caminos.
 </div>
 
 <ul class="org-ul">
-<li><a id="org07f430a"></a>1. Importar Pygame<br />
-<div class="outline-text-6" id="text-org07f430a">
+<li><a id="org1b6a4e5"></a>1. Importar Pygame<br />
+<div class="outline-text-6" id="text-org1b6a4e5">
 <p>
 El primer paso es importar Pygame, que es una biblioteca para la creación de videojuegos en Python:
 </p>
@@ -1450,8 +1460,8 @@ El primer paso es importar Pygame, que es una biblioteca para la creación de vi
 </div>
 </li>
 
-<li><a id="org49557cf"></a>2. Configuraciones iniciales<br />
-<div class="outline-text-6" id="text-org49557cf">
+<li><a id="orgbe2383c"></a>2. Configuraciones iniciales<br />
+<div class="outline-text-6" id="text-orgbe2383c">
 <p>
 Se configuran la ventana y los colores que se usarán en la
 cuadrícula. `ANCHO<sub>VENTANA</sub>` define el tamaño de la ventana, y
@@ -1474,8 +1484,8 @@ pygame.display.set_caption<span style="color: #c099ff;">(</span><span style="col
 </div>
 </li>
 
-<li><a id="orge8f868a"></a>3. Definir colores en formato RGB<br />
-<div class="outline-text-6" id="text-orge8f868a">
+<li><a id="org77d7658"></a>3. Definir colores en formato RGB<br />
+<div class="outline-text-6" id="text-org77d7658">
 <p>
 Definimos algunos colores que se usarán para los nodos y las paredes. Los colores se expresan en el formato RGB:
 </p>
@@ -1493,8 +1503,8 @@ Definimos algunos colores que se usarán para los nodos y las paredes. Los color
 </div>
 </li>
 
-<li><a id="org6fc79c6"></a>4. Clase Nodo<br />
-<div class="outline-text-6" id="text-org6fc79c6">
+<li><a id="org25d24a2"></a>4. Clase Nodo<br />
+<div class="outline-text-6" id="text-org25d24a2">
 <p>
 La clase `Nodo` representa cada celda de la cuadrícula. Cada nodo
 tiene una posición (fila y columna), un color, y puede tener
@@ -1526,8 +1536,8 @@ Esta clase contiene varios métodos útiles:
 </div>
 </li>
 
-<li><a id="org4aebf60"></a>5. Crear la cuadrícula<br />
-<div class="outline-text-6" id="text-org4aebf60">
+<li><a id="org325ea08"></a>5. Crear la cuadrícula<br />
+<div class="outline-text-6" id="text-org325ea08">
 <p>
 El método `crear<sub>grid</sub>` crea una lista de nodos organizados en una
 cuadrícula. Cada nodo tiene un tamaño calculado dividiendo el ancho
@@ -1553,8 +1563,8 @@ Este método crea una lista bidimensional que representa la cuadrícula de nodos
 </div>
 </li>
 
-<li><a id="org91449a6"></a>6. Dibujar la cuadrícula y los nodos<br />
-<div class="outline-text-6" id="text-org91449a6">
+<li><a id="org9ab9ee8"></a>6. Dibujar la cuadrícula y los nodos<br />
+<div class="outline-text-6" id="text-org9ab9ee8">
 <p>
 El método `dibujar<sub>grid</sub>` dibuja las líneas que separan los nodos en la cuadrícula, mientras que `dibujar` dibuja cada nodo en la ventana.
 </p>
@@ -1576,8 +1586,8 @@ El método `dibujar<sub>grid</sub>` dibuja las líneas que separan los nodos en 
 </div>
 </li>
 
-<li><a id="orgd7c6432"></a>7. Obtener la posición del clic<br />
-<div class="outline-text-6" id="text-orgd7c6432">
+<li><a id="org28f66e8"></a>7. Obtener la posición del clic<br />
+<div class="outline-text-6" id="text-org28f66e8">
 <p>
 El método `obtener<sub>click</sub><sub>pos</sub>` convierte la posición en píxeles del ratón a la posición de la cuadrícula (fila y columna).
 </p>
@@ -1598,8 +1608,8 @@ Esto permite identificar qué nodo fue clicado con precisión.
 </div>
 </li>
 
-<li><a id="orgb4ad9e8"></a>8. Ciclo principal<br />
-<div class="outline-text-6" id="text-orgb4ad9e8">
+<li><a id="orgc129b16"></a>8. Ciclo principal<br />
+<div class="outline-text-6" id="text-orgc129b16">
 <p>
 El ciclo principal del programa está en la función `main`, que
 controla la interacción del usuario. Escucha eventos como el cierre de
@@ -1670,8 +1680,8 @@ Finalmente, la función `pygame.quit()` se encarga de cerrar correctamente el pr
 
 
 
-<li><a id="orgb1e276f"></a>Fuentes sobre el Algoritmo A*<br />
-<div class="outline-text-5" id="text-orgb1e276f">
+<li><a id="org570eac5"></a>Fuentes sobre el Algoritmo A*<br />
+<div class="outline-text-5" id="text-org570eac5">
 <ol class="org-ol">
 <li><a href="https://en.wikipedia.org/wiki/A*_search_algorithm">Wikipedia: A* Search Algorithm</a></li>
 <li><a href="https://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html">Stanford University: Introduction to A*</a></li>
@@ -1684,8 +1694,8 @@ Finalmente, la función `pygame.quit()` se encarga de cerrar correctamente el pr
 </div>
 
 
-<div id="outline-container-org10208c9" class="outline-4">
-<h4 id="org10208c9">Algoritmos de búsqueda local.</h4>
+<div id="outline-container-orgecb52c0" class="outline-4">
+<h4 id="orgecb52c0">Algoritmos de búsqueda local.</h4>
 </div>
 </div>
 </div>
@@ -1695,9 +1705,9 @@ Finalmente, la función `pygame.quit()` se encarga de cerrar correctamente el pr
 
 
 
-<div id="outline-container-orged5a153" class="outline-2">
-<h2 id="orged5a153">Espacio de estados</h2>
-<div class="outline-text-2" id="text-orged5a153">
+<div id="outline-container-org4518fac" class="outline-2">
+<h2 id="org4518fac">Espacio de estados</h2>
+<div class="outline-text-2" id="text-org4518fac">
 <p>
 Muchos de los problemas que pueden ser resueltos aplicando técnicas de
 inteligencia artificial se modelan en forma simbólica y discreta
@@ -1748,13 +1758,13 @@ desde el estado inicial a un estado objetivo.
 </p>
 </div>
 
-<div id="outline-container-org045e9ff" class="outline-3">
-<h3 id="org045e9ff">Ejemplo de espacio de estados</h3>
-<div class="outline-text-3" id="text-org045e9ff">
+<div id="outline-container-org3936fe7" class="outline-3">
+<h3 id="org3936fe7">Ejemplo de espacio de estados</h3>
+<div class="outline-text-3" id="text-org3936fe7">
 </div>
-<div id="outline-container-orge17b8a3" class="outline-4">
-<h4 id="orge17b8a3">Descripción del problema</h4>
-<div class="outline-text-4" id="text-orge17b8a3">
+<div id="outline-container-org5e86607" class="outline-4">
+<h4 id="org5e86607">Descripción del problema</h4>
+<div class="outline-text-4" id="text-org5e86607">
 <p>
 Un arriero se encuentra en el borde de un rio llevando un puma, una
 cabra y una lechuga.  Debe cruzar a la otra orilla por medio de un
@@ -1766,9 +1776,9 @@ la lechuga. ¿Cómo cruzar sin perder ninguna pertenencia?
 </div>
 </div>
 
-<div id="outline-container-org8bebb03" class="outline-4">
-<h4 id="org8bebb03">Representación de las configuraciones del universo del problema:</h4>
-<div class="outline-text-4" id="text-org8bebb03">
+<div id="outline-container-org92bc8aa" class="outline-4">
+<h4 id="org92bc8aa">Representación de las configuraciones del universo del problema:</h4>
+<div class="outline-text-4" id="text-org92bc8aa">
 <p>
 Basta precisar la situación antes o después de cruzar. El arriero y
 cada una de sus pertenencias tienen que estar en alguna de las dos
@@ -1785,9 +1795,9 @@ estado(i,i,i,i). El estado objetivo es estado(d,d,d,d).
 </div>
 </div>
 
-<div id="outline-container-org09b5b56" class="outline-4">
-<h4 id="org09b5b56">Definición de las reglas de transición:</h4>
-<div class="outline-text-4" id="text-org09b5b56">
+<div id="outline-container-org74cdb7c" class="outline-4">
+<h4 id="org74cdb7c">Definición de las reglas de transición:</h4>
+<div class="outline-text-4" id="text-org74cdb7c">
 <p>
 El arriero tiene cuatro acciones posibles: cruzar solo, cruzar con el
 puma, cruzar con la cabra y cruzar con la lechuga. Estas acciones
@@ -1799,16 +1809,16 @@ intercambiando los valores i y d para los pasajeros del bote.
 </div>
 </div>
 
-<div id="outline-container-orgd311e65" class="outline-4">
-<h4 id="orgd311e65">Generación del espacio de estados</h4>
-<div class="outline-text-4" id="text-orgd311e65">
+<div id="outline-container-org39ad134" class="outline-4">
+<h4 id="org39ad134">Generación del espacio de estados</h4>
+<div class="outline-text-4" id="text-org39ad134">
 <p>
 En este ejemplo se puede explicitar todo el espacio de estados (el
 número de configuraciones está acotado por 24).
 </p>
 
 
-<div id="org87f1787" class="figure">
+<div id="orgb923665" class="figure">
 <p><img src="img/sd.png" alt="sd.png" />
 </p>
 </div>
@@ -1817,9 +1827,9 @@ número de configuraciones está acotado por 24).
 
 
 
-<div id="outline-container-orga5c8352" class="outline-4">
-<h4 id="orga5c8352">Problemas de los Canibales y Monjes</h4>
-<div class="outline-text-4" id="text-orga5c8352">
+<div id="outline-container-org6d11881" class="outline-4">
+<h4 id="org6d11881">Problemas de los Canibales y Monjes</h4>
+<div class="outline-text-4" id="text-org6d11881">
 <p>
 Se tienen 3 monjes y 3 caníbales en el margen Oeste de un río. Existe
 una canoa con capacidad para dos personas como máximo. Se desea que
@@ -1832,9 +1842,9 @@ conducida por alguien.<br />
 </div>
 
 
-<div id="outline-container-orgfe84fca" class="outline-4">
-<h4 id="orgfe84fca">El espacio de estados está definido por</h4>
-<div class="outline-text-4" id="text-orgfe84fca">
+<div id="outline-container-org87b373b" class="outline-4">
+<h4 id="org87b373b">El espacio de estados está definido por</h4>
+<div class="outline-text-4" id="text-org87b373b">
 <p>
 {(Mo, Co, Me, Ce, C) / Mo es el número de monjes en el margen oeste con
 0&lt;=Mo&lt;=3<br />
@@ -1917,22 +1927,22 @@ Un pasaje de estados para ir de (3,3,0,0,O) a (0,0,3,3,E) es el siguiente:
 </div>
 </div>
 
-<div id="outline-container-orge536021" class="outline-3">
-<h3 id="orge536021">Representación de espacio de estados</h3>
-<div class="outline-text-3" id="text-orge536021">
+<div id="outline-container-org138aa4b" class="outline-3">
+<h3 id="org138aa4b">Representación de espacio de estados</h3>
+<div class="outline-text-3" id="text-org138aa4b">
 <p>
 La primera pregunta es, como  
 </p>
 </div>
 </div>
 
-<div id="outline-container-org1649bef" class="outline-3">
-<h3 id="org1649bef">El problema del n-Puzzle</h3>
-<div class="outline-text-3" id="text-org1649bef">
+<div id="outline-container-org9ab06e3" class="outline-3">
+<h3 id="org9ab06e3">El problema del n-Puzzle</h3>
+<div class="outline-text-3" id="text-org9ab06e3">
 </div>
-<div id="outline-container-orgffbbb92" class="outline-4">
-<h4 id="orgffbbb92">Caracterización de las búsquedas ciegas.</h4>
-<div class="outline-text-4" id="text-orgffbbb92">
+<div id="outline-container-org2720ed8" class="outline-4">
+<h4 id="org2720ed8">Caracterización de las búsquedas ciegas.</h4>
+<div class="outline-text-4" id="text-org2720ed8">
 <p>
 La búsqueda ciega o no informada sólo utiliza información acerca de si
 un estado es o no objetivo para guiar su procesu de búsqueda.
@@ -1968,9 +1978,9 @@ acrónimo de su nombre en inglés (Depth-First Iterative-Deepening).
 </div>
 
 
-<div id="outline-container-org37968d6" class="outline-4">
-<h4 id="org37968d6">Caracterización de las búsquedas heurísticas.</h4>
-<div class="outline-text-4" id="text-org37968d6">
+<div id="outline-container-org181d1fb" class="outline-4">
+<h4 id="org181d1fb">Caracterización de las búsquedas heurísticas.</h4>
+<div class="outline-text-4" id="text-org181d1fb">
 <p>
 Las técnicas de búsqueda heurística se apoyan alc contrario de los
 métodos de búsqueda ciega se apoyan en información adicional para
@@ -1996,13 +2006,13 @@ SMA* (Simplified Memory-bounded A*).
 </div>
 </div>
 
-<div id="outline-container-orga603937" class="outline-2">
-<h2 id="orga603937">Técnicas de Búsqueda</h2>
-<div class="outline-text-2" id="text-orga603937">
+<div id="outline-container-org8aca081" class="outline-2">
+<h2 id="org8aca081">Técnicas de Búsqueda</h2>
+<div class="outline-text-2" id="text-org8aca081">
 </div>
-<div id="outline-container-org9af1ad5" class="outline-3">
-<h3 id="org9af1ad5">Solución de problemas con búsqueda.</h3>
-<div class="outline-text-3" id="text-org9af1ad5">
+<div id="outline-container-org2cd0a13" class="outline-3">
+<h3 id="org2cd0a13">Solución de problemas con búsqueda.</h3>
+<div class="outline-text-3" id="text-org2cd0a13">
 <p>
 La solución de problemas es fundamental para la mayoría de las
 aplicaciones de IA; existen principalmente dos clases de problemas que
@@ -2048,9 +2058,9 @@ espacio paso a paso, hasta encontrar el estado objetivo.
 </div>
 
 
-<div id="outline-container-orgbfdfdc2" class="outline-3">
-<h3 id="orgbfdfdc2">Espacios de Estados</h3>
-<div class="outline-text-3" id="text-orgbfdfdc2">
+<div id="outline-container-orgc383ffd" class="outline-3">
+<h3 id="orgc383ffd">Espacios de Estados</h3>
+<div class="outline-text-3" id="text-orgc383ffd">
 <p>
 Muchos de los problemas que pueden ser resueltos aplicando técnicas de inteligencia artificial se modelan en forma simbólica y
 discreta definiendo las configuraciones posibles del universo estudiado. El problema se plantea entonces en términos de encontrar una configuración objetivo a partir de una configuración inicial dada, aplicando transformaciones válidas según el modelo del universo. La respuesta es la secuencia de transformaciones cuya aplicación succesiva lleva a la configuración deseada.
@@ -2061,9 +2071,9 @@ Cuando un problema se puede representar mediante un espacio de estados, la soluc
 </p>
 </div>
 
-<div id="outline-container-orgab076c3" class="outline-4">
-<h4 id="orgab076c3">Deterministicos</h4>
-<div class="outline-text-4" id="text-orgab076c3">
+<div id="outline-container-org96fca18" class="outline-4">
+<h4 id="org96fca18">Deterministicos</h4>
+<div class="outline-text-4" id="text-org96fca18">
 <p>
 El espacio de estados determinísticos contienen un único estado inicial y seguir la secuencia de estados para la solución. Los espacios de estados determinísticos son usados por los sistemas expertos.
 Se puede describir asu vez, que un sistema es determinístico si, para un estado dado, al menos aplica una regla a él y de solo una manera.
@@ -2071,9 +2081,9 @@ Se puede describir asu vez, que un sistema es determinístico si, para un estado
 </div>
 </div>
 
-<div id="outline-container-org91cbdc6" class="outline-4">
-<h4 id="org91cbdc6">No Deterministicos</h4>
-<div class="outline-text-4" id="text-org91cbdc6">
+<div id="outline-container-orgfbbbaa9" class="outline-4">
+<h4 id="orgfbbbaa9">No Deterministicos</h4>
+<div class="outline-text-4" id="text-orgfbbbaa9">
 <p>
 El no determinístico contiene un amplio número de estados iniciales y sigue la secuencia de estados perteneciente al estado inicial del espacio. Son usados por sistemas de lógica difusa.
 En otras palabras,  si más de una regla aplica a cualquier estado particular del sistema, o si una regla aplica a un estado particular del sistema en más de una manera, entonces el sistema es no determinístico.
@@ -2083,13 +2093,13 @@ En otras palabras,  si más de una regla aplica a cualquier estado particular de
 </div>
 
 
-<div id="outline-container-orgcdf2e2a" class="outline-3">
-<h3 id="orgcdf2e2a">Métodos de Búsqueda</h3>
-<div class="outline-text-3" id="text-orgcdf2e2a">
+<div id="outline-container-org96c95dc" class="outline-3">
+<h3 id="org96c95dc">Métodos de Búsqueda</h3>
+<div class="outline-text-3" id="text-org96c95dc">
 </div>
-<div id="outline-container-org642d65b" class="outline-4">
-<h4 id="org642d65b">Primero en anchura (breadthfirst)</h4>
-<div class="outline-text-4" id="text-org642d65b">
+<div id="outline-container-org7f198da" class="outline-4">
+<h4 id="org7f198da">Primero en anchura (breadthfirst)</h4>
+<div class="outline-text-4" id="text-org7f198da">
 <p>
 En inglés, breadth-first search.
 Si el conjunto open se maneja como una lista FIFO, es decir, como una cola, siempre se estará visitando primero los primeros estados en ser generados. El recorrido del espacio de estados se hace por niveles de profundidad.
@@ -2122,9 +2132,9 @@ Contrariamente a la búsqueda en profundidad, la búsqueda en amplitud garantiza
 </div>
 </div>
 
-<div id="outline-container-org111b2b3" class="outline-4">
-<h4 id="org111b2b3">Primero en profundidad (depthfirst).</h4>
-<div class="outline-text-4" id="text-org111b2b3">
+<div id="outline-container-org7096db1" class="outline-4">
+<h4 id="org7096db1">Primero en profundidad (depthfirst).</h4>
+<div class="outline-text-4" id="text-org7096db1">
 <p>
 En inglés, depth-first search.
 Si el conjunto open se maneja como una lista LIFO, es decir, como un stack, siempre se estará
@@ -2165,9 +2175,9 @@ El mayor problema de este algoritmo es que puede "perderse" en una rama sin enco
 </div>
 </div>
 
-<div id="outline-container-orgd373312" class="outline-4">
-<h4 id="orgd373312">Búsqueda Heurística</h4>
-<div class="outline-text-4" id="text-orgd373312">
+<div id="outline-container-orga5598fc" class="outline-4">
+<h4 id="orga5598fc">Búsqueda Heurística</h4>
+<div class="outline-text-4" id="text-orga5598fc">
 <p>
 El algoritmo de búsqueda A* (pronunciado "A asterisco", "A estrella" o
 "Astar" en inglés) se clasifica dentro de los algoritmos de búsqueda
@@ -2216,8 +2226,8 @@ prometedores.
 
 
 <ul class="org-ul">
-<li><a id="orgc127f35"></a>Propiedades<br />
-<div class="outline-text-5" id="text-orgc127f35">
+<li><a id="orgca91262"></a>Propiedades<br />
+<div class="outline-text-5" id="text-orgca91262">
 <p>
 Como todo algoritmo de búsqueda en amplitud, A* es un algoritmo
 completo: en caso de existir una solución, siempre dará con ella.
@@ -2248,8 +2258,8 @@ más el coste de alcanzar el objetivo desde el sucesor.
 
 
 
-<li><a id="orgee8c795"></a>Complejidad<br />
-<div class="outline-text-5" id="text-orgee8c795">
+<li><a id="org9fdfce7"></a>Complejidad<br />
+<div class="outline-text-5" id="text-org9fdfce7">
 <p>
 La complejidad computacional del algoritmo está íntimamente
 relacionada con la calidad de la heurística que se utilice en el
@@ -2280,9 +2290,9 @@ como pueden ser RTA*, IDA* o SMA*.
 </div>
 </div>
 
-<div id="outline-container-org5d3eff7" class="outline-3">
-<h3 id="org5d3eff7">Satisfacción de restricciones.</h3>
-<div class="outline-text-3" id="text-org5d3eff7">
+<div id="outline-container-org679c960" class="outline-3">
+<h3 id="org679c960">Satisfacción de restricciones.</h3>
+<div class="outline-text-3" id="text-org679c960">
 <p>
 Los problemas pueden resolverse buscando en un espacio de estados, estos estados pueden evaluarse por heurísticas específicas para el dominio y probados para verificar si son estados meta.
 Los componentes del estado, son equivalentes a un grafo de restricciones, los cuales están compuestos de:\\[0.5cm]
@@ -2316,9 +2326,9 @@ Ejemplos:
 </div>
 </div>
 
-<div id="outline-container-org44412fc" class="outline-2">
-<h2 id="org44412fc">Teoría de juegos.</h2>
-<div class="outline-text-2" id="text-org44412fc">
+<div id="outline-container-orgf0ea58d" class="outline-2">
+<h2 id="orgf0ea58d">Teoría de juegos.</h2>
+<div class="outline-text-2" id="text-orgf0ea58d">
 <p>
 Siendo una de las principales capacidades de la inteligencia humana su
 capacidad para resolver problemas, así como la habilidad para analizar
@@ -2356,9 +2366,9 @@ son las damas y el ajedrez.
 
 
 
-<div id="outline-container-orgedcba94" class="outline-2">
-<h2 id="orgedcba94">Grafos</h2>
-<div class="outline-text-2" id="text-orgedcba94">
+<div id="outline-container-org947fb72" class="outline-2">
+<h2 id="org947fb72">Grafos</h2>
+<div class="outline-text-2" id="text-org947fb72">
 <p>
 Un grafo es un conjunto de puntos (vértices) en el espacio, que están conectados
 por un conjunto de líneas (aristas). Otros conceptos básicos son:
@@ -2369,9 +2379,9 @@ Un grafo se dice que es finito si su número de vértices es finito.
 </div>
 </div>
 
-<div id="outline-container-org0d748ce" class="outline-2">
-<h2 id="org0d748ce">Tipos de grafos</h2>
-<div class="outline-text-2" id="text-org0d748ce">
+<div id="outline-container-org1929ed2" class="outline-2">
+<h2 id="org1929ed2">Tipos de grafos</h2>
+<div class="outline-text-2" id="text-org1929ed2">
 <p>
 Existen dos tipos de grafos los no dirigidos y los dirigidos.
 </p>
@@ -2392,9 +2402,9 @@ el vértice destino, se conoce como cabeza del lado.
 </div>
 </div>
 
-<div id="outline-container-orgf44a917" class="outline-2">
-<h2 id="orgf44a917">Machine Learning</h2>
-<div class="outline-text-2" id="text-orgf44a917">
+<div id="outline-container-org5b280a5" class="outline-2">
+<h2 id="org5b280a5">Machine Learning</h2>
+<div class="outline-text-2" id="text-org5b280a5">
 <p>
 El aprendizaje automático o aprendizaje automatizado o aprendizaje de
 máquinas (del inglés, machine learning) es el subcampo de las ciencias
@@ -2433,9 +2443,9 @@ y del lenguaje escrito, juegos y robótica.
 </p>
 </div>
 
-<div id="outline-container-org0860166" class="outline-3">
-<h3 id="org0860166">Tipos de Algoritmos</h3>
-<div class="outline-text-3" id="text-org0860166">
+<div id="outline-container-orgaee44b8" class="outline-3">
+<h3 id="orgaee44b8">Tipos de Algoritmos</h3>
+<div class="outline-text-3" id="text-orgaee44b8">
 <p>
 Los diferentes algoritmos de Aprendizaje Automático se agrupan en una
 taxonomía en función de la salida de los mismos. Algunos tipos de
@@ -2516,9 +2526,9 @@ llevando a cabo, sino que solo será una secuencia repetitiva.</li>
 </div>
 </div>
 
-<div id="outline-container-orgb038c53" class="outline-3">
-<h3 id="orgb038c53">Técnicas de clasificación</h3>
-<div class="outline-text-3" id="text-orgb038c53">
+<div id="outline-container-org3d2c075" class="outline-3">
+<h3 id="org3d2c075">Técnicas de clasificación</h3>
+<div class="outline-text-3" id="text-org3d2c075">
 <ul class="org-ul">
 <li><b>Árboles de decisiones</b>: Este tipo de aprendizaje usa un árbol de
 decisiones como modelo predictivo. Se mapean observaciones sobre un
@@ -2591,9 +2601,9 @@ aprenden usando este tipo de representación.</li>
 </div>
 
 
-<div id="outline-container-org148eda3" class="outline-3">
-<h3 id="org148eda3">Clasificador en Cascada</h3>
-<div class="outline-text-3" id="text-org148eda3">
+<div id="outline-container-org9ce983a" class="outline-3">
+<h3 id="org9ce983a">Clasificador en Cascada</h3>
+<div class="outline-text-3" id="text-org9ce983a">
 <p>
 La detección de objetos usando un clasificador en cascada basado en
 características de Haar es un método efectivo de detección de objetos
@@ -2617,7 +2627,7 @@ rectángulo negro.
 </p>
 
 
-<div id="org80a7a8a" class="figure">
+<div id="orgea28bdb" class="figure">
 <p><img src="img/har.png" alt="har.png" />
 </p>
 </div>
@@ -2647,7 +2657,7 @@ más de 160.000 funciones?.
 </p>
 
 
-<div id="org6162654" class="figure">
+<div id="org59ea861" class="figure">
 <p><img src="img/har2.png" alt="har2.png" />
 </p>
 </div>
@@ -2725,9 +2735,9 @@ sección de otros recursos.
 </p>
 </div>
 
-<div id="outline-container-org34db673" class="outline-4">
-<h4 id="org34db673">Ejemplo de clasificación utilizando Haarcascades</h4>
-<div class="outline-text-4" id="text-org34db673">
+<div id="outline-container-org0e8efab" class="outline-4">
+<h4 id="org0e8efab">Ejemplo de clasificación utilizando Haarcascades</h4>
+<div class="outline-text-4" id="text-org0e8efab">
 <ul class="org-ul">
 <li><a href="https://github.com/opencv/opencv/tree/master/data/haarcascades">Clasificadores Haarcascades de la librería Opencv</a></li>
 <li><a href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html">Tutorial Haarcascades</a></li>
@@ -2771,9 +2781,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-orgdd1905c" class="outline-3">
-<h3 id="orgdd1905c">Segmentación de Color</h3>
-<div class="outline-text-3" id="text-orgdd1905c">
+<div id="outline-container-orgece9092" class="outline-3">
+<h3 id="orgece9092">Segmentación de Color</h3>
+<div class="outline-text-3" id="text-orgece9092">
 <p>
 La segmentación de imágenes es un tema ampliamente estudiado para la
 extracción y reconocimiento de objetos, de acuerdo a las
@@ -2820,9 +2830,12 @@ diferentes cromaticidades.
 </div>
 
 
-<div id="outline-container-orge816b54" class="outline-3">
-<h3 id="orge816b54">Árboles de decisión</h3>
-<div class="outline-text-3" id="text-orge816b54">
+
+
+
+<div id="outline-container-org7f5ab7e" class="outline-3">
+<h3 id="org7f5ab7e">Árboles de decisión</h3>
+<div class="outline-text-3" id="text-org7f5ab7e">
 <p>
 Los árboles de decisión (DT) son un método de aprendizaje supervisado
 no paramétrico que se utiliza para la clasificación y la regresión. El
@@ -2840,16 +2853,16 @@ son las reglas de decisión y más ajustado es el modelo
 </p>
 
 
-<div id="orgec92d8c" class="figure">
+<div id="orgb2658b9" class="figure">
 <p><img src="img/dtr.png" alt="dtr.png" />
 </p>
 </div>
 </div>
 
 
-<div id="outline-container-org6ef220e" class="outline-4">
-<h4 id="org6ef220e">Elementos</h4>
-<div class="outline-text-4" id="text-org6ef220e">
+<div id="outline-container-org47183eb" class="outline-4">
+<h4 id="org47183eb">Elementos</h4>
+<div class="outline-text-4" id="text-org47183eb">
 <p>
 Los árboles de decisión están formados por nodos, vectores de números,
 flechas y etiquetas.
@@ -2873,9 +2886,9 @@ a cada acción.</li>
 </div>
 </div>
 
-<div id="outline-container-org602fcff" class="outline-4">
-<h4 id="org602fcff">Algunas ventajas de los árboles de decisión son:</h4>
-<div class="outline-text-4" id="text-org602fcff">
+<div id="outline-container-org7a9c15b" class="outline-4">
+<h4 id="org7a9c15b">Algunas ventajas de los árboles de decisión son:</h4>
+<div class="outline-text-4" id="text-org7a9c15b">
 <ul class="org-ul">
 <li>Fácil de entender y de interpretar. Los árboles se pueden
 visualizar.</li>
@@ -2910,9 +2923,9 @@ por el verdadero modelo a partir del cual se generaron los dato</li>
 </div>
 </div>
 
-<div id="outline-container-org73330df" class="outline-4">
-<h4 id="org73330df">Desventajas de los árboles de decisión:</h4>
-<div class="outline-text-4" id="text-org73330df">
+<div id="outline-container-org15c9bc7" class="outline-4">
+<h4 id="org15c9bc7">Desventajas de los árboles de decisión:</h4>
+<div class="outline-text-4" id="text-org15c9bc7">
 <ul class="org-ul">
 <li>El aprendizaje de los  árboles de decisión pueden crear árboles demasiado
 complejos que no generalizan bien los datos. Esto se llama
@@ -2952,9 +2965,9 @@ conjunto de datos antes de ajustarlo al árbol de decisión.</li>
 </div>
 </div>
 
-<div id="outline-container-org5d5d7a5" class="outline-4">
-<h4 id="org5d5d7a5">Ejemplo de Clasificación, Árbol de decisión scikit-learn</h4>
-<div class="outline-text-4" id="text-org5d5d7a5">
+<div id="outline-container-orgf6f26cb" class="outline-4">
+<h4 id="orgf6f26cb">Ejemplo de Clasificación, Árbol de decisión scikit-learn</h4>
+<div class="outline-text-4" id="text-orgf6f26cb">
 <p>
 <b>DecisionTreeClassifier</b> es una clase capaz de realizar una
 clasificación de varias clases en un conjunto de datos.
@@ -3058,13 +3071,13 @@ graph.view<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-org87e54e5" class="outline-4">
-<h4 id="org87e54e5">Árbol de Decisión en el Conjunto de Datos Iris</h4>
-<div class="outline-text-4" id="text-org87e54e5">
+<div id="outline-container-org11a6cf0" class="outline-4">
+<h4 id="org11a6cf0">Árbol de Decisión en el Conjunto de Datos Iris</h4>
+<div class="outline-text-4" id="text-org11a6cf0">
 </div>
 <ul class="org-ul">
-<li><a id="org19ec0b6"></a>Estructura del Árbol de Decisión<br />
-<div class="outline-text-5" id="text-org19ec0b6">
+<li><a id="orgbdf10fa"></a>Estructura del Árbol de Decisión<br />
+<div class="outline-text-5" id="text-orgbdf10fa">
 <p>
 Un árbol de decisión tiene la siguiente estructura:
 </p>
@@ -3076,8 +3089,8 @@ Un árbol de decisión tiene la siguiente estructura:
 </div>
 </li>
 
-<li><a id="org34028a4"></a>Nodo raíz<br />
-<div class="outline-text-5" id="text-org34028a4">
+<li><a id="orge317856"></a>Nodo raíz<br />
+<div class="outline-text-5" id="text-orge317856">
 <p>
 La primera decisión se toma en base a <b><b>petal width (cm) ≤ 0.8</b></b>:
 </p>
@@ -3092,8 +3105,8 @@ una clase), mientras que un valor de 0.667 indica mezcla.</li>
 </div>
 </li>
 
-<li><a id="orgf7957cf"></a>Primera división<br />
-<div class="outline-text-5" id="text-orgf7957cf">
+<li><a id="orge45ed74"></a>Primera división<br />
+<div class="outline-text-5" id="text-orge45ed74">
 <ul class="org-ul">
 <li><b><b>Si petal width (cm) ≤ 0.8</b></b>:
 <ul class="org-ul">
@@ -3108,8 +3121,8 @@ una clase), mientras que un valor de 0.667 indica mezcla.</li>
 </div>
 </li>
 
-<li><a id="org38e9e2c"></a>Segunda división<br />
-<div class="outline-text-5" id="text-org38e9e2c">
+<li><a id="org8fe3592"></a>Segunda división<br />
+<div class="outline-text-5" id="text-org8fe3592">
 <p>
 Para el resto de las flores, el modelo utiliza la característica <b><b>petal width (cm) ≤ 1.75</b></b>:
 </p>
@@ -3120,8 +3133,8 @@ Para el resto de las flores, el modelo utiliza la característica <b><b>petal wi
 </div>
 </li>
 
-<li><a id="org6ceaa43"></a>Divisiones más profundas<br />
-<div class="outline-text-5" id="text-org6ceaa43">
+<li><a id="orgb579e1d"></a>Divisiones más profundas<br />
+<div class="outline-text-5" id="text-orgb579e1d">
 <p>
 El árbol sigue dividiendo basándose en otras características, como <b><b>petal length (cm) ≤ 4.95</b></b>:
 </p>
@@ -3131,8 +3144,8 @@ El árbol sigue dividiendo basándose en otras características, como <b><b>peta
 </div>
 </li>
 
-<li><a id="org480c0a0"></a>Hojas finales<br />
-<div class="outline-text-5" id="text-org480c0a0">
+<li><a id="org33ed6b3"></a>Hojas finales<br />
+<div class="outline-text-5" id="text-org33ed6b3">
 <p>
 Cada nodo hoja finaliza la clasificación:
 </p>
@@ -3145,13 +3158,13 @@ Cada nodo hoja finaliza la clasificación:
 </ul>
 </div>
 
-<div id="outline-container-org526d6e8" class="outline-4">
-<h4 id="org526d6e8">Índice de Gini en Árboles de Decisión</h4>
-<div class="outline-text-4" id="text-org526d6e8">
+<div id="outline-container-org9243120" class="outline-4">
+<h4 id="org9243120">Índice de Gini en Árboles de Decisión</h4>
+<div class="outline-text-4" id="text-org9243120">
 </div>
 <ul class="org-ul">
-<li><a id="orga5bcc97"></a>¿Qué es el índice de Gini?<br />
-<div class="outline-text-5" id="text-orga5bcc97">
+<li><a id="org4fedacf"></a>¿Qué es el índice de Gini?<br />
+<div class="outline-text-5" id="text-org4fedacf">
 <p>
 El <b><b>índice de Gini</b></b> es una medida de impureza o diversidad que se
 utiliza en algoritmos de aprendizaje automático, como los Árboles de
@@ -3161,8 +3174,8 @@ clases en un nodo del árbol.
 </div>
 </li>
 
-<li><a id="orgac380fe"></a>Concepto del Índice de Gini<br />
-<div class="outline-text-5" id="text-orgac380fe">
+<li><a id="org376bff9"></a>Concepto del Índice de Gini<br />
+<div class="outline-text-5" id="text-org376bff9">
 <p>
 El índice de Gini mide la probabilidad de que una muestra elegida al
 azar sea clasificada incorrectamente si se la asigna una clase de
@@ -3178,8 +3191,8 @@ hay una mezcla de clases en ese nodo.</li>
 </div>
 </li>
 
-<li><a id="org2853573"></a>Fórmula del Índice de Gini<br />
-<div class="outline-text-5" id="text-org2853573">
+<li><a id="org09e0a0b"></a>Fórmula del Índice de Gini<br />
+<div class="outline-text-5" id="text-org09e0a0b">
 <p>
 El índice de Gini se calcula como:
 </p>
@@ -3200,10 +3213,10 @@ Donde:
 </div>
 </li>
 
-<li><a id="org363736e"></a>Ejemplos del Índice de Gini<br />
+<li><a id="org9fa3594"></a>Ejemplos del Índice de Gini<br />
 <ul class="org-ul">
-<li><a id="org521a9cc"></a>Ejemplo 1: Nodo completamente puro<br />
-<div class="outline-text-6" id="text-org521a9cc">
+<li><a id="org54e7efd"></a>Ejemplo 1: Nodo completamente puro<br />
+<div class="outline-text-6" id="text-org54e7efd">
 <p>
 Si todas las muestras en un nodo pertenecen a una sola clase, entonces el índice de Gini es <b><b>0</b></b>.
 </p>
@@ -3222,8 +3235,8 @@ Esto indica que el nodo es completamente puro.
 </div>
 </li>
 
-<li><a id="org036539b"></a>Ejemplo 2: Nodo con clases mixtas<br />
-<div class="outline-text-6" id="text-org036539b">
+<li><a id="org5a0c622"></a>Ejemplo 2: Nodo con clases mixtas<br />
+<div class="outline-text-6" id="text-org5a0c622">
 <p>
 Si las muestras están distribuidas equitativamente entre varias clases, el índice de Gini será mayor.
 </p>
@@ -3242,8 +3255,8 @@ Esto indica que el nodo contiene una mezcla de clases.
 </div>
 </li>
 
-<li><a id="orgf005364"></a>Ejemplo 3: Nodo con clases desbalanceadas<br />
-<div class="outline-text-6" id="text-orgf005364">
+<li><a id="org3caf548"></a>Ejemplo 3: Nodo con clases desbalanceadas<br />
+<div class="outline-text-6" id="text-org3caf548">
 <p>
 Si en un nodo hay 90 muestras de la clase "A" y 10 de la clase "B", el índice de Gini será más bajo que en el caso de clases equilibradas.
 </p>
@@ -3264,8 +3277,8 @@ Esto indica que la mayoría de las muestras pertenecen a una clase, pero el nodo
 </ul>
 </li>
 
-<li><a id="orgc4187f8"></a>Interpretación del Índice de Gini<br />
-<div class="outline-text-5" id="text-orgc4187f8">
+<li><a id="org0d57462"></a>Interpretación del Índice de Gini<br />
+<div class="outline-text-5" id="text-org0d57462">
 <ul class="org-ul">
 <li><b><b>Gini = 0</b></b>: El nodo es completamente puro (todas las muestras pertenecen a una sola clase).</li>
 <li><b><b>Gini cercano a 0</b></b>: La mayoría de las muestras pertenecen a una clase, pero hay algo de mezcla.</li>
@@ -3274,16 +3287,16 @@ Esto indica que la mayoría de las muestras pertenecen a una clase, pero el nodo
 </div>
 </li>
 
-<li><a id="org944ca3c"></a>Uso en Árboles de Decisión<br />
-<div class="outline-text-5" id="text-org944ca3c">
+<li><a id="org8d93dca"></a>Uso en Árboles de Decisión<br />
+<div class="outline-text-5" id="text-org8d93dca">
 <p>
 El árbol de decisión selecciona la característica que minimiza el índice de Gini en los nodos hijos, creando divisiones que generen nodos lo más puros posibles.
 </p>
 </div>
 </li>
 
-<li><a id="orgf084495"></a>Ejemplo del Índice de Gini en tu Árbol de Decisión<br />
-<div class="outline-text-5" id="text-orgf084495">
+<li><a id="org12edf90"></a>Ejemplo del Índice de Gini en tu Árbol de Decisión<br />
+<div class="outline-text-5" id="text-org12edf90">
 <p>
 En el nodo raíz del árbol de decisión que generaste, el <b><b>índice de Gini</b></b> es 0.667:
 </p>
@@ -3296,9 +3309,9 @@ En el nodo raíz del árbol de decisión que generaste, el <b><b>índice de Gini
 </ul>
 </div>
 
-<div id="outline-container-orgf89a11a" class="outline-4">
-<h4 id="orgf89a11a">Ejemplo con Dataset Phaser</h4>
-<div class="outline-text-4" id="text-orgf89a11a">
+<div id="outline-container-orgc58d6ba" class="outline-4">
+<h4 id="orgc58d6ba">Ejemplo con Dataset Phaser</h4>
+<div class="outline-text-4" id="text-orgc58d6ba">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #c099ff;">import</span> pandas <span style="color: #c099ff;">as</span> pd
 <span style="color: #c099ff;">from</span> sklearn.model_selection <span style="color: #c099ff;">import</span> train_test_split
@@ -3350,13 +3363,13 @@ graph.view<span style="color: #c099ff;">()</span>
 </div>
 
 
-<div id="outline-container-orgd78c742" class="outline-3">
-<h3 id="orgd78c742">Arquitecturas de Redes Neuronales</h3>
-<div class="outline-text-3" id="text-orgd78c742">
+<div id="outline-container-orge7c9e3c" class="outline-3">
+<h3 id="orge7c9e3c">Arquitecturas de Redes Neuronales</h3>
+<div class="outline-text-3" id="text-orge7c9e3c">
 </div>
-<div id="outline-container-orgdd3377d" class="outline-4">
-<h4 id="orgdd3377d">1. Redes Neuronales Feedforward (FFNN)</h4>
-<div class="outline-text-4" id="text-orgdd3377d">
+<div id="outline-container-orgae9a154" class="outline-4">
+<h4 id="orgae9a154">1. Redes Neuronales Feedforward (FFNN)</h4>
+<div class="outline-text-4" id="text-orgae9a154">
 <ul class="org-ul">
 <li>Las <b><b>redes neuronales feedforward</b></b> son las más simples y
 consisten en capas donde la información fluye en una sola
@@ -3376,9 +3389,275 @@ red feedforward.</li>
 </div>
 </div>
 
-<div id="outline-container-orgebd09d8" class="outline-4">
-<h4 id="orgebd09d8">2. Redes Neuronales Convolucionales (CNN)</h4>
-<div class="outline-text-4" id="text-orgebd09d8">
+
+<div id="outline-container-orgea382cb" class="outline-4">
+<h4 id="orgea382cb">Ejemplo de Redes Neuronales Feedforward</h4>
+<div class="outline-text-4" id="text-orgea382cb">
+</div>
+<ul class="org-ul">
+<li><a id="org874994a"></a>fit<sub>transform</sub> y transform<br />
+<div class="outline-text-5" id="text-org874994a">
+<p>
+Ambos son los métodos de la clase
+sklearn.preprocessing.StandardScaler() y se utilizan casi juntos
+mientras escalan o estandarizan nuestros datos de entrenamiento y
+prueba.
+</p>
+
+
+<ul class="org-ul">
+<li>La estandarización de los datos es el proceso de reescalar los
+atributos para que tengan una media de 0 y una varianza de 1.</li>
+
+<li>El objetivo final de realizar la estandarización es reducir todas
+las características a una escala común sin distorsionar las
+diferencias en el rango de los valores.</li>
+
+<li>En sklearn.preprocessing.StandardScaler(), el centrado y el escalado
+ocurren independientemente en cada característica.</li>
+</ul>
+</div>
+
+
+<ul class="org-ul">
+<li><a id="orgcff18b6"></a>fit<sub>transform</sub>()<br />
+<div class="outline-text-6" id="text-orgcff18b6">
+<p>
+fit<sub>transform</sub>() se utiliza en los datos de entrenamiento para que
+podamos escalar los datos de entrenamiento y también aprender los
+parámetros de escalado de esos datos. Aquí, el modelo construido por
+nosotros aprenderá la media y la varianza de las características del
+conjunto de entrenamiento. Estos parámetros aprendidos se utilizan
+para escalar nuestros datos de prueba.
+</p>
+</div>
+</li>
+
+
+
+<li><a id="orgb580f3b"></a>transform()<br />
+<div class="outline-text-6" id="text-orgb580f3b">
+<p>
+Utilizando el método transform() podemos utilizar la misma media y
+varianza que se calcula a partir de nuestros datos de entrenamiento
+para transformar nuestros datos de prueba. Así, los parámetros
+aprendidos por nuestro modelo utilizando los datos de entrenamiento
+nos ayudarán a transformar nuestros datos de prueba.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #c099ff;">from</span> sklearn.datasets <span style="color: #c099ff;">import</span> load_iris
+<span style="color: #c099ff;">from</span> sklearn.model_selection <span style="color: #c099ff;">import</span> train_test_split
+<span style="color: #c099ff;">from</span> sklearn.preprocessing <span style="color: #c099ff;">import</span> StandardScaler
+<span style="color: #c099ff;">from</span> sklearn.neural_network <span style="color: #c099ff;">import</span> MLPClassifier
+<span style="color: #c099ff;">from</span> sklearn.metrics <span style="color: #c099ff;">import</span> accuracy_score
+
+<span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Cargar el dataset Iris</span>
+<span style="color: #ff98a4;">iris</span> = load_iris<span style="color: #c099ff;">()</span>
+<span style="color: #ff98a4;">X</span>, <span style="color: #ff98a4;">y</span> = iris.data, iris.target
+
+<span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Dividir en conjunto de entrenamiento y prueba (80%-20%)</span>
+<span style="color: #ff98a4;">X_train</span>, <span style="color: #ff98a4;">X_test</span>, <span style="color: #ff98a4;">y_train</span>, <span style="color: #ff98a4;">y_test</span> = train_test_split<span style="color: #c099ff;">(</span>X, y, test_size=0.2, random_state=42<span style="color: #c099ff;">)</span>
+
+<span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Normalizar las caracter&#237;sticas (importante para MLP)</span>
+scaler = StandardScaler<span style="color: #c099ff;">()</span>
+X_train = scaler.fit_transform<span style="color: #c099ff;">(</span>X_train<span style="color: #c099ff;">)</span>
+X_test = scaler.transform<span style="color: #c099ff;">(</span>X_test<span style="color: #c099ff;">)</span>
+
+<span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Definir la red neuronal con una capa oculta de 10 neuronas</span>
+mlp = MLPClassifier<span style="color: #c099ff;">(</span>hidden_layer_sizes=<span style="color: #ff995e;">(</span>10,<span style="color: #ff995e;">)</span>, activation=<span style="color: #c3e88d;">'relu'</span>, solver=<span style="color: #c3e88d;">'adam'</span>, max_iter=500, random_state=42<span style="color: #c099ff;">)</span>
+
+<span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Entrenar el modelo</span>
+mlp.fit<span style="color: #c099ff;">(</span>X_train, y_train<span style="color: #c099ff;">)</span>
+
+<span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Hacer predicciones</span>
+y_pred = mlp.predict<span style="color: #c099ff;">(</span>X_test<span style="color: #c099ff;">)</span>
+
+<span style="color: #7a88cf;"># </span><span style="color: #7a88cf;">Evaluar el modelo</span>
+accuracy = accuracy_score<span style="color: #c099ff;">(</span>y_test, y_pred<span style="color: #c099ff;">)</span>
+<span style="color: #c099ff;">print</span><span style="color: #c099ff;">(</span>f<span style="color: #c3e88d;">'\nPrecisi&#243;n en test: </span>{accuracy:.4f}<span style="color: #c3e88d;">'</span><span style="color: #c099ff;">)</span>
+
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6084f1a" class="outline-2">
+<h2 id="org6084f1a">¿Qué es Softmax?</h2>
+<div class="outline-text-2" id="text-org6084f1a">
+<p>
+La función <b>softmax</b> es una función de activación utilizada en la capa de salida de redes neuronales para clasificación multiclase. Convierte un conjunto de valores en una distribución de <b>probabilidades</b>.
+</p>
+</div>
+
+<div id="outline-container-org410f5ed" class="outline-3">
+<h3 id="org410f5ed">Fórmula:</h3>
+<div class="outline-text-3" id="text-org410f5ed">
+<p>
+\[
+\sigma(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{n} e^{z_j}}
+\]
+Donde:
+</p>
+<ul class="org-ul">
+<li>\( z_i \) es la activación de la neurona \( i \).</li>
+<li>\( e^{z_i} \) es la exponencial de la activación.</li>
+<li>\( \sum e^{z_j} \) es la suma de todas las exponenciales de las activaciones.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org072759b" class="outline-3">
+<h3 id="org072759b">Ejemplo práctico:</h3>
+<div class="outline-text-3" id="text-org072759b">
+<p>
+Si la red neuronal genera los siguientes valores antes de aplicar <b>softmax</b> (logits):
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff98a4;">z</span> = <span style="color: #c099ff;">[</span>2.0, 1.0, 0.1<span style="color: #c099ff;">]</span>
+</pre>
+</div>
+
+<p>
+Aplicando la función softmax:
+</p>
+
+<p>
+\[
+\sigma(2.0) = \frac{e^2}{e^2 + e^1 + e^{0.1}} = 0.659
+\]
+</p>
+
+<p>
+\[
+\sigma(1.0) = \frac{e^1}{e^2 + e^1 + e^{0.1}} = 0.242
+\]
+</p>
+
+<p>
+\[
+\sigma(0.1) = \frac{e^{0.1}}{e^2 + e^1 + e^{0.1}} = 0.099
+\]
+</p>
+
+<p>
+Salida final:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #c099ff;">[</span>0.659, 0.242, 0.099<span style="color: #c099ff;">]</span>
+</pre>
+</div>
+
+<p>
+Esto significa que la red asigna una probabilidad del <b>65.9%</b> a la primera clase, <b>24.2%</b> a la segunda y <b>9.9%</b> a la tercera.
+</p>
+
+<ul class="org-ul">
+<li><b>Convierte las salidas en probabilidades</b> (valores entre 0 y 1 que suman 1).</li>
+<li><b>Permite interpretar las predicciones</b> fácilmente.</li>
+<li><b>Destaca la clase más probable</b> con valores amplificados.</li>
+</ul>
+
+<p>
+Para clasificación binaria se usa la función <b>sigmoide</b> en vez de <b>softmax</b>.
+En <b>scikit-learn</b>, la función <b>softmax</b> ya está integrada en <b>MLPClassifier</b> para clasificación multiclase.
+</p>
+</div>
+
+
+
+
+<ul class="org-ul">
+<li><a id="org6f29db2"></a>Descenso del Gradiente<br />
+<div class="outline-text-5" id="text-org6f29db2">
+<p>
+El descenso del gradiente o gradiente descendiente es un algoritmo de
+optimización iterativo de primer orden que permite encontrar mínimos
+locales en una función diferenciable. La idea es tomar pasos de manera
+repetida en dirección contraria al gradiente. Esto se hace ya que esta
+dirección es la del descenso más empinado. Si se toman pasos con la
+misma dirección del gradiente, se encontrará el máximo local de la
+función; a esto se le conoce como el gradiente ascendente. Este
+algoritmo es utilizado para entrenar modelos de aprendizaje máquina y
+redes neuronales.
+</p>
+</div>
+</li>
+
+<li><a id="orgbad4abb"></a>Momentum<br />
+<div class="outline-text-5" id="text-orgbad4abb">
+<p>
+Stochastic Gradient Descent with Momentum o, simplemente, Momentum, es
+una variación del algoritmo de descenso de gradiente estocástico (SGD)
+que utiliza una técnica de suavizado para evitar oscilaciones
+excesivas en la dirección del gradiente y aumentar la velocidad de
+convergencia: En lugar de actualizar los parámetros utilizando solo la
+información del gradiente actual (tras evaluar n muestras), el
+algoritmo de Momentum utiliza un promedio ponderado del gradiente
+actual y de los gradientes anteriores para calcular la dirección de
+actualización (es decir, el gradiente a considerar para la
+actualización de los parámetros).
+</p>
+
+<p>
+Este algoritmo requiere dos parámetros: el coeficiente de aprendizaje
+que ya conocemos (learning rate) y el llamado coeficiente de
+momentum. El coeficiente de momentum controla la influencia de los
+gradientes anteriores en la dirección de actualización. En función de
+los datos, un coeficiente de momentum alto puede ayudar a superar los
+mínimos locales en la función de error y llevar a una convergencia más
+rápida.
+</p>
+
+<p>
+La actualización de los pesos en el algoritmo de Momentum se realiza,
+por lo tanto, de la siguiente manera:
+</p>
+
+<ul class="org-ul">
+<li>Se evalúa el gradiente actual tras considerar n muestras</li>
+<li>Se calcula la dirección de actualización como una combinación del gradiente actual y los gradientes anteriores ponderados usando el coeficiente de momentum</li>
+<li>Se actualizan los parámetros del modelo utilizando la dirección de actualización y el coeficiente de aprendizaje</li>
+<li>El algoritmo de Momentum se puede implementar de diferentes maneras, como utilizando un promedio ponderado simple de los gradientes anteriores o utilizando un promedio ponderado exponencial.</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org3f38df4"></a>Adam<br />
+<div class="outline-text-5" id="text-org3f38df4">
+<p>
+Adam, o Adaptive Moment Estimation, es un algoritmo de optimización
+que combina las ventajas de los algoritmos RMSprop y Momentum para
+mejorar el proceso de aprendizaje de un modelo. Al igual que Momentum,
+Adam utiliza una estimación del momento y de la magnitud de los
+gradientes anteriores para actualizar los parámetros del modelo en
+cada iteración. Sin embargo, en lugar de utilizar una tasa de
+aprendizaje constante para todos los parámetros, Adam adapta la tasa
+de aprendizaje de cada parámetro individualmente en función de su
+estimación del momento y de la magnitud del gradiente. Esto permite
+que el modelo se ajuste de manera más eficiente y efectiva a los datos
+de entrenamiento, lo que puede llevar a una mayor precisión de la
+predicción en comparación con otros métodos de optimización.
+</p>
+</div>
+</li>
+</ul>
+
+
+
+
+
+<div id="outline-container-org35f7772" class="outline-4">
+<h4 id="org35f7772">2. Redes Neuronales Convolucionales (CNN)</h4>
+<div class="outline-text-4" id="text-org35f7772">
 <ul class="org-ul">
 <li>Las <b><b>redes neuronales convolucionales</b></b> están diseñadas para
 procesar datos que tienen una estructura de cuadrícula, como
@@ -3429,9 +3708,9 @@ clasificar o predecir.</li>
 </div>
 </div>
 
-<div id="outline-container-org41ebf28" class="outline-4">
-<h4 id="org41ebf28">3. Redes Neuronales Recurrentes (RNN)</h4>
-<div class="outline-text-4" id="text-org41ebf28">
+<div id="outline-container-org66da680" class="outline-4">
+<h4 id="org66da680">3. Redes Neuronales Recurrentes (RNN)</h4>
+<div class="outline-text-4" id="text-org66da680">
 <ul class="org-ul">
 <li>Las <b><b>redes neuronales recurrentes</b></b> están diseñadas para trabajar
 con datos secuenciales o series temporales. Las RNN tienen una
@@ -3474,9 +3753,9 @@ gradiente desvaneciente.</li>
 </div>
 </div>
 
-<div id="outline-container-org26dffae" class="outline-4">
-<h4 id="org26dffae">4. Redes Generativas Antagónicas (GAN)</h4>
-<div class="outline-text-4" id="text-org26dffae">
+<div id="outline-container-orgd1880e4" class="outline-4">
+<h4 id="orgd1880e4">4. Redes Generativas Antagónicas (GAN)</h4>
+<div class="outline-text-4" id="text-orgd1880e4">
 <ul class="org-ul">
 <li>Las <b><b>redes generativas antagónicas</b></b> (GAN) consisten en dos redes:
 una red generadora y una red discriminadora que compiten entre
@@ -3532,9 +3811,9 @@ entre datos reales y generados.</li>
 </div>
 </div>
 
-<div id="outline-container-org844d09f" class="outline-4">
-<h4 id="org844d09f">5. Redes de Memoria a Largo y Corto Plazo (LSTM)</h4>
-<div class="outline-text-4" id="text-org844d09f">
+<div id="outline-container-org6f8cf9b" class="outline-4">
+<h4 id="org6f8cf9b">5. Redes de Memoria a Largo y Corto Plazo (LSTM)</h4>
+<div class="outline-text-4" id="text-org6f8cf9b">
 <ul class="org-ul">
 <li>Las <b><b>LSTM</b></b> son una variante de las RNN que utilizan un sistema de puertas (input gate, forget gate y output gate) para controlar el flujo de información y decidir qué recordar y qué olvidar.</li>
 </ul>
@@ -3550,9 +3829,9 @@ entre datos reales y generados.</li>
 </div>
 </div>
 
-<div id="outline-container-org97d8029" class="outline-4">
-<h4 id="org97d8029">6. Redes de Transformadores</h4>
-<div class="outline-text-4" id="text-org97d8029">
+<div id="outline-container-org0b6ef04" class="outline-4">
+<h4 id="org0b6ef04">6. Redes de Transformadores</h4>
+<div class="outline-text-4" id="text-org0b6ef04">
 <ul class="org-ul">
 <li>Los <b><b>transformadores</b></b> utilizan un mecanismo de auto-atención para
 procesar datos secuenciales en paralelo. Esta arquitectura ha
@@ -3598,9 +3877,9 @@ capacidad de aprendizaje al procesar la información.</li>
 </div>
 </div>
 
-<div id="outline-container-orga945964" class="outline-4">
-<h4 id="orga945964">7. Redes Autoencoders</h4>
-<div class="outline-text-4" id="text-orga945964">
+<div id="outline-container-org8641d07" class="outline-4">
+<h4 id="org8641d07">7. Redes Autoencoders</h4>
+<div class="outline-text-4" id="text-org8641d07">
 <ul class="org-ul">
 <li>Los <b><b>autoencoders</b></b> son redes neuronales diseñadas para aprender representaciones de datos de alta dimensionalidad en un espacio de menor dimensión. Consisten en dos partes principales: el codificador y el decodificador.</li>
 </ul>
@@ -3640,9 +3919,9 @@ capacidad de aprendizaje al procesar la información.</li>
 </div>
 </div>
 
-<div id="outline-container-orgb36c319" class="outline-4">
-<h4 id="orgb36c319">8. Redes de Cápsulas (Capsule Networks)</h4>
-<div class="outline-text-4" id="text-orgb36c319">
+<div id="outline-container-org01c940f" class="outline-4">
+<h4 id="org01c940f">8. Redes de Cápsulas (Capsule Networks)</h4>
+<div class="outline-text-4" id="text-org01c940f">
 <ul class="org-ul">
 <li>Las <b><b>Capsule Networks</b></b> fueron propuestas para superar las limitaciones de las CNN en la detección de la rotación y posición espacial de los objetos en imágenes. Estas redes usan cápsulas (grupos de neuronas) para capturar mejor la orientación y jerarquía en las características de la imagen.</li>
 </ul>
@@ -3659,17 +3938,17 @@ capacidad de aprendizaje al procesar la información.</li>
 </div>
 
 
-<div id="outline-container-orga61046e" class="outline-2">
-<h2 id="orga61046e">Análisis de información</h2>
-<div class="outline-text-2" id="text-orga61046e">
+<div id="outline-container-org51fa967" class="outline-2">
+<h2 id="org51fa967">Análisis de información</h2>
+<div class="outline-text-2" id="text-org51fa967">
 </div>
-<div id="outline-container-orgaa9a706" class="outline-3">
-<h3 id="orgaa9a706">Programación</h3>
-<div class="outline-text-3" id="text-orgaa9a706">
+<div id="outline-container-orgb1aded9" class="outline-3">
+<h3 id="orgb1aded9">Programación</h3>
+<div class="outline-text-3" id="text-orgb1aded9">
 </div>
-<div id="outline-container-org665fdac" class="outline-4">
-<h4 id="org665fdac">Carga de imágenes y propiedades</h4>
-<div class="outline-text-4" id="text-org665fdac">
+<div id="outline-container-org2995fb4" class="outline-4">
+<h4 id="org2995fb4">Carga de imágenes y propiedades</h4>
+<div class="outline-text-4" id="text-org2995fb4">
 <p>
 Con el siguiente ejemplo, se puede cargar una imagen, utilizando la
 librería de opencv, mediante el método <a href="https://docs.opencv.org/3.4/d4/da8/group__imgcodecs.html">imread</a>, el cual carga en la
@@ -3718,9 +3997,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 </div>
-<div id="outline-container-orge023cf2" class="outline-4">
-<h4 id="orge023cf2">Operadores Puntuales</h4>
-<div class="outline-text-4" id="text-orge023cf2">
+<div id="outline-container-org6d8579e" class="outline-4">
+<h4 id="org6d8579e">Operadores Puntuales</h4>
+<div class="outline-text-4" id="text-org6d8579e">
 <p>
 De igual forma cargando la imagen, en un solo canal es posible aplicar
 operadores puntuales a la imagen. Las operaciones puntuales son
@@ -3756,9 +4035,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-orge20880c" class="outline-4">
-<h4 id="orge20880c">Modelos de color</h4>
-<div class="outline-text-4" id="text-orge20880c">
+<div id="outline-container-orgaff4fd7" class="outline-4">
+<h4 id="orgaff4fd7">Modelos de color</h4>
+<div class="outline-text-4" id="text-orgaff4fd7">
 <p>
 El color es una de las características que nos permite a los seres
 humanos identificar y clasificar los objetos. La percepción visual del
@@ -3809,9 +4088,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-org67921ed" class="outline-4">
-<h4 id="org67921ed">Segmentación de Color</h4>
-<div class="outline-text-4" id="text-org67921ed">
+<div id="outline-container-org8df5590" class="outline-4">
+<h4 id="org8df5590">Segmentación de Color</h4>
+<div class="outline-text-4" id="text-org8df5590">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
 <span style="color: #ff98a4;">img</span> = cv.imread<span style="color: #c099ff;">(</span><span style="color: #c3e88d;">'salida.jpg'</span>, 1<span style="color: #c099ff;">)</span>
@@ -3845,9 +4124,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 
 
-<div id="outline-container-org062fe76" class="outline-4">
-<h4 id="org062fe76">Haarcascades</h4>
-<div class="outline-text-4" id="text-org062fe76">
+<div id="outline-container-org92aa54f" class="outline-4">
+<h4 id="org92aa54f">Haarcascades</h4>
+<div class="outline-text-4" id="text-org92aa54f">
 <p>
 Los Haar Cascades son una técnica utilizada en el campo de la visión
 por computadora para la detección de objetos. Fueron introducidos por
@@ -3859,15 +4138,15 @@ objetos.
 </p>
 
 
-<div id="org86592ff" class="figure">
+<div id="org0f823c6" class="figure">
 <p><img src="img/cascade.png" alt="cascade.png" />
 </p>
 </div>
 </div>
 
 <ul class="org-ul">
-<li><a id="org3bb5c94"></a>Conceptos Clave:<br />
-<div class="outline-text-5" id="text-org3bb5c94">
+<li><a id="org198943d"></a>Conceptos Clave:<br />
+<div class="outline-text-5" id="text-org198943d">
 <p>
 Características de Haar: Son patrones visuales simples que se pueden
  calcular rápidamente en una imagen. Estas características se asemejan
@@ -3879,8 +4158,8 @@ Características de Haar: Son patrones visuales simples que se pueden
 </li>
 
 
-<li><a id="orgfb62ea7"></a>Imágenes Integrales:<br />
-<div class="outline-text-5" id="text-orgfb62ea7">
+<li><a id="orgb24bcb4"></a>Imágenes Integrales:<br />
+<div class="outline-text-5" id="text-orgb24bcb4">
 <p>
 Para acelerar el cálculo de las características
  de Haar, se utiliza un concepto llamado imagen integral. Una imagen
@@ -3890,8 +4169,8 @@ Para acelerar el cálculo de las características
 </div>
 </li>
 
-<li><a id="org7621699"></a>Adaboost:<br />
-<div class="outline-text-5" id="text-org7621699">
+<li><a id="org46aad51"></a>Adaboost:<br />
+<div class="outline-text-5" id="text-org46aad51">
 <p>
 Es un método de aprendizaje automático utilizado para
  mejorar la eficiencia de la detección. Selecciona un pequeño número
@@ -3902,8 +4181,8 @@ Es un método de aprendizaje automático utilizado para
 </div>
 </li>
 
-<li><a id="orge9d9c7c"></a>Cascadas:<br />
-<div class="outline-text-5" id="text-orge9d9c7c">
+<li><a id="org2ecf7a1"></a>Cascadas:<br />
+<div class="outline-text-5" id="text-org2ecf7a1">
 <p>
 En lugar de aplicar todas las características a una ventana de la
 imagen, se organizan en una secuencia de etapas (cascadas). Cada etapa
@@ -3948,8 +4227,8 @@ simplicidad y bajo requerimiento de recursos computacionales.
 </div>
 </li>
 
-<li><a id="org03c07f5"></a>Ejemplo de un Haarcascade<br />
-<div class="outline-text-5" id="text-org03c07f5">
+<li><a id="org8bb9725"></a>Ejemplo de un Haarcascade<br />
+<div class="outline-text-5" id="text-org8bb9725">
 <p>
 <a href="https://github.com/opencv/opencv/tree/master/data/haarcascades">https://github.com/opencv/opencv/tree/master/data/haarcascades</a>
 </p>
@@ -4032,9 +4311,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 
 
 
-<div id="outline-container-orgca03bd4" class="outline-4">
-<h4 id="orgca03bd4">Template Matching</h4>
-<div class="outline-text-4" id="text-orgca03bd4">
+<div id="outline-container-orgcfee429" class="outline-4">
+<h4 id="orgcfee429">Template Matching</h4>
+<div class="outline-text-4" id="text-orgcfee429">
 <p>
 El <b><b>Template Matching</b></b> (emparejamiento de plantillas) es una técnica utilizada en procesamiento de imágenes y visión por computadora para buscar y encontrar una sub-imagen o patrón dentro de una imagen más grande. 
 </p>
@@ -4185,9 +4464,9 @@ cv2.destroyAllWindows<span style="color: #c099ff;">()</span>
 
 
 
-<div id="outline-container-org287cfdf" class="outline-2">
-<h2 id="org287cfdf">Programación</h2>
-<div class="outline-text-2" id="text-org287cfdf">
+<div id="outline-container-orgc52a993" class="outline-2">
+<h2 id="orgc52a993">Programación</h2>
+<div class="outline-text-2" id="text-orgc52a993">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
 <span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np 
@@ -4335,9 +4614,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-org4499b86" class="outline-3">
-<h3 id="org4499b86">Segmentación de color en vídeo</h3>
-<div class="outline-text-3" id="text-org4499b86">
+<div id="outline-container-orga4d063e" class="outline-3">
+<h3 id="orga4d063e">Segmentación de color en vídeo</h3>
+<div class="outline-text-3" id="text-orga4d063e">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #c099ff;">import</span> cv2 <span style="color: #c099ff;">as</span> cv
 <span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np 
@@ -4370,9 +4649,9 @@ cv.destroyAllWindows<span style="color: #c099ff;">()</span>
 </div>
 </div>
 
-<div id="outline-container-org36d606d" class="outline-3">
-<h3 id="org36d606d">Seguimiento Por color</h3>
-<div class="outline-text-3" id="text-org36d606d">
+<div id="outline-container-org0adbda0" class="outline-3">
+<h3 id="org0adbda0">Seguimiento Por color</h3>
+<div class="outline-text-3" id="text-org0adbda0">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #c099ff;">import</span> cv2
 <span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np
@@ -4443,9 +4722,9 @@ cv2.destroyAllWindows<span style="color: #c099ff;">()</span>
 
 
 
-<div id="outline-container-orga139513" class="outline-2">
-<h2 id="orga139513">Tutorial Básico de Pygame</h2>
-<div class="outline-text-2" id="text-orga139513">
+<div id="outline-container-orgf9a94cd" class="outline-2">
+<h2 id="orgf9a94cd">Tutorial Básico de Pygame</h2>
+<div class="outline-text-2" id="text-orgf9a94cd">
 <p>
 Pygame es una biblioteca de Python que facilita la creación de
 videojuegos y aplicaciones gráficas interactivas. Este tutorial te
@@ -4460,9 +4739,9 @@ con el teclado.
 </div>
 
 
-<div id="outline-container-org0a6619a" class="outline-3">
-<h3 id="org0a6619a">Instalación de Pygame</h3>
-<div class="outline-text-3" id="text-org0a6619a">
+<div id="outline-container-org6a815d0" class="outline-3">
+<h3 id="org6a815d0">Instalación de Pygame</h3>
+<div class="outline-text-3" id="text-org6a815d0">
 <p>
 Para instalar Pygame, puedes usar `pip`, el gestor de paquetes de Python. Abre tu terminal y ejecuta el siguiente comando:
 </p>
@@ -4475,9 +4754,9 @@ Para instalar Pygame, puedes usar `pip`, el gestor de paquetes de Python. Abre t
 </div>
 </div>
 
-<div id="outline-container-orgb690daa" class="outline-3">
-<h3 id="orgb690daa">Creación de una ventana básica</h3>
-<div class="outline-text-3" id="text-orgb690daa">
+<div id="outline-container-org8772fbb" class="outline-3">
+<h3 id="org8772fbb">Creación de una ventana básica</h3>
+<div class="outline-text-3" id="text-org8772fbb">
 <p>
 El primer paso para cualquier aplicación en Pygame es crear una ventana. Este código inicializa Pygame y abre una ventana de 800x600 píxeles.
 </p>
@@ -4511,9 +4790,9 @@ pygame.display.set_caption<span style="color: #c099ff;">(</span><span style="col
 </div>
 </div>
 
-<div id="outline-container-org96dc705" class="outline-3">
-<h3 id="org96dc705">Manejo de eventos</h3>
-<div class="outline-text-3" id="text-org96dc705">
+<div id="outline-container-org940e2b4" class="outline-3">
+<h3 id="org940e2b4">Manejo de eventos</h3>
+<div class="outline-text-3" id="text-org940e2b4">
 <p>
 Los eventos en Pygame incluyen entradas del teclado, del ratón, y el cierre de la ventana. A continuación te muestro cómo capturar eventos de teclado.
 </p>
@@ -4567,9 +4846,9 @@ pygame.display.set_caption<span style="color: #c099ff;">(</span><span style="col
 </div>
 </div>
 
-<div id="outline-container-org3e8b353" class="outline-3">
-<h3 id="org3e8b353">Dibujar formas y texto</h3>
-<div class="outline-text-3" id="text-org3e8b353">
+<div id="outline-container-org1853ac2" class="outline-3">
+<h3 id="org1853ac2">Dibujar formas y texto</h3>
+<div class="outline-text-3" id="text-org1853ac2">
 <p>
 Pygame facilita el dibujo de formas básicas, como rectángulos, círculos, y también permite renderizar texto.
 </p>
@@ -4621,9 +4900,9 @@ pygame.display.set_caption<span style="color: #c099ff;">(</span><span style="col
 </div>
 </div>
 
-<div id="outline-container-org4e91718" class="outline-3">
-<h3 id="org4e91718">Cargar y mostrar imágenes</h3>
-<div class="outline-text-3" id="text-org4e91718">
+<div id="outline-container-org468be9f" class="outline-3">
+<h3 id="org468be9f">Cargar y mostrar imágenes</h3>
+<div class="outline-text-3" id="text-org468be9f">
 <p>
 Pygame permite cargar imágenes desde archivos externos. Aquí te muestro cómo hacerlo:
 </p>
@@ -4662,9 +4941,9 @@ pygame.display.set_caption<span style="color: #c099ff;">(</span><span style="col
 </div>
 </div>
 
-<div id="outline-container-orgf6909ce" class="outline-2">
-<h2 id="orgf6909ce">Web scraping</h2>
-<div class="outline-text-2" id="text-orgf6909ce">
+<div id="outline-container-orgc48e933" class="outline-2">
+<h2 id="orgc48e933">Web scraping</h2>
+<div class="outline-text-2" id="text-orgc48e933">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #c099ff;">import</span> snscrape.modules.twitter <span style="color: #c099ff;">as</span> sntwitter
 
@@ -4686,17 +4965,17 @@ pygame.display.set_caption<span style="color: #c099ff;">(</span><span style="col
 
 
 
-<div id="outline-container-orgfc7b4f9" class="outline-2">
-<h2 id="orgfc7b4f9">Preguntas</h2>
-<div class="outline-text-2" id="text-orgfc7b4f9">
+<div id="outline-container-org425c4e1" class="outline-2">
+<h2 id="org425c4e1">Preguntas</h2>
+<div class="outline-text-2" id="text-org425c4e1">
 </div>
-<div id="outline-container-orge50aa0d" class="outline-3">
-<h3 id="orge50aa0d">Preguntas para responder con el estudio y análisis a través de algoritmos de inteligencia artificial.</h3>
-<div class="outline-text-3" id="text-orge50aa0d">
+<div id="outline-container-org49e3249" class="outline-3">
+<h3 id="org49e3249">Preguntas para responder con el estudio y análisis a través de algoritmos de inteligencia artificial.</h3>
+<div class="outline-text-3" id="text-org49e3249">
 </div>
-<div id="outline-container-org90ffc1e" class="outline-4">
-<h4 id="org90ffc1e">Preguntas Ley al poder Judicial</h4>
-<div class="outline-text-4" id="text-org90ffc1e">
+<div id="outline-container-org0cf8d29" class="outline-4">
+<h4 id="org0cf8d29">Preguntas Ley al poder Judicial</h4>
+<div class="outline-text-4" id="text-org0cf8d29">
 <ul class="org-ul">
 <li>¿El Diagnostico de la ley al poder judicial es conocido y qué estudios expertos tuvieron en cuenta?</li>
 <li>¿Por qué la reforma no incluyó a las fiscalías a las defensoría y
@@ -4717,9 +4996,9 @@ implementación de esta reforma con la promoción y ?</li>
 </div>
 </div>
 
-<div id="outline-container-org1512375" class="outline-4">
-<h4 id="org1512375">Ley Organismos Autónomos</h4>
-<div class="outline-text-4" id="text-org1512375">
+<div id="outline-container-org836c7e9" class="outline-4">
+<h4 id="org836c7e9">Ley Organismos Autónomos</h4>
+<div class="outline-text-4" id="text-org836c7e9">
 <ul class="org-ul">
 <li>¿Es constitucional esta ley, considerando que algunos organismos
 autónomos están establecidos en la Constitución?</li>
@@ -4740,9 +5019,9 @@ afectados por la desaparición de estos organismos?</li>
 
 
 
-<div id="outline-container-orge3b5fb5" class="outline-2">
-<h2 id="orge3b5fb5">Introducción a los  Embeddings</h2>
-<div class="outline-text-2" id="text-orge3b5fb5">
+<div id="outline-container-orgf071c13" class="outline-2">
+<h2 id="orgf071c13">Introducción a los  Embeddings</h2>
+<div class="outline-text-2" id="text-orgf071c13">
 <p>
 Los <b>embeddings</b> son representaciones vectoriales densas y de baja
 dimensión de elementos de un espacio de características, diseñadas
@@ -4752,9 +5031,9 @@ del lenguaje natural (NLP), aprendizaje automático y redes neuronales.
 </p>
 </div>
 
-<div id="outline-container-orgf9465bc" class="outline-3">
-<h3 id="orgf9465bc">Concepto de Embedding</h3>
-<div class="outline-text-3" id="text-orgf9465bc">
+<div id="outline-container-org3789a48" class="outline-3">
+<h3 id="org3789a48">Concepto de Embedding</h3>
+<div class="outline-text-3" id="text-org3789a48">
 <p>
 Un <b>embedding</b> toma objetos de un espacio discreto (como palabras,
 frases, imágenes, o nodos de un grafo) y los transforma en un espacio
@@ -4768,9 +5047,9 @@ características, indicando su similitud semántica.
 </p>
 </div>
 
-<div id="outline-container-org305068b" class="outline-4">
-<h4 id="org305068b">Propiedades de los Embeddings</h4>
-<div class="outline-text-4" id="text-org305068b">
+<div id="outline-container-org627d1cf" class="outline-4">
+<h4 id="org627d1cf">Propiedades de los Embeddings</h4>
+<div class="outline-text-4" id="text-org627d1cf">
 <ul class="org-ul">
 <li>Representación densa: Cada elemento está representado por un vector
 con valores en un espacio continuo.</li>
@@ -4782,13 +5061,13 @@ un espacio más manejable.</li>
 </div>
 </div>
 
-<div id="outline-container-orge4fd798" class="outline-3">
-<h3 id="orge4fd798">Ejemplos de Uso</h3>
-<div class="outline-text-3" id="text-orge4fd798">
+<div id="outline-container-org1abb545" class="outline-3">
+<h3 id="org1abb545">Ejemplos de Uso</h3>
+<div class="outline-text-3" id="text-org1abb545">
 </div>
-<div id="outline-container-org795476b" class="outline-4">
-<h4 id="org795476b">Procesamiento del Lenguaje Natural (NLP)</h4>
-<div class="outline-text-4" id="text-org795476b">
+<div id="outline-container-org5baffc1" class="outline-4">
+<h4 id="org5baffc1">Procesamiento del Lenguaje Natural (NLP)</h4>
+<div class="outline-text-4" id="text-org5baffc1">
 <p>
 En NLP, los embeddings como Word2Vec, GloVe o FastText convierten
 palabras en vectores. Estos vectores permiten realizar tareas como:
@@ -4801,9 +5080,9 @@ palabras en vectores. Estos vectores permiten realizar tareas como:
 </div>
 </div>
 
-<div id="outline-container-orgc4e9470" class="outline-4">
-<h4 id="orgc4e9470">Recomendación de Contenido</h4>
-<div class="outline-text-4" id="text-orgc4e9470">
+<div id="outline-container-org8ab5c6f" class="outline-4">
+<h4 id="org8ab5c6f">Recomendación de Contenido</h4>
+<div class="outline-text-4" id="text-org8ab5c6f">
 <p>
 Los embeddings son fundamentales para sistemas de
 recomendación. Representan usuarios y elementos (como películas,
@@ -4814,9 +5093,9 @@ relevancia.
 </div>
 </div>
 
-<div id="outline-container-orgf562f07" class="outline-3">
-<h3 id="orgf562f07">Visualización y Reducción Dimensional</h3>
-<div class="outline-text-3" id="text-orgf562f07">
+<div id="outline-container-org045940f" class="outline-3">
+<h3 id="org045940f">Visualización y Reducción Dimensional</h3>
+<div class="outline-text-3" id="text-org045940f">
 <p>
 Algoritmos como t-SNE o UMAP permiten visualizar datos de alta
 dimensión reducidos a espacios de 2D o 3D mediante embeddings.
@@ -4824,13 +5103,13 @@ dimensión reducidos a espacios de 2D o 3D mediante embeddings.
 </div>
 </div>
 
-<div id="outline-container-org7c7a139" class="outline-3">
-<h3 id="org7c7a139">Métodos para Generar Embeddings</h3>
-<div class="outline-text-3" id="text-org7c7a139">
+<div id="outline-container-org04ce4ca" class="outline-3">
+<h3 id="org04ce4ca">Métodos para Generar Embeddings</h3>
+<div class="outline-text-3" id="text-org04ce4ca">
 </div>
-<div id="outline-container-org32a03de" class="outline-4">
-<h4 id="org32a03de">Redes Neuronales</h4>
-<div class="outline-text-4" id="text-org32a03de">
+<div id="outline-container-org14f7b03" class="outline-4">
+<h4 id="org14f7b03">Redes Neuronales</h4>
+<div class="outline-text-4" id="text-org14f7b03">
 <p>
 Redes como autoencoders o modelos preentrenados (BERT, GPT) generan
 embeddings sofisticados al capturar relaciones complejas en los datos.
@@ -4838,9 +5117,9 @@ embeddings sofisticados al capturar relaciones complejas en los datos.
 </div>
 </div>
 
-<div id="outline-container-org4ce971e" class="outline-4">
-<h4 id="org4ce971e">Factorización Matricial</h4>
-<div class="outline-text-4" id="text-org4ce971e">
+<div id="outline-container-orgf07f8d5" class="outline-4">
+<h4 id="orgf07f8d5">Factorización Matricial</h4>
+<div class="outline-text-4" id="text-orgf07f8d5">
 <p>
 Técnicas como Singular Value Decomposition (SVD) y métodos
 colaborativos generan embeddings basados en relaciones entre filas y
@@ -4849,9 +5128,9 @@ columnas.
 </div>
 </div>
 
-<div id="outline-container-orga5675bd" class="outline-4">
-<h4 id="orga5675bd">Modelos Gráficos</h4>
-<div class="outline-text-4" id="text-orga5675bd">
+<div id="outline-container-org09fa6ff" class="outline-4">
+<h4 id="org09fa6ff">Modelos Gráficos</h4>
+<div class="outline-text-4" id="text-org09fa6ff">
 <p>
 Graph Embeddings como Node2Vec o DeepWalk transforman nodos de un
 grafo en vectores preservando relaciones topológicas.
@@ -4860,9 +5139,9 @@ grafo en vectores preservando relaciones topológicas.
 </div>
 </div>
 
-<div id="outline-container-orgcec728c" class="outline-3">
-<h3 id="orgcec728c">Implementación Básica</h3>
-<div class="outline-text-3" id="text-orgcec728c">
+<div id="outline-container-org6698015" class="outline-3">
+<h3 id="org6698015">Implementación Básica</h3>
+<div class="outline-text-3" id="text-org6698015">
 <p>
 Aquí un ejemplo en Python utilizando <code>sklearn</code> para generar embeddings
 básicos:
@@ -4887,9 +5166,9 @@ embedding = tsne.fit_transform<span style="color: #c099ff;">(</span>data<span st
 </div>
 
 
-<div id="outline-container-orgebc5767" class="outline-2">
-<h2 id="orgebc5767">¿Qué es Ollama?</h2>
-<div class="outline-text-2" id="text-orgebc5767">
+<div id="outline-container-orgae271f2" class="outline-2">
+<h2 id="orgae271f2">¿Qué es Ollama?</h2>
+<div class="outline-text-2" id="text-orgae271f2">
 <p>
 <b><b>Ollama</b></b> es una herramienta diseñada para integrar y facilitar el uso
 de modelos de inteligencia artificial centrados en el procesamiento
@@ -4900,9 +5179,9 @@ semántico y generación de respuestas contextualmente relevantes.
 </p>
 </div>
 
-<div id="outline-container-org5241a7a" class="outline-3">
-<h3 id="org5241a7a">Características Principales</h3>
-<div class="outline-text-3" id="text-org5241a7a">
+<div id="outline-container-org751e18a" class="outline-3">
+<h3 id="org751e18a">Características Principales</h3>
+<div class="outline-text-3" id="text-org751e18a">
 <ol class="org-ol">
 <li><b><b>Modelos Preentrenados</b></b>: Ollama emplea modelos avanzados de
 lenguaje que pueden adaptarse a diversos contextos y tareas
@@ -4924,22 +5203,22 @@ dinámico de contenido.</li>
 </div>
 </div>
 
-<div id="outline-container-org4d9f4e6" class="outline-3">
-<h3 id="org4d9f4e6">Usos Comunes de Ollama</h3>
-<div class="outline-text-3" id="text-org4d9f4e6">
+<div id="outline-container-org46dc4ef" class="outline-3">
+<h3 id="org46dc4ef">Usos Comunes de Ollama</h3>
+<div class="outline-text-3" id="text-org46dc4ef">
 </div>
-<div id="outline-container-orgfadf0f3" class="outline-4">
-<h4 id="orgfadf0f3">Asistentes Virtuales</h4>
-<div class="outline-text-4" id="text-orgfadf0f3">
+<div id="outline-container-orgd1cae59" class="outline-4">
+<h4 id="orgd1cae59">Asistentes Virtuales</h4>
+<div class="outline-text-4" id="text-orgd1cae59">
 <p>
 Ollama se utiliza para crear asistentes virtuales que entienden y responden preguntas humanas de forma natural y precisa.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org554077c" class="outline-4">
-<h4 id="org554077c">Análisis de Texto</h4>
-<div class="outline-text-4" id="text-org554077c">
+<div id="outline-container-orgbf24983" class="outline-4">
+<h4 id="orgbf24983">Análisis de Texto</h4>
+<div class="outline-text-4" id="text-orgbf24983">
 <p>
 Las capacidades de NLP de Ollama permiten realizar análisis como:
 </p>
@@ -4951,9 +5230,9 @@ Las capacidades de NLP de Ollama permiten realizar análisis como:
 </div>
 </div>
 
-<div id="outline-container-orge2ab2e6" class="outline-4">
-<h4 id="orge2ab2e6">Automatización de Redacción</h4>
-<div class="outline-text-4" id="text-orge2ab2e6">
+<div id="outline-container-orgb521af3" class="outline-4">
+<h4 id="orgb521af3">Automatización de Redacción</h4>
+<div class="outline-text-4" id="text-orgb521af3">
 <p>
 Es ideal para la generación de contenido en masa, como publicaciones en blogs, correos electrónicos personalizados y otros textos creativos.
 </p>
@@ -4961,9 +5240,9 @@ Es ideal para la generación de contenido en masa, como publicaciones en blogs, 
 </div>
 </div>
 
-<div id="outline-container-org9c2b836" class="outline-3">
-<h3 id="org9c2b836">Ejemplo de Uso</h3>
-<div class="outline-text-3" id="text-org9c2b836">
+<div id="outline-container-org923a210" class="outline-3">
+<h3 id="org923a210">Ejemplo de Uso</h3>
+<div class="outline-text-3" id="text-org923a210">
 <p>
 Un caso práctico de integración de Ollama podría ser mediante una API para generar respuestas automáticas en un chatbot:
 </p>
@@ -4982,9 +5261,9 @@ response = client.query<span style="color: #c099ff;">(</span><span style="color:
 </div>
 </div>
 
-<div id="outline-container-org1c63039" class="outline-3">
-<h3 id="org1c63039">Conclusión</h3>
-<div class="outline-text-3" id="text-org1c63039">
+<div id="outline-container-org68fad72" class="outline-3">
+<h3 id="org68fad72">Conclusión</h3>
+<div class="outline-text-3" id="text-org68fad72">
 <p>
 Ollama es una herramienta poderosa en el ámbito de la inteligencia artificial, diseñada para optimizar el procesamiento y la generación de texto en diversas aplicaciones. Su facilidad de integración y personalización la convierten en una opción ideal para desarrolladores y empresas que buscan soluciones basadas en NLP.
 </p>
@@ -4996,9 +5275,9 @@ Ollama es una herramienta poderosa en el ámbito de la inteligencia artificial, 
 
 
 
-<div id="outline-container-orgfa8ba73" class="outline-2">
-<h2 id="orgfa8ba73">Spacy</h2>
-<div class="outline-text-2" id="text-orgfa8ba73">
+<div id="outline-container-org05a3f04" class="outline-2">
+<h2 id="org05a3f04">Spacy</h2>
+<div class="outline-text-2" id="text-org05a3f04">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #c099ff;">import</span> spacy
 
@@ -5029,25 +5308,25 @@ Ollama es una herramienta poderosa en el ámbito de la inteligencia artificial, 
 </div>
 
 
-<div id="outline-container-orgdf6fce0" class="outline-2">
-<h2 id="orgdf6fce0">Proyectos IA Final</h2>
-<div class="outline-text-2" id="text-orgdf6fce0">
+<div id="outline-container-org8f70eee" class="outline-2">
+<h2 id="org8f70eee">Proyectos IA Final</h2>
+<div class="outline-text-2" id="text-org8f70eee">
 </div>
-<div id="outline-container-orgd3fefe6" class="outline-3">
-<h3 id="orgd3fefe6">Actividad 1</h3>
-<div class="outline-text-3" id="text-orgd3fefe6">
+<div id="outline-container-orgf56475e" class="outline-3">
+<h3 id="orgf56475e">Actividad 1</h3>
+<div class="outline-text-3" id="text-orgf56475e">
 </div>
-<div id="outline-container-org7fa823a" class="outline-4">
-<h4 id="org7fa823a">Implementación del Algoritmo A*</h4>
-<div class="outline-text-4" id="text-org7fa823a">
+<div id="outline-container-orge459b7a" class="outline-4">
+<h4 id="orge459b7a">Implementación del Algoritmo A*</h4>
+<div class="outline-text-4" id="text-orge459b7a">
 <p>
 Desarrollar el algoritmo A* utilizando el cascarón proporcionado en el apartado de <a href="https://ealcaraz85.github.io/IA.io/#org0d76d38">pygames</a>. 
 </p>
 </div>
 
 <ul class="org-ul">
-<li><a id="orgdd906c6"></a>Requisitos<br />
-<div class="outline-text-5" id="text-orgdd906c6">
+<li><a id="orgc93e196"></a>Requisitos<br />
+<div class="outline-text-5" id="text-orgc93e196">
 <ul class="org-ul">
 <li>La solución debe ser óptima.</li>
 <li>Indicar la lista cerrada al final del proceso.</li>
@@ -5058,21 +5337,21 @@ Desarrollar el algoritmo A* utilizando el cascarón proporcionado en el apartado
 </div>
 </div>
 
-<div id="outline-container-org645ae7a" class="outline-3">
-<h3 id="org645ae7a">Actividad 2</h3>
-<div class="outline-text-3" id="text-org645ae7a">
+<div id="outline-container-org0186ce6" class="outline-3">
+<h3 id="org0186ce6">Actividad 2</h3>
+<div class="outline-text-3" id="text-org0186ce6">
 </div>
-<div id="outline-container-org8a19f49" class="outline-4">
-<h4 id="org8a19f49">Solución basada en Árboles de Decisión y Redes Neuronales Multicapa</h4>
-<div class="outline-text-4" id="text-org8a19f49">
+<div id="outline-container-orga41bd26" class="outline-4">
+<h4 id="orga41bd26">Solución basada en Árboles de Decisión y Redes Neuronales Multicapa</h4>
+<div class="outline-text-4" id="text-orga41bd26">
 <p>
 A partir de la adaptación del juego de Phaser a Python:
 </p>
 </div>
 
 <ul class="org-ul">
-<li><a id="org0177847"></a>Tareas<br />
-<div class="outline-text-5" id="text-org0177847">
+<li><a id="orgc6da6a6"></a>Tareas<br />
+<div class="outline-text-5" id="text-orgc6da6a6">
 <ol class="org-ol">
 <li>Implementar la solución utilizando árboles de decisión.</li>
 <li>Implementar la solución utilizando redes neuronales multicapa.</li>
@@ -5080,16 +5359,16 @@ A partir de la adaptación del juego de Phaser a Python:
 </div>
 </li>
 
-<li><a id="org956c07d"></a>Objetivo<br />
-<div class="outline-text-5" id="text-org956c07d">
+<li><a id="orga992fba"></a>Objetivo<br />
+<div class="outline-text-5" id="text-orga992fba">
 <p>
 El jugador debe esquivar una pelota saltando.
 </p>
 </div>
 </li>
 
-<li><a id="org4f2a838"></a>Ejemplo de Redes Neuronales Multicapa en Python<br />
-<div class="outline-text-5" id="text-org4f2a838">
+<li><a id="orgbe61a39"></a>Ejemplo de Redes Neuronales Multicapa en Python<br />
+<div class="outline-text-5" id="text-orgbe61a39">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #c099ff;">import</span> numpy <span style="color: #c099ff;">as</span> np
 <span style="color: #c099ff;">from</span> tensorflow.keras.models <span style="color: #c099ff;">import</span> Sequential
@@ -5131,8 +5410,8 @@ prediccion = model.predict<span style="color: #c099ff;">(</span>nuevo_dato<span 
 </div>
 </li>
 
-<li><a id="org0af1027"></a>Descripción del ejemplo<br />
-<div class="outline-text-5" id="text-org0af1027">
+<li><a id="org5c21f90"></a>Descripción del ejemplo<br />
+<div class="outline-text-5" id="text-org5c21f90">
 <ol class="org-ol">
 <li><b><b>Datos artificiales</b></b>:
 <ul class="org-ul">
@@ -5160,29 +5439,29 @@ prediccion = model.predict<span style="color: #c099ff;">(</span>nuevo_dato<span 
 </div>
 </div>
 
-<div id="outline-container-org05c0eec" class="outline-3">
-<h3 id="org05c0eec">Actividad 3</h3>
-<div class="outline-text-3" id="text-org05c0eec">
+<div id="outline-container-org2cfabce" class="outline-3">
+<h3 id="org2cfabce">Actividad 3</h3>
+<div class="outline-text-3" id="text-org2cfabce">
 </div>
-<div id="outline-container-orge7c9371" class="outline-4">
-<h4 id="orge7c9371">Identificación de modelos de autos con CNN</h4>
-<div class="outline-text-4" id="text-orge7c9371">
+<div id="outline-container-orgef8f7d7" class="outline-4">
+<h4 id="orgef8f7d7">Identificación de modelos de autos con CNN</h4>
+<div class="outline-text-4" id="text-orgef8f7d7">
 <p>
 Utilizando el archivo `CNNriesgo` que se encuentra en la carpeta de Dropbox:
 </p>
 </div>
 
 <ul class="org-ul">
-<li><a id="org0012bbb"></a>Actividad<br />
-<div class="outline-text-5" id="text-org0012bbb">
+<li><a id="orgb17dd74"></a>Actividad<br />
+<div class="outline-text-5" id="text-orgb17dd74">
 <p>
 Ajustar el dataset para identificar cinco modelos diferentes de autos.
 </p>
 </div>
 </li>
 
-<li><a id="orgaf1e4f3"></a>Evaluación<br />
-<div class="outline-text-5" id="text-orgaf1e4f3">
+<li><a id="orgc4a5978"></a>Evaluación<br />
+<div class="outline-text-5" id="text-orgc4a5978">
 <ul class="org-ul">
 <li>Herramientas utilizadas para la creación del dataset.</li>
 <li>Precisión con la que se detectan los modelos.</li>
@@ -5193,21 +5472,21 @@ Ajustar el dataset para identificar cinco modelos diferentes de autos.
 </div>
 </div>
 
-<div id="outline-container-org57da360" class="outline-3">
-<h3 id="org57da360">Actividad 4</h3>
-<div class="outline-text-3" id="text-org57da360">
+<div id="outline-container-orga7d749a" class="outline-3">
+<h3 id="orga7d749a">Actividad 4</h3>
+<div class="outline-text-3" id="text-orga7d749a">
 </div>
-<div id="outline-container-org0becf90" class="outline-4">
-<h4 id="org0becf90">Fundamentación sobre la Reforma al Poder Judicial y Organismos Autónomos</h4>
-<div class="outline-text-4" id="text-org0becf90">
+<div id="outline-container-org5432ad4" class="outline-4">
+<h4 id="org5432ad4">Fundamentación sobre la Reforma al Poder Judicial y Organismos Autónomos</h4>
+<div class="outline-text-4" id="text-org5432ad4">
 <p>
 Utilizando algoritmos de inteligencia artificial, responder las siguientes preguntas y fundamentar si estás a favor o en contra de la reforma al poder judicial y a los organismos autónomos.
 </p>
 </div>
 
 <ul class="org-ul">
-<li><a id="org4ee19f3"></a>Preguntas para la Ley del Poder Judicial<br />
-<div class="outline-text-5" id="text-org4ee19f3">
+<li><a id="orgc90d40f"></a>Preguntas para la Ley del Poder Judicial<br />
+<div class="outline-text-5" id="text-orgc90d40f">
 <ol class="org-ol">
 <li>¿El diagnóstico de la ley al poder judicial es conocido y qué estudios expertos se tuvieron en cuenta?</li>
 <li>¿Por qué la reforma no incluyó a las fiscalías y a la defensoría, limitándose solo al poder judicial?</li>
@@ -5221,8 +5500,8 @@ Utilizando algoritmos de inteligencia artificial, responder las siguientes pregu
 </div>
 </li>
 
-<li><a id="orgbabf115"></a>Preguntas para la Ley de Organismos Autónomos<br />
-<div class="outline-text-5" id="text-orgbabf115">
+<li><a id="org553b603"></a>Preguntas para la Ley de Organismos Autónomos<br />
+<div class="outline-text-5" id="text-org553b603">
 <ol class="org-ol">
 <li>¿Es constitucional esta ley, considerando que algunos organismos autónomos están establecidos en la Constitución?</li>
 <li>¿Cómo afectaría la eliminación de estos organismos a la transparencia y rendición de cuentas del gobierno?</li>
@@ -5233,8 +5512,8 @@ Utilizando algoritmos de inteligencia artificial, responder las siguientes pregu
 </div>
 </li>
 
-<li><a id="org514f72a"></a>Puntos a evaluar<br />
-<div class="outline-text-5" id="text-org514f72a">
+<li><a id="org017dbee"></a>Puntos a evaluar<br />
+<div class="outline-text-5" id="text-org017dbee">
 <ul class="org-ul">
 <li>Algoritmos utilizados.</li>
 <li>Herramientas generadas para el análisis.</li>
@@ -5252,13 +5531,13 @@ Utilizando algoritmos de inteligencia artificial, responder las siguientes pregu
 
 
 
-<div id="outline-container-org310db61" class="outline-2">
-<h2 id="org310db61">Embedding de texto para vectorización en IA</h2>
-<div class="outline-text-2" id="text-org310db61">
+<div id="outline-container-org6030e34" class="outline-2">
+<h2 id="org6030e34">Embedding de texto para vectorización en IA</h2>
+<div class="outline-text-2" id="text-org6030e34">
 </div>
-<div id="outline-container-orgacfe8c5" class="outline-3">
-<h3 id="orgacfe8c5">Introducción</h3>
-<div class="outline-text-3" id="text-orgacfe8c5">
+<div id="outline-container-org8acd23f" class="outline-3">
+<h3 id="org8acd23f">Introducción</h3>
+<div class="outline-text-3" id="text-org8acd23f">
 <p>
 El embedding de texto convierte texto a vectores numéricos para que
 las computadoras puedan procesarlo en modelos de aprendizaje
@@ -5274,9 +5553,9 @@ de texto, búsqueda semántica, y más.
 </div>
 </div>
 
-<div id="outline-container-org5364cd5" class="outline-3">
-<h3 id="org5364cd5">Requisitos</h3>
-<div class="outline-text-3" id="text-org5364cd5">
+<div id="outline-container-org135df94" class="outline-3">
+<h3 id="org135df94">Requisitos</h3>
+<div class="outline-text-3" id="text-org135df94">
 <ol class="org-ol">
 <li>Python 3.7 o superior.</li>
 <li>Instalar las siguientes librerías:
@@ -5297,9 +5576,9 @@ Instala estas librerías ejecutando:
 </div>
 </div>
 
-<div id="outline-container-org2697f48" class="outline-3">
-<h3 id="org2697f48">Código básico: Generar embeddings con transformers</h3>
-<div class="outline-text-3" id="text-org2697f48">
+<div id="outline-container-org16315f5" class="outline-3">
+<h3 id="org16315f5">Código básico: Generar embeddings con transformers</h3>
+<div class="outline-text-3" id="text-org16315f5">
 <p>
 Aquí usamos un modelo pre-entrenado para convertir texto a vectores:
 </p>
@@ -5330,9 +5609,9 @@ Aquí usamos un modelo pre-entrenado para convertir texto a vectores:
 </div>
 </div>
 
-<div id="outline-container-org4590c14" class="outline-3">
-<h3 id="org4590c14">Vectorización con sentence-transformers</h3>
-<div class="outline-text-3" id="text-org4590c14">
+<div id="outline-container-org773651c" class="outline-3">
+<h3 id="org773651c">Vectorización con sentence-transformers</h3>
+<div class="outline-text-3" id="text-org773651c">
 <p>
 La librería `sentence-transformers` simplifica la generación de embeddings:
 </p>
@@ -5358,9 +5637,9 @@ La librería `sentence-transformers` simplifica la generación de embeddings:
 </div>
 </div>
 
-<div id="outline-container-org631e2a3" class="outline-3">
-<h3 id="org631e2a3">Caso práctico: Búsqueda semántica</h3>
-<div class="outline-text-3" id="text-org631e2a3">
+<div id="outline-container-orga6f656d" class="outline-3">
+<h3 id="orga6f656d">Caso práctico: Búsqueda semántica</h3>
+<div class="outline-text-3" id="text-orga6f656d">
 <p>
 Este ejemplo implementa una búsqueda semántica básica:
 </p>
@@ -5401,9 +5680,9 @@ Este ejemplo implementa una búsqueda semántica básica:
 </div>
 
 
-<div id="outline-container-org06f33e4" class="outline-3">
-<h3 id="org06f33e4">Recursos adicionales</h3>
-<div class="outline-text-3" id="text-org06f33e4">
+<div id="outline-container-orgdcb1c4e" class="outline-3">
+<h3 id="orgdcb1c4e">Recursos adicionales</h3>
+<div class="outline-text-3" id="text-orgdcb1c4e">
 <ul class="org-ul">
 <li>Documentación de transformers: <a href="https://huggingface.co/docs/transformers">https://huggingface.co/docs/transformers</a></li>
 <li>Documentación de sentence-transformers: <a href="https://www.sbert.net/">https://www.sbert.net/</a></li>
@@ -5415,9 +5694,9 @@ Este ejemplo implementa una búsqueda semántica básica:
 
 
 
-<div id="outline-container-orgbaff99b" class="outline-2">
-<h2 id="orgbaff99b">Bibliografía</h2>
-<div class="outline-text-2" id="text-orgbaff99b">
+<div id="outline-container-org77c19fd" class="outline-2">
+<h2 id="org77c19fd">Bibliografía</h2>
+<div class="outline-text-2" id="text-org77c19fd">
 <p>
 <a href="bibliografia.bib">bibliografia.bib</a>
 </p>
@@ -5443,9 +5722,9 @@ snscrape facebook-page "<a href="https://www.facebook.com/eduardo.alcc">https://
 
 
 
-<div id="outline-container-orgfb23f75" class="outline-2">
-<h2 id="orgfb23f75">Examen</h2>
-<div class="outline-text-2" id="text-orgfb23f75">
+<div id="outline-container-org84bd54b" class="outline-2">
+<h2 id="org84bd54b">Examen</h2>
+<div class="outline-text-2" id="text-org84bd54b">
 <ol class="org-ol">
 <li>¿De qué manera podría la inteligencia artificial ayudar a analizar las
 ventajas y desventajas de eliminar organismos autónomos en México,
@@ -5477,17 +5756,17 @@ organismos autónomos en términos de equidad y eficacia?</li>
 
 
 
-<div id="outline-container-orgfe95499" class="outline-2">
-<h2 id="orgfe95499">Actividad</h2>
+<div id="outline-container-org24e217b" class="outline-2">
+<h2 id="org24e217b">Actividad</h2>
 </div>
 
-<div id="outline-container-org5e1c3f9" class="outline-2">
-<h2 id="org5e1c3f9">Problema: Clasificación de Productos según su Aceptación por Clientes</h2>
-<div class="outline-text-2" id="text-org5e1c3f9">
+<div id="outline-container-orgb5f6068" class="outline-2">
+<h2 id="orgb5f6068">Problema: Clasificación de Productos según su Aceptación por Clientes</h2>
+<div class="outline-text-2" id="text-orgb5f6068">
 </div>
-<div id="outline-container-org17d9029" class="outline-3">
-<h3 id="org17d9029">Descripción del Problema</h3>
-<div class="outline-text-3" id="text-org17d9029">
+<div id="outline-container-orgb1c262e" class="outline-3">
+<h3 id="orgb1c262e">Descripción del Problema</h3>
+<div class="outline-text-3" id="text-orgb1c262e">
 <p>
 Una empresa desea predecir si un producto será aceptado o rechazado
 por los clientes basándose en las siguientes características:
@@ -5589,9 +5868,9 @@ producto en encuestas (normalizada entre 0 y 1).</li>
 </div>
 </div>
 
-<div id="outline-container-org8a84f5a" class="outline-3">
-<h3 id="org8a84f5a">Actividades</h3>
-<div class="outline-text-3" id="text-org8a84f5a">
+<div id="outline-container-orgba9dfc2" class="outline-3">
+<h3 id="orgba9dfc2">Actividades</h3>
+<div class="outline-text-3" id="text-orgba9dfc2">
 <ol class="org-ol">
 <li>Normalizar los datos de entrada si no están ya en el rango (0-1).</li>
 <li>Implementar un perceptrón simple que pueda aprender esta clasificación.</li>
@@ -5606,30 +5885,37 @@ producto en encuestas (normalizada entre 0 y 1).</li>
 </div>
 
 
-<div id="outline-container-org561e4da" class="outline-2">
-<h2 id="org561e4da">Problema: Clasificación de Clientes según su Perfil Financiero</h2>
-<div class="outline-text-2" id="text-org561e4da">
+<div id="outline-container-orgfb1e498" class="outline-2">
+<h2 id="orgfb1e498">Problema: Clasificación de Clientes según su Perfil Financiero</h2>
+<div class="outline-text-2" id="text-orgfb1e498">
 </div>
-<div id="outline-container-org5ddff2a" class="outline-3">
-<h3 id="org5ddff2a">Descripción del Problema</h3>
-<div class="outline-text-3" id="text-org5ddff2a">
+<div id="outline-container-org3932a9b" class="outline-3">
+<h3 id="org3932a9b">Descripción del Problema</h3>
+<div class="outline-text-3" id="text-org3932a9b">
 <p>
-Una institución financiera desea clasificar a sus clientes en tres categorías basándose en su perfil financiero y de comportamiento:
+Una institución financiera desea clasificar a sus clientes en tres
+categorías basándose en su perfil financiero y de comportamiento:
 </p>
 
 <ol class="org-ol">
-<li><b><b>Riesgo Bajo</b></b>: Clientes que cumplen con todos los pagos a tiempo y tienen ingresos estables.</li>
-<li><b><b>Riesgo Medio</b></b>: Clientes con retrasos esporádicos en los pagos o ingresos variables.</li>
-<li><b><b>Riesgo Alto</b></b>: Clientes con historial de impagos o ingresos inestables.</li>
+<li><b><b>Riesgo Bajo</b></b>: Clientes que cumplen con todos los pagos a tiempo y
+tienen ingresos estables.</li>
+<li><b><b>Riesgo Medio</b></b>: Clientes con retrasos esporádicos en los pagos o
+ingresos variables.</li>
+<li><b><b>Riesgo Alto</b></b>: Clientes con historial de impagos o ingresos
+inestables.</li>
 </ol>
 
 <p>
 <b><b>Características de Entrada</b></b>:
 </p>
 <ol class="org-ol">
-<li><b><b>Historial de pagos</b></b>: Porcentaje de pagos realizados a tiempo (normalizado entre 0 y 1).</li>
-<li><b><b>Ingresos mensuales</b></b>: Ingresos promedio del cliente (normalizado entre 0 y 1).</li>
-<li><b><b>Relación deuda-ingreso</b></b>: Proporción entre la deuda total y los ingresos totales (normalizado entre 0 y 1).</li>
+<li><b><b>Historial de pagos</b></b>: Porcentaje de pagos realizados a tiempo
+(normalizado entre 0 y 1).</li>
+<li><b><b>Ingresos mensuales</b></b>: Ingresos promedio del cliente (normalizado
+entre 0 y 1).</li>
+<li><b><b>Relación deuda-ingreso</b></b>: Proporción entre la deuda total y los
+ingresos totales (normalizado entre 0 y 1).</li>
 </ol>
 
 <p>
@@ -5643,9 +5929,9 @@ Una institución financiera desea clasificar a sus clientes en tres categorías 
 </div>
 </div>
 
-<div id="outline-container-orgf435c31" class="outline-3">
-<h3 id="orgf435c31">Conjunto de Datos de Entrenamiento</h3>
-<div class="outline-text-3" id="text-orgf435c31">
+<div id="outline-container-org2cad50b" class="outline-3">
+<h3 id="org2cad50b">Conjunto de Datos de Entrenamiento</h3>
+<div class="outline-text-3" id="text-org2cad50b">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -5714,15 +6000,17 @@ Una institución financiera desea clasificar a sus clientes en tres categorías 
 </div>
 
 
-<div id="outline-container-org0735903" class="outline-3">
-<h3 id="org0735903">Actividades</h3>
-<div class="outline-text-3" id="text-org0735903">
+<div id="outline-container-orgad8a974" class="outline-3">
+<h3 id="orgad8a974">Actividades</h3>
+<div class="outline-text-3" id="text-orgad8a974">
 <ol class="org-ol">
-<li>Implementar una red neuronal multicapa para clasificar los clientes según su riesgo.</li>
-<li>Encontrar los valores óptimos para los pesos `w1`, `w2` 'wn' y el sesgo `b` mediante entrenamiento.</li>
+<li>Implementar una red neuronal multicapa para clasificar los clientes
+según su riesgo.</li>
+<li>Encontrar los valores óptimos para los pesos `w1`, `w2` 'wn' y el
+sesgo `b` mediante entrenamiento.</li>
 <li>Graficar la frontera de decisión que separa los clientes .</li>
 <li>¿Son los datos linealmente separables?</li>
-<li>¿Qué ajustes podrían hacer al modelo para mejorar la predicción?</li>
+<li>¿Qué ajustes podrían hacer al modelo para mejorar la clasificación?</li>
 <li>Describir cada una de las partes del modelo implementando</li>
 </ol>
 </div>
@@ -5731,7 +6019,7 @@ Una institución financiera desea clasificar a sus clientes en tres categorías 
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: likcos</p>
-<p class="date">Created: 2024-12-04 mié 10:11</p>
+<p class="date">Created: 2025-02-24 lun 09:55</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
