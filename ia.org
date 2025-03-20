@@ -1577,149 +1577,6 @@ algoritmos son:
   aprenden usando este tipo de representación.
 
 
-** Clasificador en Cascada
-
-La detección de objetos usando un clasificador en cascada basado en
-características de Haar es un método efectivo de detección de objetos
-propuesto en 2001 por Paul Viola y Michael Jones en su artículo
-"Detección rápida de objetos usando cascada mejorada de
-características simples". Este es un método basado en el aprendizaje
-automático en el que se entrena una función en cascada a partir de
-muchas imágenes positivas y negativas. Luego se usa para detectar
-objetos en otras imágenes.
-
-El algoritmo requiere una gran cantidad de imágenes positivas
-(imágenes faciales) e imágenes negativas (no imágenes faciales) para
-entrenar al clasificador. Luego, necesitamos extraer características
-de él. Para hacer esto, use la función Haar que se muestra en la
-siguiente figura. Son como nuestros núcleos de convolución. Cada
-característica es un valor único que se obtiene restando la suma de
-píxeles debajo del rectángulo blanco de la suma de píxeles debajo del
-rectángulo negro.
-
-#+ATTR_ORG: :width 200
- [[file:img/har.png]]
-
-Ahora, todos los tamaños y posiciones posibles de cada kernel se
-utilizan para calcular muchas funciones. (Imagínese cuántos cálculos
-genera. Incluso una ventana de 24x24 generará más de 160.000
-características). Para el cálculo de cada característica, necesitamos
-encontrar la suma de los píxeles debajo de los rectángulos blanco y
-negro. Para resolver este problema, introdujeron la imagen general. No
-importa qué tan grande sea su imagen, reducirá el cálculo de un píxel
-dado a operaciones que involucren solo cuatro píxeles.
-
-Pero de todas estas características que calculamos, la mayoría de
-ellas no son relevantes. Por ejemplo, considere la siguiente
-figura. La primera fila muestra dos buenas características. La primera
-característica elegida pareció centrarse en la naturaleza del área de
-los ojos, que generalmente es más oscura que las áreas de la nariz y
-las mejillas. La segunda característica elegida se basa en que las
-propiedades de los ojos son más oscuras que el puente de la nariz. Sin
-embargo, aplicar la misma ventana en las mejillas o en cualquier otro
-lugar es irrelevante. Entonces, ¿cómo elegimos la mejor función entre
-más de 160.000 funciones?.
-
-#+ATTR_ORG: :width 200
-file:img/har2.png
-
-
-Para ello, aplicamos todas las funciones a todas las imágenes de
-entrenamiento. Para cada característica, encontrará el mejor umbral,
-que divide el rostro en positivo y negativo. Obviamente, habrá errores
-o clasificaciones erróneas. Elegimos las características con la tasa
-de error más baja, lo que significa que son las características más
-precisas para clasificar imágenes faciales y no faciales. (Este
-proceso no es tan simple. Al principio, el peso de cada imagen es
-igual. Después de cada clasificación, el peso de la imagen mal
-clasificada aumentará. Luego se realizará el mismo proceso. Se
-calculará la nueva tasa de error. También calcular Peso
-nuevo. Continúe con este proceso hasta que se alcance la precisión o
-la tasa de error requeridas o se encuentre el número requerido de
-funciones.
-
-El clasificador final es la suma ponderada de estos clasificadores
-débiles. Se denomina clasificación débil porque no puede clasificar
-imágenes por sí sola, sino que forma un clasificador fuerte junto con
-otras clasificaciones. El documento dice que incluso 200 funciones
-pueden proporcionar una detección de precisión del 95%. Su
-configuración final tiene aproximadamente 6000 funciones. (Imagínese
-reducir de más de 160.000 funciones a 6.000 funciones. Esto es una
-gran ganancia).
-
-Entonces ahora toma una foto. Toma cada ventana de 24x24. Aplicarle
-6000 funciones. Busque caras. Vaya ... ¿No es esto ineficiente y
-requiere mucho tiempo? Si. El autor tiene una buena solución para
-esto.
-
-En la imagen, la mayoría de las imágenes son áreas sin caras. Por lo
-tanto, es mejor tener una manera fácil de verificar si la ventana no
-es un área frontal. Si no es así, deséchelo todo de una vez y no lo
-vuelva a procesar. En cambio, concéntrese en las áreas que pueden
-tener caras. De esta forma, dedicaremos más tiempo a comprobar
-posibles zonas faciales.
-
-Con este fin, introdujeron el concepto de clasificadores en
-cascada. En lugar de aplicar los 6000 componentes funcionales a una
-ventana, estos componentes funcionales se agrupan en diferentes etapas
-de clasificación y se aplican uno por uno. (Por lo general, las
-primeras etapas contendrán muy pocas funciones). Si la ventana falla
-en la primera etapa, se descarta. No consideramos sus funciones
-restantes. Si pasa, se aplica la segunda etapa de la función y el
-proceso continúa. La ventana a través de todas las etapas es un área
-facial. ¡Qué tal este plan!
-
-El detector del autor tiene más de 6000 características con 38 etapas,
-con 1, 10, 25, 25 y 50 características en las primeras cinco
-etapas. (Las dos funciones en la imagen de arriba son en realidad las
-dos mejores funciones obtenidas de Adaboost). Según el autor, cada
-subventana evaluó un promedio de 10 características de más de 6000
-características.
-
-Por lo tanto, esta es una explicación simple e intuitiva del principio
-de funcionamiento de la detección de rostros Viola-Jones. Lea este
-artículo para obtener más detalles o consulte las referencias en la
-sección de otros recursos.
-
-*** Ejemplo de clasificación utilizando Haarcascades 
-	
-	- [[https://github.com/opencv/opencv/tree/master/data/haarcascades][Clasificadores Haarcascades de la librería Opencv]]
-	- [[https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html][Tutorial Haarcascades]]  
-	- [[https://docs.opencv.org/2.4/doc/user_guide/ug_traincascade.html][Entrenamiento Haarcascades]]  
-
-
-#+BEGIN_SRC python
-import numpy as np
-import cv2 as cv
-
-rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
-cap = cv.VideoCapture(0)
-x=y=w=h= 0 
-img = 0
-count = 0
-while True:
-    ret, frame = cap.read()
-    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    rostros = rostro.detectMultiScale(gray, 1.3, 5)
-    for(x, y, w, h) in rostros:
-        m= int(h/2)
-        frame = cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 2)
-        frame = cv.rectangle(frame, (x,y+m), (x+w, y+h), (255, 0 ,0), 2 )
-        img = 180- frame[y:y+h,x:x+w]
-        count = count + 1   
-    
-    #name = '/home/likcos/imgs/cara'+str(count)+'.jpg'
-    #cv.imwrite(name, frame)
-    cv.imshow('rostros', frame)
-    cv.imshow('cara', img)
-    
-    k = cv.waitKey(1)
-    if k == 27:
-        break
-cap.release()
-cv.destroyAllWindows()
-#+END_SRC
-
 ** Segmentación de Color  
 
 La segmentación de imágenes es un tema ampliamente estudiado para la
@@ -2890,28 +2747,68 @@ https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetec
 https://docs.opencv.org/2.4/doc/user_guide/ug_traincascade.html
 
 https://amin-ahmadi.com/cascade-trainer-gui/
+
+#+BEGIN_SRC python
+import numpy as np
+import cv2 as cv
+
+rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
+cap = cv.VideoCapture('/home/likcos/Vídeos/spm.mkv')
+x=y=w=h= 0 
+img = 0
+count = 0
+while True:
+    ret, frame = cap.read()
+    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+    rostros = rostro.detectMultiScale(gray, 1.3, 5)
+    for(x, y, w, h) in rostros:
+        m= int(h/2)
+        frame = cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 2)
+        frame = cv.rectangle(frame, (x,y+m), (x+w, y+h), (255, 0 ,0), 2 )
+        img = 180- frame[y:y+h,x:x+w]
+        count = count + 1   
+    
+    #name = '/home/likcos/imgs/cara'+str(count)+'.jpg'
+    #cv.imwrite(name, frame)
+    cv.imshow('rostros', frame)
+    cv.imshow('cara', img)
+    
+    k = cv.waitKey(1)
+    if k == 27:
+        break
+cap.release()
+cv.destroyAllWindows()
+#+END_SRC
+
+#+RESULTS:
+: None
+
+
+
 #+BEGIN_SRC python
 import numpy as np
 import cv2 as cv
 import math 
 
 rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
-cap = cv.VideoCapture(0)
+cap = cv.VideoCapture('/home/likcos/caras.mkv')
 i = 0  
 while True:
     ret, frame = cap.read()
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
     rostros = rostro.detectMultiScale(gray, 1.3, 5)
     for(x, y, w, h) in rostros:
-       frame = cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 2)
+       #frame = cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 2)
        frame2 = frame[ y:y+h, x:x+w]
        #frame3 = frame[x+30:x+w-30, y+30:y+h-30]
+       
        frame2 = cv.resize(frame2, (100, 100), interpolation=cv.INTER_AREA)
        
         
-       
-       cv.imwrite('/home/likcos/recorte/lalo'+str(i)+'.jpg', frame)
-       cv.imshow('rostror', frame2)
+       if(i%30==0):
+           cv.imwrite('/home/likcos/recorte/lalo'+str(i)+'.jpg', frame2)
+
+           cv.imshow('rostror', frame2)
     cv.imshow('rostros', frame)
     i = i+1
     k = cv.waitKey(1)
@@ -3018,7 +2915,7 @@ cómo se representan las caras por el conjunto base.
 import cv2 as cv 
 import numpy as np 
 import os
-dataSet = '/home/likcos/pruebacaras'
+dataSet = '/home/likcos/recortes'
 faces  = os.listdir(dataSet)
 print(faces)
 
