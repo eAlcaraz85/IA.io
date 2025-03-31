@@ -2791,7 +2791,7 @@ import cv2 as cv
 import math 
 
 rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
-cap = cv.VideoCapture('/home/likcos/caras.mkv')
+cap = cv.VideoCapture('/home/likcos/dwhelper/caras.mp4')
 i = 0  
 while True:
     ret, frame = cap.read()
@@ -2805,8 +2805,8 @@ while True:
        frame2 = cv.resize(frame2, (100, 100), interpolation=cv.INTER_AREA)
        
         
-       if(i%30==0):
-           cv.imwrite('/home/likcos/recorte/lalo'+str(i)+'.jpg', frame2)
+       if(i%1==0):
+           cv.imwrite('/home/likcos/recorte/lujan/lujan'+str(i)+'.jpg', frame2)
 
            cv.imshow('rostror', frame2)
     cv.imshow('rostros', frame)
@@ -2915,7 +2915,7 @@ cómo se representan las caras por el conjunto base.
 import cv2 as cv 
 import numpy as np 
 import os
-dataSet = '/home/likcos/recortes'
+dataSet = '/home/likcos/recorte'
 faces  = os.listdir(dataSet)
 print(faces)
 
@@ -2932,23 +2932,27 @@ print(np.count_nonzero(np.array(labels)==0))
 
 faceRecognizer = cv.face.EigenFaceRecognizer_create()
 faceRecognizer.train(facesData, np.array(labels))
-faceRecognizer.write('laloEigenface.xml')
+faceRecognizer.write('Eigenface.xml')
 
 #+END_SRC
 
 #+RESULTS:
-: ['lalo']
-: 169
+     0        1
+: ['lalo', 'lujan']
+    3040     4504
+
+
+: 438
 
 #+BEGIN_SRC python
 import cv2 as cv
 import os 
 
 faceRecognizer = cv.face.EigenFaceRecognizer_create()
-faceRecognizer.read('laloEigenface.xml')
-
+faceRecognizer.read('Eigenface.xml')
+faces =['lalo', 'lujan']
 cap = cv.VideoCapture(0)
-rostro = cv.CascadeClassifier('data/haarcascade_frontalface_alt.xml')
+rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
 while True:
     ret, frame = cap.read()
     if ret == False: break
@@ -2959,12 +2963,12 @@ while True:
         frame2 = cpGray[y:y+h, x:x+w]
         frame2 = cv.resize(frame2,  (100,100), interpolation=cv.INTER_CUBIC)
         result = faceRecognizer.predict(frame2)
-        #cv.putText(frame, '{}'.format(result), (x,y-20), 1,3.3, (255,255,0), 1, cv.LINE_AA)
+        cv.putText(frame, '{}'.format(result), (x,y-20), 1,3.3, (0,0,255), 1, 3)
         if result[1] > 2800:
-            cv.putText(frame,'{}'.format(faces[result[0]]),(x,y-25),2,1.1,(0,255,0),1,cv.LINE_AA)
+            #cv.putText(frame,'{}'.format(faces[result[0]]),(x,y-25),2,1.1,(0,255,0),1,cv.LINE_AA)
             cv.rectangle(frame, (x,y),(x+w,y+h),(0,255,0),2)
         else:
-            cv.putText(frame,'Desconocido',(x,y-20),2,0.8,(0,0,255),1,cv.LINE_AA)
+            #cv.putText(frame,'Desconocido',(x,y-20),2,0.8,(0,0,255),1,cv.LINE_AA)
             cv.rectangle(frame, (x,y),(x+w,y+h),(0,0,255),2)
     cv.imshow('frame', frame)
     k = cv.waitKey(1)
@@ -2976,6 +2980,7 @@ cv.destroyAllWindows()
 #+END_SRC
 
 #+RESULTS:
+: None
 
 
 
@@ -3030,7 +3035,7 @@ import cv2 as cv
 import numpy as np 
 import os
 
-dataSet = '/home/likcos/pruebacaras'
+dataSet = '/home/likcos/recorte'
 faces  = os.listdir(dataSet)
 print(faces)
 
@@ -3046,7 +3051,7 @@ for face in faces:
 #print(np.count_nonzero(np.array(labels)==0)) 
 faceRecognizer = cv.face.FisherFaceRecognizer_create()
 faceRecognizer.train(facesData, np.array(labels))
-faceRecognizer.write('laloFisherFace.xml')
+faceRecognizer.write('FisherFace.xml')
 
 
  #+END_SRC
@@ -3059,10 +3064,10 @@ import cv2 as cv
 import os 
 
 faceRecognizer = cv.face.FisherFaceRecognizer_create()
-faceRecognizer.read('laloFisherFace.xml')
-
+faceRecognizer.read('FisherFace.xml')
+faces=['lalo', 'lujan']
 cap = cv.VideoCapture(0)
-rostro = cv.CascadeClassifier('data/haarcascade_frontalface_alt.xml')
+rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
 while True:
     ret, frame = cap.read()
     if ret == False: break
@@ -3075,11 +3080,11 @@ while True:
         result = faceRecognizer.predict(frame2)
         cv.putText(frame, '{}'.format(result), (x,y-20), 1,3.3, (255,255,0), 1, cv.LINE_AA)
         if result[1] < 500:
-            cv2.putText(frame,'{}'.format(faces[result[0]]),(x,y-25),2,1.1,(0,255,0),1,cv2.LINE_AA)
-            cv2.rectangle(frame, (x,y),(x+w,y+h),(0,255,0),2)
+            cv.putText(frame,'{}'.format(faces[result[0]]),(x,y-25),2,1.1,(0,255,0),1,cv.LINE_AA)
+            cv.rectangle(frame, (x,y),(x+w,y+h),(0,255,0),2)
         else:
-            cv2.putText(frame,'Desconocido',(x,y-20),2,0.8,(0,0,255),1,cv2.LINE_AA)
-            cv2.rectangle(frame, (x,y),(x+w,y+h),(0,0,255),2)
+            cv.putText(frame,'Desconocido',(x,y-20),2,0.8,(0,0,255),1,cv.LINE_AA)
+            cv.rectangle(frame, (x,y),(x+w,y+h),(0,0,255),2)
     cv.imshow('frame', frame)
     k = cv.waitKey(1)
     if k == 27:
@@ -3092,6 +3097,7 @@ cv.destroyAllWindows()
  #+END_SRC
 
  #+RESULTS:
+ : None
 
 
 
@@ -3301,6 +3307,453 @@ cv2.destroyAllWindows()
 
 #+RESULTS:
 : None
+
+
+
+* Detección de Manos con MediaPipe en Python
+
+** Introducción
+  MediaPipe es una
+librería desarrollada por Google Research, diseñada para el
+procesamiento eficiente de datos en tiempo real. Fue lanzada para
+facilitar el desarrollo de aplicaciones de visión por computadora,
+realidad aumentada y aprendizaje automático en dispositivos móviles y
+computadoras.
+
+MediaPipe Hands utiliza modelos preentrenados basados en redes
+neuronales para detectar y seguir 21 puntos clave de la mano,
+permitiendo análisis de gestos y seguimiento preciso.
+
+
+
+** Instalación de Dependencias
+Para ejecutar el código, se necesita instalar los siguientes paquetes en Python:
+
+#+begin_src sh
+pip install mediapipe opencv-python
+#+end_src
+
+** Código para Detección de Manos en Tiempo Real
+Este es un un código en Python que detecta manos usando MediaPipe y OpenCV.
+
+#+begin_src python :results output :exports both
+import cv2
+import mediapipe as mp
+
+# Inicializar MediaPipe Hands
+mp_hands = mp.solutions.hands
+mp_drawing = mp.solutions.drawing_utils
+hands = mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5)
+
+# Captura de video
+cap = cv2.VideoCapture(0)
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # Convertir imagen a RGB
+    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    
+    # Detectar manos
+    results = hands.process(frame_rgb)
+
+    # Dibujar los puntos clave y conexiones
+    if results.multi_hand_landmarks:
+        for hand_landmarks in results.multi_hand_landmarks:
+            mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+
+    # Mostrar la imagen
+    cv2.imshow("Salida", frame)
+
+    # Salir con 'q'
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+#+end_src
+
+#+RESULTS:
+
+#+begin_src python :results output :exports both
+import cv2
+import mediapipe as mp
+
+# Inicializar MediaPipe Hands
+mp_hands = mp.solutions.hands
+mp_drawing = mp.solutions.drawing_utils
+hands = mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5)
+
+# Captura de video
+cap = cv2.VideoCapture(0)
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # Convertir imagen a RGB
+    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    
+    # Detectar manos
+    results = hands.process(frame_rgb)
+
+    # Dibujar los puntos clave y conexiones
+    if results.multi_hand_landmarks:
+        for hand_landmarks in results.multi_hand_landmarks:
+            for idx, landmark in enumerate(hand_landmarks.landmark):
+
+                h,w,_ =frame.shape
+                x,y=int(landmark.x*w), int(landmark.y*h)
+
+                cv2.circle(frame, (x,y), 2, (12, 233,4), -1)
+            #mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+
+    # Mostrar la imagen
+    cv2.imshow("Salida", frame)
+
+    # Salir con 'q'
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+#+end_src
+
+#+RESULTS:
+
+
+
+** Explicación del Código
+1. Se inicializa MediaPipe Hands con una confianza mínima de detección y seguimiento del 50%.
+2. Se usa OpenCV para capturar video en tiempo real.
+3. Se convierte el fotograma de BGR a RGB, ya que MediaPipe trabaja con imágenes en formato RGB.
+4. Se procesan los fotogramas y se extraen las coordenadas de la mano si se detecta.
+5. Se dibujan los puntos clave de la mano y sus conexiones en la imagen original.
+6. Se muestra el resultado en una ventana de OpenCV.
+
+** Mejoras Posibles
+- Contar cuántas manos hay con =len(results.multi_hand_landmarks)=.
+- Detectar gestos analizando las posiciones de los dedos.
+- Guardar las coordenadas para análisis posterior.
+
+** Indice de dedos en mediapipe 
+
+| Índice | Dedo / Punto              | Descripción                           |
+|--------+---------------------------+---------------------------------------|
+| 0      | Muñeca (wrist)            | Base de la mano                      |
+| 1      | Base del pulgar           | Unión del pulgar con la palma        |
+| 2      | Primera falange del pulgar| Parte inferior del pulgar            |
+| 3      | Segunda falange del pulgar| Parte media del pulgar               |
+| 4      | Punta del pulgar          | Extremo del pulgar                   |
+| 5      | Base del índice           | Unión del índice con la palma        |
+| 6      | Primera falange del índice| Parte inferior del índice            |
+| 7      | Segunda falange del índice| Parte media del índice               |
+| 8      | Punta del índice          | Extremo del índice                   |
+| 9      | Base del medio            | Unión del dedo medio con la palma    |
+| 10     | Primera falange del medio | Parte inferior del medio             |
+| 11     | Segunda falange del medio | Parte media del medio                |
+| 12     | Punta del medio           | Extremo del medio                    |
+| 13     | Base del anular           | Unión del anular con la palma        |
+| 14     | Primera falange del anular| Parte inferior del anular            |
+| 15     | Segunda falange del anular| Parte media del anular               |
+| 16     | Punta del anular          | Extremo del anular                   |
+| 17     | Base del meñique          | Unión del meñique con la palma       |
+| 18     | Primera falange del meñique| Parte inferior del meñique           |
+| 19     | Segunda falange del meñique| Parte media del meñique              |
+| 20     | Punta del meñique         | Extremo del meñique                  |
+
+
+** Medipipe Reconocimiento de letras
+
+
+
+
+#+BEGIN_SRC python :results output
+import cv2
+import mediapipe as mp
+import numpy as np
+
+# Inicializar MediaPipe Hands
+mp_hands = mp.solutions.hands
+mp_drawing = mp.solutions.drawing_utils
+hands = mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7)
+
+# Función para determinar la letra según la posición de los dedos
+def reconocer_letra(hand_landmarks, frame):
+    # Obtener coordenadas de los puntos clave de la mano
+    dedos = [hand_landmarks.landmark[i] for i in range(21)]
+    
+    # Obtener posiciones clave (puntas y base de los dedos)
+    pulgar = dedos[4]   # Punta del pulgar
+    indice = dedos[8]   # Punta del índice
+    medio = dedos[12]   # Punta del medio
+    anular = dedos[16]  # Punta del anular
+    meñique = dedos[20] # Punta del meñique
+
+    # Distancias entre puntos (para definir gestos)
+    distancia_pulgar_indice = np.linalg.norm([pulgar.x - indice.x, pulgar.y - indice.y])
+    distancia_indice_medio = np.linalg.norm([indice.x - medio.x, indice.y - medio.y])
+    
+    # Lógica para reconocer algunas letras
+    if distancia_pulgar_indice < 0.05 and distancia_indice_medio > 0.1:
+        return "A"  # Seña de la letra A (puño cerrado con pulgar al lado)
+    elif indice.y < medio.y and medio.y < anular.y and anular.y < meñique.y:
+        return "B"  # Seña de la letra B (todos los dedos estirados, pulgar en la palma)
+    elif distancia_pulgar_indice > 0.1 and distancia_indice_medio > 0.1:
+        return "C"  # Seña de la letra C (mano en forma de "C")
+    
+    return "Desconocido"
+
+# Captura de video en tiempo real
+cap = cv2.VideoCapture(0)
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # Convertir a RGB
+    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    # Procesar la imagen con MediaPipe
+    results = hands.process(frame_rgb)
+
+    # Dibujar puntos de la mano y reconocer letras
+    if results.multi_hand_landmarks:
+        for hand_landmarks in results.multi_hand_landmarks:
+            mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+            
+            # Identificar la letra
+            letra_detectada = reconocer_letra(hand_landmarks, frame)
+
+            # Mostrar la letra en pantalla
+            cv2.putText(frame, f"Letra: {letra_detectada}", (50, 50), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+
+    # Mostrar el video
+    cv2.imshow("Reconocimiento de Letras", frame)
+
+    # Salir con la tecla 'q'
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# Liberar recursos
+cap.release()
+cv2.destroyAllWindows()
+
+#+END_SRC
+
+
+
+
+#+RESULTS:
+
+#+BEGIN_SRC python
+import cv2
+import mediapipe as mp
+import numpy as np
+
+# Inicializar MediaPipe Hands
+mp_hands = mp.solutions.hands
+mp_drawing = mp.solutions.drawing_utils
+hands = mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7)
+
+# Función para determinar la letra según la posición de los dedos
+def reconocer_letra(hand_landmarks, frame):
+    h, w, _ = frame.shape  # Tamaño de la imagen
+    
+    # Obtener coordenadas de los puntos clave en píxeles
+    dedos = [(int(hand_landmarks.landmark[i].x * w), int(hand_landmarks.landmark[i].y * h)) for i in range(21)]
+    
+    # Obtener posiciones clave (puntas de los dedos)
+    pulgar, indice, medio, anular, meñique = dedos[4], dedos[8], dedos[12], dedos[16], dedos[20]
+
+    # Mostrar los números de los landmarks en la imagen
+    for i, (x, y) in enumerate(dedos):
+        cv2.circle(frame, (x, y), 5, (233, 23, 0), -1)  # Puntos verdes
+        cv2.putText(frame, str(i), (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1)
+
+    # Dibujar coordenadas del pulgar
+    cv2.putText(frame, f'({int(pulgar[0])}, {int(pulgar[1])})', (pulgar[0], pulgar[1] - 15), 
+                cv2.FONT_HERSHEY_SIMPLEX, 0.6, (245, 0, 0), 2, cv2.LINE_AA)
+
+    cv2.line(frame, (int(pulgar[0]), int(pulgar[1])), (int(indice[0]), int(indice[1])), (244,34,12), 2)
+    
+    # Calcular distancias en píxeles
+    distancia_pulgar_indice = np.linalg.norm(np.array(pulgar) - np.array(indice))
+    distancia_indice_medio = np.linalg.norm(np.array(indice) - np.array(medio))
+
+    cv2.putText(frame, f'({distancia_pulgar_indice})', (pulgar[0]-40, pulgar[1] - 45), 
+                cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2, cv2.LINE_AA)
+
+
+    cv2.circle(frame, (pulgar[0]+20,pulgar[1]+20), int(distancia_indice_medio), (34,234,65), -1 )
+    
+    # Lógica para reconocer algunas letras
+    if distancia_pulgar_indice < 30 and distancia_indice_medio > 50:
+        return "A"  # Seña de la letra A (puño cerrado con pulgar al lado)
+    elif indice[1] < medio[1] and medio[1] < anular[1] and anular[1] < meñique[1]:
+        return "B"  # Seña de la letra B (todos los dedos estirados, pulgar en la palma)
+    elif distancia_pulgar_indice > 50 and distancia_indice_medio > 50:
+        return "C"  # Seña de la letra C (mano en forma de "C")
+
+    return "Desconocido"
+
+# Captura de video en tiempo real
+cap = cv2.VideoCapture(0)
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # Convertir a RGB
+    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    # Procesar la imagen con MediaPipe
+    results = hands.process(frame_rgb)
+
+    # Dibujar puntos de la mano y reconocer letras
+    if results.multi_hand_landmarks:
+        for hand_landmarks in results.multi_hand_landmarks:
+            mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+            
+            # Identificar la letra
+            letra_detectada = reconocer_letra(hand_landmarks, frame)
+
+            # Mostrar la letra en pantalla
+            cv2.putText(frame, f"Letra: {letra_detectada}", (50, 50), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+
+    # Mostrar el video
+    cv2.imshow("Reconocimiento de Letras", frame)
+
+    # Salir con la tecla 'q'
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# Liberar recursos
+cap.release()
+cv2.destroyAllWindows()
+
+#+END_SRC
+
+#+RESULTS:
+: None
+
+#+BEGIN_SRC python
+import cv2
+import mediapipe as mp
+
+# Inicializar MediaPipe Face Mesh
+mp_face_mesh = mp.solutions.face_mesh
+face_mesh = mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=2, min_detection_confidence=0.5, min_tracking_confidence=0.5)
+
+# Inicializar dibujador de MediaPipe
+mp_drawing = mp.solutions.drawing_utils
+drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1, color=(234, 255, 233))  # Puntos verdes
+
+# Captura de video
+cap = cv2.VideoCapture(0)
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    frame = cv2.flip(frame, 1)  # Espejo para mayor naturalidad
+    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    results = face_mesh.process(rgb_frame)
+
+    if results.multi_face_landmarks:
+        for face_landmarks in results.multi_face_landmarks:
+            mp_drawing.draw_landmarks(frame, face_landmarks, mp_face_mesh.FACEMESH_TESSELATION, drawing_spec, drawing_spec)
+
+    cv2.imshow('PuntosFacialesMediaPipe', frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+
+#+END_SRC
+
+#+RESULTS:
+: None
+
+
+#+BEGIN_SRC python
+import cv2
+import mediapipe as mp
+import numpy as np
+
+# Inicializar MediaPipe Face Detection
+mp_face_detection = mp.solutions.face_detection
+face_detection = mp_face_detection.FaceDetection(min_detection_confidence=0.7)
+
+# Cargar la máscara con transparencia (debe ser un PNG con canal alpha)
+mask = cv2.imread("300.png", cv2.IMREAD_UNCHANGED)
+
+# Función para superponer la máscara en la cara
+def overlay_mask(frame, mask, x, y, w, h):
+    # Redimensionar la máscara al tamaño de la cara detectada
+    mask_resized = cv2.resize(mask, (w, h))
+
+    # Extraer los canales de la máscara (RGBA)
+    mask_rgb = mask_resized[:, :, :3]  # Canales de color
+    mask_alpha = mask_resized[:, :, 3] / 255.0  # Canal de transparencia
+
+    # Obtener la región donde se colocará la máscara
+    roi = frame[y:y+h, x:x+w]
+
+    # Mezclar la máscara con el frame
+    for c in range(3):  # Aplicar a cada canal de color (BGR)
+        roi[:, :, c] = (1 - mask_alpha) * roi[:, :, c] + mask_alpha * mask_rgb[:, :, c]
+
+    frame[y:y+h, x:x+w] = roi  # Colocar la máscara en el frame
+
+# Captura de video
+cap = cv2.VideoCapture(0)
+
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    frame = cv2.flip(frame, 1)  # Espejo para mejor experiencia
+    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    results = face_detection.process(rgb_frame)
+
+    if results.detections:
+        for detection in results.detections:
+            # Obtener la caja delimitadora del rostro
+            bboxC = detection.location_data.relative_bounding_box
+            ih, iw, _ = frame.shape  # Alto y ancho del frame
+
+            # Convertir a coordenadas de píxeles
+            x = int(bboxC.xmin * iw) - 20
+            y = int(bboxC.ymin * ih) - 40
+            w = int(bboxC.width * iw) + 40
+            h = int(bboxC.height * ih) + 40
+
+            # Superponer la máscara en la imagen
+            overlay_mask(frame, mask, x, y, w, h)
+
+    cv2.imshow("Mascara Animada", frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+
+#+END_SRC
+
+#+RESULTS:
+: None
+
 
 
 
