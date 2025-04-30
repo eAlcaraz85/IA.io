@@ -1739,14 +1739,27 @@ entrenamiento, y una matriz *Y* de valores enteros, forma (n_muestras),
 que contiene las etiquetas de clase. para las muestras de
 entrenamiento:
 
-#+BEGIN_SRC python
+gato perro leon 
+[0  1  2]
+[0.98,  0.02, 0.4 ]
+     x    y
+| 0 | 0 | 0 |
+|---+---+---|
+| 1 | 1 | 1 |
+
+
+
+#+BEGIN_SRC python :results output
 from sklearn import tree
 X = [[0, 0], [1, 1]]
 Y = [0, 1]
 clf = tree.DecisionTreeClassifier()
 clf = clf.fit(X, Y)
-clf.predict([[2.,2.]]) 
+print(clf.predict([[2.,2.]])) 
 #+END_SRC
+
+#+RESULTS:
+: [1]
 
 
 Despues de ajustarce el modelo se puede usar, para predecir la clase 
@@ -1769,6 +1782,13 @@ clf.predict_proba([[2., 2.]])
 #array([[0., 1.]])
 #+END_SRC
 
+one-hot encoding
+“One-Hot encoding"
+
+
+[perro, gato, catarina, paloma]
+[  0     1      2         3   ]
+[  0.98  0.30  0.0020    0.023]
 
 DecisionTreeClassifier es capaz tanto de clasificación binaria (donde
 las etiquetas son [-1, 1]) como de clasificación multiclase (donde las
@@ -1813,6 +1833,162 @@ graph.view()
 #+END_SRC
 
 #+RESULTS:
+#+begin_example
+[[5.1 3.5 1.4 0.2]
+ [4.9 3.  1.4 0.2]
+ [4.7 3.2 1.3 0.2]
+ [4.6 3.1 1.5 0.2]
+ [5.  3.6 1.4 0.2]
+ [5.4 3.9 1.7 0.4]
+ [4.6 3.4 1.4 0.3]
+ [5.  3.4 1.5 0.2]
+ [4.4 2.9 1.4 0.2]
+ [4.9 3.1 1.5 0.1]
+ [5.4 3.7 1.5 0.2]
+ [4.8 3.4 1.6 0.2]
+ [4.8 3.  1.4 0.1]
+ [4.3 3.  1.1 0.1]
+ [5.8 4.  1.2 0.2]
+ [5.7 4.4 1.5 0.4]
+ [5.4 3.9 1.3 0.4]
+ [5.1 3.5 1.4 0.3]
+ [5.7 3.8 1.7 0.3]
+ [5.1 3.8 1.5 0.3]
+ [5.4 3.4 1.7 0.2]
+ [5.1 3.7 1.5 0.4]
+ [4.6 3.6 1.  0.2]
+ [5.1 3.3 1.7 0.5]
+ [4.8 3.4 1.9 0.2]
+ [5.  3.  1.6 0.2]
+ [5.  3.4 1.6 0.4]
+ [5.2 3.5 1.5 0.2]
+ [5.2 3.4 1.4 0.2]
+ [4.7 3.2 1.6 0.2]
+ [4.8 3.1 1.6 0.2]
+ [5.4 3.4 1.5 0.4]
+ [5.2 4.1 1.5 0.1]
+ [5.5 4.2 1.4 0.2]
+ [4.9 3.1 1.5 0.2]
+ [5.  3.2 1.2 0.2]
+ [5.5 3.5 1.3 0.2]
+ [4.9 3.6 1.4 0.1]
+ [4.4 3.  1.3 0.2]
+ [5.1 3.4 1.5 0.2]
+ [5.  3.5 1.3 0.3]
+ [4.5 2.3 1.3 0.3]
+ [4.4 3.2 1.3 0.2]
+ [5.  3.5 1.6 0.6]
+ [5.1 3.8 1.9 0.4]
+ [4.8 3.  1.4 0.3]
+ [5.1 3.8 1.6 0.2]
+ [4.6 3.2 1.4 0.2]
+ [5.3 3.7 1.5 0.2]
+ [5.  3.3 1.4 0.2]
+ [7.  3.2 4.7 1.4]
+ [6.4 3.2 4.5 1.5]
+ [6.9 3.1 4.9 1.5]
+ [5.5 2.3 4.  1.3]
+ [6.5 2.8 4.6 1.5]
+ [5.7 2.8 4.5 1.3]
+ [6.3 3.3 4.7 1.6]
+ [4.9 2.4 3.3 1. ]
+ [6.6 2.9 4.6 1.3]
+ [5.2 2.7 3.9 1.4]
+ [5.  2.  3.5 1. ]
+ [5.9 3.  4.2 1.5]
+ [6.  2.2 4.  1. ]
+ [6.1 2.9 4.7 1.4]
+ [5.6 2.9 3.6 1.3]
+ [6.7 3.1 4.4 1.4]
+ [5.6 3.  4.5 1.5]
+ [5.8 2.7 4.1 1. ]
+ [6.2 2.2 4.5 1.5]
+ [5.6 2.5 3.9 1.1]
+ [5.9 3.2 4.8 1.8]
+ [6.1 2.8 4.  1.3]
+ [6.3 2.5 4.9 1.5]
+ [6.1 2.8 4.7 1.2]
+ [6.4 2.9 4.3 1.3]
+ [6.6 3.  4.4 1.4]
+ [6.8 2.8 4.8 1.4]
+ [6.7 3.  5.  1.7]
+ [6.  2.9 4.5 1.5]
+ [5.7 2.6 3.5 1. ]
+ [5.5 2.4 3.8 1.1]
+ [5.5 2.4 3.7 1. ]
+ [5.8 2.7 3.9 1.2]
+ [6.  2.7 5.1 1.6]
+ [5.4 3.  4.5 1.5]
+ [6.  3.4 4.5 1.6]
+ [6.7 3.1 4.7 1.5]
+ [6.3 2.3 4.4 1.3]
+ [5.6 3.  4.1 1.3]
+ [5.5 2.5 4.  1.3]
+ [5.5 2.6 4.4 1.2]
+ [6.1 3.  4.6 1.4]
+ [5.8 2.6 4.  1.2]
+ [5.  2.3 3.3 1. ]
+ [5.6 2.7 4.2 1.3]
+ [5.7 3.  4.2 1.2]
+ [5.7 2.9 4.2 1.3]
+ [6.2 2.9 4.3 1.3]
+ [5.1 2.5 3.  1.1]
+ [5.7 2.8 4.1 1.3]
+ [6.3 3.3 6.  2.5]
+ [5.8 2.7 5.1 1.9]
+ [7.1 3.  5.9 2.1]
+ [6.3 2.9 5.6 1.8]
+ [6.5 3.  5.8 2.2]
+ [7.6 3.  6.6 2.1]
+ [4.9 2.5 4.5 1.7]
+ [7.3 2.9 6.3 1.8]
+ [6.7 2.5 5.8 1.8]
+ [7.2 3.6 6.1 2.5]
+ [6.5 3.2 5.1 2. ]
+ [6.4 2.7 5.3 1.9]
+ [6.8 3.  5.5 2.1]
+ [5.7 2.5 5.  2. ]
+ [5.8 2.8 5.1 2.4]
+ [6.4 3.2 5.3 2.3]
+ [6.5 3.  5.5 1.8]
+ [7.7 3.8 6.7 2.2]
+ [7.7 2.6 6.9 2.3]
+ [6.  2.2 5.  1.5]
+ [6.9 3.2 5.7 2.3]
+ [5.6 2.8 4.9 2. ]
+ [7.7 2.8 6.7 2. ]
+ [6.3 2.7 4.9 1.8]
+ [6.7 3.3 5.7 2.1]
+ [7.2 3.2 6.  1.8]
+ [6.2 2.8 4.8 1.8]
+ [6.1 3.  4.9 1.8]
+ [6.4 2.8 5.6 2.1]
+ [7.2 3.  5.8 1.6]
+ [7.4 2.8 6.1 1.9]
+ [7.9 3.8 6.4 2. ]
+ [6.4 2.8 5.6 2.2]
+ [6.3 2.8 5.1 1.5]
+ [6.1 2.6 5.6 1.4]
+ [7.7 3.  6.1 2.3]
+ [6.3 3.4 5.6 2.4]
+ [6.4 3.1 5.5 1.8]
+ [6.  3.  4.8 1.8]
+ [6.9 3.1 5.4 2.1]
+ [6.7 3.1 5.6 2.4]
+ [6.9 3.1 5.1 2.3]
+ [5.8 2.7 5.1 1.9]
+ [6.8 3.2 5.9 2.3]
+ [6.7 3.3 5.7 2.5]
+ [6.7 3.  5.2 2.3]
+ [6.3 2.5 5.  1.9]
+ [6.5 3.  5.2 2. ]
+ [6.2 3.4 5.4 2.3]
+ [5.9 3.  5.1 1.8]] [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2
+ 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ 2 2]
+#+end_example
 
 *** Árbol de Decisión en el Conjunto de Datos Iris
 
@@ -1820,7 +1996,8 @@ graph.view()
 Un árbol de decisión tiene la siguiente estructura:
 - **Raíz del árbol**: El nodo inicial donde comienza la primera división.
 - **Nodos internos**: Nodos que dividen los datos en función de una característica.
-- **Hojas**: Nodos finales donde se realiza la clasificación. No hay más divisiones posibles en estos nodos.
+- **Hojas**: Nodos finales donde se realiza la clasificación. No hay más
+  divisiones posibles en estos nodos.
 
 **** Nodo raíz
 La primera decisión se toma en base a **petal width (cm) ≤ 0.8**:
@@ -1833,24 +2010,34 @@ La primera decisión se toma en base a **petal width (cm) ≤ 0.8**:
 
 **** Primera división
 - **Si petal width (cm) ≤ 0.8**:
-  - **gini = 0.0**, **samples = 50**, **value = [50, 0, 0]**. Todas las flores en este nodo son de la clase **setosa**, por lo que el modelo puede clasificarlas sin más divisiones.
+  - **gini = 0.0**, **samples = 50**, **value = [50, 0, 0]**. Todas las
+    flores en este nodo son de la clase **setosa**, por lo que el modelo
+    puede clasificarlas sin más divisiones.
   
 - **Si petal width (cm) > 0.8**:
-  - El modelo sigue dividiendo los datos de las otras dos clases (**versicolor** y **virginica**).
+  - El modelo sigue dividiendo los datos de las otras dos clases
+    (**versicolor** y **virginica**).
 
 **** Segunda división
-Para el resto de las flores, el modelo utiliza la característica **petal width (cm) ≤ 1.75**:
-- **gini = 0.5**, **samples = 100**, **value = [0, 50, 50]**. Aquí hay una mezcla equilibrada de las clases **versicolor** y **virginica**.
-- Si el ancho del pétalo es menor o igual a 1.75 cm, el modelo predice **versicolor**, mientras que si es mayor, predice **virginica**.
+Para el resto de las flores, el modelo utiliza la característica
+**petal width (cm) ≤ 1.75**:
+- **gini = 0.5**, **samples = 100**, **value = [0, 50, 50]**. Aquí hay una
+  mezcla equilibrada de las clases **versicolor** y **virginica**.
+- Si el ancho del pétalo es menor o igual a 1.75 cm, el modelo predice
+  **versicolor**, mientras que si es mayor, predice **virginica**.
 
 **** Divisiones más profundas
 El árbol sigue dividiendo basándose en otras características, como **petal length (cm) ≤ 4.95**:
-- Si esta condición se cumple, el modelo predice **versicolor**. Si no, comienza a clasificar flores como **virginica**.
+- Si esta condición se cumple, el modelo predice **versicolor**. Si no,
+  comienza a clasificar flores como **virginica**.
 
 **** Hojas finales
 Cada nodo hoja finaliza la clasificación:
-- Si un nodo tiene **gini = 0.0**, significa que todas las muestras en ese nodo pertenecen a una sola clase.
-- Por ejemplo, en un nodo final con **gini = 0.0**, **samples = 43**, **value = [0, 0, 43]**, todas las flores en ese nodo son de la clase **virginica**.
+- Si un nodo tiene **gini = 0.0**, significa que todas las muestras en
+  ese nodo pertenecen a una sola clase.
+- Por ejemplo, en un nodo final con **gini = 0.0**, **samples = 43**,
+  **value = [0, 0, 43]**, todas las flores en ese nodo son de la clase
+  **virginica**.
 
 *** Índice de Gini en Árboles de Decisión
 
@@ -1951,11 +2138,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 # Crear el clasificador de Árbol de Decisión
 clf = DecisionTreeClassifier()
-
 # Entrenar el modelo
 clf.fit(X_train, y_train)
-
-
 y_predict = clf.predict(X_test)
 
 print(X_test, y_predict)
@@ -1975,72 +2159,46 @@ graph.view()
 #+end_src
 
 #+RESULTS:
-#+begin_example
-     650  548
-0    632  548
-1    614  548
-2    596  548
-3    577  548
-4    559  548
-..   ...  ...
-234  570  302
-235  560  302
-236  550  302
-237  540  302
-238  530  302
 
-[239 rows x 2 columns]
-     650  548
-24   194  548
-6    523  548
-93    53  332
-109  446  472
-104  525  472
-172   49  531
-200  324  466
-86   130  332
-9    468  548
-142  580  531
-45   584  332
-205  247  466
-114  367  472
-167  137  531
-113  383  472
-229  620  302
-184  573  466
-15   358  548
-220   14  466
-125  194  472
-127  163  472
-19   285  548
-234  570  302
-30    84  548
-175    4  531
-218   45  466
-10   450  548
-186  542  466
-236  550  302
-152  403  531
-96   650  472
-213  122  466
-25   176  548
-181  619  466
-18   303  548
-69   318  332
-211  153  466
-55   473  332
-79   208  332
-196  386  466
-226  650  302
-112  399  472
-150  438  531
-16   340  548
-155  350  531
-66   352  332
-164  190  531
-38    50  548 [1 0 1 0 0 1 0 1 0 0 0 0 0 1 0 0 1 0 1 0 0 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 1
- 0 1 0 1 0 0 0 0 0 0 1]
-#+end_example
+#+BEGIN_SRC python
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 1. Cargar el dataset
+data = load_iris()
+X, y = data.data, data.target
+
+# 2. Dividir datos en entrenamiento y prueba
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# 3. Crear y entrenar el árbol de decisión
+clf = DecisionTreeClassifier(random_state=42)
+clf.fit(X_train, y_train)
+
+# 4. Predecir sobre los datos de prueba
+y_pred = clf.predict(X_test)
+
+# 5. Evaluación
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("\nReporte de Clasificación:\n", classification_report(y_test, y_pred))
+
+# 6. Matriz de confusión
+cm = confusion_matrix(y_test, y_pred)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+            xticklabels=data.target_names,
+            yticklabels=data.target_names)
+plt.xlabel('Predicho')
+plt.ylabel('Real')
+plt.title('Matriz de Confusión')
+plt.show()
+
+#+END_SRC
+
+#+RESULTS:
 
 
 ** Arquitecturas de Redes Neuronales
@@ -3725,6 +3883,7 @@ cv2.destroyAllWindows()
 #+END_SRC
 
 #+RESULTS:
+: None
 
 
 #+BEGIN_SRC python
@@ -3741,7 +3900,7 @@ face_mesh = mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=2,
 cap = cv2.VideoCapture(0)
 
 # Lista de índices de landmarks específicos (ojos y boca)
-selected_points = [33, 133, 362, 263, 61, 291]  # Ojos y boca
+selected_points = [33, 133, 362, 263, 61, 291, 4, 36]  # Ojos y boca
 
 def distancia(p1, p2):
     """Calcula la distancia euclidiana entre dos puntos."""
@@ -3765,12 +3924,17 @@ while cap.isOpened():
                 y = int(face_landmarks.landmark[idx].y * frame.shape[0])
                 puntos[idx] = (x, y)
                 cv2.circle(frame, (x, y), 2, (0, 255, 0), -1)  # Dibuja el punto en verde
-            
+             
             # Calcular y mostrar distancia entre puntos (ejemplo: entre ojos)
             if 33 in puntos and 133 in puntos:
                 d_ojos = distancia(puntos[33], puntos[133])
-                cv2.putText(frame, f"D: {int(d_ojos)}", (puntos[33][0], puntos[33][1] - 10), 
+                #print(puntos[33])
+                #cv2.line(frame, (puntos[33][0], puntos[33][1]), (puntos[133][0], puntos[133][1]), (23, 234,23), 2 )
+                cv2.putText(frame, f" {int(puntos[61][0]-20), int(puntos[61][1]-20) }", (puntos[61][0], puntos[61][1] - 10), 
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+
+                #cv2.putText(frame, f"D: {int(d_ojos)}", (puntos[33][0], puntos[33][1] - 10), 
+                #            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
 
     cv2.imshow('PuntosFacialesMediaPipe', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
