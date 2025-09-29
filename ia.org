@@ -1807,7 +1807,7 @@ import graphviz
 iris = load_iris()
 
 X, y = iris.data, iris.target
-print( X, y)
+#print( X, y)
 # Crear el clasificador del Árbol de Decisión
 clf = tree.DecisionTreeClassifier()
 
@@ -1833,162 +1833,6 @@ graph.view()
 #+END_SRC
 
 #+RESULTS:
-#+begin_example
-[[5.1 3.5 1.4 0.2]
- [4.9 3.  1.4 0.2]
- [4.7 3.2 1.3 0.2]
- [4.6 3.1 1.5 0.2]
- [5.  3.6 1.4 0.2]
- [5.4 3.9 1.7 0.4]
- [4.6 3.4 1.4 0.3]
- [5.  3.4 1.5 0.2]
- [4.4 2.9 1.4 0.2]
- [4.9 3.1 1.5 0.1]
- [5.4 3.7 1.5 0.2]
- [4.8 3.4 1.6 0.2]
- [4.8 3.  1.4 0.1]
- [4.3 3.  1.1 0.1]
- [5.8 4.  1.2 0.2]
- [5.7 4.4 1.5 0.4]
- [5.4 3.9 1.3 0.4]
- [5.1 3.5 1.4 0.3]
- [5.7 3.8 1.7 0.3]
- [5.1 3.8 1.5 0.3]
- [5.4 3.4 1.7 0.2]
- [5.1 3.7 1.5 0.4]
- [4.6 3.6 1.  0.2]
- [5.1 3.3 1.7 0.5]
- [4.8 3.4 1.9 0.2]
- [5.  3.  1.6 0.2]
- [5.  3.4 1.6 0.4]
- [5.2 3.5 1.5 0.2]
- [5.2 3.4 1.4 0.2]
- [4.7 3.2 1.6 0.2]
- [4.8 3.1 1.6 0.2]
- [5.4 3.4 1.5 0.4]
- [5.2 4.1 1.5 0.1]
- [5.5 4.2 1.4 0.2]
- [4.9 3.1 1.5 0.2]
- [5.  3.2 1.2 0.2]
- [5.5 3.5 1.3 0.2]
- [4.9 3.6 1.4 0.1]
- [4.4 3.  1.3 0.2]
- [5.1 3.4 1.5 0.2]
- [5.  3.5 1.3 0.3]
- [4.5 2.3 1.3 0.3]
- [4.4 3.2 1.3 0.2]
- [5.  3.5 1.6 0.6]
- [5.1 3.8 1.9 0.4]
- [4.8 3.  1.4 0.3]
- [5.1 3.8 1.6 0.2]
- [4.6 3.2 1.4 0.2]
- [5.3 3.7 1.5 0.2]
- [5.  3.3 1.4 0.2]
- [7.  3.2 4.7 1.4]
- [6.4 3.2 4.5 1.5]
- [6.9 3.1 4.9 1.5]
- [5.5 2.3 4.  1.3]
- [6.5 2.8 4.6 1.5]
- [5.7 2.8 4.5 1.3]
- [6.3 3.3 4.7 1.6]
- [4.9 2.4 3.3 1. ]
- [6.6 2.9 4.6 1.3]
- [5.2 2.7 3.9 1.4]
- [5.  2.  3.5 1. ]
- [5.9 3.  4.2 1.5]
- [6.  2.2 4.  1. ]
- [6.1 2.9 4.7 1.4]
- [5.6 2.9 3.6 1.3]
- [6.7 3.1 4.4 1.4]
- [5.6 3.  4.5 1.5]
- [5.8 2.7 4.1 1. ]
- [6.2 2.2 4.5 1.5]
- [5.6 2.5 3.9 1.1]
- [5.9 3.2 4.8 1.8]
- [6.1 2.8 4.  1.3]
- [6.3 2.5 4.9 1.5]
- [6.1 2.8 4.7 1.2]
- [6.4 2.9 4.3 1.3]
- [6.6 3.  4.4 1.4]
- [6.8 2.8 4.8 1.4]
- [6.7 3.  5.  1.7]
- [6.  2.9 4.5 1.5]
- [5.7 2.6 3.5 1. ]
- [5.5 2.4 3.8 1.1]
- [5.5 2.4 3.7 1. ]
- [5.8 2.7 3.9 1.2]
- [6.  2.7 5.1 1.6]
- [5.4 3.  4.5 1.5]
- [6.  3.4 4.5 1.6]
- [6.7 3.1 4.7 1.5]
- [6.3 2.3 4.4 1.3]
- [5.6 3.  4.1 1.3]
- [5.5 2.5 4.  1.3]
- [5.5 2.6 4.4 1.2]
- [6.1 3.  4.6 1.4]
- [5.8 2.6 4.  1.2]
- [5.  2.3 3.3 1. ]
- [5.6 2.7 4.2 1.3]
- [5.7 3.  4.2 1.2]
- [5.7 2.9 4.2 1.3]
- [6.2 2.9 4.3 1.3]
- [5.1 2.5 3.  1.1]
- [5.7 2.8 4.1 1.3]
- [6.3 3.3 6.  2.5]
- [5.8 2.7 5.1 1.9]
- [7.1 3.  5.9 2.1]
- [6.3 2.9 5.6 1.8]
- [6.5 3.  5.8 2.2]
- [7.6 3.  6.6 2.1]
- [4.9 2.5 4.5 1.7]
- [7.3 2.9 6.3 1.8]
- [6.7 2.5 5.8 1.8]
- [7.2 3.6 6.1 2.5]
- [6.5 3.2 5.1 2. ]
- [6.4 2.7 5.3 1.9]
- [6.8 3.  5.5 2.1]
- [5.7 2.5 5.  2. ]
- [5.8 2.8 5.1 2.4]
- [6.4 3.2 5.3 2.3]
- [6.5 3.  5.5 1.8]
- [7.7 3.8 6.7 2.2]
- [7.7 2.6 6.9 2.3]
- [6.  2.2 5.  1.5]
- [6.9 3.2 5.7 2.3]
- [5.6 2.8 4.9 2. ]
- [7.7 2.8 6.7 2. ]
- [6.3 2.7 4.9 1.8]
- [6.7 3.3 5.7 2.1]
- [7.2 3.2 6.  1.8]
- [6.2 2.8 4.8 1.8]
- [6.1 3.  4.9 1.8]
- [6.4 2.8 5.6 2.1]
- [7.2 3.  5.8 1.6]
- [7.4 2.8 6.1 1.9]
- [7.9 3.8 6.4 2. ]
- [6.4 2.8 5.6 2.2]
- [6.3 2.8 5.1 1.5]
- [6.1 2.6 5.6 1.4]
- [7.7 3.  6.1 2.3]
- [6.3 3.4 5.6 2.4]
- [6.4 3.1 5.5 1.8]
- [6.  3.  4.8 1.8]
- [6.9 3.1 5.4 2.1]
- [6.7 3.1 5.6 2.4]
- [6.9 3.1 5.1 2.3]
- [5.8 2.7 5.1 1.9]
- [6.8 3.2 5.9 2.3]
- [6.7 3.3 5.7 2.5]
- [6.7 3.  5.2 2.3]
- [6.3 2.5 5.  1.9]
- [6.5 3.  5.2 2. ]
- [6.2 3.4 5.4 2.3]
- [5.9 3.  5.1 1.8]] [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
- 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2
- 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
- 2 2]
-#+end_example
 
 *** Árbol de Decisión en el Conjunto de Datos Iris
 
@@ -2176,84 +2020,6 @@ graph.view()
 #+end_src
 
 #+RESULTS:
-#+begin_example
-     650  548
-0    632  548
-1    614  548
-2    596  548
-3    577  548
-4    559  548
-..   ...  ...
-234  570  302
-235  560  302
-236  550  302
-237  540  302
-238  530  302
-
-[239 rows x 2 columns]
-     650  548
-24   194  548
-6    523  548
-93    53  332
-109  446  472
-104  525  472
-172   49  531
-200  324  466
-86   130  332
-9    468  548
-142  580  531
-45   584  332
-205  247  466
-114  367  472
-167  137  531
-113  383  472
-229  620  302
-184  573  466
-15   358  548
-220   14  466
-125  194  472
-127  163  472
-19   285  548
-234  570  302
-30    84  548
-175    4  531
-218   45  466
-10   450  548
-186  542  466
-236  550  302
-152  403  531
-96   650  472
-213  122  466
-25   176  548
-181  619  466
-18   303  548
-69   318  332
-211  153  466
-55   473  332
-79   208  332
-196  386  466
-226  650  302
-112  399  472
-150  438  531
-16   340  548
-155  350  531
-66   352  332
-164  190  531
-38    50  548 [1 0 1 0 0 1 0 1 0 1 0 0 0 1 0 0 1 0 1 0 0 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 1
- 0 1 0 1 0 0 0 0 0 0 1]
-Accuracy: 0.9583333333333334
-
-Reporte de Clasificación:
-               precision    recall  f1-score   support
-
-           0       0.97      0.97      0.97        30
-           1       0.94      0.94      0.94        18
-
-    accuracy                           0.96        48
-   macro avg       0.96      0.96      0.96        48
-weighted avg       0.96      0.96      0.96        48
-
-#+end_example
 
 #+BEGIN_SRC python :results output 
 from sklearn.datasets import load_iris
@@ -2780,6 +2546,7 @@ predicción en comparación con otros métodos de optimización.
 	   
 * Análisis de información  
 ** Programación 
+
 *** Carga de imágenes y propiedades  
 
 Con el siguiente ejemplo, se puede cargar una imagen, utilizando la
@@ -2796,10 +2563,27 @@ creadas por **imshow**.
 
 
 #+BEGIN_SRC python :results output
-import cv2 as cv 
-img = cv.imread("/home/likcos/Imágenes/tr.png")
+import cv2 as cv
+import numpy as np 
+#c:\\home\\misdatos\\imagen.jpg
+img = cv.imread("/home/likcos/Imágenes/tr.png",1)
+#print(img.shape[:2])
+img2 = np.zeros(img.shape[:2], np.uint8)
+b,g,r=cv.split(img)
+b1=cv.merge([b, img2, img2])
+g1=cv.merge([img2, g, img2])
+r1=cv.merge([img2, img2, r])
+res1 = cv.merge([g,r,b])
+cv.imshow('res1', res1)
+cv.imshow('b', b)
+cv.imshow('g', g)
+cv.imshow('r', r)
+cv.imshow('b1', b1)
+cv.imshow('g1', g1)
+cv.imshow('r1', r1)
+cv.imshow('marco2', img2)
 cv.imshow('marco', img)
-cv.waitKey()
+cv.waitKey(0)
 cv.destroyAllWindows()
 #+END_SRC
 
@@ -5339,3 +5123,42 @@ categorías basándose en su perfil financiero y de comportamiento:
 4. ¿Son los datos linealmente separables?
 5. ¿Qué ajustes podrían hacer al modelo para mejorar la clasificación?
 6. Describir cada una de las partes del modelo implementando
+
+* Temas
+
+Favor de subir solo el link de su repositorio. 
+Proyecto 1: A* 
+Proyecto 2: Juego Phaser en python mediante los siguientes modelos. 
+Regresión Lineal. 
+Decision Trees
+Redes neuronales
+K nearest neighbor
+Proyecto 3:  Hacer un vídeo y documento utilizando modelos del lenguaje natural, utilizando por ejemplo ollama generando embeddings  y fine tuning  de los siguientes temas :    
+
+Tema Central 1: “La autonomía personal frente al inicio de la vida: el dilema del aborto en contextos éticos y tecnológicos”
+
+
+¿Tiene una persona el derecho exclusivo a decidir sobre su cuerpo cuando hay otra vida en desarrollo?
+
+¿Hasta qué punto el lenguaje utilizado (“interrupción” vs. “terminación”) influye en la percepción ética del aborto?
+
+¿Qué principios éticos (utilitarismo, deontología, ética del cuidado) pueden respaldar o rechazar el aborto inducido?
+
+¿Puede una inteligencia artificial participar de forma ética en decisiones sobre aborto?
+
+¿Qué riesgos éticos implica delegar información médica sensible a sistemas automatizados?
+
+
+Tema Central 2: “Eutanasia y dignidad humana: decisiones de vida o muerte en la era de la inteligencia artificial”
+
+Preguntas:
+
+¿Es éticamente válido que una persona decida poner fin a su vida en situaciones de sufrimiento irreversible?
+
+¿Cuál es la diferencia entre eutanasia activa, pasiva y el suicidio asistido? ¿Importa éticamente?
+
+¿Qué papel podrían (o no deberían) tener los sistemas de inteligencia artificial en este tipo de decisiones?
+
+¿Qué sucede cuando el deseo de morir entra en conflicto con creencias religiosas, leyes o protocolos médicos?
+
+¿Se puede hablar de una “muerte digna” sin considerar el contexto emocional y humano?
