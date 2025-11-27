@@ -4777,7 +4777,7 @@ Un *embedding* toma objetos de un espacio discreto (como palabras,
 frases, imágenes, o nodos de un grafo) y los transforma en un espacio
 continuo, típicamente un espacio vectorial de dimensión reducida.
 
-Por ejemplo, en NLP, palabras como "gato" y "perro" pueden tener
+Por ejemplo, en NLP, palabras como "gato" y "perro" pueden tener [0.6, 0.4, 0.6, 0.2]
 embeddings que las representan como vectores cercanos en un espacio de
 características, indicando su similitud semántica.
 
@@ -4894,12 +4894,6 @@ response = client.query("¿Cuáles son las ventajas del aprendizaje supervisado?
 print(response)
 #+END_SRC
 
-** Conclusión
-Ollama es una herramienta poderosa en el ámbito de la inteligencia artificial, diseñada para optimizar el procesamiento y la generación de texto en diversas aplicaciones. Su facilidad de integración y personalización la convierten en una opción ideal para desarrolladores y empresas que buscan soluciones basadas en NLP.
-
-
-
-
 
 * Spacy
 
@@ -4930,6 +4924,147 @@ for token in doc:
 #+END_SRC
 
 #+RESULTS:
+
+
+* Extracción de datos RSS con Python y Atoma
+
+** Introducción
+RSS (*Really Simple Syndication*) es un formato basado en XML que
+permite distribuir noticias, artículos o publicaciones recientes de
+manera automática.  En este tutorial aprenderás a usar la librería
+*Atoma* para descargar y analizar feeds RSS.
+
+Los feeds RSS son muy útiles para:
+- Recibir automáticamente actualizaciones de un sitio web.
+- Monitorear noticias científicas o académicas.
+- Automatizar la recopilación de datos desde varias fuentes.
+
+** Requisitos previos
+
+#+BEGIN_SRC bash
+pip install atoma requests
+#+END_SRC
+
+* Estructura de un feed RSS
+Un feed RSS es un archivo en formato XML con una estructura como esta:
+
+#+BEGIN_SRC xml
+<rss version="2.0">
+  <channel>
+    <title>Ejemplo de Noticias</title>
+    <link>https://www.ejemplo.com</link>
+    <description>Últimas noticias del sitio.</description>
+    <item>
+      <title>Nuevo descubrimiento científico</title>
+      <link>https://www.ejemplo.com/noticia1</link>
+      <pubDate>Thu, 13 Nov 2025 10:00:00 GMT</pubDate>
+      <description>Investigadores descubren un nuevo método...</description>
+    </item>
+  </channel>
+</rss>
+#+END_SRC
+
+Cada *item* representa una noticia o publicación individual.
+
+* Lectura de un feed RSS con Atoma
+A continuación, leeremos un feed RSS real desde la ONU y mostraremos
+las cinco noticias más recientes.
+
+#+BEGIN_SRC python :results output :exports both
+import atoma
+import requests
+
+# URL del feed RSS
+url = "https://news.un.org/feed/subscribe/en/news/all/rss.xml"
+
+# Descargamos el contenido del feed
+resp = requests.get(url)
+
+# Parseamos el contenido (RSSChannel)
+feed = atoma.parse_rss_bytes(resp.content)
+
+# Algunos feeds ya devuelven texto plano (no .value)
+titulo = feed.title if isinstance(feed.title, str) else feed.title.value
+descripcion = feed.description if isinstance(feed.description, str) else feed.description.value
+
+print("Título del Feed:", titulo)
+print("Descripción:", descripcion)
+print("\nÚltimas noticias:\n")
+
+# Recorremos las primeras 5 entradas
+for item in feed.items[:5]:
+    titulo_item = item.title if isinstance(item.title, str) else item.title.value
+    fecha_item = getattr(item, "pub_date", None)
+    enlace_item = getattr(
+        om
+
+        item, "link", None)
+
+
+    
+    print("Título:", titulo_item)
+    print("Fecha:", fecha_item if fecha_item else "Sin fecha")
+    print("Enlace:", enlace_item.href if hasattr(enlace_item, "href") else enlace_item)
+    print("-" * 60)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+Título del Feed: UN News - Global perspective Human stories
+Descripción: Global perspective Human stories
+
+Últimas noticias:
+
+Título: UN and African Union vow closer action for peace and development
+Fecha: 2025-11-12 12:00:00+00:00
+Enlace: https://news.un.org/feed/view/en/story/2025/11/1166350
+------------------------------------------------------------
+Título: ‘A wave of truth’: COP30 targets disinformation threat to climate action
+Fecha: 2025-11-12 12:00:00+00:00
+Enlace: https://news.un.org/feed/view/en/story/2025/11/1166351
+------------------------------------------------------------
+Título: TB cases fall for first time since pandemic
+Fecha: 2025-11-12 12:00:00+00:00
+Enlace: https://news.un.org/feed/view/en/story/2025/11/1166349
+------------------------------------------------------------
+Título: At-risk mountain vipers and iguanas, in rare company at key wildlife talks
+Fecha: 2025-11-12 12:00:00+00:00
+Enlace: https://news.un.org/feed/view/en/story/2025/11/1166346
+------------------------------------------------------------
+Título: Sudan: Migration chief hears horrific accounts of exodus from El Fasher
+Fecha: 2025-11-12 12:00:00+00:00
+Enlace: https://news.un.org/feed/view/en/story/2025/11/1166347
+------------------------------------------------------------
+#+end_example
+
+* Guardar los resultados en un archivo CSV
+También puedes almacenar la información extraída en un archivo CSV para análisis posterior.
+
+#+BEGIN_SRC python
+import csv
+
+# Creamos un archivo CSV
+with open("noticias.csv", "w", newline="", encoding="utf-8") as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerow(["Título", "Fecha", "Enlace"])
+
+    for item in feed.items[:10]:
+        writer.writerow([
+            item.title.value,
+            item.pub_date.value if item.pub_date else "Sin fecha",
+            item.link.href
+        ])
+
+print("Archivo 'noticias.csv' creado con éxito.")
+#+END_SRC
+
+* Explicación paso a paso
+1. **Descarga del feed**: con `requests.get(url)` obtenemos el contenido XML del feed.  
+2. **Parseo**: `atoma.parse_rss_bytes()` convierte el XML en un objeto Python estructurado.  
+3. **Extracción de datos**: accedemos a `feed.channel` y `feed.items` para leer los campos.  
+4. **Salida**: imprimimos los datos o los guardamos en un archivo CSV.
+
+
 
 
 * Proyectos IA Final 
@@ -5338,3 +5473,576 @@ Preguntas:
 ¿Qué sucede cuando el deseo de morir entra en conflicto con creencias religiosas, leyes o protocolos médicos?
 
 ¿Se puede hablar de una “muerte digna” sin considerar el contexto emocional y humano?
+
+
+* Respuestas
+
+*** Pregunta 1
+1. La columna =Comentario_Reaccion= mide opinión. ¿Qué campo del NLP
+   determina si un texto es positivo, negativo o neutral?  A)
+   Extracción de Entidades B) Análisis de Sentimiento C) Segmentación
+   de Texto D) Clasificación de Imagen
+
+Respuesta: B) Análisis de Sentimiento
+
+El analista aplica técnicas de análisis de
+sentimiento para asignar una polaridad (positiva, negativa o neutral)
+a cada comentario. Estas técnicas van desde enfoques basados en
+léxicos (listas de palabras con polaridad) hasta modelos supervisados
+(SVM, Naive Bayes, redes neuronales). En corpus en español, es
+recomendable usar modelos o léxicos entrenados para español
+(p. ej. spaCy, TextBlob-es, modelos multilingües).
+
+Ejemplo de código (Org: bloque src python):
+
+#+BEGIN_SRC python
+# Ejemplo: análisis de sentimiento con TextBlob (multilenguaje) o transformers
+from textblob import TextBlob
+
+def sentimiento_textblob(texto):
+    return TextBlob(str(texto)).sentiment.polarity
+
+# Uso en dataframe pandas
+# df['sentimiento'] = df['Comentario_Reaccion'].apply(sentimiento_textblob)
+#+END_SRC
+
+*** Pregunta 2
+2. Quieres convertir el texto de =Resumen= a números contando frecuencia
+   de palabras. ¿Qué método hace esto?  A) Bag of Words B) One-Hot
+   Encoding C) Coordenadas Cartesianas D) SVD
+
+Respuesta: A) Bag of Words
+
+Bag of Words (BoW) crea una matriz documento–vocabulario donde cada
+celda es la frecuencia de la palabra en el documento. Es simple y útil
+como baseline, aunque produce vectores dispersos y no captura orden ni
+semántica.
+
+Ejemplo de código:
+
+#+BEGIN_SRC python
+from sklearn.feature_extraction.text import CountVectorizer
+cv = CountVectorizer(stop_words='spanish')
+X_bow = cv.fit_transform(df['Resumen'].fillna(''))
+# X_bow es la matriz booleana/frecuencia que puede usarse para clustering o modelos clásicos
+#+END_SRC
+
+*** Pregunta 3
+
+3. Palabras como "el", "la", "de", "un" deben removerse por ser
+   ruido. ¿Cómo se llaman?  A) Palabras Raíz B) Palabras Clave C)
+   Stopwords D) Tokens
+
+Respuesta: C) Stopwords
+
+
+Las stopwords son palabras de alta frecuencia y bajo contenido
+informativo. El analista debe removerlas antes de vectorizar
+(especialmente con BoW) para evitar que dominen las representaciones.
+
+Ejemplo de código:
+
+#+BEGIN_SRC python
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+spanish_stops = stopwords.words('spanish')
+cv = CountVectorizer(stop_words=spanish_stops)
+X = cv.fit_transform(df['Resumen'].fillna(''))
+#+END_SRC
+
+*** Pregunta 4
+
+4. =Categoria= tiene dos valores ("Generacion Z",
+   "Frankenstein"). Predecirla desde el =Titulo= es un problema de: A)
+   Regresión Lineal B) Clasificación Binaria C) Clustering D)
+   Regresión Polinómica
+
+Respuesta: B) Clasificación Binaria
+
+
+Con dos etiquetas mutuamente exclusivas, el objetivo es entrenar un
+clasificador que asigne una de las dos clases a cada título. Las
+métricas clave son accuracy, precision, recall y F1.
+
+Ejemplo de código (pipeline básico):
+
+#+BEGIN_SRC python
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.model_selection import train_test_split
+
+X = df['Titulo'].fillna('')
+y = df['Categoria'].map({'Generacion Z':0, 'Frankenstein':1})
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+pipe = Pipeline([('tfidf', TfidfVectorizer(stop_words='spanish')), ('clf', MultinomialNB())])
+pipe.fit(X_train, y_train)
+#+END_SRC
+
+*** Pregunta 5
+
+5. "protesta", "protestas", "protestando" significan lo mismo. ¿Qué
+   técnica reduce palabras a su raíz morfológica?  A) Lemmatization B)
+   Stemming C) Tokenization D) POS Tagging
+
+Respuesta: B) Stemming
+
+
+*Stemming* corta afijos para obtener una raíz (a veces no válida
+léxicamente). *Lemmatization* es una alternativa que usa morfología y
+POS para obtener la forma canónica.
+
+Ejemplo de código (stemming con Snowball):
+
+#+BEGIN_SRC python
+from nltk.stem import SnowballStemmer
+from nltk.tokenize import word_tokenize
+
+stemmer = SnowballStemmer('spanish')
+
+def stem_text(texto):
+    tokens = word_tokenize(str(texto).lower())
+    return ' '.join([stemmer.stem(t) for t in tokens])
+
+# df['Resumen_stem'] = df['Resumen'].apply(stem_text)
+#+END_SRC
+
+*** Pregunta 6
+6. Quieres agrupar textos similares sin usar etiquetas. ¿Qué algoritmo
+   usas?  A) Regresión Logística B) K-Means Clustering C) Árbol de
+   Decisión D) Naive Bayes
+
+Respuesta: B) K-Means Clustering
+
+
+K-Means es un algoritmo no supervisado que agrupa documentos en k
+clusters según distancia en el espacio vectorial (p. ej. TF-IDF). Es
+útil para exploración de temas.
+
+Ejemplo de código:
+
+#+BEGIN_SRC python
+from sklearn.cluster import KMeans
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+vec = TfidfVectorizer(stop_words='spanish')
+X = vec.fit_transform(df['Resumen'].fillna(''))
+km = KMeans(n_clusters=5, random_state=42)
+labels = km.fit_predict(X)
+df['kmeans'] = labels
+#+END_SRC
+
+*** Pregunta 7
+7. ¿Qué hace TF-IDF mejor que sólo contar palabras?  A) Cuenta sólo
+   palabras >10 letras B) Pondera frecuencia vs rareza en el corpus C)
+   Da más peso a palabras iniciales D) Ignora signos de puntuación
+
+Respuesta: B) Pondera frecuencia vs rareza en el corpus
+
+
+TF-IDF reduce el peso de palabras comunes y aumenta el de palabras
+raras que ayudan a distinguir documentos. Es mejor para encontrar
+términos representativos.
+
+Ejemplo de código:
+
+#+BEGIN_SRC python
+from sklearn.feature_extraction.text import TfidfVectorizer
+vec = TfidfVectorizer(stop_words='spanish')
+X = vec.fit_transform(df['Resumen'].fillna(''))
+# Obtener top terms de un documento
+import numpy as np
+def top_tfidf(doc_index, top_n=5):
+    row = X[doc_index].toarray()[0]
+    idx = np.argsort(row)[-top_n:][::-1]
+    return [vec.get_feature_names_out()[i] for i in idx]
+#+END_SRC
+
+*** Pregunta 8
+8. Quieres el modelo base más simple para clasificación de texto
+   usando probabilidad condicional. ¿Cuál es?  A) SVM B) Naive Bayes
+   C) KNN D) Red Neuronal
+
+Respuesta: B) Naive Bayes
+
+
+Naive Bayes (p. ej. MultinomialNB) es rápido y efectivo en texto;
+asume independencia condicional entre características y es un
+excelente baseline.
+
+Ejemplo de código: ya incluido en la sección de la Pregunta 4 (pipeline).
+
+*** Pregunta 9
+9. La columna =Fecha= permite analizar tendencias a lo largo del
+   tiempo. ¿Qué rama es esta?  A) Análisis de Redes B) PCA C) Análisis
+   de Series de Tiempo D) Análisis de Regresión
+
+Respuesta: C) Análisis de Series de Tiempo
+
+
+Series de tiempo se centra en datos indexados por tiempo para detectar
+tendencias, estacionalidades y anomalías. El analista debe convertir
+la columna Fecha a datetime y agrupar por periodos.
+
+Ejemplo de código:
+
+#+BEGIN_SRC python
+# Conversión y conteo diario
+df['Fecha'] = pd.to_datetime(df['Fecha'])
+conteo_diario = df.set_index('Fecha').resample('D').size()
+# Suavizado con media móvil
+conteo_suave = conteo_diario.rolling(window=7).mean()
+#+END_SRC
+
+*** Pregunta 10
+10. Para descubrir temas ocultos sin etiquetas, ¿qué técnica usas?  A)
+    Regresión Lineal B) Topic Modeling (LDA) C) Reglas de Asociación
+    D) Random Forest
+
+Respuesta: B) Topic Modeling (LDA)
+
+
+LDA modela cada documento como mezcla de temas y cada tema como
+distribución de palabras. Es útil para explorar subtemas en artículos
+de "Generacion Z".
+
+Ejemplo de código:
+
+#+BEGIN_SRC python
+from sklearn.decomposition import LatentDirichletAllocation
+from sklearn.feature_extraction.text import CountVectorizer
+cv = CountVectorizer(stop_words='spanish')
+X = cv.fit_transform(df['Resumen'].fillna(''))
+lda = LatentDirichletAllocation(n_components=5, random_state=42)
+lda.fit(X)
+# Mostrar palabras principales por tema
+for i, comp in enumerate(lda.components_):
+    terms = [cv.get_feature_names_out()[j] for j in comp.argsort()[-10:]]
+    print('Tema', i, ':', ', '.join(terms))
+#+END_SRC
+
+*** Pregunta 11
+11. Extraer nombres de personas, lugares, organizaciones corresponde
+    a: A) Tokenización Avanzada B) NER C) Análisis de Sentimiento D)
+    Word Embedding
+
+Respuesta: B) NER
+
+
+NER (Named Entity Recognition) etiqueta secuencias de texto con
+categorías predefinidas como PERSON, LOC, ORG. En español, spaCy
+dispone de modelos adecuados.
+
+Ejemplo de código:
+
+#+BEGIN_SRC python
+import spacy
+nlp = spacy.load('es_core_news_sm')
+
+def extraer_entidades(texto):
+    doc = nlp(str(texto))
+    return [(ent.text, ent.label_) for ent in doc.ents]
+
+# df['entidades'] = df['Resumen'].apply(extraer_entidades)
+#+END_SRC
+
+*** Pregunta 12
+12. Alta Precisión pero bajo Recall significa: A) Identifica bien
+    casos negativos B) Pocos falsos positivos pero muchos falsos
+    negativos C) Sesgo a la clase mayoritaria D) Es inservible
+
+Respuesta: B) Pocos falsos positivos pero muchos falsos negativos
+
+
+Alta precisión y bajo recall implica que cuando el modelo predice la
+clase de interés lo hace con confianza (pocos falsos positivos), pero
+deja fuera muchos ejemplos reales (bajo recall). Para corregirlo se
+pueden ajustar umbrales o usar técnicas de balanceo.
+
+Ejemplo de código (cálculo de precision/recall):
+
+#+BEGIN_SRC python
+from sklearn.metrics import precision_score, recall_score
+precision = precision_score(y_test, pred)
+recall = recall_score(y_test, pred)
+print('Precision:', precision, 'Recall:', recall)
+#+END_SRC
+
+*** Pregunta 13
+13. Para medir relevancia del artículo, ¿qué usarías?  A) Longitud del
+    Titulo B) Puntaje TF-IDF de las 5 palabras del Resumen C)
+    Diferencia entre ID máximo y mínimo D) Número de vocales en =Medio=
+
+Respuesta: B) Puntaje TF-IDF de las 5 palabras del Resumen
+
+
+El puntaje TF-IDF de las palabras top del resumen resume la relevancia
+temática de un artículo y sirve como característica para modelos o
+para ranking.
+
+Ejemplo de código: ya incluido en Pregunta 7 (top_tfidf).
+
+*** Pregunta 14
+14. Ventaja de Word Embeddings como GloVe o Word2Vec: A) Más fáciles
+    de implementar B) Capturan similitud semántica C) Solo funcionan
+    en inglés D) Solo funcionan con Naive Bayes
+
+Respuesta: B) Capturan similitud semántica
+
+
+Los embeddings densos representan palabras en un espacio continuo
+donde vectores cercanos comparten significado. Permiten cálculos de
+similitud y sirven como entrada para redes y clustering semántico.
+
+Ejemplo de código (spaCy vectors):
+
+#+BEGIN_SRC python
+# Obtener embedding promedio del documento con spaCy
+import numpy as np
+
+def embedding_promedio(texto):
+    doc = nlp(str(texto))
+    if len(doc)==0:
+        return np.zeros(nlp.vocab.vectors_length)
+    return np.mean([tok.vector for tok in doc if tok.has_vector], axis=0)
+
+# df['embed_avg'] = df['Resumen'].apply(embedding_promedio)
+#+END_SRC
+
+*** Pregunta 15
+15. One-Hot Encoding en =Medio= puede causar: A) Overfitting B)
+    Esparcidad y maldición de la dimensionalidad C) Underfitting D)
+    Error de redondeo
+
+Respuesta: B) Esparcidad y maldición de la dimensionalidad
+
+
+One-Hot sobre variables con alta cardinalidad genera muchas columnas
+(sparse) que complican el entrenamiento y aumentan requerimientos de
+memoria. Alternativas: target encoding, embeddings categóricos o
+agrupar categorías raras.
+
+Ejemplo de código (one-hot y alternativas):
+
+#+BEGIN_SRC python
+# One-hot (no recomendado si hay muchas categorías)
+onehot = pd.get_dummies(df['Medio'])
+# Alternativa: frecuencia o target encoding
+freq = df['Medio'].value_counts() / len(df)
+df['Medio_freq'] = df['Medio'].map(freq)
+#+END_SRC
+
+*** Pregunta 16
+16. Para ver palabras más frecuentes con tamaño proporcional: A) Box
+    Plot B) Histograma C) Word Cloud D) Gráfico de Líneas
+
+Respuesta: C) Word Cloud
+
+
+La nube de palabras (word cloud) muestra términos con tamaños
+proporcionales a su frecuencia o peso (TF-IDF). Es útil en
+presentaciones y EDA visual.
+
+Ejemplo de código:
+
+#+BEGIN_SRC python
+from wordcloud import WordCloud
+texto = ' '.join(df['Titulo'].fillna(''))
+wc = WordCloud(width=800, height=400).generate(texto)
+wc.to_file('wordcloud_titulos.png')
+#+END_SRC
+
+*** Pregunta 17
+17. Línea muy ruidosa al graficar volumen diario. ¿Qué técnica suaviza
+    la tendencia?  A) Box-Cox B) Promedio Móvil C) Extracción de
+    Entidades D) Tokenización
+
+Respuesta: B) Promedio Móvil
+
+
+El promedio móvil suaviza fluctuaciones de corto plazo y evidencia la
+tendencia subyacente. Se elige la ventana según la granularidad (7
+días, 30 días, etc.).
+
+Ejemplo de código: ya incluido en Pregunta 9 (rolling mean).
+
+*** Pregunta 18
+18. Para graficar TF-IDF en 2D, ¿qué reducción de dimensionalidad
+    usas?  A) QR B) PCA o t-SNE C) Regresión Logística D) Naive Bayes
+
+Respuesta: B) PCA o t-SNE
+
+
+PCA es rápido y lineal; t-SNE preserva vecindades locales y suele
+separar clusters en visualizaciones. UMAP es otra opción.
+
+Ejemplo de código:
+
+#+BEGIN_SRC python
+from sklearn.decomposition import PCA
+pca = PCA(n_components=2)
+coords = pca.fit_transform(X.toarray())
+df['x'], df['y'] = coords[:,0], coords[:,1]
+#+END_SRC
+
+*** Pregunta 19
+19. Entrenar con TF-IDF antes de separar train/test causa: A) Fuga
+    temporal B) Fuga en el preprocesamiento C) Fuga en el despliegue
+    D) Fuga en la visualización
+
+Respuesta: B) Fuga en el preprocesamiento
+
+
+Aplicar transformaciones aprendidas sobre todo el dataset (por ejemplo
+TF-IDF o selección de características) antes de separar, permite que
+la información del test influya en el entrenamiento. Se debe ajustar
+el vectorizador sólo con el set de entrenamiento.
+
+Ejemplo de código (correcto):
+
+#+BEGIN_SRC python
+from sklearn.model_selection import train_test_split
+X_train_raw, X_test_raw, y_train, y_test = train_test_split(df['Resumen'], y, test_size=0.2, random_state=42)
+vec = TfidfVectorizer(stop_words='spanish')
+X_train = vec.fit_transform(X_train_raw)
+X_test = vec.transform(X_test_raw)
+#+END_SRC
+
+*** Pregunta 20
+20. Para explicar qué palabras influyeron en predecir "Frankenstein",
+    usarías: A) Matriz de covarianza B) SHAP o LIME C) Número de
+    tokens D) Timestamp del entrenamiento
+
+Respuesta: B) SHAP o LIME
+
+
+SHAP y LIME proporcionan explicaciones locales (por predicción) que
+indican la contribución de cada feature (palabra) a la
+predicción. SHAP se basa en valores de Shapley y ofrece consistencia
+teórica.
+
+Ejemplo de código (shap con pipeline):
+
+#+BEGIN_SRC python
+import shap
+explainer = shap.Explainer(pipe.named_steps['clf'], pipe.named_steps['tfidf'].transform(X_train_raw))
+# explicaciones para las primeras instancias
+# shap_values = explainer(pipe.named_steps['tfidf'].transform(X_test_raw[:5]))
+#+END_SRC
+
+---
+
+
+* Preguntas Boots
+
+1. ¿Cuál es la proporción exacta de registros sobre "Generacion Z" frente a "Frankenstein" en el dataset (porcentaje de cada categoría)?
+
+2. Sin incluir los registros de El País, identifique los tres medios de comunicación que tienen la mayor cantidad de registros.
+
+3. Determine cuál fue el día de mayor actividad noticiosa (mayor número de registros publicados) en todo el dataset y cuántos registros se publicaron ese día.
+
+4. Para la categoría "Frankenstein", calcule cuántos registros tienen una fecha de publicación anterior al 7 de noviembre de 2025.
+
+5. Considerando solo los registros donde el Medio es El Financiero, muestre el conteo de registros para cada categoría ("Generacion Z" y "Frankenstein").
+
+6. Cree un string combinado con el texto de las columnas Título y Resumen solo para "Generacion Z". Muestre las cinco palabras clave más frecuentes (después de eliminar stopwords comunes en español).
+
+7. Calcule cuántos registros de "Frankenstein" mencionan términos relacionados con la producción visual (busque "maquillaje", "vestuario", "diseño" o "estética") en su Resumen o Comentario_Reaccion.
+
+8. Encuentre la diferencia neta entre: a) el número de veces que se menciona la palabra "dolor" o "tragedia" en los comentarios de Frankenstein, y b) el número de veces que se menciona "esperanza" en los comentarios de "Generacion Z".
+
+9. Considerando ambas categorías, determine el número total de registros que mencionan específicamente la plataforma "TikTok" en cualquier columna de texto.
+
+10. Calcule el número total de menciones de los actores (busque las strings "[Actor 1]", "[Actor 2]", "[Actor 3]", "[Actor 4]") en todas las columnas de texto combinadas.
+
+11. Identifique qué medio de comunicación tiene el Tono Promedio más
+    bajo (más negativo) en la categoría "Generacion Z" (asumiendo que
+    ya se calculó la columna Tono_Sentimiento).
+
+12. Para los registros de "Frankenstein", compare el Tono Promedio de
+    aquellos que mencionan explícitamente a Guillermo del Toro (GDT)
+    en el Comentario_Reaccion con el Tono Promedio de aquellos que no
+    lo mencionan.
+
+13. Para los registros de "Generacion Z", determine qué plataforma es
+    más mencionada: Twitter/X o YouTube. Muestre el conteo de
+    menciones para cada una.
+
+14. Filtre los registros de "Frankenstein" que mencionan el término
+    "Venecia". De este subconjunto, muestre el Tono Promedio para
+    evaluar si el reconocimiento en festivales se asocia a un tono más
+    positivo.
+
+16. Calcule cuántos registros de "Generacion Z" cumplen
+    simultáneamente las siguientes condiciones: el Medio es El País Y
+    el Resumen menciona la palabra "gobierno".
+
+17. Utilizando la columna Tono_Sentimiento y los resultados del conteo
+    de palabras clave, sintetice y argumente por qué la cobertura
+    simulada de "Frankenstein" es, en promedio, más positiva que la de
+    "Generacion Z".
+
+18. Con base en el día de mayor actividad, filtre todos los registros
+    de ese día. Usando el Título y Resumen, sintetice el evento clave
+    o confrontación que impulsó esa cobertura.
+
+19. Filtre y analice las citas o resúmenes que se atribuyen a
+    Guillermo del Toro. Sintetice en una sola frase su enfoque
+    principal sobre el mensaje de la historia de Frankenstein.
+
+20. Filtre los registros que mencionan "desinformación", "bots" o
+    "infiltrar". Identifique y enumere las entidades o grupos que son
+    acusados directamente de estos actos en el contexto de las
+    protestas de la Generación Z.
+
+21. Escriba y ejecute el código Python/Pandas necesario para encontrar el número de registros de "Frankenstein" donde el Comentario_Reaccion incluye la frase "obra maestra" o "clásico".
+
+
+* Proyecto 3
+
+
+**  La Generación Z y la Crisis de Sentido en la Era Digital
+
+Pregunta central:
+
+¿Está la Generación Z viviendo una crisis de sentido debido a la
+hiperconectividad, el exceso de información y la falta de proyectos
+compartidos?
+
+Ejes de análisis filosófico:
+
+ - Existencialismo: ¿hay vacío existencial generado por redes sociales? (Sartre, Camus).
+ - Posmodernidad: ¿vivimos en un mundo sin metarrelatos? (Lyotard).
+ - Identidad líquida: cambios constantes, no hay compromisos duraderos (Bauman).
+ - Cultura del rendimiento y burnout juvenil (Byung-Chul Han).
+
+Ángulos de investigación:
+
+ - Influencia de TikTok y algoritmos en la construcción del yo.
+ - Narcisismo digital vs autenticidad.
+ - Ansiedad, depresión y la ilusión de la conexión.
+
+¿Qué valora realmente la Gen Z? ¿Qué rechaza de generaciones anteriores?
+
+
+**  Tecnología, Inteligencia Artificial y la Desaparición de la Autonomía Humana
+
+Pregunta central:
+
+¿Estamos cediendo nuestra autonomía a los algoritmos y la inteligencia artificial?
+
+Ejes filosóficos:
+
+ - Foucault: vigilancia, biopoder y control algorítmico.
+ - Heidegger: la tecnología como “desocultamiento” que transforma al ser humano en recurso.
+ - Habermas: pérdida del espacio público racional.
+ - Dilemas éticos sobre libertad, privacidad y manipulación.
+
+Ángulos de investigación:
+
+ - ¿Decidimos nosotros o decide el algoritmo (Netflix, TikTok, Uber)?
+ - Burbuja de filtros y pensamiento crítico.
+ - IA como creadora de deseos, hábitos o creencias.
+ - El dilema entre eficiencia y humanidad:
+ - ¿vale más la libertad o la comodidad?
