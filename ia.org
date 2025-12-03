@@ -5296,20 +5296,186 @@ for idx in sorted_idx:
 
 
 
-* Bibliografía
-bibliography:bibliografia.bib
+* RAG vs Fine-Tuning con LoRA
+
+*** ¿Qué es RAG?
+
+RAG significa *Retrieval-Augmented Generation*. Es una técnica donde el
+modelo NO se modifica ni aprende nada nuevo, sino que:
+
+1. Se indexan documentos (PDF, textos, páginas, etc.).
+2. Se convierten a fragmentos llamados *chunks*.
+3. Cada chunk se equivale en un vector usando un *embedding model*.
+4. Cuando el usuario hace una pregunta, se hace una búsqueda vectorial.
+5. Los documentos más relevantes se envían al modelo como contexto.
+6. El modelo responde usando esa información, pero **sin modificar sus parámetros internos**.
+
+*** Características de RAG
+
+- No requiere entrenamiento.
+- No modifica el modelo.
+- Permite usar corpora MUY grandes sin costo de entrenamiento.
+- Permite actualizar la información fácilmente.
+- Es ideal para preguntas basadas en documentos.
+
+*** Limitaciones de RAG
+
+- El modelo sólo “lee” el texto; no aprende patrones.
+- Si el embedding es malo, recuperará información irrelevante.
+- No soluciona problemas de razonamiento profundo.
+
+** ¿Qué hace Anything LLM?
+Anything LLM implementa un flujo RAG completo:
+
+- Carga de documentos.
+- Chunking automático.
+- Generación de embeddings.
+- Construcción de una base vectorial.
+- Recuperación y envío al modelo.
+ Interfaz para que el usuario chatee usando esa información.
 
 
+**  Fine‑Tuning
+  El *fine‑tuning* es un proceso donde se modifican los parámetros
+  internos de un modelo ya entrenado. Es útil cuando:
 
-snscrape facebook-page "https://www.facebook.com/share/v/19XLiKLLL8/" --jsonl > posts.jsonl
+- Se quiere que el modelo adopte un estilo particular.
+- Se necesita habilidad especializada (solución de ecuaciones,
+  análisis contable, lenguaje técnico, rol específico).
+- Se requiere consistencia en tareas que RAG no puede garantizar.
 
-snscrape facebook-page "https://www.facebook.com/eduardo.alcc" --jsonl > posts.jsonl
+** Tipos de Fine‑Tuning
 
-https://www.facebook.com/share/v/19XLiKLLL8/
+1. *Full fine‑tuning*: ajustar TODO el modelo.
+2. *Fine‑tuning parcial con LoRA*: ajustar capas adicionales.
+3. *Instruction‑tuning*: enseñar al modelo cómo responder.
+4. *Domain‑tuning*: especializarlo en un área.
 
 
+**  LoRA
+  LoRA (*Low‑Rank Adaptation*) es una técnica moderna que permite
+  entrenar modelos grandes usando muy poca memoria.
+
+*** ¿Cómo funciona LoRA?
+
+- En lugar de modificar los pesos gigantes del modelo, LoRA inserta
+  matrices pequeñas (*low‑rank*) en ciertos módulos.
+- Se entrenan sólo esas matrices, no el modelo completo.
+- El modelo base queda intacto.
+- Los pesos LoRA se pueden combinar o quitar fácilmente.
+
+** Ventajas de LoRA
+
+- Mucho más ligero (a veces 100x más barato).
+- Ideal para GPUs pequeñas.
+- Reversible: se puede cargar y descargar sin destruir el modelo base.
+- Permite entrenar en laptops con 16–24 GB RAM.
+
+---
+
+** Proceso Completo para Hacer un Fine‑Tuning con LoRA
+  A continuación se describe un proceso correcto y profesional.
+
+*** 1. Recolección del corpus
+El corpus debe estar organizado como ejemplos de diálogo estilo JSONL:
+#+begin_src jsonl
+{"prompt": "Resuelve: 5x + 2 = 12", "response": "x = 2"}
+{"prompt": "Explica qué es una derivada", "response": "Una derivada..."}
+#+end_src
+
+Recomendaciones:
+
+- 500 a 50,000 ejemplos.
+- Limpios, sin errores ortográficos.
+-  Consistentes en estilo.
+- Balanceados según el tipo de tarea.
+
+*** 2. Normalización del dataset
+
+- Convertir a JSONL.
+- Limpiar espacios, caracteres raros, emojis.
+- Asegurar delimitadores consistentes.
+- Verificar longitud (no exceder contexto máximo).
+
+*** 3. Seleccionar el modelo base
+Ejemplo:
+
+- Llama‑3 8B
+- Mistral‑7B
+- Qwen‑2.5 7B
+
+Recomendación:  Usar el mismo modelo que planeas usar en producción.
+
+*** 4. Configurar el entrenamiento LoRA
+Parámetros típicos:
+
+- *rank*: 8–32
+- *alpha*: 16–64
+- *learning rate*: 5e‑5 a 1e‑4
+- *batch size*: 1–4 (para GPUs pequeñas)
+- *epochs*: 3–8
+
+*** 5. Entrenar
+Usando frameworks:
+
+- HuggingFace PEFT
+- Axolotl
+- LLaMA‑Factory
+- Unsloth
+
+Ejemplo simplificado (Axolotl):
+#+begin_src yaml
+model: llama3-8b
+adapter: lora
+lora:
+r: 16
+alpha: 32
+dropout: 0.05
+train:
+epochs: 4
+lr: 5e-5
+dataset:
+path: dataset.jsonl
+#+end_src
+
+*** 6. Validar el modelo
+
+- Probar preguntas dentro y fuera del dataset.
+- Verificar si el estilo es consistente.
+- Checar overfitting.
+
+*** 7. Exportar el modelo LoRA
+Se obtiene un archivo:
+
+- adapter_model.bin
+- adapter_config.json
+
+Se puede cargar dinámicamente en cualquier servidor.
 
 
+** Parte V: ¿RAG o Fine‑Tuning?
+
+*** Cuándo usar RAG (Anything LLM)
+
+- Cuando tienes documentos cambiantes.
+- Cuando no necesitas modificar el modelo.
+- Cuando la tarea es principalmente recuperar información.
+
+** Cuándo usar Fine‑Tuning
+
+- Cuando el modelo debe adquirir habilidades.
+- Cuando necesitas estilo o comportamiento fijo.
+- Cuando RAG no es suficiente.
+
+** Ejemplo comparativo
+
+| Caso                                        | RAG          | Fine‑tuning |
+| ------------------------------------------- | ------------ | ----------- |
+| "Explica mi PDF"                            | ✓            | ✗           |
+| "Resuelve integrales"                       | ✗            | ✓           |
+| "Haz un bot experto en álgebra"             | ✓ (limitado) | ✓ (ideal)   |
+| "Bot jurídico basado en leyes actualizadas" | ✓            | ✗           |
+| "Habla como un profesor mexicano"           | ✗            | ✓           |
 
 
 * Examen
@@ -5999,7 +6165,7 @@ explainer = shap.Explainer(pipe.named_steps['clf'], pipe.named_steps['tfidf'].tr
 21. Escriba y ejecute el código Python/Pandas necesario para encontrar el número de registros de "Frankenstein" donde el Comentario_Reaccion incluye la frase "obra maestra" o "clásico".
 
 
-* Proyecto 3
+* Proyecto 3 Agosto Diciembre 2025
 
 
 **  La Generación Z y la Crisis de Sentido en la Era Digital
@@ -6046,3 +6212,165 @@ Ejes filosóficos:
  - IA como creadora de deseos, hábitos o creencias.
  - El dilema entre eficiencia y humanidad:
  - ¿vale más la libertad o la comodidad?
+
+
+
+*  Fine-Tuning Local con Ollama 3.2, Tutor de Algoritmos
+
+** Introducción
+Estos apuntes explican cómo realizar un *fine-tuning completamente local* de un modelo LLM 
+utilizando *Ollama 3.2*. El objetivo es construir un *tutor de programación* capaz de:
+
+
+** Requisitos
+
+***  Software
+- Linux (recomendado).
+- Docker (opcional).
+- Python 3.10+ (solo si deseas generar dataset).
+
+*** Instalar Ollama
+#+begin_src bash
+curl -fsSL https://ollama.com/install.sh | sh
+#+end_src
+
+Verifica:
+#+begin_src bash
+ollama --version
+#+end_src
+
+*** Modelos recomendados para Fine-Tuning Local
+Ollama permite cargar modelos *open-source* compatibles con entrenamiento local.
+
+Recomendados para actuar como tutor:
+
+1. *Llama 3.2*
+2. *Phi 3 Medium*
+3. *Mistral 7B*
+4. *DeepSeek-R1 (reasoning)*
+
+Ejemplo para descargar Llama 3.2:
+#+begin_src bash
+ollama pull llama2
+#+end_src
+
+(Ollama renombra algunos modelos; revisar con =ollama list= )
+
+*** ¿Cómo funciona el Fine-Tuning en Ollama?
+El fine-tuning en Ollama se realiza creando un archivo llamado =Modelfile= (similar a Dockerfile).
+
+El Modelfile contiene:
+
+- El modelo base.
+- Nuevas instrucciones.
+- Dataset de entrenamiento.
+- Parámetros de aprendizaje.
+
+Una vez que tengas el dataset, puedes hacer:
+
+#+begin_src bash
+ollama create tutor --file Modelfile
+#+end_src
+
+Y luego usarlo:
+
+#+begin_src bash
+ollama run tutor
+#+end_src
+
+*** Crear Dataset para Tutor de Programación
+Los modelos open-source se entrenan con *archivos JSONL* en formato instruct:
+
+#+begin_src json
+{"prompt": "explica que hace este código en python: for i in range(3): print(i)",
+ "response": "Este código imprime los números del 0 al 2. Paso a paso: ..."}
+#+end_src
+
+Debes tener mínimo *50 ejemplos*, idealmente *500–2000*.
+
+*** Ejemplos listos para usar
+#+begin_src json
+{"prompt": "Explícame qué es una variable en programación.",
+ "response": "Una variable es un espacio donde guardas un valor. En Python, por ejemplo: x = 10 ..."}
+
+{"prompt": "Corrige este error en C: printf(\"%d\",x)",
+ "response": "Falta un punto y coma al final y debes asegurar que x esté declarado. Quedaría así: printf(\"%d\", x);"}
+
+{"prompt": "Enséñame recursión con un ejemplo simple.",
+ "response": "La recursión ocurre cuando una función se llama a sí misma. Ejemplo clásico: factorial(n) ..."}
+
+{"prompt": "Hazme un ejercicio de loops en JavaScript nivel fácil.",
+ "response": "Claro. Ejercicio: escribe un for que imprima del 1 al 10..."}
+
+{"prompt": "¿Qué es un puntero en C?",
+ "response": "Un puntero almacena la dirección de memoria de otra variable. Por ejemplo: int *p = &x;"}
+#+end_src
+
+Guarda este dataset como:
+=tutor_dataset.jsonl=
+
+*** Crear el archivo Modelfile
+Ejemplo base:
+
+#+begin_src dockerfile
+FROM llama2
+
+# Instrucción general del modelo (estilo del tutor)
+SYSTEM "Eres un tutor de programación experto, paciente, claro y didáctico. Explicas paso a paso y das ejemplos."
+
+# Incluir dataset
+TRAINING_DATA tutor_dataset.jsonl
+
+# Ajustes de aprendizaje
+PARAMETER learning_rate 0.0001
+PARAMETER epochs 3
+#+end_src
+
+Guarda este archivo como:
+=Modelfile=
+
+*** Ejecutar el Fine-Tuning
+Muy simple:
+
+#+begin_src bash
+ollama create tutor_programacion --file Modelfile
+#+end_src
+
+Esto genera un modelo nuevo localizado en:
+~/.ollama/models/tutor_programacion~
+
+*** Ejecutar el Tutor Local
+#+begin_src bash
+ollama run tutor_programacion
+#+end_src
+
+Ejemplo de uso:
+#+begin_src text
+> Explícame qué es una función en Python.
+#+end_src
+
+*** Añadir más conocimiento al tutor
+Se puedes refinar el modelo agregando más JSONL al Modelfile:
+
+#+begin_src dockerfile
+TRAINING_DATA dataset_basico.jsonl
+TRAINING_DATA dataset_avanzado.jsonl
+#+end_src
+
+O crear nuevos datasets temáticos:
+
+- Python básico.
+- C depuración de errores.
+- Java orientación a objetos.
+- SQL consultas complejas.
+- Ejercicios de algoritmos.
+
+*** Consejos prácticos para un buen tutor
+- Usa datasets con respuestas siempre claras y estructuradas.
+- Mezcla teoría, ejemplos y ejercicios.
+- Evita respuestas contradictorias.
+- Incluye casos reales de debugging.
+- Entrena con varios lenguajes.
+
+
+
