@@ -6374,3 +6374,192 @@ O crear nuevos datasets temáticos:
 
 
 
+*  Fine-Tuning Local con LoRA para Crear un Tutor de Programación
+
+** Introducción
+Este apartado explica cómo realizar un entrenamiento *LoRA* (Low-Rank Adaptation)
+para crear un *tutor de programación* utilizando modelos open-source.
+
+Todo se ejecuta *100% local*, sin pagar servicios en la nube.
+
+LoRA es un método de fine-tuning ligero que:
+- Requiere muy poca VRAM (8–12 GB son suficientes).
+- No modifica el modelo base; solo agrega adaptadores.
+- Permite entrenar modelos grandes en una laptop.
+
+** Requisitos
+Instalar dependencias:
+
+#+begin_src bash
+pip install torch transformers peft datasets accelerate
+#+end_src
+
+Opcional para GPU Nvidia:
+
+#+begin_src bash
+pip install bitsandbytes
+#+end_src
+
+** Elegir modelo base
+Puedes elegir entre:
+
+- *meta-llama/Llama-3.1-8B*
+- *microsoft/Phi-3-mini*
+- *mistralai/Mistral-7B-Instruct*
+
+Ejemplo con Llama 3.2 compatible:
+
+#+begin_src python
+model_name = "meta-llama/Meta-Llama-3-8B-Instruct"
+#+end_src
+
+** Crear dataset de tutor de programación
+El dataset debe estar en formato instruct:
+
+#+begin_src json
+{"instruction": "Explica que es una variable en Python",
+ "response": "Una variable es un espacio donde guardas un valor..."}
+{"instruction": "Corrige este error: printf(\"%d\",x)",
+ "response": "Falta un punto y coma; debe quedar: printf(\"%d\", x);"}
+{"instruction": "Muéstrame un ejemplo simple de recursión",
+ "response": "La recursión ocurre cuando una función se llama a sí misma..."}
+#+end_src
+
+Guárdalo como: =tutor_programacion.jsonl=
+
+** Script LoRA completo (Python)
+Este script funciona tal cual para entrenar LoRA localmente:
+
+#+begin_src python
+import json
+from datasets import load_dataset
+from transformers import AutoModelForCausalLM, AutoTokenizer, DataCollatorForLanguageModeling
+from peft import LoraConfig, get_peft_model
+from transformers import TrainingArguments, Trainer
+
+# -----------------------------
+# 1. Cargar dataset
+# -----------------------------
+dataset = load_dataset("json", data_files="tutor_programacion.jsonl")
+
+# -----------------------------
+# 2. Cargar modelo base
+# -----------------------------
+model_name = "meta-llama/Meta-Llama-3-8B-Instruct"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+tokenizer.pad_token = tokenizer.eos_token
+
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    load_in_8bit=True,  # Requiere bitsandbytes
+    device_map="auto"
+)
+
+# -----------------------------
+# 3. Configurar LoRA
+# -----------------------------
+lora_config = LoraConfig(
+    r=8,
+    lora_alpha=16,
+    target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
+    lora_dropout=0.1,
+    bias="none",
+    task_type="CAUSAL_LM"
+)
+
+model = get_peft_model(model, lora_config)
+
+# -----------------------------
+# 4. Preprocesar el dataset
+# -----------------------------
+def format_instruction(example):
+    prompt = f"Instrucción: {example['instruction']}\nRespuesta:"
+    return tokenizer(prompt + example["response"], truncation=True)
+
+tokenized = dataset.map(format_instruction)
+
+# -----------------------------
+# 5. Entrenamiento
+# -----------------------------
+training_args = TrainingArguments(
+    output_dir="./lora-tutor",
+    per_device_train_batch_size=1,
+    gradient_accumulation_steps=16,
+    logging_steps=50,
+    num_train_epochs=3,
+    fp16=True,
+    save_steps=500,
+)
+
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=tokenized["train"],
+    data_collator=DataCollatorForLanguageModeling(tokenizer, mlm=False),
+)
+
+trainer.train()
+
+# -----------------------------
+# 6. Guardar adaptadores LoRA
+# -----------------------------
+model.save_pretrained("./lora-tutor")
+print("Entrenamiento completado. Adaptadores guardados.")
+#+end_src
+
+** Cargar el modelo LoRA para uso local
+
+Puedes usarlo con texto libre:
+
+#+begin_src python
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from peft import PeftModel
+
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+base_model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+model = PeftModel.from_pretrained(base_model, "./lora-tutor")
+
+prompt = "Explícame qué es una función en Python."
+inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
+outputs = model.generate(**inputs, max_length=300)
+
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+#+end_src
+
+** Exportar LoRA hacia Ollama (opcional)
+
+Puedes convertir los adaptadores LoRA para que funcionen en *Ollama*:
+
+1. Convertir modelo a formato GGUF:
+#+begin_src bash
+python convert.py --model ./lora-tutor --out llama_lora.gguf
+#+end_src
+
+2. Crear un Modelfile:
+
+#+begin_src dockerfile
+FROM llama3
+ADAPTER lora ./llama_lora.gguf
+SYSTEM "Eres un tutor de programación experto..."
+#+end_src
+
+3. Crear el modelo:
+
+#+begin_src bash
+ollama create tutor_lora --file Modelfile
+#+end_src
+
+4. Ejecutar:
+
+#+begin_src bash
+ollama run tutor_lora
+#+end_src
+
+** Consejos para mejorar la calidad del LoRA
+- Usar mínimo *100–500 ejemplos*.
+- No mezclar estilos diferentes.
+- Mantener un tono claro, didáctico y consistente.
+- Mezclar errores reales de código con correcciones.
+- Incluir ejercicios y explicaciones paso a paso.
+
+
