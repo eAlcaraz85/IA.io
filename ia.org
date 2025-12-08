@@ -6165,57 +6165,7 @@ explainer = shap.Explainer(pipe.named_steps['clf'], pipe.named_steps['tfidf'].tr
 21. Escriba y ejecute el código Python/Pandas necesario para encontrar el número de registros de "Frankenstein" donde el Comentario_Reaccion incluye la frase "obra maestra" o "clásico".
 
 
-* Proyecto 3 Agosto Diciembre 2025
-
-
-**  La Generación Z y la Crisis de Sentido en la Era Digital
-
-Pregunta central:
-
-¿Está la Generación Z viviendo una crisis de sentido debido a la
-hiperconectividad, el exceso de información y la falta de proyectos
-compartidos?
-
-Ejes de análisis filosófico:
-
- - Existencialismo: ¿hay vacío existencial generado por redes sociales? (Sartre, Camus).
- - Posmodernidad: ¿vivimos en un mundo sin metarrelatos? (Lyotard).
- - Identidad líquida: cambios constantes, no hay compromisos duraderos (Bauman).
- - Cultura del rendimiento y burnout juvenil (Byung-Chul Han).
-
-Ángulos de investigación:
-
- - Influencia de TikTok y algoritmos en la construcción del yo.
- - Narcisismo digital vs autenticidad.
- - Ansiedad, depresión y la ilusión de la conexión.
-
-¿Qué valora realmente la Gen Z? ¿Qué rechaza de generaciones anteriores?
-
-
-**  Tecnología, Inteligencia Artificial y la Desaparición de la Autonomía Humana
-
-Pregunta central:
-
-¿Estamos cediendo nuestra autonomía a los algoritmos y la inteligencia artificial?
-
-Ejes filosóficos:
-
- - Foucault: vigilancia, biopoder y control algorítmico.
- - Heidegger: la tecnología como “desocultamiento” que transforma al ser humano en recurso.
- - Habermas: pérdida del espacio público racional.
- - Dilemas éticos sobre libertad, privacidad y manipulación.
-
-Ángulos de investigación:
-
- - ¿Decidimos nosotros o decide el algoritmo (Netflix, TikTok, Uber)?
- - Burbuja de filtros y pensamiento crítico.
- - IA como creadora de deseos, hábitos o creencias.
- - El dilema entre eficiencia y humanidad:
- - ¿vale más la libertad o la comodidad?
-
-
-
-*  Fine-Tuning Local con Ollama 3.2, Tutor de Algoritmos
+* Fine-Tuning Local con Ollama 3.2, Tutor de Algoritmos
 
 ** Introducción
 Estos apuntes explican cómo realizar un *fine-tuning completamente local* de un modelo LLM 
@@ -6374,7 +6324,166 @@ O crear nuevos datasets temáticos:
 
 
 
-*  Fine-Tuning Local con LoRA para Crear un Tutor de Programación
+* Configuración de LoRA en Transformers + PEFT
+
+Este apartado  explica detalladamente cada parámetro usado en la configuración
+de LoRA y cómo se aplican sobre un modelo tipo LLaMA (por ejemplo, Llama 3 8B).
+Incluye también la explicación de los módulos "q_proj", "k_proj", "v_proj",
+"o_proj", que son las capas objetivo donde LoRA inyecta los adaptadores.
+
+** ¿Qué es LoRA?
+LoRA (Low-Rank Adaptation) es una técnica que permite entrenar modelos grandes
+sin modificar los pesos originales. En vez de actualizar las matrices grandes,
+se añaden matrices pequeñas y entrenables (A y B) de bajo rango.
+
+Esto reduce drásticamente:
+- el uso de memoria,
+- el tiempo de entrenamiento,
+- el número de parámetros a optimizar.
+
+Así, el modelo original permanece congelado y solo se entrenan los adaptadores.
+
+** Bloques afectados: q_proj, k_proj, v_proj, o_proj
+Estas son las subcapas internas del mecanismo de atención ("self-attention")
+en cada bloque transformer.
+
+*** 1. q_proj (Query Projection)
+Convierte el vector de entrada en un vector de "Query".
+Define *qué está buscando* un token cuando atiende a otros.
+
+*** 2. k_proj (Key Projection)
+Convierte el vector en "Key".
+Define *qué representa* cada token como un posible objetivo de atención.
+
+*** 3. v_proj (Value Projection)
+Convierte el vector en "Value".
+Define *qué información se transmite* cuando un token es atendido.
+
+*** 4. o_proj (Output Projection)
+Después del cálculo de atención, mezcla los resultados de las cabezas.
+Afecta el estilo, coherencia y salida del bloque de atención.
+
+
+#+BEGIN_SRC text
+x → q_proj → Q
+x → k_proj → K
+x → v_proj → V
+attention = softmax(Q·K^T)·V
+attention → o_proj → salida
+#+END_SRC
+
+LoRA modifica estas matrices agregando:
+#+BEGIN_SRC text
+W → W + ΔW
+ΔW = B @ A  (matrices de bajo rango)
+#+END_SRC
+
+** Parámetros principales de LoRA
+La configuración típica es:
+
+#+BEGIN_SRC python
+lora_config = LoraConfig(
+  r=8,
+  lora_alpha=16,
+  target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
+  lora_dropout=0.1,
+  bias="none",
+  task_type="CAUSAL_LM"
+)
+#+END_SRC
+
+A continuación se detallan todos los parámetros.
+
+*** r (rank)
+- Define el tamaño de las matrices A y B del adaptador LoRA.
+- Mientras menor sea r, menos parámetros se entrenan.
+- Valores típicos: 4, 8, 16.
+
+Ejemplo:
+Si la matriz original es 4096×4096 y r = 8:
+- A es 4096×8
+- B es 8×4096
+
+Es decir, se entrena *una fracción minúscula* del total.
+
+*** lora_alpha
+Factor de escalado aplicado a la actualización de LoRA:
+
+#+BEGIN_SRC text
+ΔW = (alpha / r) * (B @ A)
+#+END_SRC
+
+Permite controlar la intensidad de la adaptación sin cambiar r.
+
+Valores típicos: 16, 32, 64.
+
+*** target_modules
+Lista de nombres de las capas del modelo en las que se aplicará LoRA.
+
+Para modelos tipo LLaMA:
+- "q_proj"
+- "k_proj"
+- "v_proj"
+- "o_proj"
+
+Estas son las matrices más influyentes en el comportamiento del modelo, ya que
+controlan la atención.
+
+*** lora_dropout
+Dropout aplicado solo dentro de los adaptadores LoRA.
+Ayuda a estabilizar el entrenamiento y evitar overfitting.
+
+Valores típicos: 0.05 a 0.1.
+
+*** bias
+Controla si los *bias* son entrenados.
+- "none" → no se entrenan sesgos (lo más común).
+- "all"  → entrena todos los sesgos del modelo.
+- "lora_only" → solo sesgos en capas LoRA.
+
+En la mayoría de casos se deja en "none".
+
+*** task_type
+Define el tipo de tarea para la que se adapta LoRA.
+Para modelos generativos:
+- "CAUSAL_LM"
+
+Otros ejemplos:
+- "SEQ_CLS": clasificación
+- "TOKEN_CLS": etiquetado
+
+Esto le dice al framework cómo insertar los adaptadores.
+
+** ¿Qué hace get_peft_model?
+#+BEGIN_SRC python
+model = get_peft_model(model, lora_config)
+#+END_SRC
+
+*** 1. Congela todos los pesos originales del modelo.
+No se entrenan ni se modifican.
+
+*** 2. Inserta las matrices A y B (adaptadores LoRA)
+Solo en los módulos indicados en `target_modules`.
+
+*** 3. Marca como entrenables únicamente los parámetros LoRA
+Reduciendo de millones a decenas de miles de parámetros.
+
+*** 4. Mantiene compatible el forward del modelo
+Sin afectar la inferencia estándar.
+
+
+
+- "q_proj", "k_proj", "v_proj" controlan cómo se calcula la atención.
+- "o_proj" mezcla esa atención y produce la salida.
+- Son los puntos más sensibles donde un modelo aprende estilo, instrucciones y comportamiento.
+- LoRA agrega adaptadores en estas capas para entrenar rápido y con pocos recursos.
+- El modelo base queda intacto; solo se ajustan los adaptadores.
+
+Este conjunto de parámetros permite un fine-tuning eficiente, rápido y seguro,
+ideal para adaptar modelos grandes a tareas específicas sin necesidad de grandes GPUs.
+
+
+* Fine-Tuning Local con LoRA para Crear un Tutor de Programación
 
 ** Introducción
 Este apartado explica cómo realizar un entrenamiento *LoRA* (Low-Rank Adaptation)
@@ -6561,5 +6670,248 @@ ollama run tutor_lora
 - Mantener un tono claro, didáctico y consistente.
 - Mezclar errores reales de código con correcciones.
 - Incluir ejercicios y explicaciones paso a paso.
+
+
+
+
+
+
+
+* Proyecto 3 Agosto Diciembre 2025
+
+
+**  La Generación Z y la Crisis de Sentido en la Era Digital
+
+Pregunta central:
+
+¿Está la Generación Z viviendo una crisis de sentido debido a la
+hiperconectividad, el exceso de información y la falta de proyectos
+compartidos?
+
+Ejes de análisis filosófico:
+
+ - Existencialismo: ¿hay vacío existencial generado por redes sociales? (Sartre, Camus).
+ - Posmodernidad: ¿vivimos en un mundo sin metarrelatos? (Lyotard).
+ - Identidad líquida: cambios constantes, no hay compromisos duraderos (Bauman).
+ - Cultura del rendimiento y burnout juvenil (Byung-Chul Han).
+
+Ángulos de investigación:
+
+ - Influencia de TikTok y algoritmos en la construcción del yo.
+ - Narcisismo digital vs autenticidad.
+ - Ansiedad, depresión y la ilusión de la conexión.
+
+¿Qué valora realmente la Gen Z? ¿Qué rechaza de generaciones anteriores?
+
+
+**  Tecnología, Inteligencia Artificial y la Desaparición de la Autonomía Humana
+
+Pregunta central:
+
+¿Estamos cediendo nuestra autonomía a los algoritmos y la inteligencia artificial?
+
+Ejes filosóficos:
+
+ - Foucault: vigilancia, biopoder y control algorítmico.
+ - Heidegger: la tecnología como “desocultamiento” que transforma al ser humano en recurso.
+ - Habermas: pérdida del espacio público racional.
+ - Dilemas éticos sobre libertad, privacidad y manipulación.
+
+Ángulos de investigación:
+
+ - ¿Decidimos nosotros o decide el algoritmo (Netflix, TikTok, Uber)?
+ - Burbuja de filtros y pensamiento crítico.
+ - IA como creadora de deseos, hábitos o creencias.
+ - El dilema entre eficiencia y humanidad:
+ - ¿vale más la libertad o la comodidad?
+
+
+
+
+ 
+
+** Proyecto de Análisis de Datos mediante RAG
+
+*** Introducción
+  La presente propuesta tiene como objetivo realizar un análisis de datos mediante técnicas RAG (Retrieval-Augmented Generation) para explorar dos grandes problemáticas filosóficas contemporáneas:
+
+1. La posible crisis de sentido en la Generación Z debido a la hiperconectividad.
+2. La pérdida gradual de autonomía humana frente al avance de los algoritmos y la inteligencia artificial.
+
+Este proyecto integra análisis cualitativo y cuantitativo, minería de
+texto, recuperación semántica y modelos generativos.
+
+*** Planteamiento General del Proyecto
+  Se utilizará un sistema RAG para:
+
+- Recuperar información desde bases de datos.
+- Analizar discursos y tendencias en redes sociales.
+- Procesar texto mediante embeddings.
+- Generar interpretaciones fundamentadas mediante IA.
+
+El propósito central es comprender cómo los algoritmos moldean el sentido de vida, identidad y autonomía en la Generación Z.
+
+*** Ejes Teóricos y Filosóficos
+  ** Crisis de sentido en la Generación Z
+
+- Existencialismo (Sartre, Camus): vacío existencial.
+- Posmodernidad (Lyotard): fin de los metarrelatos.
+- Identidad líquida (Bauman).
+- Cultura del rendimiento (Byung-Chul Han).
+
+Ángulos:
+
+- Algoritmos y construcción del yo.
+- Narcisismo digital.
+-  Ansiedad y depresión juvenil.
+- Valores y rechazos generacionales.
+
+*** Tecnología, IA y Autonomía Humana
+
+- Foucault: vigilancia y biopoder.
+- Heidegger: desocultamiento y tecnificación del ser.
+- Habermas: erosión del espacio público.
+
+Ángulos:
+
+- ¿Decide el usuario o el algoritmo?
+- Burbujas de filtro.
+- Creación algorítmica de deseos.
+
+
+***  Metodología
+
+1. Formular la pregunta central del proyecto: ¿Cómo se manifiesta la crisis de sentido en la Gen Z y qué papel juegan los algoritmos en su autonomía?
+2. Elaborar una lista detallada de hipótesis y supuestos filosóficos a evaluar.
+3. Construir un corpus robusto con textos académicos, artículos y publicaciones relevantes.
+4. Identificar conceptos clave (sentido, autonomía, algoritmo, identidad, burnout) y crear un glosario inicial.
+5. Realizar limpieza profunda del corpus (stopwords, normalización, lematización).
+6. Generar embeddings y verificar si representan adecuadamente los conceptos filosóficos.
+7. Implementar un vector store y justificar la elección (FAISS, Pinecone, Chroma).
+8. Crear un pipeline RAG y documentar cada parte del flujo.
+9. Probar el sistema con preguntas exploratorias como: "¿Qué emociones predominan en los discursos juveniles sobre identidad?".
+10. Evaluar la precisión de la recuperación y mejorar criterios semánticos.
+11. Ajustar el modelo generativo para que responda desde marcos filosóficos concretos.
+12. Identificar clústeres temáticos: vacío existencial, presión algorítmica, identidad fragmentada, etc.
+13. Generar visualizaciones semánticas que permitan detectar crisis de sentido: mapas conceptuales, grafos.
+14. Aplicar análisis emocional para responder: ¿predomina la ansiedad, frustración, esperanza o confusión?
+15. Diseñar preguntas comparativas entre generaciones (Millennials vs Gen Z) y analizar diferencias.
+16. Estudiar específicamente: ¿cómo describe la Gen Z su autonomía frente a algoritmos como TikTok o Netflix?
+17. Detectar patrones algorítmicos en las recomendaciones y reflexionar: ¿qué hábitos inducen?
+18. Comparar la autonomía percibida vs la autonomía real utilizando citas recuperadas.
+19. Integrar los resultados de datos con marcos de Foucault, Han, Bauman y Lyotard.
+20. Generar un análisis interpretativo: ¿hay evidencia empírica de una crisis de sentido contemporánea?
+21. Elaborar conclusiones provisionales y re-evaluar si las hipótesis iniciales se sostienen.
+22. Redactar el informe final con apartados filosófico-tecnológicos.
+
+*** Preguntas de análisis para que se respondan usando su sistema RAG
+
+1. ¿Qué expresiones o términos utiliza la Gen Z para describir el vacío existencial en redes sociales?
+2. ¿Cómo influyen los algoritmos de recomendación en la construcción de su identidad?
+3. ¿Qué emociones aparecen con mayor frecuencia cuando se habla de burnout o presión digital?
+4. ¿La Gen Z percibe la autonomía como algo propio o como algo condicionado por la tecnología?
+5. ¿Qué diferencias hay entre discursos auténticos vs discursos performativos en plataformas como TikTok?
+6. ¿Existen patrones de lenguaje que indiquen crisis de sentido o desorientación vital?
+7. ¿Cómo se refleja la idea de "identidad líquida" en los datos recuperados?
+8. ¿Qué menciones aparecen sobre libertad, control o manipulación algorítmica?
+9. ¿Se observan señales de que los algoritmos crean deseos o hábitos?
+10. ¿Qué temas o preocupaciones predominan en la conversación digital sobre propósito de vida?
+11. ¿Hay evidencia de rechazo a los metarrelatos o valores tradicionales?
+12. ¿Cómo aparece la figura del "yo digital" en los textos analizados?
+13. ¿Qué ejemplos concretos muestran pérdida del pensamiento crítico por efecto de la burbuja de filtros?
+14. ¿Existen contrastes entre la visión que la Gen Z tiene de sí misma y lo que los datos sugieren?
+15. ¿Qué rol juega la hiperconectividad en la ansiedad o depresión mencionada?
+16. ¿Se observan patrones que apoyen las ideas de Byung-Chul Han sobre rendimiento y autoexplotación?
+17. ¿Cómo interpretaría Foucault el régimen de vigilancia algorítmica detectado?
+18. ¿Qué evidencias hay de que la tecnología "desoculta" y transforma la vida según Heidegger?
+19. ¿El espacio público digital está debilitado como afirma Habermas? ¿Qué muestran los datos?
+20. ¿Cuáles son los principales miedos, frustraciones y esperanzas de la Gen Z frente al futuro?
+
+*** Resultados Esperados
+
+- Análisis documentado con evidencia.
+- Sistema RAG operativo.
+- Conclusiones filosóficas basadas en datos.
+- Informe final y visualizaciones.
+
+
+
+* Proyecto 4 Agosto Diciembre 2025
+
+
+** Fine-Tuning de un Tutor Inteligente de Algoritmos
+
+*** Introducción
+  El presente proyecto tiene como objetivo desarrollar y entrenar un
+  modelo de lenguaje especializado en la enseñanza de algoritmos,
+  utilizando técnicas de *fine-tuning*. La intención es crear un **Tutor
+  Inteligente de Algoritmos** capaz de explicar conceptos, resolver
+  ejercicios, generar ejemplos, evaluar soluciones propuestas y
+  acompañar a los estudiantes durante el aprendizaje de estructuras de
+  datos y diseño algorítmico.
+
+Este tutor será adaptado a necesidades reales mediante un conjunto
+curado de datos provenientes de explicaciones, ejercicios,
+pseudocódigo, problemas clásicos de algoritmia y diálogos
+pedagógicos. El modelo resultante ofrecerá respuestas claras,
+progresivas y alineadas con buenas prácticas educativas.
+
+*** Objetivo General
+  Entrenar y evaluar un modelo de lenguaje mediante *fine-tuning* para
+  que opere como un tutor especializado en enseñanza de algoritmos,
+  capaz de brindar explicaciones comprensibles, detalladas y adaptadas
+  a distintos niveles de dominio.
+
+*** Objetivos Específicos
+
+1. Diseñar un dataset educativo compuesto por explicaciones paso a paso, ejercicios resueltos y conversaciones tutor-estudiante.
+2. Realizar el preprocesamiento, limpieza y segmentación del dataset.
+3. Entrenar un modelo base de lenguaje mediante *fine-tuning* supervisado.
+4. Evaluar el desempeño del tutor en ejercicios de complejidad y explicación.
+5. Ajustar parámetros del modelo según métricas como claridad, precisión y coherencia pedagógica.
+6. Generar versiones iterativas del tutor para distintos niveles (básico, intermedio, avanzado).
+
+*** Planteamiento del Problema
+  A muchos estudiantes les resulta difícil comprender algoritmos debido a:
+
+- Falta de explicaciones detalladas o contextualizadas.
+- Escasez de ejemplos paso a paso.
+- Dificultad para visualizar el funcionamiento interno.
+- Ausencia de retroalimentación inmediata.
+
+Un sistema de tutoría inteligente puede resolver estas limitaciones mediante explicaciones personalizadas, ejercicios graduados y retroalimentación guiada.
+
+*** Metodología
+  El proyecto se divide en las siguientes puntos:
+
+1. Definir el alcance exacto del tutor y los temas principales.
+2. Seleccionar el modelo base para entrenamiento.
+3. Crear un repositorio inicial de problemas de algoritmos.
+4. Diseñar un conjunto de explicaciones pedagógicas claras.
+5. Redactar ejemplos de interacción tutor-estudiante.
+6. Normalizar y limpiar el corpus.
+7. Dividir datos en entrenamiento, validación y prueba.
+8. Formatear datos en estructura de instrucciones.
+9. Implementar el pipeline de *fine-tuning*.
+10. Ajustar hiperparámetros de entrenamiento.
+11. Probar explicaciones generadas en ejercicios básicos.
+12. Evaluar la coherencia del modelo en problemas recursivos.
+13. Medir la calidad de razonamiento en grafos.
+14. Revisar las respuestas para detectar errores.
+15. Ampliar el dataset según necesidades encontradas.
+16. Entrenar nuevamente el modelo con datos corregidos.
+17. Evaluar desempeño comparando con un baseline.
+18. Integrar el tutor en una interfaz simple.
+19. Preparar una guía de uso para estudiantes.
+20. Generar ejemplos de preguntas recomendadas.
+21. Crear una sección de ejercicios automáticos.
+22. Documentar todo el proyecto para evaluación final.
+
+*** Resultados Esperados
+
+- Un tutor especializado capaz de explicar algoritmos.
+- Un modelo entrenado con datos cuidadosamente curados.
+- Una herramienta útil para estudiantes de computación.
+- Un sistema adaptable para incluir nuevos temas.
 
 
