@@ -3704,7 +3704,7 @@ Recuerda: Un modelo con 90% accuracy puede ser inútil si tiene 10% Recall (much
 
 
 
-**  Redes Neuronales Recurrentes (RNN)
+** Redes Neuronales Recurrentes (RNN)
 
 *** Introducción
 
@@ -6206,7 +6206,579 @@ layers.GRU(32,
 
 
 
-       
+
+
+
+* RNN para autocompletado — NumPy a mano + TensorFlow
+
+** Objetivo
+
+Aprender cómo una **RNN vanilla** predice el **siguiente carácter** (modelado de lenguaje causal), en tres niveles:
+
+1. *Matemáticas en NumPy*: propagación hacia adelante y **retropropagación en el tiempo (BPTT)** sin bibliotecas de autograd — solo álgebra lineal.
+2. *Ejemplo completo en TensorFlow/Keras*: mismo problema con =Embedding=, =SimpleRNN= y entrenamiento estándar.
+3. *Generación autoregresiva* (autocompletado iterativo).
+
+Los sistemas grandes (Copilot, etc.) usan **Transformers** y muchos datos; aquí el foco es **entender la recurrencia**.
+
+** Requisitos (terminal)
+
+#+begin_src shell :results output :exports both
+python3 -m pip install --upgrade pip
+python3 -m pip install "numpy>=1.24" "tensorflow>=2.15"
+#+end_src
+
+Para **solo** la parte NumPy basta con =numpy=. TensorFlow puede usar CPU
+por defecto; GPU opcional según tu instalación.
+
+
+
+** Fundamentos breves
+*** Una celda RNN con =tanh=
+Estado oculto \(h_t \in \mathbb{R}^H\), entrada **embebida** \(e_t \in \mathbb{R}^d\) (vector fila del embedding del carácter \(x_t\)):
+
+\[
+z_t = W_{xh} e_t^\top + W_{hh} h_{t-1}^\top + b_h, \quad h_t = \tanh(z_t)
+\]
+
+Salida (logits del siguiente token):
+
+\[
+\ell_t = W_{hy} h_t^\top + b_y
+\]
+
+En código usamos formas columnas: =e_t= shape =(d,)=, =h_t= =(H,)=, =Wxh= =(H, d)=, =Whh= =(H, H)=.
+
+*** Pérdida
+Entropía cruzada entre =softmax(\ell_t)= y el carácter objetivo (one-hot). Suma (o media) sobre \(t\).
+
+*** BPTT (idea)
+El gradiente respecto a \(h_t\) recibe contribución del paso \(t\) (vía \(W_{hy}\)) **y** del paso \(t+1\) (vía \(W_{hh}\)). Por eso el bucle hacia atrás en el tiempo acumula =dh_next=.
+
+** Parte A — Corpus y vocabulario compartidos
+Estos bloques usan la sesión =*rnn-numpy-manual*= (cabecera por defecto de =python=).
+
+*** Corpus mínimo reproducible
+
+#+begin_src python :results output :exports both :session *rnn-numpy-manual*
+CORPUS = r'''
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+
+class Punto:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def distancia_origen(self):
+        return (self.x ** 2 + self.y ** 2) ** 0.5
+
+for i in range(10):
+    print(i, fibonacci(i))
+'''
+
+chars = sorted(set(CORPUS))
+stoi = {ch: i for i, ch in enumerate(chars)}
+itos = {i: ch for ch, i in stoi.items()}
+VOCAB_SIZE = len(chars)
+
+
+def encode(s: str):n
+    return [stoi[c] for c in s]
+
+
+def decode(ids):
+    return "".join(itos[i] for i in ids)
+
+
+print("VOCAB_SIZE:", VOCAB_SIZE, "| len(CORPUS):", len(CORPUS))
+#+end_src
+
+#+RESULTS:
+: VOCAB_SIZE: 36 | len(CORPUS): 391
+
+*** Ventanas (entrada / objetivo siguiente carácter)
+
+#+begin_src python :results output :exports both :session *rnn-numpy-manual*
+import numpy as np
+
+SEQ = np.array(encode(CORPUS), dtype=np.int64)
+block_size = 32
+X_rows, Y_rows = [], []
+for i in range(0, len(SEQ) - block_size):
+    X_rows.append(SEQ[i : i + block_size])
+    Y_rows.append(SEQ[i + 1 : i + 1 + block_size])
+
+X_np = np.stack(X_rows)   # (N, T)
+Y_np = np.stack(Y_rows)   # (N, T) — en t, objetivo = siguiente carácter tras X_np[n,t]
+print("X_np:", X_np.shape, "Y_np:", Y_np.shape)
+#+end_src
+
+#+RESULTS:
+: X_np: (359, 32) Y_np: (359, 32)
+
+** Parte B — RNN solo con NumPy (forward + BPTT + SGD)
+*** Convenciones de forma
+| Símbolo | Shape   | Rol                                           |
+|---------+---------+-----------------------------------------------|
+| =V=       | escalar | =VOCAB_SIZE=                                    |
+| =d=       | escalar | dimensión embedding                           |
+| =H=       | escalar | estado oculto                                 |
+| =E=       | =(V, d)=  | matriz embedding (fila = vector del carácter) |
+| =Wxh=     | =(H, d)=  | entrada embebida → pre-activación             |
+| =Whh=     | =(H, H)=  | estado anterior → pre-activación              |
+| =bh=      | =(H,)=    | sesgo oculto                                  |
+| =Why=     | =(V, H)=  | estado → logits                               |
+| =by=      | =(V,)=    | sesgo de salida                               |
+
+*** Inicialización de pesos
+
+#+begin_src python :results output :exports both :session *rnn-numpy-manual*
+import numpy as np
+
+rng = np.random.default_rng(42)
+H, d_emb = 64, 48
+scale_e = 0.02
+scale_rnn = (1.0 / np.sqrt(H + d_emb))
+
+
+def init_params(V, H, d, rng):
+    E = rng.normal(0, scale_e, size=(V, d))
+    Wxh = rng.normal(0, scale_rnn, size=(H, d))
+    Whh = rng.normal(0, scale_rnn, size=(H, H))
+    bh = np.zeros(H)
+    Why = rng.normal(0, scale_rnn, size=(V, H))
+    by = np.zeros(V)
+    return {"E": E, "Wxh": Wxh, "Whh": Whh, "bh": bh, "Why": Why, "by": by}
+
+
+params_np = init_params(VOCAB_SIZE, H, d_emb, rng)
+print({k: v.shape for k, v in params_np.items()})
+#+end_src
+
+#+RESULTS:
+: {'E': (36, 48), 'Wxh': (64, 48), 'Whh': (64, 64), 'bh': (64,), 'Why': (36, 64), 'by': (36,)}
+
+*** Propagación hacia adelante (guardamos todo lo necesario para BPTT)
+Para cada tiempo \(t\): =emb_t = E[x_t]= (fila), =pre_t = Wxh @ emb_t + Whh @ h_{t-1} + bh=, =h_t = tanh(pre_t)=, =logits_t = Why @ h_t + by=.
+
+#+begin_src python :results output :exports both :session *rnn-numpy-manual*
+import numpy as np
+
+
+def forward_sequence(x_indices, p, h0=None):
+    """x_indices: (T,) enteros. Devuelve logits (T, V), caches para backward."""
+    T = len(x_indices)
+    V, d = p["E"].shape[0], p["E"].shape[1]
+    H = p["bh"].shape[0]
+    if h0 is None:
+        h0 = np.zeros(H)
+
+    h_list = []
+    pre_list = []
+    emb_list = []
+    logits_list = []
+    h_prev = h0.copy()
+
+    for t in range(T):
+        idx = int(x_indices[t])
+        emb = p["E"][idx].copy()
+        pre = p["Wxh"] @ emb + p["Whh"] @ h_prev + p["bh"]
+        h = np.tanh(pre)
+        logits = p["Why"] @ h + p["by"]
+
+        emb_list.append(emb)
+        pre_list.append(pre)
+        h_list.append(h)
+        logits_list.append(logits)
+        h_prev = h
+
+    logits = np.stack(logits_list, axis=0)
+    return logits, {"h": h_list, "pre": pre_list, "emb": emb_list, "x": x_indices}
+
+
+def softmax_rows(z):
+    z = z - z.max(axis=-1, keepdims=True)
+    e = np.exp(z)
+    return e / e.sum(axis=-1, keepdims=True)
+
+
+def cross_entropy_from_logits(logits, targets):
+    """Media sobre tiempo: CE con targets enteros (T,)"""
+    probs = softmax_rows(logits)
+    T = logits.shape[0]
+    nll = 0.0
+    for t in range(T):
+        nll -= np.log(probs[t, int(targets[t])] + 1e-12)
+    return nll / T
+
+
+# Prueba en una secuencia corta
+probe_x = X_np[0]
+probe_y = Y_np[0]
+logits0, cache0 = forward_sequence(probe_x, params_np)
+loss0 = cross_entropy_from_logits(logits0, probe_y)
+print("loss (antes de entrenar, 1 secuencia):", float(loss0))
+#+end_src
+
+#+RESULTS:
+: loss (antes de entrenar, 1 secuencia): 3.586872477065522
+
+*** BPTT: gradientes respecto a todos los pesos
+Derivada útil: \(\frac{d}{dz}\tanh(z) = 1 - \tanh^2(z)\). Para softmax + CE, \(\partial L / \partial \ell_t = p_t - \text{onehot}(y_t)\).
+
+#+begin_src python :results output :exports both :session *rnn-numpy-manual*
+import numpy as np
+
+
+def backward_sequence(targets, p, cache):
+    """
+    targets: (T,) índices del siguiente carácter.
+    Devuelve dict de gradientes con las mismas claves que p (sumas sobre el tiempo).
+    """
+    T = len(targets)
+    V, H = p["Why"].shape
+    d = p["E"].shape[1]
+
+    probs = softmax_rows(np.stack([p["Why"] @ cache["h"][t] + p["by"] for t in range(T)]))
+    d_logits = probs.copy()
+    for t in range(T):
+        d_logits[t, int(targets[t])] -= 1.0
+    d_logits /= T
+
+    g = {k: np.zeros_like(v) for k, v in p.items()}
+    dh_next = np.zeros(H)
+
+    for t in range(T - 1, -1, -1):
+        h = cache["h"][t]
+        pre = cache["pre"][t]
+        emb = cache["emb"][t]
+        xi = int(cache["x"][t])
+
+        dh = p["Why"].T @ d_logits[t] + dh_next
+        dpre = (1.0 - np.tanh(pre) ** 2) * dh
+
+        g["Why"] += np.outer(d_logits[t], h)
+        g["by"] += d_logits[t]
+        g["Wxh"] += np.outer(dpre, emb)
+        g["Whh"] += np.outer(dpre, cache["h"][t - 1] if t > 0 else np.zeros(H))
+        g["bh"] += dpre
+
+        row = np.zeros_like(p["E"][0])
+        row += p["Wxh"].T @ dpre
+        g["E"][xi] += row
+
+        dh_next = p["Whh"].T @ dpre
+
+    return g
+
+
+def sgd_step(p, g, lr):
+    for k in p:
+        p[k] -= lr * g[k]
+
+
+# Comprobar coherencia: paso pequeño debería bajar un poco la pérdida (no garantizado en 1 paso)
+g0 = backward_sequence(probe_y, params_np, cache0)
+params_test = {k: v.copy() for k, v in params_np.items()}
+sgd_step(params_test, g0, lr=0.05)
+logits1, _ = forward_sequence(probe_x, params_test)
+loss1 = cross_entropy_from_logits(logits1, probe_y)
+print("loss después de 1 paso SGD (misma secuencia):", float(loss1))
+#+end_src
+
+#+RESULTS:
+: loss después de 1 paso SGD (misma secuencia): 3.575820814713167
+
+*** Bucles de entrenamiento (minibatches pequeños, CPU)
+Este bucle es **demostrativo**: muchas épocas sobre un corpus pequeño pueden sobreajustar; la meta es ver la pérdida bajar.
+
+#+begin_src python :results output :exports both :session *rnn-numpy-manual*
+import numpy as np
+
+N = X_np.shape[0]
+batch_size = 8
+epochs = 80
+lr = 0.02
+rng = np.random.default_rng(7)
+
+for epoch in range(1, epochs + 1):
+    perm = rng.permutation(N)
+    epoch_loss = 0.0
+    n_batches = 0
+
+    for start in range(0, N, batch_size):
+        batch_idx = perm[start : start + batch_size]
+        g_acc = {k: np.zeros_like(v) for k, v in params_np.items()}
+        batch_loss = 0.0
+        count = 0
+
+        for j in batch_idx:
+            x_seq = X_np[j]
+            y_seq = Y_np[j]
+            logits, cache = forward_sequence(x_seq, params_np)
+            batch_loss += cross_entropy_from_logits(logits, y_seq)
+            g = backward_sequence(y_seq, params_np, cache)
+            for k in g_acc:
+                g_acc[k] += g[k]
+            count += 1
+
+        batch_loss /= max(count, 1)
+        epoch_loss += batch_loss
+        n_batches += 1
+
+        for k in g_acc:
+            g_acc[k] /= max(count, 1)
+        sgd_step(params_np, g_acc, lr)
+
+    if epoch == 1 or epoch % 20 == 0:
+        print(f"epoch {epoch:3d} | pérdida media por batch ~ {epoch_loss / max(n_batches,1):.4f}")
+
+print("Entrenamiento NumPy terminado.")
+#+end_src
+
+#+RESULTS:
+: epoch   1 | pérdida media por batch ~ 3.4601
+: epoch  20 | pérdida media por batch ~ 2.6543
+: epoch  40 | pérdida media por batch ~ 2.0983
+: epoch  60 | pérdida media por batch ~ 1.4455
+: epoch  80 | pérdida media por batch ~ 1.0234
+: Entrenamiento NumPy terminado.
+
+*** Generación con los pesos NumPy
+
+#+begin_src python :results output :exports both :session *rnn-numpy-manual*
+import numpy as np
+
+
+def sample_next(logits, temperature=1.0, rng=None):
+    rng = rng or np.random.default_rng()
+    z = logits / max(temperature, 1e-6)
+    z = z - z.max()
+    p = np.exp(z)
+    p = p / p.sum()
+    return int(rng.choice(len(p), p=p))
+
+
+def complete_numpy(prompt, max_new=120, temperature=0.8, rng=None):
+    rng = rng or np.random.default_rng(123)
+    ids = list(encode(prompt))
+    for _ in range(max_new):
+        x_arr = np.array(ids[-block_size:], dtype=np.int64)
+        if len(x_arr) < block_size:
+            pad = np.full(block_size - len(x_arr), ids[0], dtype=np.int64)
+            x_arr = np.concatenate([pad, x_arr])
+        logits, _ = forward_sequence(x_arr, params_np)
+        next_id = sample_next(logits[-1], temperature=temperature, rng=rng)
+        ids.append(next_id)
+    return decode(ids)
+
+
+txt = complete_numpy("def fac", max_new=100, temperature=0.75)
+print(txt[:400])
+#+end_src
+
+#+RESULTS:
+: def fact):
+:  ** f b i, rsngl(g):
+: 
+:        aelfrnin 1:
+:         aelf_n = 1
+: 
+: 
+:                     det rnin P)c
+
+*** Notas sobre la parte NumPy
+- El gradiente respecto al embedding se acumula **por fila** (=g["E"][xi]+=)=; es la forma escrita explícita del “embedding lookup”.
+- Para corpus grande conviene **recorte de gradientes** (=np.clip=) y quizá **Adam** en lugar de SGD; aquí se prioriza claridad.
+- Complejidad \(O(T)\) por secuencia en tiempo y memoria para BPTT; secuencias muy largas suelen usar **truncamiento** del backprop.
+
+* TensorFlow/Keras (ejemplo completo)
+Cada bloque Python de esta parte incluye explícitamente =:session *rnn-tensorflow*= para no pisar las variables de la parte NumPy.
+
+** Por qué =return_sequences=True= y =TimeDistributed(Dense)=
+
+La capa =SimpleRNN= sin =return_sequences= solo devuelve el **último** paso
+temporal; aquí necesitamos logits en **cada** posición \(t\) para
+comparar con el carácter objetivo siguiente (igual que en
+NumPy). =TimeDistributed(Dense)= aplica la misma transformación lineal a
+cada paso temporal — análogo a \(W_{hy}\) compartido.
+
+** Datos, modelo, entrenamiento
+
+#+begin_src python :results output :exports both :session *rnn-tensorflow*
+import numpy as np
+import tensorflow as tf
+
+tf.keras.utils.set_random_seed(42)
+
+# Si solo ejecutas esta parte (sin Parte A), definimos corpus y helpers aquí.
+try:
+    SEQ
+except NameError:
+    CORPUS = r'''
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+
+class Punto:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def distancia_origen(self):
+        return (self.x ** 2 + self.y ** 2) ** 0.5
+
+for i in range(10):
+    print(i, fibonacci(i))
+'''
+    chars = sorted(set(CORPUS))
+    stoi = {ch: i for i, ch in enumerate(chars)}
+    itos = {i: ch for ch, i in stoi.items()}
+    VOCAB_SIZE = len(chars)
+
+    def encode(s):
+        return [stoi[c] for c in s]
+
+    def decode(ids):
+        return "".join(itos[i] for i in ids)
+
+    SEQ = np.array(encode(CORPUS), dtype=np.int64)
+
+block_size_tf = 32
+X_rows_tf, Y_rows_tf = [], []
+for i in range(0, len(SEQ) - block_size_tf):
+    X_rows_tf.append(SEQ[i : i + block_size_tf])
+    Y_rows_tf.append(SEQ[i + 1 : i + 1 + block_size_tf])
+
+X_tf = np.stack(X_rows_tf)
+Y_tf = np.stack(Y_rows_tf)
+
+embed_dim_tf = 48
+hidden_tf = 64
+
+model_tf = tf.keras.Sequential(
+    [
+        tf.keras.layers.Input(shape=(block_size_tf,)),
+        tf.keras.layers.Embedding(VOCAB_SIZE, embed_dim_tf),
+        tf.keras.layers.SimpleRNN(hidden_tf, activation="tanh", return_sequences=True),
+        tf.keras.layers.TimeDistributed(tf.keras.layers.Dense(VOCAB_SIZE)),
+    ]
+)
+
+model_tf.compile(
+    optimizer=tf.keras.optimizers.Adam(1e-3),
+    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+)
+
+model_tf.summary()
+
+history = model_tf.fit(
+    X_tf,
+    Y_tf,
+    epochs=120,
+    batch_size=16,
+    verbose=0,
+)
+print("épocas:", len(history.history["loss"]))
+print("pérdida inicial:", float(history.history["loss"][0]))
+print("pérdida final:", float(history.history["loss"][-1]))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1776920916.630634  188117 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1776920916.634255  188117 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+I0000 00:00:1776920917.096326  188117 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI AVX_VNNI_INT8 AVX_NE_CONVERT FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1776920918.394229  188117 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1776920918.396201  188117 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+E0000 00:00:1776920919.892487  188117 cuda_platform.cc:52] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: UNKNOWN ERROR (303)
+Model: "sequential"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━
+┃ Layer (type)                         ┃ Output Shape                ┃         P
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━
+│ embedding (Embedding)                │ (None, 32, 48)              │          
+├──────────────────────────────────────┼─────────────────────────────┼──────────
+│ simple_rnn (SimpleRNN)               │ (None, 32, 64)              │          
+├──────────────────────────────────────┼─────────────────────────────┼──────────
+│ time_distributed (TimeDistributed)   │ (None, 32, 36)              │          
+└──────────────────────────────────────┴─────────────────────────────┴──────────
+ Total params: 11,300 (44.14 KB)
+ Trainable params: 11,300 (44.14 KB)
+ Non-trainable params: 0 (0.00 B)
+épocas: 120
+pérdida inicial: 3.1191232204437256
+pérdida final: 0.10811327397823334
+#+end_example
+
+** Generación (autocompletado) con el modelo TensorFlow
+
+#+begin_src python :results output :exports both :session *rnn-tensorflow*
+import tensorflow as tf
+import numpy as np
+
+
+def complete_tf(prompt, max_new_tokens=120, temperature=0.8):
+    """Usa forward de ventana fija: últimos block_size_tf caracteres."""
+    ids = encode(prompt)
+    for _ in range(max_new_tokens):
+        x = np.array(ids[-block_size_tf:], dtype=np.int64)
+        if x.shape[0] < block_size_tf:
+            pad = np.full(block_size_tf - x.shape[0], ids[0], dtype=np.int64)
+            x = np.concatenate([pad, x])
+        x = x.reshape(1, block_size_tf)
+        logits = model_tf(x, training=False).numpy()[0, -1, :]
+        logits = logits / max(temperature, 1e-6)
+        logits = logits - logits.max()
+        probs = np.exp(logits)
+        probs = probs / probs.sum()
+        next_id = int(np.random.choice(len(probs), p=probs))
+        ids.append(next_id)
+    return decode(ids)
+
+
+print(complete_tf("def fac", max_new_tokens=90, temperature=0.75)[:450])
+#+end_src
+
+#+RESULTS:
+: def factorial(n):
+:     if n <= 1:
+:         return 1
+:     return n * factorial(n - 1)
+: 
+: def fibonacci(
+
+** Ampliación práctica
+- Sustituye =CORPUS= por texto leído de tus =.py= (ojo con licencias y datos sensibles).
+- Aumenta =block_size= con **GPU** y más datos.
+- Para producción histórica en secuencias largas: **GRU/LSTM** en Keras (=layers.GRU=, =layers.LSTM=) o **Transformers**.
+
+** Referencias
+- Goodfellow et al., *Deep Learning* — capítulo sobre RNN y BPTT.
+- TensorFlow: documentación de =tf.keras.layers.SimpleRNN=.
+
+
+
+
+
 * Análisis de información  
 ** Programación 
 
