@@ -11443,4 +11443,41 @@ Utilizando algoritmos de inteligencia artificial, responder las siguientes pregu
 
 
 
+* Preguntas RAG 2026
+
+** Banco de Preguntas para Evaluación de RAG: Violencia en México
+
+*** Contexto de Evaluación
+Este documento contiene las consultas de prueba para el sistema RAG
+entrenado con el corpus sobre violencia en México. El objetivo es
+evaluar la precisión del vector store y la mitigación de alucinaciones
+del modelo base.
+
+*** Nivel 1: Extracción de Datos Directos (Factoid)              :extraccion:
+Estas preguntas evalúan si el RAG es capaz de recuperar la métrica o
+el dato exacto sin perderse en el ruido del corpus.
+
+****  Q1: ¿Cuáles son las tres entidades federativas con mayor índice de homicidios dolosos según los datos más recientes incluidos en el corpus?
+****  Q2: ¿Qué organizaciones, cárteles o grupos delictivos se mencionan con mayor frecuencia operando en la región de Tierra Caliente?
+****  Q3: ¿Cuáles son las cifras oficiales reportadas sobre el desplazamiento forzado interno a causa de la violencia durante el último sexenio documentado?
+
+*** Nivel 2: Síntesis y Relación de Conceptos                      :sintesis:
+Estas consultas obligan al sistema a recuperar múltiples fragmentos
+(chunks) de diferentes documentos y fusionarlos de manera coherente.
+
+****  Q4: Según los documentos, ¿cuáles son las principales causas socioeconómicas que los autores asocian directamente al incremento de la violencia urbana?
+****  Q5: Contrasta las estrategias de seguridad pública mencionadas en el corpus. ¿Qué diferencias de enfoque existen entre la militarización y las políticas de prevención social?
+****  Q6: ¿Cómo ha evolucionado la tasa de delitos de extorsión (cobro de piso) a nivel nacional y qué sectores económicos se reportan como los más afectados?
+****  Q7: ¿Existe alguna diferencia significativa documentada en los tipos de violencia que experimentan las zonas rurales en comparación con las zonas metropolitanas?
+
+*** Nivel 3: Razonamiento Analítico y Limitaciones                 :analisis:
+Preguntas trampa o de alta complejidad para verificar si el RAG reconoce sus propios límites basados en el corpus (para evitar alucinaciones).
+
+****  Q8: Con base en las posturas de las ONGs y las fuentes gubernamentales presentes en los textos, ¿cuáles son las principales contradicciones o discrepancias en el registro de víctimas?
+****  Q9: ¿Qué impacto específico tiene la violencia documentada sobre la tasa de deserción escolar en las zonas de alto conflicto? (Nota: Evalúa si el corpus cubre temas educativos o si el RAG alucina una respuesta).
+****  Q10: A partir de las conclusiones de los autores en el corpus, ¿qué vacíos de información, subregistros o falta de datos fiables se identifican como el principal obstáculo para medir la violencia real en el país?
+
+*** Notas para la evaluación
+
+- Medir los tiempos de latencia y  mostrar los /chunks/ de texto que el sistema recuperó para justificar cada respuesta.
 
