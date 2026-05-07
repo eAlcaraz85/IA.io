@@ -6623,6 +6623,9 @@ try:
     SEQ
 except NameError:
     CORPUS = r'''
+#Factorial: es una 
+
+
 def factorial(n):
     if n <= 1:
         return 1
@@ -8936,6 +8939,7 @@ while True:
     pygame.display.flip()
 #+end_src
 
+
 * Web scraping
 
 #+BEGIN_SRC python :results output :tangle code/snscrap.py
@@ -8969,9 +8973,9 @@ Un *embedding* toma objetos de un espacio discreto (como palabras,
 frases, imágenes, o nodos de un grafo) y los transforma en un espacio
 continuo, típicamente un espacio vectorial de dimensión reducida.
 
-Por ejemplo, en NLP, palabras como "gato" y "perro" pueden tener [0.6, 0.4, 0.6, 0.2]
-embeddings que las representan como vectores cercanos en un espacio de
-características, indicando su similitud semántica.
+Por ejemplo, en NLP, palabras como "gato" y "perro" pueden tener [0.6,
+0.4, 0.6, 0.2] embeddings que las representan como vectores cercanos
+en un espacio de características, indicando su similitud semántica.
 
 *** Propiedades de los Embeddings
 - Representación densa: Cada elemento está representado por un vector
@@ -8982,7 +8986,7 @@ características, indicando su similitud semántica.
 
 ** Ejemplos de Uso
 *** Procesamiento del Lenguaje Natural (NLP)
-En NLP, los embeddings como Word2Vec, GloVe o FastText convierten
+En MLP, los embeddings como Word2Vec, GloVe o FastText convierten
 palabras en vectores. Estos vectores permiten realizar tareas como:
 - Análisis de sentimientos.
 - Traducción automática.
@@ -9374,6 +9378,9 @@ for idx in sorted_idx:
 
 
 
+
+
+
 * RAG vs Fine-Tuning con LoRA
 
 *** ¿Qué es RAG?
@@ -9386,7 +9393,8 @@ modelo NO se modifica ni aprende nada nuevo, sino que:
 3. Cada chunk se equivale en un vector usando un *embedding model*.
 4. Cuando el usuario hace una pregunta, se hace una búsqueda vectorial.
 5. Los documentos más relevantes se envían al modelo como contexto.
-6. El modelo responde usando esa información, pero **sin modificar sus parámetros internos**.
+6. El modelo responde usando esa información, pero **sin modificar sus
+   parámetros internos**.
 
 *** Características de RAG
 
@@ -9558,11 +9566,379 @@ Se puede cargar dinámicamente en cualquier servidor.
 
 
 
+*  RAG local con Python + Ollama
+
+** RAG en una frase
+Un sistema RAG responde preguntas usando un LLM, pero *antes* recupera
+fragmentos relevantes desde tus documentos (indexados con embeddings)
+y los inserta como contexto para reducir alucinaciones y habilitar
+respuestas “basadas en evidencia”.
+
+** Arquitectura mínima (los 5 pasos que importan)
+1. **Documentos → texto** (ingesta)
+2. **Texto → chunks** (troceado con solapamiento)
+3. **Chunks → embeddings** (vectores numéricos)
+4. **Embeddings → índice** (búsqueda por similitud)
+5. **Pregunta → retrieval → prompt → LLM** (respuesta citando fuentes)
+
+** Ejemplo funcional (local) con Ollama
+
+Este apartado usa:
+- **Embeddings**: un modelo de embeddings disponible en Ollama (por defecto: `nomic-embed-text`)
+- **LLM generativo**: un modelo generativo disponible en Ollama (por defecto: `llama3.2:3b`)
+- **Vector store**: FAISS (local)
+
+**2.1) Requisitos**
+- Python 3.10+ (recomendado)
+- `ollama` instalado (en tu máquina ya está)
+
+**2.1.1) Código del proyecto (incluido en este apartado)**
+
+En ejecución real, normalmente se separa en archivos, por ejemplo:
+- `rag_local_ollama.py` (script principal)
+- `requirements_rag.txt` (dependencias)
+
+**Dependencias (`requirements_rag.txt`)**
+#+begin_src text 
+faiss-cpu
+numpy
+requests
+tqdm
+#+end_src
+
+**Código completo (`rag_local_ollama.py`)**
+#+begin_src python 
+#!/usr/bin/env python3
+import argparse
+import re
+import sys
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Iterable, List, Tuple
+
+import numpy as np
+import requests
+from tqdm import tqdm
+
+
+@dataclass(frozen=True)
+class Chunk:
+    doc_id: str
+    path: str
+    text: str
+    start_char: int
+
+
+def iter_text_files(docs_dir: Path) -> Iterable[Path]:
+    for p in docs_dir.rglob("*"):
+        if p.is_file() and p.suffix.lower() in {".txt", ".md"}:
+            yield p
+
+
+def read_text(path: Path) -> str:
+    # Lectura simple; si hay PDFs/HTML, conviene convertir antes a texto.
+    return path.read_text(encoding="utf-8", errors="replace")
+
+
+def normalize_whitespace(s: str) -> str:
+    s = s.replace("\u00a0", " ")
+    s = re.sub(r"[ \t]+", " ", s)
+    s = re.sub(r"\n{3,}", "\n\n", s)
+    return s.strip()
+
+
+def chunk_text(text: str, chunk_chars: int = 1500, overlap_chars: int = 250) -> List[Tuple[str, int]]:
+    """
+    Chunking simple por caracteres (baseline).
+    Devuelve lista de (chunk_text, start_char).
+    """
+    text = normalize_whitespace(text)
+    if not text:
+        return []
+    out: List[Tuple[str, int]] = []
+    start = 0
+    n = len(text)
+    while start < n:
+        end = min(n, start + chunk_chars)
+        chunk = text[start:end].strip()
+        if chunk:
+            out.append((chunk, start))
+        if end >= n:
+            break
+        start = max(0, end - overlap_chars)
+    return out
+
+
+def ollama_embed(texts: List[str], model: str, base_url: str) -> np.ndarray:
+    """
+    API local de Ollama: POST /api/embeddings
+    Respuesta: { "embedding": [...] }
+    """
+    vecs = []
+    for t in tqdm(texts, desc="Embeddings", unit="chunk"):
+        r = requests.post(
+            f"{base_url}/api/embeddings",
+            json={"model": model, "prompt": t},
+            timeout=120,
+        )
+        if r.status_code != 200:
+            raise RuntimeError(f"Embeddings failed ({r.status_code}): {r.text}")
+        data = r.json()
+        vecs.append(np.array(data["embedding"], dtype=np.float32))
+    return np.vstack(vecs)
+
+
+def ollama_generate(prompt: str, model: str, base_url: str, temperature: float = 0.2) -> str:
+    """
+    API local de Ollama: POST /api/generate
+    """
+    r = requests.post(
+        f"{base_url}/api/generate",
+        json={
+            "model": model,
+            "prompt": prompt,
+            "stream": False,
+            "options": {"temperature": temperature},
+        },
+        timeout=300,
+    )
+    if r.status_code != 200:
+        raise RuntimeError(f"Generate failed ({r.status_code}): {r.text}")
+    return r.json().get("response", "").strip()
+
+
+def build_prompt(question: str, retrieved: List[Chunk]) -> str:
+    sources = []
+    for i, ch in enumerate(retrieved, start=1):
+        sources.append(f"[Fuente {i}] archivo={ch.path}\n{ch.text}\n")
+    sources_block = "\n".join(sources)
+
+    return f"""Eres un asistente que responde de forma precisa y fundamentada.
+
+Instrucciones:
+- Responde usando ÚNICAMENTE la información contenida en las FUENTES.
+- Si las FUENTES no contienen suficiente información para responder, indica explícitamente qué falta.
+- Cuando afirmes algo, apóyalo citando la fuente correspondiente (por ejemplo: [Fuente 2]).
+
+FUENTES:
+{sources_block}
+
+PREGUNTA:
+{question}
+
+RESPUESTA:
+"""
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description="RAG local con Ollama + FAISS (docs .txt/.md).")
+    ap.add_argument("--docs", required=True, help="Directorio con documentos .txt/.md")
+    ap.add_argument("--question", required=True, help="Pregunta del usuario")
+    ap.add_argument("--topk", type=int, default=4, help="Número de chunks a recuperar")
+    ap.add_argument("--chunk-chars", type=int, default=1500, help="Tamaño de chunk (caracteres)")
+    ap.add_argument("--overlap-chars", type=int, default=250, help="Solapamiento (caracteres)")
+    ap.add_argument("--embed-model", default="nomic-embed-text", help="Modelo de embeddings en Ollama")
+    ap.add_argument("--llm-model", default="llama3.2:3b", help="Modelo generativo en Ollama")
+    ap.add_argument("--ollama-url", default="http://localhost:11434", help="URL base de Ollama")
+    args = ap.parse_args()
+
+    docs_dir = Path(args.docs).expanduser().resolve()
+    if not docs_dir.exists():
+        print(f"ERROR: no existe el directorio: {docs_dir}", file=sys.stderr)
+        return 2
+
+    files = sorted(iter_text_files(docs_dir))
+    if not files:
+        print("ERROR: no se encontraron archivos .txt/.md en el directorio de documentos.", file=sys.stderr)
+        return 2
+
+    chunks: List[Chunk] = []
+    for p in files:
+        text = read_text(p)
+        for chunk, start_char in chunk_text(text, chunk_chars=args.chunk_chars, overlap_chars=args.overlap_chars):
+            chunks.append(
+                Chunk(
+                    doc_id=p.name,
+                    path=str(p.relative_to(docs_dir)),
+                    text=chunk,
+                    start_char=start_char,
+                )
+            )
+
+    if not chunks:
+        print("ERROR: no se generaron chunks (documentos vacíos).", file=sys.stderr)
+        return 2
+
+    # Embeddings de chunks
+    chunk_texts = [c.text for c in chunks]
+    X = ollama_embed(chunk_texts, model=args.embed_model, base_url=args.ollama_url)
+
+    # Construir índice FAISS. Normalizamos para aproximar coseno y usamos producto interno.
+    import faiss
+
+    faiss.normalize_L2(X)
+    index = faiss.IndexFlatIP(X.shape[1])  # inner product ~= coseno si está normalizado
+    index.add(X)
+
+    # Embedding de la pregunta
+    q_vec = ollama_embed([args.question], model=args.embed_model, base_url=args.ollama_url)[0:1]
+    faiss.normalize_L2(q_vec)
+
+    scores, idxs = index.search(q_vec, k=min(args.topk, len(chunks)))
+    retrieved = [chunks[i] for i in idxs[0].tolist()]
+
+    print("\n=== Chunks recuperados (evidencia) ===")
+    for rank, (ch, score) in enumerate(zip(retrieved, scores[0].tolist()), start=1):
+        snippet = ch.text if len(ch.text) <= 400 else (ch.text[:400] + " ...")
+        print(f"\n[{rank}] score={score:.4f} archivo={ch.path} start_char={ch.start_char}")
+        print(snippet)
+
+    prompt = build_prompt(args.question, retrieved)
+    answer = ollama_generate(prompt, model=args.llm_model, base_url=args.ollama_url, temperature=0.2)
+
+    print("\n=== Respuesta ===")
+    print(answer)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+#+end_src
+
+**2.1.2) (Opcional) Guardar el código en archivos**
+Si vas a ejecutarlo en un servidor, lo habitual es copiar los bloques anteriores a archivos.
+#+begin_src bash :results output :exports both
+# Ejemplo (crea los archivos en la carpeta actual):
+# - rag_local_ollama.py
+# - requirements_rag.txt
+#
+# Nota: en entornos reales, lo normal es pegarlos/guardarlos desde tu editor.
+#+end_src
+
+**2.2) Modelos en Ollama (opción A: ya instalados / opción B: descargarlos)**
+Este apartado funciona con cualquier par:
+- un modelo de **embeddings** disponible en Ollama (por ejemplo: `nomic-embed-text`)
+- un modelo **generativo** disponible en Ollama (por ejemplo: `llama3.2:3b`)
+
+Primero, revisa qué modelos tienes disponibles:
+#+begin_src bash :results output :exports both
+ollama list
+#+end_src
+
+Si ya los tienes, no necesitas descargar nada. Si no los tienes, puedes descargarlos con:
+#+begin_src bash :results output :exports both
+ollama pull nomic-embed-text
+ollama pull llama3.2:3b
+#+end_src
+
+Si tus modelos tienen otros nombres, simplemente cambia los parámetros del script:
+- `--embed-model NOMBRE_MODELO_EMBEDDINGS`
+- `--llm-model NOMBRE_MODELO_GENERATIVO`
+
+**2.3) Instalar dependencias Python**
+En la carpeta `/home/likcos/scripts`:
+#+begin_src bash :results output :exports both
+python3 -m venv .venv-rag
+source .venv-rag/bin/activate
+python3 -m pip install -U pip
+python3 -m pip install -r requirements_rag.txt
+#+end_src
+
+**2.4) Crear una carpeta de documentos**
+Puedes poner `.txt` o `.md` dentro:
+#+begin_src bash :results output :exports both
+mkdir -p docs
+printf "%s\n" "Este es un documento de ejemplo sobre el presente perfecto en inglés. Se usa para acciones con conexión al presente." > docs/ingles.md
+printf "%s\n" "Este documento habla de Python: listas, diccionarios, comprensión de listas y errores comunes." > docs/python.md
+#+end_src
+
+**2.5) Ejecutar el RAG**
+#+begin_src bash :results output :exports both
+# Nota:
+# - Este comando ejecuta el script "rag_local_ollama.py".
+# - Por lo tanto, el archivo debe existir (por ejemplo: /home/likcos/scripts/rag_local_ollama.py).
+# - Puedes ejecutarlo desde la carpeta del proyecto (rutas relativas) o con rutas absolutas.
+#+end_src
+
+Opción A (ejecutar desde la carpeta del proyecto):
+#+begin_src bash :results output :exports both
+cd /home/likcos/scripts
+source .venv-rag/bin/activate
+python3 rag_local_ollama.py --docs ./docs --question "Explica el presente perfecto y da 2 ejemplos."
+#+end_src
+
+Opción B (usar rutas absolutas):
+#+begin_src bash :results output :exports both
+source /home/likcos/scripts/.venv-rag/bin/activate
+python3 /home/likcos/scripts/rag_local_ollama.py \
+  --docs /home/likcos/scripts/docs \
+  --question "Explica el presente perfecto y da 2 ejemplos."
+#+end_src
+
+Si deseas especificar modelos explícitamente:
+#+begin_src bash :results output :exports both
+source .venv-rag/bin/activate
+python3 rag_local_ollama.py --docs ./docs \
+  --embed-model nomic-embed-text \
+  --llm-model llama3.2:3b \
+  --question "Explica el presente perfecto y da 2 ejemplos."
+#+end_src
+
+** Cómo hacer que el modelo “explique diferente” (prompt + opciones)
+En un sistema RAG hay dos “perillas” principales:
+
+**3.1) El PROMPT (la más importante)**
+El prompt es donde defines el rol, el tono y la estructura. En el script `rag_local_ollama.py` esto se construye en la función `build_prompt()`.
+
+Ejemplos de instrucciones útiles para un estilo didáctico:
+- “Explica paso a paso y define conceptos antes de usarlos.”
+- “Da un ejemplo breve y luego un ejemplo más completo.”
+- “Cierra con un resumen de 3 viñetas.”
+- “Si hay ambigüedad, haz una pregunta de aclaración antes de responder.”
+
+Ejemplo de instrucciones para un estilo breve:
+- “Responde en máximo 6 líneas.”
+- “Evita introducciones; ve directo a la respuesta.”
+
+En RAG, además conviene mantener instrucciones de “grounding”:
+- “Usa únicamente la información de las fuentes recuperadas.”
+- “Si no hay evidencia suficiente, declara la limitación.”
+
+**3.2) Opciones de generación en Ollama (variación vs estabilidad)**
+Además del prompt, los modelos suelen variar su salida según opciones de muestreo. En este script, la opción más común es:
+- `temperature`: controla variación/creatividad.
+  - 0.0–0.3: respuestas más estables y reproducibles
+  - 0.7–1.0: más variación (y mayor riesgo de inventar)
+
+En el código, estas opciones se envían en el JSON de `POST /api/generate` dentro del campo `options`.
+
+**Recomendación práctica para RAG**
+- Para respuestas “basadas en evidencia”, comienza con `temperature` baja (0.0–0.3).
+- Ajusta el estilo primero con el prompt; usa `temperature` solo como ajuste fino.
+
+** Cómo interpretar la salida (y por qué es importante)
+El script imprime:
+- **Chunks recuperados** (con archivo y fragmento) → esto es tu “evidencia”
+- **Respuesta** → idealmente *coherente* con la evidencia
+
+Si recupera chunks irrelevantes:
+- ajusta chunking (tamaño/overlap)
+- ajusta top-k
+- revisa calidad de documentos (ruido, duplicados)
+
+** Relación con AnythingLLM
+AnythingLLM hace exactamente este pipeline, solo que te lo oculta detrás de UI:
+- ingestión → chunking → embeddings → vector DB → retrieval → prompt → LLM
+Este tutorial te da control total (y te permite depurar por qué “recupera mal” o “alucina”).
+
+
+
 * Fine-Tuning Local con Ollama 3.2, Tutor de Algoritmos
 
 ** Introducción
-Estos apuntes explican cómo realizar un *fine-tuning completamente local* de un modelo LLM 
-utilizando *Ollama 3.2*. El objetivo es construir un *tutor de programación* capaz de:
+Estos apuntes explican cómo realizar un *fine-tuning completamente
+local* de un modelo LLM utilizando *Ollama 3.2*. El objetivo es construir
+un *tutor de programación* capaz de:
 
 
 ** Requisitos
@@ -9600,7 +9976,8 @@ ollama pull llama2
 (Ollama renombra algunos modelos; revisar con =ollama list= )
 
 *** ¿Cómo funciona el Fine-Tuning en Ollama?
-El fine-tuning en Ollama se realiza creando un archivo llamado =Modelfile= (similar a Dockerfile).
+El fine-tuning en Ollama se realiza creando un archivo llamado
+=Modelfile= (similar a Dockerfile).
 
 El Modelfile contiene:
 
@@ -9717,163 +10094,10 @@ O crear nuevos datasets temáticos:
 
 
 
-* Configuración de LoRA en Transformers + PEFT
-
-Este apartado  explica detalladamente cada parámetro usado en la configuración
-de LoRA y cómo se aplican sobre un modelo tipo LLaMA (por ejemplo, Llama 3 8B).
-Incluye también la explicación de los módulos "q_proj", "k_proj", "v_proj",
-"o_proj", que son las capas objetivo donde LoRA inyecta los adaptadores.
-
-** ¿Qué es LoRA?
-LoRA (Low-Rank Adaptation) es una técnica que permite entrenar modelos grandes
-sin modificar los pesos originales. En vez de actualizar las matrices grandes,
-se añaden matrices pequeñas y entrenables (A y B) de bajo rango.
-
-Esto reduce drásticamente:
-- el uso de memoria,
-- el tiempo de entrenamiento,
-- el número de parámetros a optimizar.
-
-Así, el modelo original permanece congelado y solo se entrenan los adaptadores.
-
-** Bloques afectados: q_proj, k_proj, v_proj, o_proj
-Estas son las subcapas internas del mecanismo de atención ("self-attention")
-en cada bloque transformer.
-
-*** 1. q_proj (Query Projection)
-Convierte el vector de entrada en un vector de "Query".
-Define *qué está buscando* un token cuando atiende a otros.
-
-*** 2. k_proj (Key Projection)
-Convierte el vector en "Key".
-Define *qué representa* cada token como un posible objetivo de atención.
-
-*** 3. v_proj (Value Projection)
-Convierte el vector en "Value".
-Define *qué información se transmite* cuando un token es atendido.
-
-*** 4. o_proj (Output Projection)
-Después del cálculo de atención, mezcla los resultados de las cabezas.
-Afecta el estilo, coherencia y salida del bloque de atención.
-
-
-#+BEGIN_SRC text
-x → q_proj → Q
-x → k_proj → K
-x → v_proj → V
-attention = softmax(Q·K^T)·V
-attention → o_proj → salida
-#+END_SRC
-
-LoRA modifica estas matrices agregando:
-#+BEGIN_SRC text
-W → W + ΔW
-ΔW = B @ A  (matrices de bajo rango)
-#+END_SRC
-
-** Parámetros principales de LoRA
-La configuración típica es:
-
-#+BEGIN_SRC python
-lora_config = LoraConfig(
-  r=8,
-  lora_alpha=16,
-  target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
-  lora_dropout=0.1,
-  bias="none",
-  task_type="CAUSAL_LM"
-)
-#+END_SRC
-
-A continuación se detallan todos los parámetros.
-
-*** r (rank)
-- Define el tamaño de las matrices A y B del adaptador LoRA.
-- Mientras menor sea r, menos parámetros se entrenan.
-- Valores típicos: 4, 8, 16.
-
-Ejemplo:
-Si la matriz original es 4096×4096 y r = 8:
-- A es 4096×8
-- B es 8×4096
-
-Es decir, se entrena *una fracción minúscula* del total.
-
-*** lora_alpha
-Factor de escalado aplicado a la actualización de LoRA:
-
-#+BEGIN_SRC text
-ΔW = (alpha / r) * (B @ A)
-#+END_SRC
-
-Permite controlar la intensidad de la adaptación sin cambiar r.
-
-Valores típicos: 16, 32, 64.
-
-*** target_modules
-Lista de nombres de las capas del modelo en las que se aplicará LoRA.
-
-Para modelos tipo LLaMA:
-- "q_proj"
-- "k_proj"
-- "v_proj"
-- "o_proj"
-
-Estas son las matrices más influyentes en el comportamiento del modelo, ya que
-controlan la atención.
-
-*** lora_dropout
-Dropout aplicado solo dentro de los adaptadores LoRA.
-Ayuda a estabilizar el entrenamiento y evitar overfitting.
-
-Valores típicos: 0.05 a 0.1.
-
-*** bias
-Controla si los *bias* son entrenados.
-- "none" → no se entrenan sesgos (lo más común).
-- "all"  → entrena todos los sesgos del modelo.
-- "lora_only" → solo sesgos en capas LoRA.
-
-En la mayoría de casos se deja en "none".
-
-*** task_type
-Define el tipo de tarea para la que se adapta LoRA.
-Para modelos generativos:
-- "CAUSAL_LM"
-
-Otros ejemplos:
-- "SEQ_CLS": clasificación
-- "TOKEN_CLS": etiquetado
-
-Esto le dice al framework cómo insertar los adaptadores.
-
-** ¿Qué hace get_peft_model?
-#+BEGIN_SRC python
-model = get_peft_model(model, lora_config)
-#+END_SRC
-
-*** 1. Congela todos los pesos originales del modelo.
-No se entrenan ni se modifican.
-
-*** 2. Inserta las matrices A y B (adaptadores LoRA)
-Solo en los módulos indicados en `target_modules`.
-
-*** 3. Marca como entrenables únicamente los parámetros LoRA
-Reduciendo de millones a decenas de miles de parámetros.
-
-*** 4. Mantiene compatible el forward del modelo
-Sin afectar la inferencia estándar.
 
 
 
-- "q_proj", "k_proj", "v_proj" controlan cómo se calcula la atención.
-- "o_proj" mezcla esa atención y produce la salida.
-- Son los puntos más sensibles donde un modelo aprende estilo, instrucciones y comportamiento.
-- LoRA agrega adaptadores en estas capas para entrenar rápido y con pocos recursos.
-- El modelo base queda intacto; solo se ajustan los adaptadores.
 
-Este conjunto de parámetros permite un fine-tuning eficiente, rápido y seguro,
-ideal para adaptar modelos grandes a tareas específicas sin necesidad de grandes GPUs.
 
 
 * Fine-Tuning Local con LoRA para Crear un Tutor de Programación
@@ -10128,6 +10352,7 @@ ollama run tutor_lora
 - Mantener un tono claro, didáctico y consistente.
 - Mezclar errores reales de código con correcciones.
 - Incluir ejercicios y explicaciones paso a paso.
+
 
 
 
