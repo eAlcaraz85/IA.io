@@ -9566,7 +9566,7 @@ Se puede cargar dinámicamente en cualquier servidor.
 
 
 
-*  RAG local con Python + Ollama
+* RAG local con Python + Ollama
 
 ** RAG en una frase
 Un sistema RAG responde preguntas usando un LLM, pero *antes* recupera
@@ -9887,8 +9887,9 @@ python3 rag_local_ollama.py --docs ./docs \
 ** Cómo hacer que el modelo “explique diferente” (prompt + opciones)
 En un sistema RAG hay dos “perillas” principales:
 
-**3.1) El PROMPT (la más importante)**
-El prompt es donde defines el rol, el tono y la estructura. En el script `rag_local_ollama.py` esto se construye en la función `build_prompt()`.
+**3.1) El PROMPT (la más importante)** El prompt es donde defines el
+rol, el tono y la estructura. En el script `rag_local_ollama.py` esto
+se construye en la función `build_prompt()`.
 
 Ejemplos de instrucciones útiles para un estilo didáctico:
 - “Explica paso a paso y define conceptos antes de usarlos.”
@@ -9905,12 +9906,14 @@ En RAG, además conviene mantener instrucciones de “grounding”:
 - “Si no hay evidencia suficiente, declara la limitación.”
 
 **3.2) Opciones de generación en Ollama (variación vs estabilidad)**
-Además del prompt, los modelos suelen variar su salida según opciones de muestreo. En este script, la opción más común es:
+Además del prompt, los modelos suelen variar su salida según opciones
+de muestreo. En este script, la opción más común es:
 - `temperature`: controla variación/creatividad.
   - 0.0–0.3: respuestas más estables y reproducibles
   - 0.7–1.0: más variación (y mayor riesgo de inventar)
 
-En el código, estas opciones se envían en el JSON de `POST /api/generate` dentro del campo `options`.
+En el código, estas opciones se envían en el JSON de `POST
+/api/generate` dentro del campo `options`.
 
 **Recomendación práctica para RAG**
 - Para respuestas “basadas en evidencia”, comienza con `temperature` baja (0.0–0.3).
@@ -9933,7 +9936,7 @@ Este tutorial te da control total (y te permite depurar por qué “recupera mal
 
 
 
-* Fine-Tuning Local con Ollama 3.2, Tutor de Algoritmos
+* Fine-Tuning Local con Ollama, llama 3.2, Tutor de Algoritmos
 
 ** Introducción
 Estos apuntes explican cómo realizar un *fine-tuning completamente
@@ -10011,7 +10014,7 @@ Debes tener mínimo *50 ejemplos*, idealmente *500–2000*.
 *** Ejemplos listos para usar
 #+begin_src json
 {"prompt": "Explícame qué es una variable en programación.",
- "response": "Una variable es un espacio donde guardas un valor. En Python, por ejemplo: x = 10 ..."}
+ "response": "Una variable MI ESTIMADO, es un espacio donde guardas un valor. En Python, por ejemplo: x = 10 ..."}
 
 {"prompt": "Corrige este error en C: printf(\"%d\",x)",
  "response": "Falta un punto y coma al final y debes asegurar que x esté declarado. Quedaría así: printf(\"%d\", x);"}
@@ -10100,264 +10103,1140 @@ O crear nuevos datasets temáticos:
 
 
 
+
 * Fine-Tuning Local con LoRA para Crear un Tutor de Programación
 
-** Introducción
-Este apartado explica cómo realizar un entrenamiento *LoRA* (Low-Rank Adaptation)
+Este tutorial explica cómo realizar un entrenamiento *LoRA* (Low-Rank Adaptation)
 para crear un *tutor de programación* utilizando modelos open-source.
 
 Todo se ejecuta *100% local*, sin pagar servicios en la nube.
 
-LoRA es un método de fine-tuning ligero que:
-- Requiere muy poca VRAM (8–12 GB son suficientes).
-- No modifica el modelo base; solo agrega adaptadores.
-- Permite entrenar modelos grandes en una laptop.
+*Importante*: Ollama *no* hace fine-tuning. El entrenamiento se realiza con
+Python (PyTorch + HuggingFace). Ollama solo sirve para /ejecutar/ el modelo
+ya entrenado como servidor de inferencia local.
 
-** Requisitos
-Instalar dependencias:
+** Flujo general
 
-#+begin_src bash
-pip install torch transformers peft datasets accelerate
+#+begin_example
+[Dataset JSONL] → [Entrenamiento LoRA con Python] → [Adaptadores LoRA]
+                                                          ↓
+                              [Inferencia directa con Python]
+                                          ó
+                    [Fusionar + Convertir a GGUF → Ollama]
+#+end_example
+
+** Fundamentos Teóricos
+
+*** ¿Qué es un modelo de lenguaje grande (LLM)?
+
+Un LLM (Large Language Model) es una red neuronal entrenada con cantidades
+masivas de texto para predecir la siguiente palabra en una secuencia. Modelos
+como Llama, Mistral o GPT contienen *miles de millones de parámetros*
+(números) que representan el "conocimiento" aprendido.
+
+Estos parámetros están organizados en *matrices de pesos* dentro de capas
+llamadas *Transformers*. Cada capa tiene múltiples matrices que procesan
+la información de forma paralela mediante un mecanismo llamado *atención*.
+
+*** ¿Qué es el mecanismo de atención?
+
+El Transformer procesa texto usando *atención multi-cabeza* (Multi-Head
+Attention). En cada capa, el texto pasa por cuatro proyecciones lineales
+representadas como matrices de pesos:
+
+| Matriz    | Nombre             | Función                                       |
+|-----------+--------------------+-----------------------------------------------|
+| =W_q=     | Query (consulta)   | "¿Qué estoy buscando?"                       |
+| =W_k=     | Key (clave)        | "¿Qué información tengo disponible?"          |
+| =W_v=     | Value (valor)      | "¿Qué contenido devuelvo?"                   |
+| =W_o=     | Output (salida)    | Combina las cabezas de atención en una salida |
+
+Para un modelo de 3 mil millones de parámetros, cada una de estas matrices
+puede tener dimensiones enormes (por ejemplo, 3072 × 3072 = ~9.4 millones
+de valores por matriz, multiplicado por decenas de capas).
+
+Cuando en el código de LoRA ves:
+#+begin_src python
+target_modules=["q_proj", "k_proj", "v_proj", "o_proj"]
 #+end_src
 
-Opcional para GPU Nvidia:
+Estás indicando que LoRA debe aplicar sus adaptadores exactamente a estas
+cuatro matrices de atención en cada capa del modelo.
+
+*** ¿Qué es fine-tuning?
+
+Fine-tuning (ajuste fino) es el proceso de tomar un modelo *ya entrenado*
+(modelo base o pre-entrenado) y continuar su entrenamiento con un dataset
+más pequeño y especializado para adaptarlo a una tarea específica.
+
+Analogía: un modelo base es como una persona que leyó toda la biblioteca
+pública. Sabe de todo un poco. Fine-tuning es como darle un curso intensivo
+de pedagogía para que aprenda a *explicar* programación de forma didáctica.
+
+*** El problema del fine-tuning completo (Full Fine-Tuning)
+
+En un fine-tuning completo, se modifican *todos* los parámetros del modelo
+durante el entrenamiento. Esto tiene problemas graves:
+
+| Aspecto             | Full Fine-Tuning         | Problema                              |
+|---------------------+--------------------------+---------------------------------------|
+| VRAM necesaria      | 2-4× el tamaño del modelo | Un modelo de 7B necesita ~56 GB VRAM |
+| Almacenamiento      | Copia completa del modelo | Cada versión ocupa ~14 GB en disco   |
+| Riesgo de overfitting | Alto                   | Con pocos datos, el modelo "memoriza" |
+| Tiempo              | Horas o días             | Incluso con GPUs potentes             |
+| Olvido catastrófico | Probable                 | El modelo puede perder conocimiento   |
+
+Para un modelo de 7 mil millones de parámetros, el fine-tuning completo
+requiere almacenar en VRAM:
+- Los 7B parámetros del modelo (~14 GB en FP16)
+- Los gradientes para los 7B parámetros (~14 GB)
+- Los estados del optimizador (~28 GB con Adam)
+- Total: *~56 GB de VRAM* solo para el entrenamiento
+
+Esto hace que el fine-tuning completo sea inviable en hardware doméstico.
+
+*** ¿Qué es LoRA? (Low-Rank Adaptation)
+
+LoRA fue propuesto en el paper [[https://arxiv.org/abs/2106.09685]["LoRA: Low-Rank Adaptation of Large Language Models"]]
+(Hu et al., 2021). Es una técnica de *PEFT* (Parameter-Efficient Fine-Tuning)
+que permite adaptar un modelo grande entrenando solo una fracción mínima
+de parámetros nuevos.
+
+**** La idea central
+
+En lugar de modificar directamente las matrices de pesos gigantes del modelo,
+LoRA las *congela* (no se tocan) y agrega dos matrices pequeñas junto a
+cada una. Estas matrices pequeñas se llaman *adaptadores*.
+
+La intuición es que los cambios necesarios para adaptar un modelo a una tarea
+nueva no requieren modificar toda la matriz de pesos. Los cambios se pueden
+representar con una *aproximación de bajo rango* (low-rank approximation),
+que es mucho más pequeña.
+
+**** Explicación matemática (simplificada)
+
+Supongamos que una capa del modelo tiene una matriz de pesos =W= con
+dimensiones =d × d= (por ejemplo, 4096 × 4096 para Llama 3.2 3B).
+
+En fine-tuning completo, entrenaríamos una matriz de cambios =ΔW= del
+mismo tamaño:
+
+#+begin_example
+W_nuevo = W + ΔW
+
+Donde ΔW tiene dimensiones d × d (4096 × 4096 = 16,777,216 parámetros)
+#+end_example
+
+LoRA, en cambio, descompone =ΔW= en dos matrices más pequeñas:
+
+#+begin_example
+ΔW = A × B
+
+Donde:
+  A tiene dimensiones d × r  (4096 × 16 = 65,536 parámetros)
+  B tiene dimensiones r × d  (16 × 4096 = 65,536 parámetros)
+
+Total LoRA: 65,536 + 65,536 = 131,072 parámetros
+Total Full: 16,777,216 parámetros
+
+Reducción: 99.2% menos parámetros
+#+end_example
+
+El valor =r= es el *rango* de la descomposición (el hiperparámetro =lora_r=
+en el código). Cuanto más pequeño es =r=, menos parámetros se entrenan,
+pero también menos capacidad tiene el adaptador para aprender.
+
+**** Diagrama visual
+
+#+begin_example
+                    Modelo Original (congelado)
+                    ┌─────────────────────┐
+  entrada ────────→ │    W (d × d)        │ ────→ salida original
+                    │  (NO se modifica)   │
+                    └─────────────────────┘
+
+                    Adaptador LoRA (se entrena)
+                    ┌──────────┐   ┌──────────┐
+  entrada ────────→ │  A (d×r) │ → │  B (r×d) │ ──→ ajuste LoRA
+                    │ (down)   │   │  (up)    │
+                    └──────────┘   └──────────┘
+
+  Salida final = salida original + (α/r) × ajuste LoRA
+#+end_example
+
+Durante la inferencia, la salida de la capa es:
+
+#+begin_example
+  h = W·x + (α/r) · A·B·x
+#+end_example
+
+Donde:
+- =W·x= es la salida normal del modelo congelado
+- =A·B·x= es la contribución del adaptador LoRA
+- =α/r= es un factor de escala que controla cuánto influye el adaptador
+
+*** Hiperparámetros de LoRA explicados en detalle
+
+**** =r= (rango) — =lora_r= en el código
+
+El rango determina el tamaño de las matrices adaptadoras =A= y =B=.
+
+| Valor de r | Parámetros por capa | Capacidad   | Uso típico                        |
+|------------+---------------------+-------------+-----------------------------------|
+| 4          | Muy pocos           | Baja        | Tareas muy simples, pocos datos   |
+| 8          | Pocos               | Moderada    | Tareas simples                    |
+| 16         | Moderados           | Buena       | Uso general (recomendado)         |
+| 32         | Bastantes           | Alta        | Tareas complejas, muchos datos    |
+| 64         | Muchos              | Muy alta    | Casi como fine-tuning completo    |
+
+*Regla práctica*: empieza con =r=16=. Si el modelo no aprende bien, sube
+a 32. Si tienes pocos datos (<100 ejemplos), baja a 8 para evitar overfitting.
+
+**** =lora_alpha= (factor de escala)
+
+Controla la magnitud del efecto del adaptador LoRA sobre el modelo base.
+Se aplica como factor =α/r= multiplicando la salida del adaptador.
+
+- Un =lora_alpha= alto significa que el adaptador tiene más influencia.
+- Un =lora_alpha= bajo significa que el modelo base domina más.
+
+*Regla práctica*: usa =lora_alpha = 2 × lora_r=. Así:
+- Si =r=16=, usa =alpha=32=
+- Si =r=8=, usa =alpha=16=
+
+Esto da un factor de escala efectivo de =α/r = 2=, que funciona bien en la
+mayoría de casos.
+
+**** =target_modules= (qué capas adaptar)
+
+Define a cuáles matrices de pesos del modelo se aplican los adaptadores LoRA.
+
+| Configuración                              | Parámetros entrenados | Calidad |
+|--------------------------------------------+-----------------------+---------|
+| =["q_proj", "v_proj"]=                    | Menos (~0.1%)         | Básica  |
+| =["q_proj", "k_proj", "v_proj", "o_proj"]= | Más (~0.2%)          | Buena   |
+| + =["gate_proj", "up_proj", "down_proj"]=  | Aún más (~0.5%)       | Mejor   |
+
+En este tutorial usamos las cuatro proyecciones de atención (q, k, v, o),
+que es el balance estándar entre calidad y eficiencia.
+
+Los nombres =q_proj=, =k_proj=, etc. son específicos de la arquitectura
+Llama. Otros modelos pueden usar nombres diferentes (por ejemplo,
+=query_key_value= en Falcon).
+
+**** =lora_dropout= (regularización)
+
+Porcentaje de neuronas del adaptador que se "apagan" aleatoriamente durante
+cada paso de entrenamiento. Ayuda a prevenir overfitting (que el modelo
+memorice los datos en vez de aprender patrones generales).
+
+| Valor | Efecto                                          |
+|-------+-------------------------------------------------|
+| 0.0   | Sin dropout, máxima capacidad, riesgo de overfit |
+| 0.05  | Muy ligero, para datasets grandes                |
+| 0.1   | Estándar (recomendado)                           |
+| 0.2   | Agresivo, para datasets muy pequeños             |
+
+**** =bias= (qué hacer con los sesgos)
+
+Los sesgos (bias) son parámetros adicionales en cada capa además de las
+matrices de pesos. La opción =bias="none"= significa que no se entrenan,
+lo cual es lo recomendado por el paper original de LoRA porque los sesgos
+contribuyen poco al fine-tuning y ahorrar su entrenamiento reduce la
+cantidad de parámetros.
+
+*** LoRA vs. otros métodos PEFT
+
+LoRA no es la única técnica de fine-tuning eficiente. Aquí una comparación:
+
+| Método        | Descripción                                    | Parámetros | VRAM     | Calidad   |
+|---------------+------------------------------------------------+------------+----------+-----------|
+| *LoRA*          | Matrices de bajo rango paralelas               | ~0.1-1%    | Baja     | Muy buena |
+| *QLoRA*         | LoRA + modelo cuantizado a 4-bit               | ~0.1-1%    | Mínima   | Buena     |
+| *Prefix Tuning* | Agrega tokens virtuales al prompt              | ~0.1%      | Baja     | Moderada  |
+| *Adapters*      | Capas pequeñas insertadas entre las existentes | ~1-3%      | Media    | Buena     |
+| *Prompt Tuning* | Solo entrena embeddings del prompt             | ~0.01%     | Mínima   | Limitada  |
+| *Full FT*       | Modifica todos los parámetros                  | 100%       | Muy alta | Máxima    |
+
+LoRA es el método más popular porque ofrece el mejor balance entre calidad
+de resultados, facilidad de uso y recursos necesarios.
+
+*** ¿Por qué LoRA funciona tan bien con tan pocos parámetros?
+
+La hipótesis del paper original (confirmada experimentalmente) es que los
+cambios necesarios para adaptar un modelo pre-entrenado a una tarea nueva
+viven en un *subespacio de bajo rango*. Es decir:
+
+1. El modelo base ya aprendió representaciones muy ricas del lenguaje.
+2. Para adaptarlo a una tarea específica, no necesitas cambiar "todo",
+   solo necesitas ajustar ciertas "direcciones" en el espacio de pesos.
+3. Estas direcciones pueden representarse con matrices de rango bajo
+   (muchas menos dimensiones que las originales).
+
+Analogía: imagina un televisor ya sintonizado en un canal. Para cambiar a
+otro canal no necesitas reconfigurar toda la electrónica interna. Solo
+necesitas girar un pequeño dial (el adaptador LoRA) que ajusta la
+frecuencia precisa.
+
+*** ¿Qué se guarda después del entrenamiento?
+
+Después de entrenar LoRA, se guardan *solo los adaptadores* (las matrices
+=A= y =B=), no el modelo completo. Esto tiene ventajas enormes:
+
+| Aspecto             | Modelo completo (7B) | Adaptadores LoRA |
+|---------------------+----------------------+------------------|
+| Tamaño en disco     | ~14 GB               | ~10-50 MB        |
+| Tiempo de descarga  | Minutos a horas      | Segundos         |
+| Intercambiable      | No fácilmente        | Sí, al instante  |
+| Modelo base         | Incluido             | Se necesita aparte|
+
+Esto permite tener *múltiples adaptadores* para diferentes tareas (tutor de
+programación, traductor, asistente médico, etc.) compartiendo un solo modelo
+base. Cambiar de tarea es tan simple como cargar un adaptador diferente.
+
+*** Cuantización: cómo cabe un modelo de 3B en 8 GB de VRAM
+
+Los parámetros del modelo se almacenan normalmente como números de punto
+flotante de 16 bits (FP16) o 32 bits (FP32). La *cuantización* reduce
+la precisión de estos números para que ocupen menos espacio.
+
+| Precisión | Bits por parámetro | Modelo 3B en VRAM | Calidad   |
+|-----------+--------------------+--------------------+-----------|
+| FP32      | 32 bits            | ~12 GB             | Máxima    |
+| FP16      | 16 bits            | ~6 GB              | Muy buena |
+| INT8      | 8 bits             | ~3 GB              | Buena     |
+| INT4      | 4 bits             | ~1.5 GB            | Aceptable |
+
+En este tutorial usamos cuantización INT8 (8-bit) mediante =bitsandbytes=.
+El modelo base se carga cuantizado para ocupar menos VRAM, mientras que los
+adaptadores LoRA se entrenan en precisión completa (FP16/FP32). Esto
+combina el ahorro de memoria con la calidad del entrenamiento.
+
+En el código, esto se logra con:
+
+#+begin_src python
+quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
+    quantization_config=quantization_config,
+    device_map="auto",
+)
+model = prepare_model_for_kbit_training(model)
+#+end_src
+
+La función =prepare_model_for_kbit_training= prepara las capas cuantizadas
+para que funcionen correctamente con los gradientes de LoRA durante el
+entrenamiento.
+
+*** Tokenización: cómo el modelo "lee" texto
+
+Un modelo de lenguaje no procesa letras ni palabras directamente. Convierte
+el texto en *tokens* (fragmentos de texto) usando un *tokenizer*.
+
+Ejemplo de tokenización (Llama):
+#+begin_example
+Texto:    "Explica qué es una variable"
+Tokens:   ["Expl", "ica", " qué", " es", " una", " variable"]
+IDs:      [12054, 2418, 902, 388, 2001, 7885]
+#+end_example
+
+El modelo trabaja internamente con los IDs numéricos. Por eso, al preparar
+el dataset necesitamos:
+
+1. *Tokenizar* el texto (convertirlo a IDs)
+2. Definir un *max_length* (longitud máxima en tokens)
+3. Agregar el *token EOS* (End of Sequence) para que el modelo aprenda
+   cuándo dejar de generar texto
+4. Crear *labels* (las etiquetas que el modelo intentará predecir)
+
+En el código:
+#+begin_src python
+def tokenize(example):
+    text = (
+        f"Instrucción: {example['instruction']}\n"
+        f"Respuesta: {example['response']}{tokenizer.eos_token}"
+    )
+    tokenized = tokenizer(text, truncation=True, max_length=max_length, padding="max_length")
+    tokenized["labels"] = tokenized["input_ids"].copy()
+    return tokenized
+#+end_src
+
+Sin el token EOS, el modelo no sabría cuándo parar y generaría texto
+infinitamente (o hasta alcanzar el límite de tokens).
+
+*** El proceso de entrenamiento paso a paso
+
+Cuando ejecutas =trainer.train()=, esto es lo que ocurre internamente
+en cada paso:
+
+#+begin_example
+1. FORWARD PASS (pasada hacia adelante)
+   - Toma un batch del dataset tokenizado
+   - Lo pasa por el modelo congelado + adaptadores LoRA
+   - El modelo genera predicciones para cada token
+   - Se calcula la pérdida (loss): qué tan lejos están las
+     predicciones de las respuestas reales del dataset
+
+2. BACKWARD PASS (retropropagación)
+   - Se calculan los gradientes SOLO para los adaptadores LoRA
+   - Los pesos del modelo base NO se modifican (están congelados)
+
+3. OPTIMIZACIÓN
+   - El optimizador (AdamW) actualiza los pesos de los adaptadores
+     usando los gradientes calculados
+   - El learning rate scheduler ajusta la tasa de aprendizaje
+
+4. REPETIR
+   - Se repite para todos los batches del dataset
+   - Una pasada completa por todo el dataset = 1 época
+   - Se entrena durante N épocas (default: 3)
+#+end_example
+
+**** Gradient Accumulation (acumulación de gradientes)
+
+Cuando tienes poca VRAM, no puedes usar un batch grande. Pero batches muy
+pequeños (=batch_size=1=) hacen que el entrenamiento sea inestable.
+
+La solución es *gradient accumulation*: procesas varios mini-batches y
+acumulas los gradientes antes de actualizar los pesos.
+
+#+begin_example
+batch_size = 1
+gradient_accumulation_steps = 16
+
+Batch efectivo = 1 × 16 = 16 ejemplos
+
+El modelo procesa 1 ejemplo a la vez (cabe en VRAM),
+pero los gradientes se actualizan cada 16 ejemplos
+(como si usaras batch_size=16).
+#+end_example
+
+**** Learning Rate y Scheduler
+
+El *learning rate* (tasa de aprendizaje) controla qué tan grandes son los
+pasos de actualización. Para LoRA, valores típicos son:
+
+| Valor    | Efecto                                    |
+|----------+-------------------------------------------|
+| 1e-5     | Muy conservador, cambios mínimos          |
+| 5e-5     | Conservador                               |
+| 1e-4     | Moderado                                  |
+| 2e-4     | Estándar para LoRA (recomendado)          |
+| 5e-4     | Agresivo, riesgo de inestabilidad         |
+
+El *cosine scheduler* que usamos reduce gradualmente el learning rate
+siguiendo una curva coseno: empieza alto, baja suavemente, termina cerca
+de cero. Esto permite explorar al inicio y refinar al final.
+
+#+begin_example
+LR ▲
+   │╲
+   │  ╲
+   │    ╲
+   │      ╲___
+   │          ╲___
+   └──────────────→ Pasos de entrenamiento
+#+end_example
+
+* Requisitos
+
+** Hardware
+- *Con GPU Nvidia* (recomendado): 8+ GB VRAM, drivers CUDA instalados.
+- *Sin GPU*: funciona en CPU pero el entrenamiento será muy lento.
+
+** Software
+- Python 3.10 o superior.
+- =pip= para instalar dependencias.
+
+** Instalar dependencias
+
+#+begin_src bash
+pip install torch transformers peft datasets accelerate sentencepiece protobuf
+#+end_src
+
+Opcional para GPU Nvidia (permite cuantización 8-bit, ahorra VRAM):
 
 #+begin_src bash
 pip install bitsandbytes
 #+end_src
 
+Si quieres fijar versiones para reproducibilidad, crea un =requirements_lora.txt=:
+
+#+begin_src text
+torch>=2.2.0
+transformers>=5.0.0
+peft>=0.18.0
+datasets>=3.0.0
+accelerate>=1.0.0
+bitsandbytes>=0.45.0
+sentencepiece>=0.2.0
+protobuf>=5.27.0
+#+end_src
+
+E instala con:
+
+#+begin_src bash
+pip install -r requirements_lora.txt
+#+end_src
+
+** Login en HuggingFace (necesario para modelos Llama)
+
+#+begin_src bash
+pip install huggingface_hub
+huggingface-cli login
+#+end_src
+
+Debes aceptar la licencia del modelo en https://huggingface.co/meta-llama antes
+de poder descargarlo.
+
 ** Elegir modelo base
-Puedes elegir entre:
 
-- *meta-llama/Llama-3.1-8B*
-- *microsoft/Phi-3-mini*
-- *mistralai/Mistral-7B-Instruct*
+Modelos recomendados (del más ligero al más pesado):
 
-Ejemplo con Llama 3.2 compatible:
+| Modelo                                    | Tamaño | VRAM mínima |
+|-------------------------------------------+--------+-------------|
+| =meta-llama/Llama-3.2-1B-Instruct=       | 1B     | ~4 GB       |
+| =meta-llama/Llama-3.2-3B-Instruct=       | 3B     | ~8 GB       |
+| =microsoft/Phi-3-mini-4k-instruct=       | 3.8B   | ~8 GB       |
+| =mistralai/Mistral-7B-Instruct-v0.3=     | 7B     | ~10 GB      |
+| =meta-llama/Meta-Llama-3.1-8B-Instruct=  | 8B     | ~12 GB      |
+
+En este tutorial usamos *Llama 3.2 3B Instruct* como modelo por defecto
+(buen balance entre calidad y recursos):
 
 #+begin_src python
-model_name = "meta-llama/Meta-Llama-3-8B-Instruct"
+model_name = "meta-llama/Llama-3.2-3B-Instruct"
 #+end_src
 
 ** Crear dataset de tutor de programación
-El dataset debe estar en formato instruct:
 
-#+begin_src json
-{"instruction": "Explica que es una variable en Python",
- "response": "Una variable es un espacio donde guardas un valor..."}
-{"instruction": "Corrige este error: printf(\"%d\",x)",
- "response": "Falta un punto y coma; debe quedar: printf(\"%d\", x);"}
-{"instruction": "Muéstrame un ejemplo simple de recursión",
- "response": "La recursión ocurre cuando una función se llama a sí misma..."}
-#+end_src
+El dataset debe estar en formato JSONL (una línea JSON por ejemplo).
+Cada línea tiene dos campos: =instruction= y =response=.
 
 Guárdalo como: =tutor_programacion.jsonl=
 
-** Script LoRA completo (Python)
-Este script funciona tal cual para entrenar LoRA localmente:
-
-#+begin_src python
-import json
-from datasets import load_dataset
-from transformers import AutoModelForCausalLM, AutoTokenizer, DataCollatorForLanguageModeling
-from peft import LoraConfig, get_peft_model
-from transformers import TrainingArguments, Trainer
-
-# -----------------------------
-# 1. Cargar dataset
-# -----------------------------
-dataset = load_dataset("json", data_files="tutor_programacion.jsonl")
-
-# -----------------------------
-# 2. Cargar modelo base
-# -----------------------------
-model_name = "meta-llama/Meta-Llama-3-8B-Instruct"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-tokenizer.pad_token = tokenizer.eos_token
-
-model = AutoModelForCausalLM.from_pretrained(
-    model_name,
-    load_in_8bit=True,  # Requiere bitsandbytes
-    device_map="auto"
-)
-
-# -----------------------------
-# 3. Configurar LoRA
-# -----------------------------
-lora_config = LoraConfig(
-    r=8,
-    lora_alpha=16,
-    target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
-    lora_dropout=0.1,
-    bias="none",
-    task_type="CAUSAL_LM"
-)
-
-model = get_peft_model(model, lora_config)
-
-# -----------------------------
-# 4. Preprocesar el dataset
-# -----------------------------
-def format_instruction(example):
-    prompt = f"Instrucción: {example['instruction']}\nRespuesta:"
-    return tokenizer(prompt + example["response"], truncation=True)
-
-tokenized = dataset.map(format_instruction)
-
-# -----------------------------
-# 5. Entrenamiento
-# -----------------------------
-training_args = TrainingArguments(
-    output_dir="./lora-tutor",
-    per_device_train_batch_size=1,
-    gradient_accumulation_steps=16,
-    logging_steps=50,
-    num_train_epochs=3,
-    fp16=True,
-    save_steps=500,
-)
-
-trainer = Trainer(
-    model=model,
-    args=training_args,
-    train_dataset=tokenized["train"],
-    data_collator=DataCollatorForLanguageModeling(tokenizer, mlm=False),
-)
-
-trainer.train()
-
-# -----------------------------
-# 6. Guardar adaptadores LoRA
-# -----------------------------
-model.save_pretrained("./lora-tutor")
-print("Entrenamiento completado. Adaptadores guardados.")
+#+begin_src json
+{"instruction": "Explica qué es una variable en Python",
+ "response": "Una variable en Python es un nombre que apunta a un valor almacenado en memoria..."}
+{"instruction": "Corrige este error en C: printf(\"%d\",x)",
+ "response": "Falta el punto y coma al final de la sentencia. Código corregido: printf(\"%d\", x);"}
+{"instruction": "Muéstrame un ejemplo simple de recursión en Python",
+ "response": "La recursión ocurre cuando una función se llama a sí misma..."}
 #+end_src
 
-** Cargar el modelo LoRA para uso local
+*Consejos para el dataset*:
+- Usar mínimo *100–500 ejemplos* para resultados decentes.
+- Mantener un tono claro, didáctico y consistente.
+- Mezclar: explicaciones de conceptos, corrección de errores, ejercicios.
+- No mezclar idiomas o estilos diferentes.
 
-Puedes usarlo con texto libre:
+** Script de entrenamiento LoRA (=train_lora.py=)
 
-#+begin_src python
-from transformers import AutoTokenizer, AutoModelForCausalLM
-from peft import PeftModel
+Este script funciona tal cual. Detecta automáticamente si hay GPU disponible.
 
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-base_model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
-model = PeftModel.from_pretrained(base_model, "./lora-tutor")
-
-prompt = "Explícame qué es una función en Python."
-inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
-outputs = model.generate(**inputs, max_length=300)
-
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
-#+end_src
-
-** Exportar LoRA hacia Ollama (opcional)
-
-Puedes convertir los adaptadores LoRA para que funcionen en *Ollama*:
-
-convert.py
-
-#+BEGIN_SRC python
+#+begin_src python :tangle train_lora.py
 #!/usr/bin/env python3
+"""
+Entrenamiento LoRA para crear un tutor de programación.
+Funciona 100% local con GPU Nvidia (8-12 GB VRAM).
+Sin GPU, funciona en CPU pero será mucho más lento.
+"""
+
 import argparse
-import os
-import subprocess
+import torch
+from datasets import load_dataset
+from transformers import (
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    BitsAndBytesConfig,
+    DataCollatorForLanguageModeling,
+    TrainingArguments,
+    Trainer,
+)
+from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Entrenar LoRA para tutor de programación")
+    parser.add_argument(
+        "--model_name",
+        type=str,
+        default="meta-llama/Llama-3.2-3B-Instruct",
+        help="Modelo base de HuggingFace (default: Llama 3.2 3B)",
+    )
+    parser.add_argument(
+        "--dataset",
+        type=str,
+        default="tutor_programacion.jsonl",
+        help="Archivo JSONL con datos de entrenamiento",
+    )
+    parser.add_argument("--output_dir", type=str, default="./lora-tutor")
+    parser.add_argument("--epochs", type=int, default=3)
+    parser.add_argument("--max_length", type=int, default=512)
+    parser.add_argument("--batch_size", type=int, default=1)
+    parser.add_argument("--gradient_accumulation", type=int, default=16)
+    parser.add_argument("--learning_rate", type=float, default=2e-4)
+    parser.add_argument("--lora_r", type=int, default=16)
+    parser.add_argument("--lora_alpha", type=int, default=32)
+    parser.add_argument("--no_quantize", action="store_true", help="No usar cuantización 8-bit")
+    return parser.parse_args()
+
+
+def load_model_and_tokenizer(model_name, use_quantization):
+    """Carga el modelo base y tokenizer."""
+    print(f"Cargando tokenizer: {model_name}")
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+
+    has_cuda = torch.cuda.is_available()
+
+    if use_quantization and has_cuda:
+        print("Cargando modelo en 8-bit (cuantización habilitada)")
+        quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            quantization_config=quantization_config,
+            device_map="auto",
+        )
+        model = prepare_model_for_kbit_training(model)
+    else:
+        if not has_cuda:
+            print("AVISO: No se detectó GPU. Entrenando en CPU (será lento).")
+        print("Cargando modelo sin cuantización")
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.float32 if not has_cuda else torch.float16,
+            device_map="auto" if has_cuda else None,
+        )
+
+    model.config.use_cache = False
+    return model, tokenizer
+
+
+def apply_lora(model, lora_r, lora_alpha):
+    """Aplica adaptadores LoRA al modelo."""
+    lora_config = LoraConfig(
+        r=lora_r,
+        lora_alpha=lora_alpha,
+        target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
+        lora_dropout=0.1,
+        bias="none",
+        task_type="CAUSAL_LM",
+    )
+    model = get_peft_model(model, lora_config)
+    model.print_trainable_parameters()
+    return model
+
+
+def prepare_dataset(dataset_path, tokenizer, max_length):
+    """Carga y tokeniza el dataset."""
+    print(f"Cargando dataset: {dataset_path}")
+    dataset = load_dataset("json", data_files=dataset_path)
+
+    def tokenize(example):
+        text = (
+            f"Instrucción: {example['instruction']}\n"
+            f"Respuesta: {example['response']}{tokenizer.eos_token}"
+        )
+        tokenized = tokenizer(
+            text,
+            truncation=True,
+            max_length=max_length,
+            padding="max_length",
+        )
+        tokenized["labels"] = tokenized["input_ids"].copy()
+        return tokenized
+
+    tokenized = dataset.map(
+        tokenize,
+        remove_columns=dataset["train"].column_names,
+    )
+    print(f"Dataset tokenizado: {len(tokenized['train'])} ejemplos")
+    return tokenized
+
+
+def main():
+    args = parse_args()
+
+    model, tokenizer = load_model_and_tokenizer(
+        args.model_name,
+        use_quantization=not args.no_quantize,
+    )
+
+    model = apply_lora(model, args.lora_r, args.lora_alpha)
+
+    tokenized = prepare_dataset(args.dataset, tokenizer, args.max_length)
+
+    has_cuda = torch.cuda.is_available()
+
+    training_args = TrainingArguments(
+        output_dir=args.output_dir,
+        per_device_train_batch_size=args.batch_size,
+        gradient_accumulation_steps=args.gradient_accumulation,
+        learning_rate=args.learning_rate,
+        num_train_epochs=args.epochs,
+        logging_steps=10,
+        save_steps=500,
+        save_total_limit=2,
+        fp16=has_cuda,
+        bf16=False,
+        warmup_ratio=0.05,
+        lr_scheduler_type="cosine",
+        report_to="none",
+        remove_unused_columns=False,
+    )
+
+    data_collator = DataCollatorForLanguageModeling(
+        tokenizer=tokenizer,
+        mlm=False,
+    )
+
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=tokenized["train"],
+        data_collator=data_collator,
+    )
+
+    print("\n--- Iniciando entrenamiento ---")
+    trainer.train()
+
+    print(f"\nGuardando adaptadores LoRA en: {args.output_dir}")
+    model.save_pretrained(args.output_dir)
+    tokenizer.save_pretrained(args.output_dir)
+    print("Entrenamiento completado.")
+
+
+if __name__ == "__main__":
+    main()
+#+end_src
+
+*** Ejecutar el entrenamiento
+
+Con configuración por defecto:
+
+#+begin_src bash
+python train_lora.py
+#+end_src
+
+Con parámetros personalizados:
+
+#+begin_src bash
+python train_lora.py \
+    --model_name "meta-llama/Llama-3.2-3B-Instruct" \
+    --dataset tutor_programacion.jsonl \
+    --output_dir ./lora-tutor \
+    --epochs 3 \
+    --max_length 512 \
+    --learning_rate 2e-4 \
+    --lora_r 16 \
+    --lora_alpha 32
+#+end_src
+
+Sin GPU (o si no tienes =bitsandbytes=):
+
+#+begin_src bash
+python train_lora.py --no_quantize
+#+end_src
+
+
+*** Referencia de parámetros
+
+| Parámetro                | Default              | Descripción                              |
+|--------------------------+----------------------+------------------------------------------|
+| =--model_name=           | Llama-3.2-3B-Instruct | Modelo base de HuggingFace              |
+| =--dataset=              | tutor_programacion.jsonl | Archivo JSONL con datos               |
+| =--output_dir=           | ./lora-tutor         | Donde guardar los adaptadores            |
+| =--epochs=               | 3                    | Épocas de entrenamiento                  |
+| =--max_length=           | 512                  | Longitud máxima de tokens                |
+| =--batch_size=           | 1                    | Batch size por dispositivo               |
+| =--gradient_accumulation= | 16                  | Batch efectivo = batch_size × este valor |
+| =--learning_rate=        | 2e-4                 | Tasa de aprendizaje                      |
+| =--lora_r=               | 16                   | Rango de LoRA (más alto = más capacidad) |
+| =--lora_alpha=           | 32                   | Alpha de LoRA (generalmente 2× lora_r)  |
+| =--no_quantize=          | false                | Desactiva cuantización 8-bit             |
+
+** Cargar el modelo LoRA para inferencia (=inference.py=)
+
+Este script carga el modelo base + los adaptadores LoRA y permite hacer
+preguntas de forma interactiva o directa.
+
+#+begin_src python :tangle inference.py
+#!/usr/bin/env python3
+"""
+Inferencia con el modelo LoRA entrenado.
+Carga el modelo base + adaptadores LoRA y permite hacer preguntas interactivas.
+"""
+
+import argparse
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Convertir LoRA a GGUF para Ollama")
-    parser.add_argument("--base", required=True, help="Ruta del modelo base (llama3)")
-    parser.add_argument("--model", required=True, help="Ruta del LoRA entrenado")
-    parser.add_argument("--out", required=True, help="Archivo GGUF de salida")
-    parser.add_argument("--dtype", default="float16", choices=["float16", "float32"])
-    args = parser.parse_args()
+def parse_args():
+    parser = argparse.ArgumentParser(description="Inferencia con modelo LoRA")
+    parser.add_argument(
+        "--model_name",
+        type=str,
+        default="meta-llama/Llama-3.2-3B-Instruct",
+        help="Modelo base (debe ser el mismo usado en entrenamiento)",
+    )
+    parser.add_argument(
+        "--lora_path",
+        type=str,
+        default="./lora-tutor",
+        help="Ruta de los adaptadores LoRA entrenados",
+    )
+    parser.add_argument("--max_length", type=int, default=512)
+    parser.add_argument(
+        "--prompt",
+        type=str,
+        default=None,
+        help="Pregunta directa (si no se pasa, entra en modo interactivo)",
+    )
+    return parser.parse_args()
 
-    print("🔹 Cargando tokenizer...")
-    tokenizer = AutoTokenizer.from_pretrained(args.base)
 
-    print("🔹 Cargando modelo base...")
-    model = AutoModelForCausalLM.from_pretrained(
-        args.base,
-        torch_dtype=torch.float16 if args.dtype == "float16" else torch.float32,
-        device_map="auto"
+def load_model(model_name, lora_path):
+    """Carga modelo base con adaptadores LoRA."""
+    has_cuda = torch.cuda.is_available()
+    device = "cuda" if has_cuda else "cpu"
+
+    print(f"Cargando tokenizer: {model_name}")
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+
+    print("Cargando modelo base...")
+    base_model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        torch_dtype=torch.float16 if has_cuda else torch.float32,
+        device_map="auto" if has_cuda else None,
     )
 
-    print("🔹 Cargando LoRA...")
-    model = PeftModel.from_pretrained(model, args.model)
+    print(f"Cargando adaptadores LoRA: {lora_path}")
+    model = PeftModel.from_pretrained(base_model, lora_path)
+    model.eval()
 
-    print("🔹 Fusionando LoRA con el modelo base...")
-    model = model.merge_and_unload()
+    return model, tokenizer, device
 
-    tmp_dir = "merged_model"
-    os.makedirs(tmp_dir, exist_ok=True)
 
-    print("🔹 Guardando modelo fusionado...")
-    model.save_pretrained(tmp_dir, safe_serialization=True)
-    tokenizer.save_pretrained(tmp_dir)
+def generate_response(model, tokenizer, prompt_text, device, max_length):
+    """Genera una respuesta a partir de un prompt."""
+    formatted = f"Instrucción: {prompt_text}\nRespuesta:"
 
-    print("🔹 Convirtiendo a GGUF...")
-    llama_cpp_convert = "./llama.cpp/convert-hf-to-gguf.py"
+    inputs = tokenizer(formatted, return_tensors="pt")
+    if device == "cuda":
+        inputs = {k: v.to(device) for k, v in inputs.items()}
 
-    subprocess.run([
-        "python",
-        llama_cpp_convert,
-        tmp_dir,
-        "--outfile",
-        args.out,
-        "--outtype",
-        "f16"
-    ], check=True)
+    with torch.no_grad():
+        outputs = model.generate(
+            **inputs,
+            max_new_tokens=max_length,
+            temperature=0.7,
+            top_p=0.9,
+            do_sample=True,
+            repetition_penalty=1.2,
+            pad_token_id=tokenizer.pad_token_id,
+        )
 
-    print(f"✅ Conversión completa: {args.out}")
+    generated = outputs[0][inputs["input_ids"].shape[1]:]
+    return tokenizer.decode(generated, skip_special_tokens=True).strip()
+
+
+def main():
+    args = parse_args()
+    model, tokenizer, device = load_model(args.model_name, args.lora_path)
+    print("Modelo cargado.\n")
+
+    if args.prompt:
+        response = generate_response(model, tokenizer, args.prompt, device, args.max_length)
+        print(f"Pregunta: {args.prompt}")
+        print(f"Respuesta: {response}")
+        return
+
+    print("=== Tutor de Programación (LoRA) ===")
+    print("Escribe tu pregunta o 'salir' para terminar.\n")
+
+    while True:
+        try:
+            pregunta = input("Tu pregunta: ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print("\nHasta luego.")
+            break
+
+        if not pregunta or pregunta.lower() in ("salir", "exit", "quit"):
+            print("Hasta luego.")
+            break
+
+        response = generate_response(model, tokenizer, pregunta, device, args.max_length)
+        print(f"\nRespuesta:\n{response}\n")
+        print("-" * 60)
 
 
 if __name__ == "__main__":
     main()
-#+END_SRC
-
-
-
-1. Convertir modelo a formato GGUF:
-#+begin_src bash
-python convert.py --model ./lora-tutor --out llama_lora.gguf
 #+end_src
 
-2. Crear un Modelfile:
+*** Usar la inferencia
 
-#+begin_src dockerfile
-FROM llama3
-ADAPTER lora ./llama_lora.gguf
-SYSTEM "Eres un tutor de programación experto..."
-#+end_src
-
-3. Crear el modelo:
+Modo interactivo (chat):
 
 #+begin_src bash
-ollama create tutor_lora --file Modelfile
+python inference.py
 #+end_src
 
-4. Ejecutar:
+Pregunta directa:
+
+#+begin_src bash
+python inference.py --prompt "¿Qué es una función en Python?"
+#+end_src
+
+Con modelo base diferente al default:
+
+#+begin_src bash
+python inference.py \
+    --model_name "meta-llama/Llama-3.2-3B-Instruct" \
+    --lora_path ./lora-tutor
+#+end_src
+
+** Exportar LoRA hacia Ollama (opcional)
+
+*Importante*: Ollama es un servidor de inferencia, *no* entrena modelos.
+Este paso toma los adaptadores LoRA ya entrenados, los fusiona con el modelo
+base, convierte todo a formato GGUF, y lo importa en Ollama para servirlo.
+
+*** Paso 1: Clonar llama.cpp
+
+Se necesita el script de conversión de llama.cpp:
+
+#+begin_src bash
+git clone https://github.com/ggml-org/llama.cpp
+pip install -r llama.cpp/requirements.txt
+#+end_src
+
+*** Paso 2: Script de conversión (=convert_to_gguf.py=)
+
+Este script fusiona el LoRA con el modelo base y convierte a GGUF:
+
+#+begin_src python :tangle convert_to_gguf.py
+#!/usr/bin/env python3
+"""
+Convierte modelo LoRA a GGUF para usar con Ollama.
+Pasos: fusionar LoRA + modelo base -> guardar modelo fusionado -> convertir a GGUF.
+
+Requisito externo: tener llama.cpp clonado localmente.
+  git clone https://github.com/ggml-org/llama.cpp
+  pip install -r llama.cpp/requirements.txt
+"""
+
+import argparse
+import os
+import subprocess
+import sys
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from peft import PeftModel
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Convertir LoRA a GGUF para Ollama")
+    parser.add_argument(
+        "--base",
+        required=True,
+        help="Nombre o ruta del modelo base (ej: meta-llama/Llama-3.2-3B-Instruct)",
+    )
+    parser.add_argument(
+        "--lora",
+        required=True,
+        help="Ruta de los adaptadores LoRA entrenados (ej: ./lora-tutor)",
+    )
+    parser.add_argument(
+        "--output",
+        required=True,
+        help="Archivo GGUF de salida (ej: tutor_lora.gguf)",
+    )
+    parser.add_argument(
+        "--llama_cpp_dir",
+        default="./llama.cpp",
+        help="Directorio donde está clonado llama.cpp",
+    )
+    parser.add_argument(
+        "--merged_dir",
+        default="./merged_model",
+        help="Directorio temporal para el modelo fusionado",
+    )
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+
+    convert_script = os.path.join(args.llama_cpp_dir, "convert_hf_to_gguf.py")
+    if not os.path.isfile(convert_script):
+        print(f"ERROR: No se encontró {convert_script}")
+        print("Asegúrate de clonar llama.cpp primero:")
+        print("  git clone https://github.com/ggml-org/llama.cpp")
+        sys.exit(1)
+
+    print(f"[1/4] Cargando tokenizer: {args.base}")
+    tokenizer = AutoTokenizer.from_pretrained(args.base)
+
+    print("[2/4] Cargando modelo base + LoRA y fusionando...")
+    base_model = AutoModelForCausalLM.from_pretrained(
+        args.base,
+        torch_dtype=torch.float16,
+        device_map="auto" if torch.cuda.is_available() else None,
+    )
+
+    model = PeftModel.from_pretrained(base_model, args.lora)
+    model = model.merge_and_unload()
+
+    os.makedirs(args.merged_dir, exist_ok=True)
+
+    print(f"[3/4] Guardando modelo fusionado en: {args.merged_dir}")
+    model.save_pretrained(args.merged_dir, safe_serialization=True)
+    tokenizer.save_pretrained(args.merged_dir)
+
+    del model
+    del base_model
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
+    print(f"[4/4] Convirtiendo a GGUF: {args.output}")
+    result = subprocess.run(
+        [
+            sys.executable,
+            convert_script,
+            args.merged_dir,
+            "--outfile", args.output,
+            "--outtype", "f16",
+        ],
+        capture_output=True,
+        text=True,
+    )
+
+    if result.returncode != 0:
+        print(f"ERROR en conversión GGUF:\n{result.stderr}")
+        sys.exit(1)
+
+    print(result.stdout)
+    print(f"\nConversión completada: {args.output}")
+    print(f"\nPara crear el modelo en Ollama:")
+    print(f"  1. Crea un archivo 'Modelfile' (ver siguiente sección)")
+    print(f"  2. Ejecuta: ollama create tutor_lora -f Modelfile")
+    print(f"  3. Prueba:  ollama run tutor_lora")
+
+
+if __name__ == "__main__":
+    main()
+#+end_src
+
+*** Paso 3: Ejecutar la conversión
+
+#+begin_src bash
+python convert_to_gguf.py \
+    --base "meta-llama/Llama-3.2-3B-Instruct" \
+    --lora ./lora-tutor \
+    --output tutor_lora.gguf
+#+end_src
+
+Nota: los tres argumentos (=--base=, =--lora=, =--output=) son *obligatorios*.
+
+*** Paso 4: Crear Modelfile para Ollama
+
+El Modelfile usa =FROM= apuntando al GGUF generado. *No* se usa =ADAPTER=
+porque el modelo ya fue fusionado (LoRA + base) en el paso anterior.
+
+#+begin_src text
+FROM ./tutor_lora.gguf
+
+SYSTEM "Eres un tutor de programación experto. Explicas conceptos de forma clara,
+didáctica y con ejemplos prácticos. Respondes en español. Cuando el usuario muestra
+código con errores, los identificas y corriges explicando por qué estaba mal."
+
+PARAMETER temperature 0.7
+PARAMETER top_p 0.9
+PARAMETER num_ctx 2048
+#+end_src
+
+*** Paso 5: Crear y ejecutar en Ollama
+
+#+begin_src bash
+ollama create tutor_lora -f Modelfile
+#+end_src
 
 #+begin_src bash
 ollama run tutor_lora
 #+end_src
 
+** Solución de errores comunes
+
+*** "No se encontró CUDA"
+
+Instala los drivers Nvidia y verifica:
+
+#+begin_src bash
+nvidia-smi
+python -c "import torch; print(torch.cuda.is_available())"
+#+end_src
+
+Si no tienes GPU, usa =--no_quantize= en el entrenamiento.
+
+*** "Token de HuggingFace requerido"
+
+#+begin_src bash
+pip install huggingface_hub
+huggingface-cli login
+#+end_src
+
+Necesitas crear una cuenta en https://huggingface.co y aceptar la licencia del
+modelo Llama.
+
+*** "Out of memory" (sin memoria)
+
+- Reduce =--max_length= (ej: 256).
+- Usa un modelo más pequeño (1B en vez de 3B).
+- Cierra otras aplicaciones que usen la GPU.
+- Verifica uso de VRAM: =nvidia-smi=.
+
+*** "bitsandbytes no encontrado"
+
+#+begin_src bash
+pip install bitsandbytes
+#+end_src
+
+O entrena sin cuantización:
+
+#+begin_src bash
+python train_lora.py --no_quantize
+#+end_src
+
+*** "El modelo genera respuestas cortas o sin sentido"
+
+- Aumenta el dataset (mínimo 100-500 ejemplos).
+- Aumenta =--epochs= a 5.
+- Verifica que el formato del JSONL sea correcto.
+
+*** "El modelo repite texto en bucle"
+
+- Reduce =--learning_rate= (ej: 1e-4).
+- Aumenta el dataset con más variedad.
+- Verifica que =repetition_penalty= esté activo en la inferencia (ya incluido).
+
 ** Consejos para mejorar la calidad del LoRA
-- Usar mínimo *100–500 ejemplos*.
-- No mezclar estilos diferentes.
+
+- Usar mínimo *100–500 ejemplos* bien redactados.
+- No mezclar estilos diferentes en las respuestas.
 - Mantener un tono claro, didáctico y consistente.
 - Mezclar errores reales de código con correcciones.
 - Incluir ejercicios y explicaciones paso a paso.
-
-
-
-
-
-
+- Cubrir varios lenguajes si el tutor debe ser generalista.
+- Revisar manualmente las respuestas del dataset antes de entrenar.
 
 
 
