@@ -11823,6 +11823,345 @@ python train_lora.py --no_quantize
 
 
 
+
+
+*  Transformers
+
+Si alguna vez usaste **ChatGPT**, **Gemini** o un traductor automático decente, por
+detrás casi seguro hay algo llamado **Transformer** (transformador, en español suena raro;
+todos dicen “transformer” en inglés).
+
+** En una frase
+Es una forma de que la computadora **lea o escriba texto** prestando atención a **todas**
+las palabras relevantes a la vez, no solo a la anterior.
+
+** Nombres que oirás (no te asustes)
+| Nombre   | En criollo                                             |
+|----------+--------------------------------------------------------|
+| BERT     | Modelo que *lee* bien (entender texto)                   |
+| GPT      | Modelo que *escribe* (chat, completar frases)            |
+| LLM      | “Modelo de lenguaje grande” = GPT y similares          |
+| Atención | Mecanismo de “¿a qué palabra le presto oído?”          |
+| Token    | Pedacito de palabra (no siempre es una palabra entera) |
+
+Este tema tiene **dos partes**:
+
+1. **Teoría fácil** — analogías y ideas, casi sin matemáticas pesadas.
+2. **Práctica** — un poco de código al final, *opcional* si aún no programas mucho.
+
+
+** El problema: ¿cómo entiende la máquina una frase?
+
+*** La forma vieja: leer palabra por palabra
+Imagina leer un libro **con un solo dedo**: solo recuerdas bien lo que acabas de leer;
+lo de hace diez páginas se vuelve borroso. Así funcionaban muchas redes “recurrentes”
+(RNN, LSTM): iban de izquierda a derecha y llevaban un **resumen mental** que se iba
+comprimiendo.
+
+*** Problemas de esa forma
+- Frases **largas** → el resumen se queda corto.
+- Difícil **entrenar en paralelo** (hay que esperar la palabra anterior).
+- Relaciones lejanas (“El *perro* … [muchas palabras] … *lo* bañé”) cuestan trabajo.
+
+*** La forma nueva: mirar toda la mesa a la vez
+El Transformer dice: en cada palabra, **mira a todas las demás** y decide cuáles importan
+*más* para entenderla. Como en una reunión: no solo escuchas al que habló último; miras
+quién tiene cara de saber la respuesta.
+
+** La analogía de la reunión (atención)
+
+Piensa en una frase como **varias personas en una mesa redonda**:
+
+1. Cada palabra hace una **pregunta**: “¿quién me ayuda a entenderme?”
+2. Cada palabra muestra una **etiqueta** (“soy un verbo”, “soy un nombre”) y trae **información**.
+3. Se calcula **compatibilidad** entre preguntas y etiquetas.
+4. Se reparte **atención** en porcentajes (suman 100 %): más peso a las palabras útiles.
+5. Cada palabra **mezcla** la información de las que le importaron.
+
+Eso es **atención** (*attention*). Si las preguntas y las etiquetas vienen de la **misma**
+frase, se llama **auto-atención** (*self-attention*): la frase se explica a sí misma.
+
+*** Ejemplo cotidiano
+Frase: “Fui al **banco** del río”.
+- “banco” mira fuerte a “río” → sentido naturaleza.
+Frase: “Fui al **banco** a sacar dinero”.
+- “banco” mira a “dinero”, “sacar” → sentido financiero.
+
+La máquina **aprende** esos enlaces con ejemplos, no con un diccionario hecho a mano.
+
+**  ¿Qué son Q, K y V? (sin fórmulas raras)
+
+Solo son **tres listas de números** por cada palabra (las genera la red al entrenar):
+
+| Sigla | Nombre en inglés | Piénsalo como… |
+|-------+------------------+-----------------|
+| Q | Query (consulta) | La **pregunta** de esta palabra |
+| K | Key (clave) | La **etiqueta** “¿soy relevante para ti?” |
+| V | Value (valor) | El **contenido** que aporto si me eliges |
+
+No hace falta memorizar las siglas: **pregunta, etiqueta, contenido**.
+
+*** Paso mental del cálculo
+1. Comparo cada pregunta (Q) con cada etiqueta (K) → obtengo **puntuaciones**.
+2. Convierto puntuaciones en **porcentajes** (función *softmax*: todo positivo y suma 1).
+3. Mezclo los contenidos (V) según esos porcentajes → **nueva representación** de cada palabra.
+
+Hay un truco técnico: se divide por una raíz para que los números no exploten. Los
+cursos avanzados lo llaman *scaled dot-product*; tú puedes leerlo como “normalizar para
+que no se pase de fanfarron”.
+
+** Varias “cabezas” de atención (multi-head)
+
+Una sola ronda de preguntas no basta. El modelo hace **varias rondas en paralelo**
+(por ejemplo 8 o 12 “cabezas”):
+
+- Una cabeza puede fijarse en **vecinos** (“el” + “perro”).
+- Otra en **quién hace qué** (sujeto y verbo).
+- Otra en **palabras muy lejos**.
+
+Al final **juntan** lo que aprendieron todas. Como varios amigos que leen el mismo párrafo
+y luego comparan notas.
+
+**  ¿Cómo sabe el orden de las palabras?
+
+La atención sola es como **bolsas de palabras mezcladas**: “perro muerde hombre” y
+“hombre muerde perro” serían casi iguales sin más datos.
+
+Solución: a cada palabra se le suma un **código de posición** (“soy la palabra 1”,
+“soy la 2”…). Puede ser una fórmula fija (senos y cosenos) o una tabla que **aprende**
+el modelo (como en GPT).
+
+**  El “bloque” que se repite muchas veces
+
+Un Transformer no es una sola capa: es **el mismo bloque apilado** 12, 24 o 96 veces
+(según el modelo). Cada bloque hace básicamente:
+
+#+begin_example
+1. Auto-atención  →  las palabras se hablan entre sí
+2. Pequeña red “por palabra”  →  procesa lo que cada una aprendió
+3. En ambos pasos:  “sumo lo de antes + lo nuevo” y normalizo
+     (eso ayuda a que entrenar redes profundas no sea un desastre)
+#+end_example
+
+La segunda parte (red por palabra) es el **FFN**: dos capas lineales con una activación
+en medio. Suena técnico; en criollo: **cada palabra hace un mini-examen** después de
+haber escuchado a las demás.
+
+** Tres “sabores” de Transformer (lo importante)
+
+*** Solo encoder — el que *lee* bien (BERT y parecidos)
+- Ve la frase **entera**, izquierda y derecha.
+- Entrenamiento típico: **tapar palabras** (como un examen de rellenar huecos) y adivinar
+  qué iba debajo.
+- Sirve para: ¿es positivo o negativo este comentario?, ¿dónde está el nombre de una persona?, etc.
+
+*** Solo decoder — el que *escribe* (GPT, Llama…)
+- Solo puede mirar **hacia atrás** (no hacer trampa viendo el final antes de tiempo).
+- Entrenamiento: **adivinar la siguiente palabra** una y otra vez.
+- Sirve para: chat, redactar, programar con IA, autocompletar.
+
+*** Encoder + decoder — traductor clásico (T5, el paper original)
+- Un lado **lee** el texto de entrada completo.
+- El otro **escribe** la salida y, al escribir cada palabra, **pregunta** al lector
+  “¿qué parte de la entrada me conviene mirar ahora?”. Eso es **atención cruzada**
+  (*cross-attention*).
+
+#+begin_example
+Encoder-only:     leo todo → entiendo
+
+Decoder-only:     voy escribiendo sin ver el futuro
+
+Encoder+decoder:  leo en español → escribo en inglés mirando lo leído
+#+end_example
+
+**  Cómo se entrena (en palabras simples)
+
+*** Fase 1 — Preentrenamiento (carísimo, lo hacen empresas grandes)
+Le meten **montañas de texto** de internet, libros, código…
+- Tipo BERT: juegan a **adivinar palabras tapadas**.
+- Tipo GPT: juegan a **adivinar la siguiente palabra**.
+
+Así el modelo aprende gramática, estilo y un poco de “cultura general” (con errores y sesgos).
+
+*** Fase 2 — Ajuste a tu tarea (fine-tuning, más asequible)
+Con **menos datos** y ejemplos concretos:
+- “Este correo es spam / no spam”.
+- “Responde como tutor de programación”.
+- “Traduce formal / informal”.
+
+*** Fase 3 — A veces, alinear con humanos
+Que suene útil, seguro y no tóxico (RLHF y técnicas parecidas). Es la capa “de producto”
+que notas en ChatGPT.
+
+**  Tokens: no siempre es “una palabra = un trozo”
+
+Los modelos cortan el texto en **tokens** (pedazos frecuentes en el idioma).
+“Programación” puede ser un token; “anticonstitucionalmente” pueden ser varios.
+
+Por qué importa: el límite de contexto (“cuánto texto cabe”) se mide en **tokens**, no
+en palabras. Y el coste de “mirar a todos con todos” crece cuando hay **muchos** tokens.
+
+**  Ventajas y desventajas (sin rodeos)
+
+*** Ventajas
+- Entiende **relaciones lejanas** mejor que muchas RNN.
+- Se puede **entrenar en paralelo** (más rápido en GPUs modernas).
+- Base de casi todo el NLP y muchos chatbots actuales.
+
+*** Desventajas
+- Textos **muy largos** = mucha memoria (cada palabra mira a todas).
+- **No es una base de datos de verdad**: puede inventar cosas que suenan bien (*alucinar*).
+- Repite **sesgos** de los datos con los que aprendió.
+- Modelos grandes = **mucho dinero y energía** para entrenar.
+
+**  ¿Para qué sirve en la vida real?
+
+- Traducir, resumir, responder preguntas sobre documentos.
+- Clasificar opiniones (reseñas, encuestas).
+- Asistentes y generación de código.
+- Buscar en documentos por **significado** (con embeddings + RAG: recuperar trozos y
+  que el modelo redacte con ese contexto).
+- También **imágenes** (ViT) y **voz**: la misma idea de “trocear en piezas y atender”.
+
+**  Mapa mental de un solo dibujo
+
+#+begin_example
+TEXTO
+  ↓
+Partir en tokens (pedazos)
+  ↓
+Convertir cada token en números (embedding) + “en qué posición vas”
+  ↓
+Repetir muchas veces:
+    • Todas las palabras se preguntan quién les importa (atención)
+    • Cada una procesa lo aprendido (mini-red)
+  ↓
+Según el tipo de modelo:
+    • LEER  → etiqueta, resumen, clasificación
+    • ESCRIBIR → siguiente palabra, chat, código
+    • LEER+ESCRIBIR → traducción, resumen con entrada fija
+#+end_example
+
+**  Preguntas típicas de principiante
+
+*** “¿Transformer es lo mismo que GPT?”
+No. **GPT es un tipo de Transformer** (solo la parte que escribe). Transformer es la
+**arquitectura**; GPT, BERT, Llama son **modelos concretos** que la usan.
+
+*** “¿Por qué ChatGPT no ‘busca en Google’ solo?”
+Por defecto **memoriza patrones** del entrenamiento. Para datos actuales o tus PDFs hace
+falta **conectarlo** a una búsqueda (RAG) o herramientas.
+
+*** “¿Necesito entender matemáticas para usarlo?”
+Para **usar** APIs y herramientas, no mucho. Para **investigar o entrenar**, sí conviene
+álgebra lineal y probabilidad; este tema es el primer peldaño conceptual.
+
+*** “¿BERT y GPT se pueden intercambiar?”
+No del todo. BERT está pensado para **entender**; GPT para **generar**. Por eso el chat
+usa familia GPT/LLM, no BERT puro.
+
+** Glosario 
+
+| Si lees…         | Significa…                                    |
+|------------------+-----------------------------------------------|
+| Atención         | Repartir importancia entre palabras           |
+| Auto-atención    | La frase se mira a sí misma                   |
+| Atención cruzada | Quien escribe mira lo que se leyó antes       |
+| Embedding        | Palabra convertida en lista de números        |
+| Máscara causal   | Prohibido ver palabras del futuro al escribir |
+| Preentrenamiento | Aprender del montón de texto general          |
+| Fine-tuning      | Afinar para *tu* tarea con menos datos          |
+| Parámetro        | Número que la red va ajustando al aprender    |
+| Contexto         | Cuánto texto cabe de una vez                  |
+| Alucinación      | Respuesta inventada pero convincente          |
+
+** Para profundizar 
+
+- Paper original: Vaswani et al., *Attention Is All You Need* (2017).
+- Visual: “The Illustrated Transformer” (Jay Alammar).
+- Modelos: papers de BERT (Google), GPT-2/OpenAI, T5.
+
+** PARTE II Práctica
+
+Si nunca programaste, puedes **saltarte** esta parte y quedarte con la Parte I.
+Si quieres “ver” la atención con números o probar un modelo ya hecho, sigue aquí.
+
+** Requisitos de software
+
+#+begin_src shell
+python3 -m pip install "numpy>=1.24" "torch>=2.0" "transformers>=4.40" "datasets>=2.18"
+#+end_src
+
+**  Mini demo: matriz de “¿a quién le presto atención?”
+
+#+begin_src python
+import numpy as np
+
+np.random.seed(42)
+T = 5  # 5 palabras de mentira
+d = 8  # 8 números por palabra
+
+Q = K = V = np.random.randn(1, T, d)
+
+scores = Q @ np.swapaxes(K, -2, -1) / np.sqrt(d)
+weights = np.exp(scores) / np.exp(scores).sum(axis=-1, keepdims=True)
+out = weights @ V
+
+print("Forma de la matriz de atención (5 palabras × 5 palabras):")
+print(np.round(weights[0], 2))
+print("\nCada fila suma 1.0 = reparto de atención al 100%")
+#+end_src
+
+**  Probar un modelo que *lee* (sentimiento de reseñas)
+
+Usa un Transformer pequeño ya entrenado (=distilbert=). Solo demostración corta.
+
+#+begin_src python
+from datasets import load_dataset
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer
+
+ds = load_dataset("imdb", split="train[:300]")
+ds_val = load_dataset("imdb", split="test[:50]")
+name = "distilbert-base-uncased"
+tok = AutoTokenizer.from_pretrained(name)
+
+ds = ds.map(lambda b: tok(b["text"], truncation=True, max_length=128), batched=True)
+ds = ds.rename_column("label", "labels").with_format("torch")
+ds_val = ds_val.map(lambda b: tok(b["text"], truncation=True, max_length=128), batched=True)
+ds_val = ds_val.rename_column("label", "labels").with_format("torch")
+
+model = AutoModelForSequenceClassification.from_pretrained(name, num_labels=2)
+trainer = Trainer(
+    model=model,
+    args=TrainingArguments(output_dir="./tmp-bert", num_train_epochs=1, per_device_train_batch_size=8, eval_strategy="no", save_strategy="no", report_to="none"),
+    train_dataset=ds,
+)
+trainer.train()
+print("Listo: modelo afinado para positivo/negativo (demo).")
+#+end_src
+
+**  Probar un modelo que *escribe* (completar frase)
+
+#+begin_src python
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+tok = AutoTokenizer.from_pretrained("distilgpt2")
+model = AutoModelForCausalLM.from_pretrained("distilgpt2")
+ids = tok.encode("La inteligencia artificial", return_tensors="pt")
+out = model.generate(ids, max_new_tokens=30, do_sample=True, temperature=0.8)
+print(tok.decode(out[0]))
+#+end_src
+
+** Ejercicios para repasar 
+
+1. Explica la analogía de la reunión a alguien que no sabe de informática.
+2. ¿Por qué “banco” necesita mirar otras palabras distintas según la frase?
+3. Nombra una tarea para un modelo *lector* y otra para un modelo *escritor*.
+4. ¿Qué es una alucinación y por qué no basta con “preguntarle al chat” para datos oficiales?
+
+
+
 *  Transformers — teoría y práctica
 
 Los **Transformers** (Vaswani et al., 2017, *Attention Is All You Need*) revolucionaron el
