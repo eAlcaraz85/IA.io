@@ -6,13 +6,13 @@
 #+EXPORT_FILE_NAME: index.html
 #+OPTIONS: num:nil
 #+HTML_HEAD: <style> #content{max-width:1800px;}</style>
-#+HTML_HEAD: <style>pre.src {background-color: #303030; color: #e5e5e5;}</style>
 #+BIND: org-confirm-babel-evaluate nil
+#+bibliography: bibliografia.bib
+#+cite_export: csl
 
 
-
-*  Introducción a la Inteligencia Artificial.
- La inteligencia artificial (IA) es un área multidisciplinaria que, a
+* Introducción a la Inteligencia Artificial.
+  La inteligencia artificial (IA) es un área multidisciplinaria que, a
   través de ciencias como las ciencias de la computación, la lógica y la
   filosofía, estudia la creación y diseño de entidades capaces de
   resolver cuestiones por sí mismas utilizando como paradigma la
@@ -57,17 +57,17 @@
      el pensamiento humano; por ejemplo las redes neuronales
      artificiales. La automatización de actividades que vinculamos con
      procesos de pensamiento humano, actividades como la Toma de
-     decisiones, Resolución de problemas y aprendizaje. cite:Russell
+     decisiones, Resolución de problemas y aprendizaje. [cite:@Russell]
    - *Sistemas que actúan como humanos*: Estos sistemas tratan de actuar
      como humanos; es decir, imitan el comportamiento humano; por
      ejemplo la robótica. El estudio de cómo lograr que los
-     computadores realicen tareas que, por el momento, los humanos hacen mejor. cite:Russell
+     computadores realicen tareas que, por el momento, los humanos hacen mejor. [cite:@Russell]
    - *Sistemas que piensan racionalmente*.- Es decir, con lógica (idealmente), tratan de
      imitar o emular el pensamiento lógico racional del ser humano; por ejemplo los sistemas
-     expertos. El estudio de los cálculos que hacen posible percibir, razonar y actuar. cite:Russell
+     expertos. El estudio de los cálculos que hacen posible percibir, razonar y actuar. [cite:@Russell]
    - *Sistemas que actúan racionalmente (idealmente)*.– Tratan de emular de forma
      racional el comportamiento humano; por ejemplo los agentes inteligentes.Está relacionado con
-     conductas inteligentes en artefactos. cite:Russell
+     conductas inteligentes en artefactos. [cite:@Russell]
  
 **  Inteligencia artificial convencional
 
@@ -927,7 +927,6 @@ Finalmente, la función `pygame.quit()` se encarga de cerrar correctamente el pr
   
    
 
-
 * Espacio de estados
 
 Muchos de los problemas que pueden ser resueltos aplicando técnicas de
@@ -1376,7 +1375,6 @@ que podemos comprobar si las técnicas y algoritmos empleados son los
 artificial, por ejemplo comprensión del lenguaje, los juegos no
 necesitan grandes cantidades de algoritmos. Los juegos más utilizados
 son las damas y el ajedrez.
-
 
 * Grafos
 
@@ -6207,9 +6205,9 @@ layers.GRU(32,
 
 
 
-* RNN para autocompletado — NumPy a mano + TensorFlow
+** RNN para autocompletado — NumPy a mano + TensorFlow
 
-** Objetivo
+*** Objetivo
 
 Aprender cómo una **RNN vanilla** predice el **siguiente carácter** (modelado de lenguaje causal), en tres niveles:
 
@@ -6219,7 +6217,7 @@ Aprender cómo una **RNN vanilla** predice el **siguiente carácter** (modelado 
 
 Los sistemas grandes (Copilot, etc.) usan **Transformers** y muchos datos; aquí el foco es **entender la recurrencia**.
 
-** Requisitos (terminal)
+*** Requisitos (terminal)
 
 #+begin_src shell :results output :exports both
 python3 -m pip install --upgrade pip
@@ -6231,8 +6229,8 @@ por defecto; GPU opcional según tu instalación.
 
 
 
-** Fundamentos breves
-*** Una celda RNN con =tanh=
+*** Fundamentos breves
+**** Una celda RNN con =tanh=
 Estado oculto \(h_t \in \mathbb{R}^H\), entrada **embebida** \(e_t \in \mathbb{R}^d\) (vector fila del embedding del carácter \(x_t\)):
 
 \[
@@ -6247,16 +6245,16 @@ Salida (logits del siguiente token):
 
 En código usamos formas columnas: =e_t= shape =(d,)=, =h_t= =(H,)=, =Wxh= =(H, d)=, =Whh= =(H, H)=.
 
-*** Pérdida
+**** Pérdida
 Entropía cruzada entre =softmax(\ell_t)= y el carácter objetivo (one-hot). Suma (o media) sobre \(t\).
 
-*** BPTT (idea)
+**** BPTT (idea)
 El gradiente respecto a \(h_t\) recibe contribución del paso \(t\) (vía \(W_{hy}\)) **y** del paso \(t+1\) (vía \(W_{hh}\)). Por eso el bucle hacia atrás en el tiempo acumula =dh_next=.
 
-** Parte A — Corpus y vocabulario compartidos
+*** Parte A — Corpus y vocabulario compartidos
 Estos bloques usan la sesión =*rnn-numpy-manual*= (cabecera por defecto de =python=).
 
-*** Corpus mínimo reproducible
+**** Corpus mínimo reproducible
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
 CORPUS = r'''
@@ -6303,7 +6301,7 @@ print("VOCAB_SIZE:", VOCAB_SIZE, "| len(CORPUS):", len(CORPUS))
 #+RESULTS:
 : VOCAB_SIZE: 36 | len(CORPUS): 391
 
-*** Ventanas (entrada / objetivo siguiente carácter)
+**** Ventanas (entrada / objetivo siguiente carácter)
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
 import numpy as np
@@ -6323,8 +6321,8 @@ print("X_np:", X_np.shape, "Y_np:", Y_np.shape)
 #+RESULTS:
 : X_np: (359, 32) Y_np: (359, 32)
 
-** Parte B — RNN solo con NumPy (forward + BPTT + SGD)
-*** Convenciones de forma
+*** Parte B — RNN solo con NumPy (forward + BPTT + SGD)
+**** Convenciones de forma
 | Símbolo | Shape   | Rol                                           |
 |---------+---------+-----------------------------------------------|
 | =V=       | escalar | =VOCAB_SIZE=                                    |
@@ -6337,7 +6335,7 @@ print("X_np:", X_np.shape, "Y_np:", Y_np.shape)
 | =Why=     | =(V, H)=  | estado → logits                               |
 | =by=      | =(V,)=    | sesgo de salida                               |
 
-*** Inicialización de pesos
+**** Inicialización de pesos
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
 import numpy as np
@@ -6365,7 +6363,7 @@ print({k: v.shape for k, v in params_np.items()})
 #+RESULTS:
 : {'E': (36, 48), 'Wxh': (64, 48), 'Whh': (64, 64), 'bh': (64,), 'Why': (36, 64), 'by': (36,)}
 
-*** Propagación hacia adelante (guardamos todo lo necesario para BPTT)
+**** Propagación hacia adelante (guardamos todo lo necesario para BPTT)
 Para cada tiempo \(t\): =emb_t = E[x_t]= (fila), =pre_t = Wxh @ emb_t + Whh @ h_{t-1} + bh=, =h_t = tanh(pre_t)=, =logits_t = Why @ h_t + by=.
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
@@ -6430,7 +6428,7 @@ print("loss (antes de entrenar, 1 secuencia):", float(loss0))
 #+RESULTS:
 : loss (antes de entrenar, 1 secuencia): 3.586872477065522
 
-*** BPTT: gradientes respecto a todos los pesos
+**** BPTT: gradientes respecto a todos los pesos
 Derivada útil: \(\frac{d}{dz}\tanh(z) = 1 - \tanh^2(z)\). Para softmax + CE, \(\partial L / \partial \ell_t = p_t - \text{onehot}(y_t)\).
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
@@ -6496,7 +6494,7 @@ print("loss después de 1 paso SGD (misma secuencia):", float(loss1))
 #+RESULTS:
 : loss después de 1 paso SGD (misma secuencia): 3.575820814713167
 
-*** Bucles de entrenamiento (minibatches pequeños, CPU)
+**** Bucles de entrenamiento (minibatches pequeños, CPU)
 Este bucle es **demostrativo**: muchas épocas sobre un corpus pequeño pueden sobreajustar; la meta es ver la pérdida bajar.
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
@@ -6551,7 +6549,7 @@ print("Entrenamiento NumPy terminado.")
 : epoch  80 | pérdida media por batch ~ 1.0234
 : Entrenamiento NumPy terminado.
 
-*** Generación con los pesos NumPy
+**** Generación con los pesos NumPy
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
 import numpy as np
@@ -6594,15 +6592,15 @@ print(txt[:400])
 : 
 :                     det rnin P)c
 
-*** Notas sobre la parte NumPy
+**** Notas sobre la parte NumPy
 - El gradiente respecto al embedding se acumula **por fila** (=g["E"][xi]+=)=; es la forma escrita explícita del “embedding lookup”.
 - Para corpus grande conviene **recorte de gradientes** (=np.clip=) y quizá **Adam** en lugar de SGD; aquí se prioriza claridad.
 - Complejidad \(O(T)\) por secuencia en tiempo y memoria para BPTT; secuencias muy largas suelen usar **truncamiento** del backprop.
 
-* TensorFlow/Keras (ejemplo completo)
+** TensorFlow/Keras (ejemplo completo)
 Cada bloque Python de esta parte incluye explícitamente =:session *rnn-tensorflow*= para no pisar las variables de la parte NumPy.
 
-** Por qué =return_sequences=True= y =TimeDistributed(Dense)=
+*** Por qué =return_sequences=True= y =TimeDistributed(Dense)=
 
 La capa =SimpleRNN= sin =return_sequences= solo devuelve el **último** paso
 temporal; aquí necesitamos logits en **cada** posición \(t\) para
@@ -6610,7 +6608,7 @@ comparar con el carácter objetivo siguiente (igual que en
 NumPy). =TimeDistributed(Dense)= aplica la misma transformación lineal a
 cada paso temporal — análogo a \(W_{hy}\) compartido.
 
-** Datos, modelo, entrenamiento
+*** Datos, modelo, entrenamiento
 
 #+begin_src python :results output :exports both :session *rnn-tensorflow*
 import numpy as np
@@ -6730,7 +6728,7 @@ pérdida inicial: 3.1191232204437256
 pérdida final: 0.10811327397823334
 #+end_example
 
-** Generación (autocompletado) con el modelo TensorFlow
+*** Generación (autocompletado) con el modelo TensorFlow
 
 #+begin_src python :results output :exports both :session *rnn-tensorflow*
 import tensorflow as tf
@@ -6767,14 +6765,598 @@ print(complete_tf("def fac", max_new_tokens=90, temperature=0.75)[:450])
 : 
 : def fibonacci(
 
-** Ampliación práctica
+*** Ampliación práctica
 - Sustituye =CORPUS= por texto leído de tus =.py= (ojo con licencias y datos sensibles).
 - Aumenta =block_size= con **GPU** y más datos.
 - Para producción histórica en secuencias largas: **GRU/LSTM** en Keras (=layers.GRU=, =layers.LSTM=) o **Transformers**.
 
-** Referencias
+*** Referencias
 - Goodfellow et al., *Deep Learning* — capítulo sobre RNN y BPTT.
 - TensorFlow: documentación de =tf.keras.layers.SimpleRNN=.
+
+
+
+
+
+
+
+
+
+** Autocompletado con RNN vanilla en Keras (TensorFlow)
+
+Este apartado muestra cómo entrenar una **RNN vanilla** con **TensorFlow/Keras** para
+**autocompletar código** carácter a carácter, y cómo conectarla a un editor (VS Code,
+Emacs u otro) mediante un servidor JSON ligero.
+
+Componentes del modelo:
+
+- =Embedding= — vector por carácter.
+- =SimpleRNN= con =tanh= y =return_sequences=True=.
+- =TimeDistributed(Dense)= — logits del siguiente carácter en **cada** paso temporal.
+
+Es un ejemplo didáctico en CPU; no sustituye a Copilot ni a modelos grandes.
+
+*** Requisitos
+
+- Python 3.10+
+- =numpy= y =tensorflow>=2.15=
+
+#+begin_src shell
+python3 -m pip install "numpy>=1.24" "tensorflow>=2.15"
+#+end_src
+
+*** Fundamentos
+
+**** Predicción del siguiente carácter
+Dado un fragmento de texto (prefijo), el modelo devuelve una distribución sobre el
+vocabulario; se elige el siguiente carácter, se concatena al prefijo y se repite.
+
+**** Por qué =return_sequences=True=
+Sin él, =SimpleRNN= solo devuelve el estado del **último** paso. Para entrenar con
+ventanas de longitud \(T\) necesitamos logits en **cada** posición \(t\), comparando
+con el carácter objetivo en \(t{+}1\).
+
+**** Por qué =TimeDistributed(Dense)=
+Aplica la misma capa densa en cada paso temporal: equivalente a compartir la matriz
+\(W_{hy}\) del modelo carácter a carácter que verías en una RNN escrita a mano.
+
+*** Corpus y vocabulario
+
+#+begin_src python
+import json
+from pathlib import Path
+
+import numpy as np
+import tensorflow as tf
+
+tf.keras.utils.set_random_seed(42)
+
+CORPUS = r'''
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+
+class Punto:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def distancia_origen(self):
+        return (self.x ** 2 + self.y ** 2) ** 0.5
+
+for i in range(10):
+    print(i, fibonacci(i))
+'''
+
+chars = sorted(set(CORPUS))
+stoi = {ch: i for i, ch in enumerate(chars)}
+itos = {i: ch for ch, i in stoi.items()}
+VOCAB_SIZE = len(chars)
+
+
+def encode(s: str) -> list[int]:
+    return [stoi[c] for c in s]
+
+
+def decode(ids: list[int]) -> str:
+    return "".join(itos[i] for i in ids)
+
+
+SEQ = np.array(encode(CORPUS), dtype=np.int64)
+print("VOCAB_SIZE:", VOCAB_SIZE, "| caracteres en corpus:", len(CORPUS))
+#+end_src
+
+Puedes sustituir =CORPUS= por el contenido de tus archivos =.py= (cuidado con datos
+privados y licencias).
+
+*** Ventanas de entrenamiento
+
+Cada fila de =X= es una ventana de =BLOCK_SIZE= caracteres; =Y= contiene el carácter
+**siguiente** en cada posición.
+
+#+begin_src python
+BLOCK_SIZE = 32
+X_rows, Y_rows = [], []
+for i in range(0, len(SEQ) - BLOCK_SIZE):
+    X_rows.append(SEQ[i : i + BLOCK_SIZE])
+    Y_rows.append(SEQ[i + 1 : i + 1 + BLOCK_SIZE])
+
+X = np.stack(X_rows)
+Y = np.stack(Y_rows)
+print("X:", X.shape, "Y:", Y.shape)
+#+end_src
+
+Si =len(SEQ) <= BLOCK_SIZE=, alarga el corpus o reduce =BLOCK_SIZE=.
+
+*** Modelo Keras
+
+#+begin_src python
+EMBED_DIM = 48
+HIDDEN = 64
+
+model = tf.keras.Sequential(
+    [
+        tf.keras.layers.Input(shape=(BLOCK_SIZE,)),
+        tf.keras.layers.Embedding(VOCAB_SIZE, EMBED_DIM),
+        tf.keras.layers.SimpleRNN(HIDDEN, activation="tanh", return_sequences=True),
+        tf.keras.layers.TimeDistributed(tf.keras.layers.Dense(VOCAB_SIZE)),
+    ]
+)
+
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
+    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+)
+
+model.summary()
+#+end_src
+
+*** Entrenamiento
+
+#+begin_src python
+EPOCHS = 120
+BATCH_SIZE = 16
+
+history = model.fit(
+    X,
+    Y,
+    epochs=EPOCHS,
+    batch_size=BATCH_SIZE,
+    verbose=0,
+)
+
+print("épocas:", len(history.history["loss"]))
+print("pérdida inicial:", round(float(history.history["loss"][0]), 4))
+print("pérdida final:", round(float(history.history["loss"][-1]), 4))
+#+end_src
+
+Con el corpus de ejemplo, la pérdida suele bajar de ~3 a ~0.1 en unas 120 épocas en CPU.
+
+***  Autocompletado (generación)
+
+#+begin_src python
+def complete(prompt: str, max_new: int = 120, temperature: float = 0.75) -> str:
+    """Ventana fija: últimos BLOCK_SIZE caracteres del contexto."""
+    ids = encode(prompt)
+    rng = np.random.default_rng(42)
+    for _ in range(max_new):
+        x = np.array(ids[-BLOCK_SIZE:], dtype=np.int64)
+        if x.shape[0] < BLOCK_SIZE:
+            pad = np.full(BLOCK_SIZE - x.shape[0], ids[0], dtype=np.int64)
+            x = np.concatenate([pad, x])
+        x = x.reshape(1, BLOCK_SIZE)
+        logits = model(x, training=False).numpy()[0, -1, :]
+        logits = logits / max(temperature, 1e-6)
+        logits = logits - logits.max()
+        probs = np.exp(logits)
+        probs = probs / probs.sum()
+        ids.append(int(rng.choice(len(probs), p=probs)))
+    return decode(ids)
+
+
+print(complete("def fac", max_new=90, temperature=0.75))
+#+end_src
+
+**** Varias sugerencias (menú del editor)
+
+#+begin_src python
+def suggest(prefix: str, n: int = 5, max_new: int = 50) -> list[str]:
+    seen, out = set(), []
+    for i in range(n * 3):
+        text = complete(prefix, max_new=max_new, temperature=0.7 + 0.05 * i)
+        line = (prefix + text[len(prefix) :].split("\n")[0])[:80]
+        if line not in seen and len(line) > len(prefix):
+            seen.add(line)
+            out.append(line)
+        if len(out) >= n:
+            break
+    return out
+
+
+for s in suggest("class P", n=3):
+    print("-", s)
+#+end_src
+
+*** Guardar el modelo para el servidor
+
+#+begin_src python
+DEPLOY_DIR = Path("rnn-keras-autocomplete")
+DEPLOY_DIR.mkdir(parents=True, exist_ok=True)
+
+model.save(DEPLOY_DIR / "model.keras")
+(DEPLOY_DIR / "meta.json").write_text(
+    json.dumps(
+        {"block_size": BLOCK_SIZE, "chars": chars},
+        ensure_ascii=False,
+    ),
+    encoding="utf-8",
+)
+print("Guardado en:", DEPLOY_DIR.resolve())
+#+end_src
+
+Estructura resultante:
+
+#+begin_example
+rnn-keras-autocomplete/
+├── model.keras
+└── meta.json
+#+end_example
+
+***  Servidor para editores
+
+El editor lanza =server_stdio.py= como subproceso y envía **una línea JSON por petición**.
+
+**** Arquitectura
+
+#+begin_example
+  [Editor]  --JSON-->  server_stdio.py  -->  model.keras
+  [Editor]  <--JSON--  server_stdio.py
+#+end_example
+
+**** Protocolo
+
+| Método | Entrada | Salida |
+|--------|---------+--------|
+| =complete= | =prefix=, =max_new=, =temperature= | ={"ok":true,"text":"..."}= |
+| =suggest= | =prefix=, =n= | ={"ok":true,"items":[...]}= |
+
+Guarda el siguiente código como =rnn-keras-autocomplete/server_stdio.py=:
+
+#+begin_src python
+#!/usr/bin/env python3
+"""Autocompletado Keras; JSON por línea en stdin/stdout."""
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+import tensorflow as tf
+
+ROOT = Path(__file__).resolve().parent
+
+_model = None
+_stoi: dict[str, int] = {}
+_itos: dict[int, str] = {}
+_BLOCK_SIZE = 32
+
+
+def _load() -> None:
+    global _model, _stoi, _itos, _BLOCK_SIZE
+    meta = json.loads((ROOT / "meta.json").read_text(encoding="utf-8"))
+    _BLOCK_SIZE = int(meta["block_size"])
+    chars = meta["chars"]
+    _stoi = {c: i for i, c in enumerate(chars)}
+    _itos = {i: c for c, i in _stoi.items()}
+    _model = tf.keras.models.load_model(ROOT / "model.keras")
+
+
+def _encode(s: str) -> list[int]:
+    return [_stoi[c] for c in s]
+
+
+def _decode(ids: list[int]) -> str:
+    return "".join(_itos[i] for i in ids)
+
+
+def _complete(prefix: str, max_new: int = 80, temperature: float = 0.75) -> str:
+    ids = _encode(prefix)
+    rng = np.random.default_rng(42)
+    for _ in range(max_new):
+        x = np.array(ids[-_BLOCK_SIZE:], dtype=np.int64)
+        if x.shape[0] < _BLOCK_SIZE:
+            pad = np.full(_BLOCK_SIZE - x.shape[0], ids[0], dtype=np.int64)
+            x = np.concatenate([pad, x])
+        logits = _model(x.reshape(1, _BLOCK_SIZE), training=False).numpy()[0, -1, :]
+        logits = logits / max(temperature, 1e-6)
+        logits = logits - logits.max()
+        probs = np.exp(logits)
+        probs = probs / probs.sum()
+        ids.append(int(rng.choice(len(probs), p=probs)))
+    return _decode(ids)
+
+
+def _suggest(prefix: str, n: int = 5) -> list[str]:
+    seen, out = set(), []
+    for i in range(n * 3):
+        text = _complete(prefix, max_new=50, temperature=0.7 + 0.05 * i)
+        line = (prefix + text[len(prefix) :].split("\n")[0])[:80]
+        if line not in seen and len(line) > len(prefix):
+            seen.add(line)
+            out.append(line)
+        if len(out) >= n:
+            break
+    return out
+
+
+def _handle(msg: dict) -> dict:
+    rid = msg.get("_id")
+    base = {"_id": rid} if rid is not None else {}
+    try:
+        if msg.get("method") == "complete":
+            return {
+                **base,
+                "ok": True,
+                "text": _complete(
+                    msg.get("prefix", ""),
+                    int(msg.get("max_new", 80)),
+                    float(msg.get("temperature", 0.75)),
+                ),
+            }
+        if msg.get("method") == "suggest":
+            return {
+                **base,
+                "ok": True,
+                "items": _suggest(msg.get("prefix", ""), int(msg.get("n", 5))),
+            }
+        return {**base, "ok": False, "error": "metodo desconocido"}
+    except Exception as exc:
+        return {**base, "ok": False, "error": str(exc)}
+
+
+def main() -> None:
+    if not (ROOT / "model.keras").is_file():
+        sys.stderr.write("Falta model.keras — entrena y guarda el modelo primero.\n")
+        sys.exit(1)
+    _load()
+    sys.stderr.write("servidor Keras listo\n")
+    sys.stderr.flush()
+    for line in sys.stdin:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            out = _handle(json.loads(line))
+        except json.JSONDecodeError as exc:
+            out = {"ok": False, "error": f"JSON invalido: {exc}"}
+        sys.stdout.write(json.dumps(out, ensure_ascii=False) + "\n")
+        sys.stdout.flush()
+
+
+if __name__ == "__main__":
+    main()
+#+end_src
+
+**** Prueba en terminal
+
+#+begin_src shell
+cd rnn-keras-autocomplete
+echo '{"method":"complete","prefix":"def fac","max_new":50,"temperature":0.75}' \
+  | python3 server_stdio.py 2>/dev/null
+#+end_src
+
+***  Integración con VS Code
+
+Carpeta del proyecto:
+
+#+begin_example
+rnn-keras-autocomplete/
+├── model.keras
+├── meta.json
+├── server_stdio.py
+└── vscode-extension/
+    ├── package.json
+    └── extension.js
+#+end_example
+
+**** package.json
+
+#+begin_src json
+{
+  "name": "rnn-keras-autocomplete",
+  "displayName": "RNN Keras Autocomplete",
+  "version": "0.1.0",
+  "engines": { "vscode": "^1.80.0" },
+  "main": "./extension.js",
+  "activationEvents": ["onLanguage:python"],
+  "contributes": {
+    "commands": [
+      { "command": "rnnKeras.complete", "title": "RNN: completar línea" },
+      { "command": "rnnKeras.suggest", "title": "RNN: elegir sugerencia" }
+    ],
+    "keybindings": [
+      {
+        "command": "rnnKeras.complete",
+        "key": "ctrl+shift+space",
+        "when": "editorTextFocus && editorLangId == python"
+      }
+    ],
+    "configuration": {
+      "properties": {
+        "rnnKeras.pythonPath": { "type": "string", "default": "python3" },
+        "rnnKeras.serverScript": {
+          "type": "string",
+          "default": "",
+          "description": "Ruta absoluta a server_stdio.py"
+        },
+        "rnnKeras.maxNew": { "type": "number", "default": 60 }
+      }
+    }
+  }
+}
+#+end_src
+
+**** extension.js
+
+#+begin_src javascript
+const vscode = require("vscode");
+const path = require("path");
+const { spawn } = require("child_process");
+const readline = require("readline");
+
+let proc, rl, pending = new Map(), reqId = 0;
+
+function serverScript() {
+  const cfg = vscode.workspace.getConfiguration("rnnKeras");
+  const custom = cfg.get("serverScript");
+  if (custom) return custom;
+  const root = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+  return path.join(root, "server_stdio.py");
+}
+
+function request(method, fields) {
+  return new Promise((resolve, reject) => {
+    if (!proc) {
+      const py = vscode.workspace.getConfiguration("rnnKeras").get("pythonPath") || "python3";
+      const script = serverScript();
+      proc = spawn(py, [script], { cwd: path.dirname(script), stdio: ["pipe", "pipe", "pipe"] });
+      rl = readline.createInterface({ input: proc.stdout });
+      rl.on("line", (line) => {
+        const msg = JSON.parse(line);
+        if (pending.has(msg._id)) {
+          pending.get(msg._id)(msg);
+          pending.delete(msg._id);
+        }
+      });
+    }
+    const id = ++reqId;
+    const timer = setTimeout(() => reject(new Error("timeout")), 20000);
+    pending.set(id, (msg) => {
+      clearTimeout(timer);
+      msg.ok ? resolve(msg) : reject(new Error(msg.error || "error"));
+    });
+    proc.stdin.write(JSON.stringify({ method, _id: id, ...fields }) + "\n");
+  });
+}
+
+async function completeLine() {
+  const ed = vscode.window.activeTextEditor;
+  if (!ed) return;
+  const pos = ed.selection.active;
+  const prefix = ed.document.lineAt(pos.line).text.slice(0, pos.character);
+  const maxNew = vscode.workspace.getConfiguration("rnnKeras").get("maxNew") || 60;
+  const res = await request("complete", { prefix, max_new: maxNew, temperature: 0.75 });
+  const suffix = res.text.slice(prefix.length).split("\n")[0];
+  await ed.edit((eb) => eb.insert(pos, suffix));
+}
+
+async function showSuggestions() {
+  const ed = vscode.window.activeTextEditor;
+  if (!ed) return;
+  const pos = ed.selection.active;
+  const prefix = ed.document.lineAt(pos.line).text.slice(0, pos.character);
+  const res = await request("suggest", { prefix, n: 5 });
+  const pick = await vscode.window.showQuickPick(res.items, { placeHolder: "Sugerencias RNN" });
+  if (!pick) return;
+  await ed.edit((eb) => eb.insert(pos, pick.slice(prefix.length)));
+}
+
+function activate(ctx) {
+  ctx.subscriptions.push(
+    vscode.commands.registerCommand("rnnKeras.complete", completeLine),
+    vscode.commands.registerCommand("rnnKeras.suggest", showSuggestions)
+  );
+}
+
+function deactivate() {
+  if (proc) proc.kill();
+}
+
+module.exports = { activate, deactivate };
+#+end_src
+
+**** settings.json del workspace
+
+#+begin_src json
+{
+  "rnnKeras.pythonPath": "python3",
+  "rnnKeras.serverScript": "/ruta/absoluta/rnn-keras-autocomplete/server_stdio.py"
+}
+#+end_src
+
+Instala la extensión con =F5= (modo desarrollo) o =code --install-extension .= desde
+=vscode-extension/=.
+
+***  Integración con Emacs
+
+#+begin_src emacs-lisp
+(require 'json)
+
+(defvar rnn-server-script (expand-file-name "rnn-keras-autocomplete/server_stdio.py"))
+(defvar rnn-python "python3")
+(defvar rnn-proc nil)
+(defvar rnn--pending nil)
+
+(defun rnn--ensure-server ()
+  (unless (and rnn-proc (process-live-p rnn-proc))
+    (setq rnn-proc (start-process "rnn-keras" nil rnn-python rnn-server-script))
+    (set-process-filter rnn-proc #'rnn--filter)))
+
+(defun rnn--filter (_proc output)
+  (let ((line (string-trim output)))
+    (when (and (not (string-empty-p line))
+               (not (string-prefix-p "servidor Keras" line)))
+      (let* ((data (json-read-from-string line))
+             (cb (pop rnn--pending)))
+        (when cb (funcall cb data))))))
+
+(defun rnn-request (payload callback)
+  (rnn--ensure-server)
+  (push callback rnn--pending)
+  (process-send-string rnn-proc (concat (json-encode payload) "\n")))
+
+(defun rnn-complete-line ()
+  (interactive)
+  (let ((prefix (buffer-substring-no-properties (line-beginning-position) (point))))
+    (rnn-request `((method . "complete") (prefix . ,prefix) (max_new . 60) (temperature . 0.75))
+                 (lambda (data)
+                   (when (alist-get 'ok data)
+                     (insert (substring (alist-get 'text data) (length prefix))))))))
+
+(global-set-key (kbd "C-c C-k") #'rnn-complete-line)
+#+end_src
+
+Ajusta =rnn-server-script= a la ruta real de tu =server_stdio.py=.
+
+***  Script único (opcional)
+
+Si prefieres un solo archivo =entrenar_y_probar.py= en lugar de bloques separados,
+une las secciones 1–5 en orden. El servidor y la extensión del editor siguen siendo
+archivos aparte porque el IDE los lanza como procesos independientes.
+
+*** Limitaciones y mejoras
+
+| Tema      | Aquí                      | Siguiente paso           |
+|-----------+---------------------------+--------------------------|
+| Contexto  | Ventana fija (=BLOCK_SIZE=) | =GRU=, =LSTM= o Transformer  |
+| Datos     | Corpus pequeño            | Más archivos =.py= propios |
+| Sintaxis  | No validada               | Parser + LSP             |
+| Velocidad | CPU                       | GPU, exportar a ONNX     |
+
+*** Referencias
+
+- Documentación: =tf.keras.layers.SimpleRNN=, =TimeDistributed=
+- Karpathy, *The Unreasonable Effectiveness of Recurrent Neural Networks*
+- Goodfellow et al., *Deep Learning* — RNN y modelado de secuencias
+
 
 
 
@@ -9036,7 +9618,6 @@ print("Embeddings 2D:", embedding)
 
 #+RESULTS:
 
-
 * ¿Qué es Ollama?
 **Ollama** es una herramienta diseñada para integrar y facilitar el uso
 de modelos de inteligencia artificial centrados en el procesamiento
@@ -9090,7 +9671,6 @@ response = client.query("¿Cuáles son las ventajas del aprendizaje supervisado?
 print(response)
 #+END_SRC
 
-
 * Spacy
 
 #+BEGIN_SRC python
@@ -9120,7 +9700,6 @@ for token in doc:
 #+END_SRC
 
 #+RESULTS:
-
 
 * Extracción de datos RSS con Python y Atoma
 
@@ -10144,12 +10723,12 @@ El Transformer procesa texto usando *atención multi-cabeza* (Multi-Head
 Attention). En cada capa, el texto pasa por cuatro proyecciones lineales
 representadas como matrices de pesos:
 
-| Matriz    | Nombre             | Función                                       |
-|-----------+--------------------+-----------------------------------------------|
-| =W_q=     | Query (consulta)   | "¿Qué estoy buscando?"                       |
-| =W_k=     | Key (clave)        | "¿Qué información tengo disponible?"          |
-| =W_v=     | Value (valor)      | "¿Qué contenido devuelvo?"                   |
-| =W_o=     | Output (salida)    | Combina las cabezas de atención en una salida |
+| Matriz | Nombre           | Función                                       |
+|--------+------------------+-----------------------------------------------|
+| =W_q=    | Query (consulta) | "¿Qué estoy buscando?"                        |
+| =W_k=    | Key (clave)      | "¿Qué información tengo disponible?"          |
+| =W_v=    | Value (valor)    | "¿Qué contenido devuelvo?"                    |
+| =W_o=    | Output (salida)  | Combina las cabezas de atención en una salida |
 
 Para un modelo de 3 mil millones de parámetros, cada una de estas matrices
 puede tener dimensiones enormes (por ejemplo, 3072 × 3072 = ~9.4 millones
@@ -10178,13 +10757,14 @@ de pedagogía para que aprenda a *explicar* programación de forma didáctica.
 En un fine-tuning completo, se modifican *todos* los parámetros del modelo
 durante el entrenamiento. Esto tiene problemas graves:
 
-| Aspecto             | Full Fine-Tuning         | Problema                              |
-|---------------------+--------------------------+---------------------------------------|
-| VRAM necesaria      | 2-4× el tamaño del modelo | Un modelo de 7B necesita ~56 GB VRAM |
-| Almacenamiento      | Copia completa del modelo | Cada versión ocupa ~14 GB en disco   |
-| Riesgo de overfitting | Alto                   | Con pocos datos, el modelo "memoriza" |
-| Tiempo              | Horas o días             | Incluso con GPUs potentes             |
-| Olvido catastrófico | Probable                 | El modelo puede perder conocimiento   |
+| Aspecto               | Full Fine-Tuning          | Problema                              |
+|-----------------------+---------------------------+---------------------------------------|
+| VRAM necesaria        | 2-4× el tamaño del modelo | Un modelo de 7B necesita ~56 GB VRAM  |
+| Almacenamiento        | Copia completa del modelo | Cada versión ocupa ~14 GB en disco    |
+| Riesgo de overfitting | Alto                      | Con pocos datos, el modelo "memoriza" |
+| Tiempo                | Horas o días              | Incluso con GPUs potentes             |
+| Olvido catastrófico   | Probable                  | El modelo puede perder conocimiento   |
+|                       |                           |                                       |
 
 Para un modelo de 7 mil millones de parámetros, el fine-tuning completo
 requiere almacenar en VRAM:
@@ -10311,10 +10891,10 @@ mayoría de casos.
 
 Define a cuáles matrices de pesos del modelo se aplican los adaptadores LoRA.
 
-| Configuración                              | Parámetros entrenados | Calidad |
-|--------------------------------------------+-----------------------+---------|
-| =["q_proj", "v_proj"]=                    | Menos (~0.1%)         | Básica  |
-| =["q_proj", "k_proj", "v_proj", "o_proj"]= | Más (~0.2%)          | Buena   |
+| Configuración                            | Parámetros entrenados | Calidad |
+|------------------------------------------+-----------------------+---------|
+| =["q_proj", "v_proj"]=                     | Menos (~0.1%)         | Básica  |
+| =["q_proj", "k_proj", "v_proj", "o_proj"]= | Más (~0.2%)           | Buena   |
 | + =["gate_proj", "up_proj", "down_proj"]=  | Aún más (~0.5%)       | Mejor   |
 
 En este tutorial usamos las cuatro proyecciones de atención (q, k, v, o),
@@ -10344,6 +10924,7 @@ matrices de pesos. La opción =bias="none"= significa que no se entrenan,
 lo cual es lo recomendado por el paper original de LoRA porque los sesgos
 contribuyen poco al fine-tuning y ahorrar su entrenamiento reduce la
 cantidad de parámetros.
+
 
 *** LoRA vs. otros métodos PEFT
 
@@ -10538,17 +11119,19 @@ LR ▲
    └──────────────→ Pasos de entrenamiento
 #+end_example
 
-* Requisitos
 
-** Hardware
+
+** Requisitos
+
+*** Hardware
 - *Con GPU Nvidia* (recomendado): 8+ GB VRAM, drivers CUDA instalados.
 - *Sin GPU*: funciona en CPU pero el entrenamiento será muy lento.
 
-** Software
+*** Software
 - Python 3.10 o superior.
 - =pip= para instalar dependencias.
 
-** Instalar dependencias
+*** Instalar dependencias
 
 #+begin_src bash
 pip install torch transformers peft datasets accelerate sentencepiece protobuf
@@ -10579,7 +11162,7 @@ E instala con:
 pip install -r requirements_lora.txt
 #+end_src
 
-** Login en HuggingFace (necesario para modelos Llama)
+*** Login en HuggingFace (necesario para modelos Llama)
 
 #+begin_src bash
 pip install huggingface_hub
@@ -10589,7 +11172,7 @@ huggingface-cli login
 Debes aceptar la licencia del modelo en https://huggingface.co/meta-llama antes
 de poder descargarlo.
 
-** Elegir modelo base
+*** Elegir modelo base
 
 Modelos recomendados (del más ligero al más pesado):
 
@@ -10608,7 +11191,7 @@ En este tutorial usamos *Llama 3.2 3B Instruct* como modelo por defecto
 model_name = "meta-llama/Llama-3.2-3B-Instruct"
 #+end_src
 
-** Crear dataset de tutor de programación
+*** Crear dataset de tutor de programación
 
 El dataset debe estar en formato JSONL (una línea JSON por ejemplo).
 Cada línea tiene dos campos: =instruction= y =response=.
@@ -10630,7 +11213,7 @@ Guárdalo como: =tutor_programacion.jsonl=
 - Mezclar: explicaciones de conceptos, corrección de errores, ejercicios.
 - No mezclar idiomas o estilos diferentes.
 
-** Script de entrenamiento LoRA (=train_lora.py=)
+*** Script de entrenamiento LoRA (=train_lora.py=)
 
 Este script funciona tal cual. Detecta automáticamente si hay GPU disponible.
 
@@ -10814,7 +11397,7 @@ if __name__ == "__main__":
     main()
 #+end_src
 
-*** Ejecutar el entrenamiento
+**** Ejecutar el entrenamiento
 
 Con configuración por defecto:
 
@@ -10843,7 +11426,7 @@ python train_lora.py --no_quantize
 #+end_src
 
 
-*** Referencia de parámetros
+**** Referencia de parámetros
 
 | Parámetro                | Default              | Descripción                              |
 |--------------------------+----------------------+------------------------------------------|
@@ -10859,7 +11442,7 @@ python train_lora.py --no_quantize
 | =--lora_alpha=           | 32                   | Alpha de LoRA (generalmente 2× lora_r)  |
 | =--no_quantize=          | false                | Desactiva cuantización 8-bit             |
 
-** Cargar el modelo LoRA para inferencia (=inference.py=)
+*** Cargar el modelo LoRA para inferencia (=inference.py=)
 
 Este script carga el modelo base + los adaptadores LoRA y permite hacer
 preguntas de forma interactiva o directa.
@@ -10982,7 +11565,7 @@ if __name__ == "__main__":
     main()
 #+end_src
 
-*** Usar la inferencia
+**** Usar la inferencia
 
 Modo interactivo (chat):
 
@@ -11004,13 +11587,13 @@ python inference.py \
     --lora_path ./lora-tutor
 #+end_src
 
-** Exportar LoRA hacia Ollama (opcional)
+*** Exportar LoRA hacia Ollama (opcional)
 
 *Importante*: Ollama es un servidor de inferencia, *no* entrena modelos.
 Este paso toma los adaptadores LoRA ya entrenados, los fusiona con el modelo
 base, convierte todo a formato GGUF, y lo importa en Ollama para servirlo.
 
-*** Paso 1: Clonar llama.cpp
+**** Paso 1: Clonar llama.cpp
 
 Se necesita el script de conversión de llama.cpp:
 
@@ -11019,7 +11602,7 @@ git clone https://github.com/ggml-org/llama.cpp
 pip install -r llama.cpp/requirements.txt
 #+end_src
 
-*** Paso 2: Script de conversión (=convert_to_gguf.py=)
+**** Paso 2: Script de conversión (=convert_to_gguf.py=)
 
 Este script fusiona el LoRA con el modelo base y convierte a GGUF:
 
@@ -11136,7 +11719,7 @@ if __name__ == "__main__":
     main()
 #+end_src
 
-*** Paso 3: Ejecutar la conversión
+**** Paso 3: Ejecutar la conversión
 
 #+begin_src bash
 python convert_to_gguf.py \
@@ -11147,7 +11730,7 @@ python convert_to_gguf.py \
 
 Nota: los tres argumentos (=--base=, =--lora=, =--output=) son *obligatorios*.
 
-*** Paso 4: Crear Modelfile para Ollama
+**** Paso 4: Crear Modelfile para Ollama
 
 El Modelfile usa =FROM= apuntando al GGUF generado. *No* se usa =ADAPTER=
 porque el modelo ya fue fusionado (LoRA + base) en el paso anterior.
@@ -11164,7 +11747,7 @@ PARAMETER top_p 0.9
 PARAMETER num_ctx 2048
 #+end_src
 
-*** Paso 5: Crear y ejecutar en Ollama
+**** Paso 5: Crear y ejecutar en Ollama
 
 #+begin_src bash
 ollama create tutor_lora -f Modelfile
@@ -11174,9 +11757,9 @@ ollama create tutor_lora -f Modelfile
 ollama run tutor_lora
 #+end_src
 
-** Solución de errores comunes
+*** Solución de errores comunes
 
-*** "No se encontró CUDA"
+**** "No se encontró CUDA"
 
 Instala los drivers Nvidia y verifica:
 
@@ -11187,7 +11770,7 @@ python -c "import torch; print(torch.cuda.is_available())"
 
 Si no tienes GPU, usa =--no_quantize= en el entrenamiento.
 
-*** "Token de HuggingFace requerido"
+**** "Token de HuggingFace requerido"
 
 #+begin_src bash
 pip install huggingface_hub
@@ -11197,14 +11780,14 @@ huggingface-cli login
 Necesitas crear una cuenta en https://huggingface.co y aceptar la licencia del
 modelo Llama.
 
-*** "Out of memory" (sin memoria)
+**** "Out of memory" (sin memoria)
 
 - Reduce =--max_length= (ej: 256).
 - Usa un modelo más pequeño (1B en vez de 3B).
 - Cierra otras aplicaciones que usen la GPU.
 - Verifica uso de VRAM: =nvidia-smi=.
 
-*** "bitsandbytes no encontrado"
+**** "bitsandbytes no encontrado"
 
 #+begin_src bash
 pip install bitsandbytes
@@ -11216,19 +11799,19 @@ O entrena sin cuantización:
 python train_lora.py --no_quantize
 #+end_src
 
-*** "El modelo genera respuestas cortas o sin sentido"
+**** "El modelo genera respuestas cortas o sin sentido"
 
 - Aumenta el dataset (mínimo 100-500 ejemplos).
 - Aumenta =--epochs= a 5.
 - Verifica que el formato del JSONL sea correcto.
 
-*** "El modelo repite texto en bucle"
+**** "El modelo repite texto en bucle"
 
 - Reduce =--learning_rate= (ej: 1e-4).
 - Aumenta el dataset con más variedad.
 - Verifica que =repetition_penalty= esté activo en la inferencia (ya incluido).
 
-** Consejos para mejorar la calidad del LoRA
+*** Consejos para mejorar la calidad del LoRA
 
 - Usar mínimo *100–500 ejemplos* bien redactados.
 - No mezclar estilos diferentes en las respuestas.
@@ -11240,13 +11823,510 @@ python train_lora.py --no_quantize
 
 
 
+*  Transformers — teoría y práctica
+
+Los **Transformers** (Vaswani et al., 2017, *Attention Is All You Need*) revolucionaron el
+procesamiento de secuencias y son la base de BERT, GPT, T5, Llama y la mayoría de los
+modelos de lenguaje actuales.
+
+Este material está organizado en **dos partes**:
+
+1. **Teoría** — conceptos, matemáticas e intuición (lo esencial del tema).
+2. **Práctica** — ejemplos en código al final, para consolidar lo aprendido.
+
+
+** Contexto histórico: secuencias antes del Transformer
+
+*** Modelos secuenciales clásicos
+Durante años, texto, voz y series temporales se modelaron con:
+
+- *Redes recurrentes* (RNN): estado \(h_t\) que resume el pasado.
+- *LSTM* y *GRU*: compuertas para mitigar el olvido del gradiente a largo plazo.
+- *Encoders–decoders* con RNN para traducción automática (seq2seq).
+
+*** El cuello de botella del encoder
+En seq2seq clásico, toda la frase de entrada se comprimía en un **único vector** (estado
+final del encoder). El decoder debía generar la traducción solo desde ese resumen. Para
+frases largas, la información se perdía.
+
+*** Atención en seq2seq (Bahdanau, Luong)
+Se introdujo la **atención**: en cada paso del decoder, el modelo consulta *todos* los
+estados del encoder y forma una combinación ponderada. Así cada palabra generada puede
+“mirar” las partes relevantes de la entrada.
+
+El salto del Transformer: **eliminar la recurrencia** y basarse casi por completo en
+atención apilada en capas, con entrenamiento altamente paralelizable.
+
+**  Límites de las RNN frente al enfoque Transformer
+
+| Problema en RNN/LSTM | Qué implica | Cómo lo aborda el Transformer |
+|----------------------+-------------+-------------------------------|
+| Cómputo secuencial en \(t\) | Poca paralelización en entrenamiento | Matrices \(T \times T\) en paralelo |
+| Camino largo del gradiente | Dependencias lejanas débiles | Enlace directo entre posiciones vía atención |
+| Estado fijo comprimido | Pérdida de información | Representación por token en cada capa |
+| Difícil escalar longitud | Secuencias muy largas | Coste \(O(T^2)\) en memoria (trade-off) |
+
+No significa que las RNN hayan desaparecido: en secuencias muy largas en streaming o
+hardware limitado a veces siguen siendo útiles. En NLP de gran escala, domina el Transformer.
+
+**  Idea central: atención como búsqueda
+
+Imagina que cada palabra de la frase hace una **pregunta** (Query) y todas las palabras
+ofrecen **etiquetas** de relevancia (Key) y **contenido** (Value).
+
+- Si la pregunta de “banco” coincide fuerte con la clave de “río”, recupera contexto de ribera.
+- Si coincide con “préstamo”, recupera contexto financiero.
+
+Formalmente, para cada posición se aprenden transformaciones lineales que producen
+vectores \(q\), \(k\), \(v\). La **atención** reparte pesos normalizados sobre los
+valores según la compatibilidad \(q \cdot k\).
+
+Esto es **self-attention** cuando \(Q, K, V\) salen de la misma secuencia; **cross-attention**
+cuando las queries vienen del decoder y las keys/values del encoder.
+
+**  Scaled dot-product attention
+
+Para una secuencia de longitud \(T\) y dimensión \(d_k\), con matrices
+\(Q, K, V \in \mathbb{R}^{T \times d_k}\):
+
+\[
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{Q K^\top}{\sqrt{d_k}}\right) V
+\]
+
+*** Paso a paso
+1. \(S = Q K^\top / \sqrt{d_k}\) → matriz de puntuaciones \(T \times T\).
+2. \(\text{softmax}\) **por filas** → cada token reparte probabilidad sobre los demás.
+3. Multiplicar por \(V\) → vector de salida por posición, mezcla de contenidos.
+
+*** Por qué escalar con \(\sqrt{d_k}\)
+Con \(d_k\) grande, los productos escalares crecen en magnitud y el softmax se acerca a
+un one-hot (gradientes pequeños). La división mantiene varianza estable.
+
+*** Interpretación probabilística
+La fila \(i\) de la matriz de atención es una distribución sobre “a qué posiciones miro”.
+Es **diferenciable**: el modelo aprende qué enlaces son útiles vía backpropagation.
+
+**  Máscaras
+
+*** Máscara de padding
+Los lotes suelen tener longitud fija; posiciones de relleno no deben recibir peso. Se
+asigna \(-\infty\) (o un valor muy negativo) a esas celdas antes del softmax.
+
+*** Máscara causal (autoregresiva)
+En generación, la posición \(i\) **no puede** atender a \(j > i\). La matriz de scores
+se hace triangular inferior. Garantiza que la predicción en \(t\) solo use información
+pasada — igual que en una RNN, pero calculada en paralelo durante el entrenamiento
+(*teacher forcing*).
+
+**  Multi-head attention
+
+Una sola matriz de atención puede ser insuficiente. Se proyecta \(Q, K, V\) en \(h\)
+subespacios (*cabezas*) y se calcula atención en cada uno:
+
+\[
+\text{head}_i = \text{Attention}(Q W_i^Q,\; K W_i^K,\; V W_i^V)
+\]
+\[
+\text{MultiHead}(Q,K,V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h)\, W^O
+\]
+
+*** Intuición
+Cada cabeza puede especializarse en un patrón distinto: acuerdo sujeto–verbo, bigramas
+adyacentes, puntuación, co-referencia a larga distancia, etc. La proyección final \(W^O\)
+mezcla esas vistas.
+
+*** Dimensiones típicas
+En BERT-base: \(d_{\text{model}} = 768\), \(h = 12\) → \(d_k = d_v = 64\) por cabeza.
+
+**  Embeddings y codificación posicional
+
+*** Embedding de tokens
+Cada índice de token \(w_t\) se mapea a un vector denso \(e_t \in \mathbb{R}^{d_{\text{model}}}\),
+entrenable o tomado de una tabla. Es el equivalente moderno de *one-hot* comprimido.
+
+*** El problema del orden
+La operación de atención es **equivariante a permutaciones** de las posiciones si no se
+añade información de orden: “perro muerde hombre” y “hombre muerde perro” serían
+indistinguibles en estructura de atención pura.
+
+*** Codificación posicional (paper original)
+Se suma un vector \(PE_{(pos, i)}\) a cada dimensión del embedding:
+
+\[
+PE_{(pos, 2i)} = \sin\left(pos / 10000^{2i/d_{\text{model}}}\right)
+\]
+\[
+PE_{(pos, 2i+1)} = \cos\left(pos / 10000^{2i/d_{\text{model}}}\right)
+\]
+
+Frecuencias distintas por dimensión permiten al modelo inferir distancias relativas.
+
+*** Alternativas modernas
+- *Embeddings posicionales aprendidos* (GPT-2, muchos LLM).
+- *RoPE* (rotary positional embeddings): codifica posición en el espacio de queries/keys.
+- *ALiBi*, ventanas deslizantes: extender contexto sin reentrenar desde cero.
+
+Entrada de cada capa:
+\[
+x_t = \text{Embed}(w_t) + \text{PE}(t)
+\]
+
+** Conexiones residuales y normalización
+
+Cada subcapa (atención o FFN) usa el patrón **Add & Norm**:
+
+\[
+x' = \text{LayerNorm}(x + \text{Sublayer}(x))
+\]
+
+*** Residual (\(x + \cdots\))
+Facilita el flujo del gradiente en redes profundas (decenas de capas). El bloque aprende
+un *ajuste* sobre la identidad.
+
+*** Layer Normalization
+Normaliza por features dentro de cada token (no por lote como BatchNorm en visión).
+Estabiliza activaciones y acelera convergencia.
+
+**  Capa feed-forward (FFN)
+
+Tras la atención, cada posición pasa por el mismo MLP de dos capas (independiente por token):
+
+\[
+\text{FFN}(x) = \max(0,\; x W_1 + b_1)\, W_2 + b_2
+\]
+
+Dimensión interna habitual: \(d_{ff} = 4 \cdot d_{\text{model}}\) (p. ej. 3072 cuando
+\(d_{\text{model}} = 768\)). Aporta **capacidad no lineal** por posición tras mezclar
+información entre tokens en la atención.
+
+**  Bloque encoder (una capa)
+
+#+begin_example
+Entrada X (T × d_model)
+  → Multi-Head Self-Attention (bidireccional)
+  → Dropout → Add & Norm
+  → FFN
+  → Dropout → Add & Norm
+Salida X' (T × d_model)
+#+end_example
+
+Se apilan \(N\) capas idénticas en hiperparámetros de forma (no en pesos). BERT-base: \(N=12\).
+
+*** Salida del encoder
+Una matriz de representaciones contextuales: cada fila es el significado de ese token
+*en contexto* (no el embedding aislado de la palabra).
+
+**  Bloque decoder (una capa)
+
+Tres subcapas por nivel:
+
+1. **Masked multi-head self-attention** (causal sobre tokens ya generados).
+2. **Multi-head cross-attention** (queries del decoder, keys/values del encoder).
+3. **FFN** con residual y norm.
+
+El decoder genera la secuencia objetivo token a token (entrenamiento con desplazamiento
+a la derecha del target).
+
+**  Arquitectura encoder–decoder completa (traducción)
+
+Flujo del paper original:
+
+#+begin_example
+Fuente (idioma A)  → Embedding + PE → Encoder (×N) → memoria
+Destino (idioma B) → Embedding + PE → Decoder (×N) → Linear → Softmax sobre vocabulario
+                              ↑
+                    cross-attention al encoder
+#+end_example
+
+*** Entrenamiento
+Pares de frases alineadas. Pérdida: entropía cruzada sobre el siguiente token del destino.
+*** Inferencia
+Decodificación autoregresiva (greedy, beam search, muestreo).
+
+**  Tres familias de modelos
+
+*** Encoder-only (BERT y derivados)
+- Self-attention **bidireccional**.
+- Objetivo: *Masked Language Modeling* (MLM) — enmascarar ~15 % de tokens y predecirlos.
+- Opcional histórico: *Next Sentence Prediction* (¿van dos frases seguidas?).
+- Uso: clasificación, extracción de entidades, embeddings, reranking.
+
+*** Decoder-only (GPT, Llama, Mistral…)
+- Solo pilas decoder con máscara causal.
+- Objetivo: *causal language modeling* — maximizar probabilidad del siguiente token.
+- Uso: chat, generación, código, razonamiento en un solo flujo de texto.
+
+*** Encoder–decoder (T5, BART)
+- Entrada y salida explícitas (traducción, resumen, QA extractivo generativo).
+- T5 unifica tareas como “texto a texto” con prefijos (=translate English to German: ...=).
+
+| Familia | Ve futuro en entrada | Preentrenamiento típico | Ejemplo de tarea |
+|---------+----------------------+-------------------------+------------------|
+| Encoder | Sí (bidireccional) | MLM | Sentimiento, NER |
+| Decoder | No (causal) | Siguiente token | Chat, completar código |
+| Enc–Dec | Encoder sí; decoder causal | Denoising / span | Traducción, resumen |
+
+**  Objetivos de preentrenamiento (detalle)
+
+*** MLM (BERT)
+- Se enmascaran tokens con =[MASK]= o se sustituyen aleatoriamente.
+- El modelo predice el token original solo en posiciones enmascaradas.
+- Aprende representaciones contextuales bidireccionales.
+
+*** Causal LM (GPT)
+- Secuencia \(w_1, \ldots, w_T\): predecir \(w_{t+1}\) dado \(w_1,\ldots,w_t\).
+- Factorización: \(P(w_1,\ldots,w_T) = \prod_t P(w_t \mid w_{<t})\).
+- Base de casi todos los LLM conversacionales actuales.
+
+*** Span corruption (T5)
+- Trozos de texto se sustituyen por marcadores; el decoder reconstruye los spans.
+- Marco “text-to-text”: misma arquitectura para muchas tareas con distinto prefijo.
+
+*** Implicación didáctica
+No puedes usar BERT “como GPT” sin cambiar el entrenamiento: BERT no fue entrenado para
+generar secuencias autoregresivas largas token a token.
+
+**  Tokenización
+
+Los modelos no operan sobre caracteres sueltos en producción, sino sobre **subpalabras**.
+
+*** WordPiece, BPE, SentencePiece
+- Dividen palabras raras en piezas frecuentes (=unaffordable= → =un@@ affordable=).
+- Vocabulario fijo (30k–128k tokens): equilibrio entre longitud de secuencia y cobertura.
+
+*** Tokens especiales
+=[CLS]=, =[SEP]=, =<s>=, ==, padding, etc., según el modelo.
+
+*** Consecuencia
+La “unidad” del Transformer es el **token**, no la palabra. El coste de atención crece con
+el número de tokens, no de palabras.
+
+**  Del preentrenamiento al fine-tuning
+
+*** Preentrenamiento
+- Datos masivos (web, libros, código).
+- Semanas en clusters de GPU/TPU.
+- Aprende gramática, hechos superficiales, estilo, razonamiento limitado.
+
+*** Fine-tuning (ajuste completo o parcial)
+- Dataset más pequeño y específico (etiquetas, pares instrucción–respuesta).
+- Actualiza pesos (o capas superiores) para la tarea.
+
+*** PEFT (Parameter-Efficient Fine-Tuning)
+- LoRA, adapters, prompt tuning: entrenar solo un % pequeño de parámetros.
+- Útil en hardware modesto; ver material de LoRA si lo tienes en el curso.
+
+*** Alineación (capa posterior al paper)
+- RLHF, DPO: ajustar el modelo a preferencias humanas (seguridad, tono, utilidad).
+
+**  Complejidad computacional y memoria
+
+*** Por capa de atención
+- Tiempo: \(O(T^2 \cdot d)\) para \(T\) tokens y dimensión \(d\).
+- Memoria: matriz de atención \(T \times T\) por cabeza (limitante en contextos largos).
+
+*** Mitigaciones (solo nombres orientativos)
+- *Sparse attention*, *FlashAttention*, *linear attention*, ventanas locales, KV-cache en inferencia.
+
+*** Escalado de modelos
+Más parámetros y más datos suelen mejorar capacidades hasta límites económicos y de datos.
+Leyes de escalado (Chinchilla, etc.): relación entre tamaño de modelo, tokens de entrenamiento
+y pérdida esperada.
+
+**  Transformer más allá del texto
+
+- **Visión (ViT):** imagen en parches → secuencia de tokens visuales + Transformer.
+- **Audio:** espectrogramas o tokens de sonido.
+- **Multimodal:** proyección de imagen al espacio del LLM (GPT-4V, LLaVA, CLIP).
+- **Proteínas, series temporales tabulares:** misma idea de atención sobre secuencias.
+
+**  Aplicaciones representativas
+
+- Traducción y localización (encoder–decoder o LLM multilingüe).
+- Búsqueda semántica y **RAG** (recuperar documentos + LLM genera respuesta).
+- Clasificación y análisis de sentimiento (encoder + cabeza lineal).
+- Asistentes y generación de código (decoder).
+- Detección de spam, moderación, resumen automático.
+
+**  Limitaciones y críticas
+
+- Coste cuadrático en \(T\): contextos de cientos de miles de tokens son caros.
+- **Alucinaciones:** el modelo optimiza plausibilidad lingüística, no verdad garantizada.
+- **Sesgos** heredados del corpus.
+- **Interpretabilidad:** mapas de atención son indicativos, no explicación causal completa.
+- **Datos y energía:** huella ambiental del preentrenamiento a gran escala.
+- **Seguridad:** inyección de prompt, filtración de datos de entrenamiento en respuestas.
+
+**  Mapa mental resumido
+
+#+begin_example
+Texto → Tokens → Embeddings + posición
+              ↓
+     ┌────────────────────────────┐
+     │  Capas Transformer (×N)    │
+     │  Atención → FFN → residual  │
+     └────────────────────────────┘
+              ↓
+   Según arquitectura:
+   • Encoder  → vector por secuencia / token → clasificación
+   • Decoder  → siguiente token → generación
+   • Enc-Dec  → secuencia salida → traducción / resumen
+#+end_example
+
+** Glosario
+
+| Término              | Definición breve                                        |
+|----------------------+---------------------------------------------------------|
+| Self-attention       | Atención sobre la misma secuencia                       |
+| Cross-attention      | Q del decoder; K,V del encoder                          |
+| \(d_{\text{model}}\) | Dimensión del embedding y de las capas                  |
+| Cabeza (head)        | Proyección independiente de atención                    |
+| Causal               | Sin acceso a posiciones futuras                         |
+| MLM                  | Predecir tokens enmascarados                            |
+| Causal LM            | Modelado del siguiente token                            |
+| Teacher forcing      | Entrenar decoder con tokens correctos del paso anterior |
+| KV-cache             | Almacenar K,V pasados en inferencia para no recalcular  |
+| Fine-tuning          | Ajustar pesos preentrenados a una tarea                 |
+| PEFT / LoRA          | Fine-tuning con pocos parámetros entrenables            |
+
+** Referencias teóricas
+
+- Vaswani et al. (2017), *Attention Is All You Need*
+- Bahdanau et al. (2015), *Neural Machine Translation by Jointly Learning to Align and Translate*
+- Devlin et al. (2019), *BERT*
+- Radford et al. (2019), *GPT-2*
+- Raffel et al. (2020), *T5*
+- Brown et al. (2020), *Language Models are Few-Shot Learners* (GPT-3)
+- Jay Alammar, *The Illustrated Transformer*
+
+** Práctica
+
+La teoría anterior es el núcleo del tema. Los siguientes ejemplos sirven para **ver**
+formas y comportamientos; no sustituyen la lectura de las secciones 1–21.
+
+*** Requisitos (software)
+
+#+begin_src shell
+python3 -m pip install "numpy>=1.24" "torch>=2.0" "transformers>=4.40" "datasets>=2.18"
+#+end_src
+
+*** P1. Atención escalada en NumPy
+
+Sin entrenar \(W^Q, W^K, W^V\): solo formas y pesos de atención.
+
+#+begin_src python
+import numpy as np
+
+
+def softmax(x, axis=-1):
+    z = x - np.max(x, axis=axis, keepdims=True)
+    e = np.exp(z)
+    return e / e.sum(axis=axis, keepdims=True)
+
+
+def scaled_dot_product_attention(Q, K, V, mask=None):
+    d_k = Q.shape[-1]
+    scores = Q @ np.swapaxes(K, -2, -1) / np.sqrt(d_k)
+    if mask is not None:
+        scores = np.where(mask, scores, -1e9)
+    weights = softmax(scores, axis=-1)
+    return weights @ V, weights
+
+
+np.random.seed(42)
+T, d_k = 6, 8
+Q = K = V = np.random.randn(1, T, d_k)
+out, attn = scaled_dot_product_attention(Q, K, V)
+print("salida:", out.shape)
+print("matriz de atención:\n", np.round(attn[0], 3))
+#+end_src
+
+*** Máscara causal
+
+#+begin_src python
+mask = np.tril(np.ones((T, T), dtype=bool))
+_, w = scaled_dot_product_attention(Q, K, V, mask=mask)
+print("fila 3 (solo mira atrás):", np.round(w[0, 3], 3))
+#+end_src
+
+***  Clasificación con DistilBERT (fine-tuning breve)
+
+#+begin_src python
+from datasets import load_dataset
+from transformers import (
+    AutoTokenizer,
+    AutoModelForSequenceClassification,
+    TrainingArguments,
+    Trainer,
+)
+
+ds = load_dataset("imdb", split="train[:500]")
+ds_val = load_dataset("imdb", split="test[:100]")
+name = "distilbert-base-uncased"
+tok = AutoTokenizer.from_pretrained(name)
+
+
+def tokenize(batch):
+    return tok(batch["text"], truncation=True, padding="max_length", max_length=128)
+
+
+ds = ds.map(tokenize, batched=True).rename_column("label", "labels")
+ds_val = ds_val.map(tokenize, batched=True).rename_column("label", "labels")
+ds.set_format("torch")
+ds_val.set_format("torch")
+
+model = AutoModelForSequenceClassification.from_pretrained(name, num_labels=2)
+args = TrainingArguments(
+    output_dir="./tmp-distilbert",
+    num_train_epochs=1,
+    per_device_train_batch_size=8,
+    eval_strategy="epoch",
+    save_strategy="no",
+    report_to="none",
+)
+trainer = Trainer(model=model, args=args, train_dataset=ds, eval_dataset=ds_val)
+trainer.train()
+print(trainer.evaluate())
+#+end_src
+
+Relaciona con la sección 13 (encoder-only) y 16 (fine-tuning).
+
+***  Generación con DistilGPT-2 (solo inferencia)
+
+#+begin_src python
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+tok = AutoTokenizer.from_pretrained("distilgpt2")
+model = AutoModelForCausalLM.from_pretrained("distilgpt2")
+model.eval()
+ids = tok.encode("En machine learning, un transformer", return_tensors="pt")
+with torch.no_grad():
+    out = model.generate(ids, max_new_tokens=40, do_sample=True, temperature=0.8)
+print(tok.decode(out[0], skip_special_tokens=True))
+#+end_src
+
+Relaciona con la sección 13 (decoder-only) y 14 (causal LM).
+
+*** Ejercicios
+
+1. Dibuja a mano una matriz de atención causal \(4 \times 4\) y marca qué celdas son cero.
+2. Explica por qué BERT no sustituye a GPT para chat sin reentrenar (secciones 13–14).
+3. Compara \(O(T)\) de una RNN por paso vs \(O(T^2)\) del Transformer por capa.
+4. (Opcional) Ejecuta P2 con 2 épocas y anota la accuracy de validación.
+5. (Opcional) En P3, compara =temperature= 0.3 y 1.2.
+
+
+
 * Proyectos
 
-** Preguntas
+** Proyectos Agosto Diciembre 2025
 
-*** Preguntas para responder con el estudio y análisis a través de algoritmos de inteligencia artificial. 
+*** Preguntas
 
-**** Preguntas Ley al poder Judicial
+**** Preguntas para responder con el estudio y análisis a través de algoritmos de inteligencia artificial. 
+
+***** Preguntas Ley al poder Judicial
 - ¿El Diagnostico de la ley al poder judicial es conocido y qué estudios expertos tuvieron en cuenta?
 - ¿Por qué la reforma no incluyó a las fiscalías a las defensoría y
   sólo se limitó al poder judicial ?
@@ -11263,7 +12343,7 @@ python train_lora.py --no_quantize
 - ¿Cómo impactará el enorme costo económico que tendrá la
   implementación de esta reforma con la promoción y ?
 
-**** Ley Organismos Autónomos
+***** Ley Organismos Autónomos
 - ¿Es constitucional esta ley, considerando que algunos organismos
   autónomos están establecidos en la Constitución?
 - ¿Cómo afectaría la eliminación de estos organismos a la
@@ -11280,10 +12360,10 @@ python train_lora.py --no_quantize
 
 
 
-** Proyecto 3 Agosto Diciembre 2025
+*** Proyecto 3 Agosto Diciembre 2025
 
 
-***  La Generación Z y la Crisis de Sentido en la Era Digital
+****  La Generación Z y la Crisis de Sentido en la Era Digital
 
 Pregunta central:
 
@@ -11307,7 +12387,7 @@ Ejes de análisis filosófico:
 ¿Qué valora realmente la Gen Z? ¿Qué rechaza de generaciones anteriores?
 
 
-***  Tecnología, Inteligencia Artificial y la Desaparición de la Autonomía Humana
+****  Tecnología, Inteligencia Artificial y la Desaparición de la Autonomía Humana
 
 Pregunta central:
 
@@ -11333,9 +12413,9 @@ Ejes filosóficos:
 
  
 
-*** Proyecto de Análisis de Datos mediante RAG
+**** Proyecto de Análisis de Datos mediante RAG
 
-**** Introducción
+***** Introducción
   La presente propuesta tiene como objetivo realizar un análisis de datos mediante técnicas RAG (Retrieval-Augmented Generation) para explorar dos grandes problemáticas filosóficas contemporáneas:
 
 1. La posible crisis de sentido en la Generación Z debido a la hiperconectividad.
@@ -11344,7 +12424,7 @@ Ejes filosóficos:
 Este proyecto integra análisis cualitativo y cuantitativo, minería de
 texto, recuperación semántica y modelos generativos.
 
-**** Planteamiento General del Proyecto
+***** Planteamiento General del Proyecto
   Se utilizará un sistema RAG para:
 
 - Recuperar información desde bases de datos.
@@ -11354,7 +12434,7 @@ texto, recuperación semántica y modelos generativos.
 
 El propósito central es comprender cómo los algoritmos moldean el sentido de vida, identidad y autonomía en la Generación Z.
 
-**** Ejes Teóricos y Filosóficos
+***** Ejes Teóricos y Filosóficos
   ** Crisis de sentido en la Generación Z
 
 - Existencialismo (Sartre, Camus): vacío existencial.
@@ -11369,7 +12449,7 @@ El propósito central es comprender cómo los algoritmos moldean el sentido de v
 -  Ansiedad y depresión juvenil.
 - Valores y rechazos generacionales.
 
-**** Tecnología, IA y Autonomía Humana
+***** Tecnología, IA y Autonomía Humana
 
 - Foucault: vigilancia y biopoder.
 - Heidegger: desocultamiento y tecnificación del ser.
@@ -11382,7 +12462,7 @@ El propósito central es comprender cómo los algoritmos moldean el sentido de v
 - Creación algorítmica de deseos.
 
 
-****  Metodología
+*****  Metodología
 
 1. Formular la pregunta central del proyecto: ¿Cómo se manifiesta la crisis de sentido en la Gen Z y qué papel juegan los algoritmos en su autonomía?
 2. Elaborar una lista detallada de hipótesis y supuestos filosóficos a evaluar.
@@ -11407,7 +12487,7 @@ El propósito central es comprender cómo los algoritmos moldean el sentido de v
 21. Elaborar conclusiones provisionales y re-evaluar si las hipótesis iniciales se sostienen.
 22. Redactar el informe final con apartados filosófico-tecnológicos.
 
-**** Preguntas de análisis para que se respondan usando su sistema RAG
+***** Preguntas de análisis para que se respondan usando su sistema RAG
 
 1. ¿Qué expresiones o términos utiliza la Gen Z para describir el vacío existencial en redes sociales?
 2. ¿Cómo influyen los algoritmos de recomendación en la construcción de su identidad?
@@ -11430,7 +12510,7 @@ El propósito central es comprender cómo los algoritmos moldean el sentido de v
 19. ¿El espacio público digital está debilitado como afirma Habermas? ¿Qué muestran los datos?
 20. ¿Cuáles son los principales miedos, frustraciones y esperanzas de la Gen Z frente al futuro?
 
-**** Resultados Esperados
+***** Resultados Esperados
 
 - Análisis documentado con evidencia.
 - Sistema RAG operativo.
@@ -11439,12 +12519,12 @@ El propósito central es comprender cómo los algoritmos moldean el sentido de v
 
 
 
-** Proyecto 4 Agosto Diciembre 2025
+*** Proyecto 4 Agosto Diciembre 2025
 
 
-*** Fine-Tuning de un Tutor Inteligente de Algoritmos
+**** Fine-Tuning de un Tutor Inteligente de Algoritmos
 
-**** Introducción
+***** Introducción
   El presente proyecto tiene como objetivo desarrollar y entrenar un
   modelo de lenguaje especializado en la enseñanza de algoritmos,
   utilizando técnicas de *fine-tuning*. La intención es crear un **Tutor
@@ -11459,13 +12539,13 @@ pseudocódigo, problemas clásicos de algoritmia y diálogos
 pedagógicos. El modelo resultante ofrecerá respuestas claras,
 progresivas y alineadas con buenas prácticas educativas.
 
-**** Objetivo General
+***** Objetivo General
   Entrenar y evaluar un modelo de lenguaje mediante *fine-tuning* para
   que opere como un tutor especializado en enseñanza de algoritmos,
   capaz de brindar explicaciones comprensibles, detalladas y adaptadas
   a distintos niveles de dominio.
 
-**** Objetivos Específicos
+***** Objetivos Específicos
 
 1. Diseñar un dataset educativo compuesto por explicaciones paso a paso, ejercicios resueltos y conversaciones tutor-estudiante.
 2. Realizar el preprocesamiento, limpieza y segmentación del dataset.
@@ -11474,7 +12554,7 @@ progresivas y alineadas con buenas prácticas educativas.
 5. Ajustar parámetros del modelo según métricas como claridad, precisión y coherencia pedagógica.
 6. Generar versiones iterativas del tutor para distintos niveles (básico, intermedio, avanzado).
 
-**** Planteamiento del Problema
+***** Planteamiento del Problema
   A muchos estudiantes les resulta difícil comprender algoritmos debido a:
 
 - Falta de explicaciones detalladas o contextualizadas.
@@ -11484,7 +12564,7 @@ progresivas y alineadas con buenas prácticas educativas.
 
 Un sistema de tutoría inteligente puede resolver estas limitaciones mediante explicaciones personalizadas, ejercicios graduados y retroalimentación guiada.
 
-**** Metodología
+***** Metodología
   El proyecto se divide en las siguientes puntos:
 
 1. Definir el alcance exacto del tutor y los temas principales.
@@ -11510,7 +12590,7 @@ Un sistema de tutoría inteligente puede resolver estas limitaciones mediante ex
 21. Crear una sección de ejercicios automáticos.
 22. Documentar todo el proyecto para evaluación final.
 
-**** Resultados Esperados
+***** Resultados Esperados
 
 - Un tutor especializado capaz de explicar algoritmos.
 - Un modelo entrenado con datos cuidadosamente curados.
@@ -11519,7 +12599,7 @@ Un sistema de tutoría inteligente puede resolver estas limitaciones mediante ex
 
 
 
-** Preguntas Boots 2025
+*** Preguntas Boots 2025
 
 1. ¿Cuál es la proporción exacta de registros sobre "Generacion Z" frente a "Frankenstein" en el dataset (porcentaje de cada categoría)?
 
@@ -11585,7 +12665,7 @@ Un sistema de tutoría inteligente puede resolver estas limitaciones mediante ex
 
 
 
-*** Examen 2025
+**** Examen 2025
 
 1. ¿De qué manera podría la inteligencia artificial ayudar a analizar las
    ventajas y desventajas de eliminar organismos autónomos en México,
@@ -11611,9 +12691,9 @@ Un sistema de tutoría inteligente puede resolver estas limitaciones mediante ex
    organismos autónomos en términos de equidad y eficacia?
 
 
-*** Respuestas
+**** Respuestas
 
-***** Pregunta 1
+****** Pregunta 1
 1. La columna =Comentario_Reaccion= mide opinión. ¿Qué campo del NLP
    determina si un texto es positivo, negativo o neutral?  A)
    Extracción de Entidades B) Análisis de Sentimiento C) Segmentación
@@ -11642,7 +12722,7 @@ def sentimiento_textblob(texto):
 # df['sentimiento'] = df['Comentario_Reaccion'].apply(sentimiento_textblob)
 #+END_SRC
 
-***** Pregunta 2
+****** Pregunta 2
 2. Quieres convertir el texto de =Resumen= a números contando frecuencia
    de palabras. ¿Qué método hace esto?  A) Bag of Words B) One-Hot
    Encoding C) Coordenadas Cartesianas D) SVD
@@ -11663,7 +12743,7 @@ X_bow = cv.fit_transform(df['Resumen'].fillna(''))
 # X_bow es la matriz booleana/frecuencia que puede usarse para clustering o modelos clásicos
 #+END_SRC
 
-***** Pregunta 3
+****** Pregunta 3
 
 3. Palabras como "el", "la", "de", "un" deben removerse por ser
    ruido. ¿Cómo se llaman?  A) Palabras Raíz B) Palabras Clave C)
@@ -11687,7 +12767,7 @@ cv = CountVectorizer(stop_words=spanish_stops)
 X = cv.fit_transform(df['Resumen'].fillna(''))
 #+END_SRC
 
-***** Pregunta 4
+****** Pregunta 4
 
 4. =Categoria= tiene dos valores ("Generacion Z",
    "Frankenstein"). Predecirla desde el =Titulo= es un problema de: A)
@@ -11716,7 +12796,7 @@ pipe = Pipeline([('tfidf', TfidfVectorizer(stop_words='spanish')), ('clf', Multi
 pipe.fit(X_train, y_train)
 #+END_SRC
 
-***** Pregunta 5
+****** Pregunta 5
 
 5. "protesta", "protestas", "protestando" significan lo mismo. ¿Qué
    técnica reduce palabras a su raíz morfológica?  A) Lemmatization B)
@@ -11744,7 +12824,7 @@ def stem_text(texto):
 # df['Resumen_stem'] = df['Resumen'].apply(stem_text)
 #+END_SRC
 
-***** Pregunta 6
+****** Pregunta 6
 6. Quieres agrupar textos similares sin usar etiquetas. ¿Qué algoritmo
    usas?  A) Regresión Logística B) K-Means Clustering C) Árbol de
    Decisión D) Naive Bayes
@@ -11769,7 +12849,7 @@ labels = km.fit_predict(X)
 df['kmeans'] = labels
 #+END_SRC
 
-***** Pregunta 7
+****** Pregunta 7
 7. ¿Qué hace TF-IDF mejor que sólo contar palabras?  A) Cuenta sólo
    palabras >10 letras B) Pondera frecuencia vs rareza en el corpus C)
    Da más peso a palabras iniciales D) Ignora signos de puntuación
@@ -11795,7 +12875,7 @@ def top_tfidf(doc_index, top_n=5):
     return [vec.get_feature_names_out()[i] for i in idx]
 #+END_SRC
 
-***** Pregunta 8
+****** Pregunta 8
 8. Quieres el modelo base más simple para clasificación de texto
    usando probabilidad condicional. ¿Cuál es?  A) SVM B) Naive Bayes
    C) KNN D) Red Neuronal
@@ -11809,7 +12889,7 @@ excelente baseline.
 
 Ejemplo de código: ya incluido en la sección de la Pregunta 4 (pipeline).
 
-***** Pregunta 9
+****** Pregunta 9
 9. La columna =Fecha= permite analizar tendencias a lo largo del
    tiempo. ¿Qué rama es esta?  A) Análisis de Redes B) PCA C) Análisis
    de Series de Tiempo D) Análisis de Regresión
@@ -11831,7 +12911,7 @@ conteo_diario = df.set_index('Fecha').resample('D').size()
 conteo_suave = conteo_diario.rolling(window=7).mean()
 #+END_SRC
 
-***** Pregunta 10
+****** Pregunta 10
 10. Para descubrir temas ocultos sin etiquetas, ¿qué técnica usas?  A)
     Regresión Lineal B) Topic Modeling (LDA) C) Reglas de Asociación
     D) Random Forest
@@ -11858,7 +12938,7 @@ for i, comp in enumerate(lda.components_):
     print('Tema', i, ':', ', '.join(terms))
 #+END_SRC
 
-***** Pregunta 11
+****** Pregunta 11
 11. Extraer nombres de personas, lugares, organizaciones corresponde
     a: A) Tokenización Avanzada B) NER C) Análisis de Sentimiento D)
     Word Embedding
@@ -11883,7 +12963,7 @@ def extraer_entidades(texto):
 # df['entidades'] = df['Resumen'].apply(extraer_entidades)
 #+END_SRC
 
-***** Pregunta 12
+****** Pregunta 12
 12. Alta Precisión pero bajo Recall significa: A) Identifica bien
     casos negativos B) Pocos falsos positivos pero muchos falsos
     negativos C) Sesgo a la clase mayoritaria D) Es inservible
@@ -11905,7 +12985,7 @@ recall = recall_score(y_test, pred)
 print('Precision:', precision, 'Recall:', recall)
 #+END_SRC
 
-***** Pregunta 13
+****** Pregunta 13
 13. Para medir relevancia del artículo, ¿qué usarías?  A) Longitud del
     Titulo B) Puntaje TF-IDF de las 5 palabras del Resumen C)
     Diferencia entre ID máximo y mínimo D) Número de vocales en =Medio=
@@ -11919,7 +12999,7 @@ para ranking.
 
 Ejemplo de código: ya incluido en Pregunta 7 (top_tfidf).
 
-***** Pregunta 14
+****** Pregunta 14
 14. Ventaja de Word Embeddings como GloVe o Word2Vec: A) Más fáciles
     de implementar B) Capturan similitud semántica C) Solo funcionan
     en inglés D) Solo funcionan con Naive Bayes
@@ -11946,7 +13026,7 @@ def embedding_promedio(texto):
 # df['embed_avg'] = df['Resumen'].apply(embedding_promedio)
 #+END_SRC
 
-***** Pregunta 15
+****** Pregunta 15
 15. One-Hot Encoding en =Medio= puede causar: A) Overfitting B)
     Esparcidad y maldición de la dimensionalidad C) Underfitting D)
     Error de redondeo
@@ -11969,7 +13049,7 @@ freq = df['Medio'].value_counts() / len(df)
 df['Medio_freq'] = df['Medio'].map(freq)
 #+END_SRC
 
-***** Pregunta 16
+****** Pregunta 16
 16. Para ver palabras más frecuentes con tamaño proporcional: A) Box
     Plot B) Histograma C) Word Cloud D) Gráfico de Líneas
 
@@ -11989,7 +13069,7 @@ wc = WordCloud(width=800, height=400).generate(texto)
 wc.to_file('wordcloud_titulos.png')
 #+END_SRC
 
-***** Pregunta 17
+****** Pregunta 17
 17. Línea muy ruidosa al graficar volumen diario. ¿Qué técnica suaviza
     la tendencia?  A) Box-Cox B) Promedio Móvil C) Extracción de
     Entidades D) Tokenización
@@ -12003,7 +13083,7 @@ días, 30 días, etc.).
 
 Ejemplo de código: ya incluido en Pregunta 9 (rolling mean).
 
-***** Pregunta 18
+****** Pregunta 18
 18. Para graficar TF-IDF en 2D, ¿qué reducción de dimensionalidad
     usas?  A) QR B) PCA o t-SNE C) Regresión Logística D) Naive Bayes
 
@@ -12022,7 +13102,7 @@ coords = pca.fit_transform(X.toarray())
 df['x'], df['y'] = coords[:,0], coords[:,1]
 #+END_SRC
 
-***** Pregunta 19
+****** Pregunta 19
 19. Entrenar con TF-IDF antes de separar train/test causa: A) Fuga
     temporal B) Fuga en el preprocesamiento C) Fuga en el despliegue
     D) Fuga en la visualización
@@ -12045,7 +13125,7 @@ X_train = vec.fit_transform(X_train_raw)
 X_test = vec.transform(X_test_raw)
 #+END_SRC
 
-***** Pregunta 20
+****** Pregunta 20
 20. Para explicar qué palabras influyeron en predecir "Frankenstein",
     usarías: A) Matriz de covarianza B) SHAP o LIME C) Número de
     tokens D) Timestamp del entrenamiento
@@ -12069,11 +13149,11 @@ explainer = shap.Explainer(pipe.named_steps['clf'], pipe.named_steps['tfidf'].tr
 
 ---
 
-*** Actividades
+**** Actividades
 
-**** Problema: Clasificación de Productos según su Aceptación por Clientes
+***** Problema: Clasificación de Productos según su Aceptación por Clientes
 
-***** Descripción del Problema
+****** Descripción del Problema
 Una empresa desea predecir si un producto será aceptado o rechazado
 por los clientes basándose en las siguientes características:
 
@@ -12106,7 +13186,7 @@ por los clientes basándose en las siguientes características:
 |             0.3 |               0.9 |         1 |
 |             0.8 |               0.4 |         0 |
 
-***** Actividades
+****** Actividades
 1. Normalizar los datos de entrada si no están ya en el rango (0-1).
 2. Implementar un perceptrón simple que pueda aprender esta clasificación.
 3. Encontrar los valores óptimos para los pesos `w1`, `w2` y el sesgo `b` mediante entrenamiento.
@@ -12116,9 +13196,9 @@ por los clientes basándose en las siguientes características:
 7. Describir cada una de las partes del modelo implementando
    
 
-**** Problema: Clasificación de Clientes según su Perfil Financiero
+***** Problema: Clasificación de Clientes según su Perfil Financiero
 
-***** Descripción del Problema
+****** Descripción del Problema
 Una institución financiera desea clasificar a sus clientes en tres
 categorías basándose en su perfil financiero y de comportamiento:
 
@@ -12142,7 +13222,7 @@ categorías basándose en su perfil financiero y de comportamiento:
 - `Riesgo Medio`: [0, 1, 0]
 - `Riesgo Alto`: [0, 0, 1]
 
-***** Conjunto de Datos de Entrenamiento
+****** Conjunto de Datos de Entrenamiento
 | Historial de pagos | Ingresos mensuales | Relación deuda-ingreso | Resultado       |
 |---------------------|--------------------|-------------------------|-----------------|
 | 0.9                | 0.8                | 0.2                     | [1, 0, 0]       |
@@ -12153,7 +13233,7 @@ categorías basándose en su perfil financiero y de comportamiento:
 | 0.3                | 0.5                | 0.9                     | [0, 0, 1]       |
 
 
-***** Actividades 
+****** Actividades 
 1. Implementar una red neuronal multicapa para clasificar los clientes
    según su riesgo.
 2. Encontrar los valores óptimos para los pesos `w1`, `w2` 'wn' y el
@@ -12163,7 +13243,7 @@ categorías basándose en su perfil financiero y de comportamiento:
 5. ¿Qué ajustes podrían hacer al modelo para mejorar la clasificación?
 6. Describir cada una de las partes del modelo implementando
 
-**** Temas
+***** Temas
 
 Favor de subir solo el link de su repositorio. 
 Proyecto 1: A* 
@@ -12209,17 +13289,122 @@ Preguntas:
 
 
 
-** Proyectos IA Final 2025 
+*** Proyectos IA Final 2025 
 
-*** Actividad 1
-**** Implementación del Algoritmo A*
+**** Actividad 1
+***** Implementación del Algoritmo A*
 Desarrollar el algoritmo A* utilizando el cascarón proporcionado en el apartado de [[https://ealcaraz85.github.io/IA.io/#org0d76d38][pygames]]. 
 
-***** Requisitos
+****** Requisitos
 - La solución debe ser óptima.
 - Indicar la lista cerrada al final del proceso.
   
-*** Actividad 2
+**** Actividad 2
+***** Solución basada en Árboles de Decisión y Redes Neuronales Multicapa
+A partir de la adaptación del juego de Phaser a Python:
+
+****** Tareas
+1. Implementar la solución utilizando árboles de decisión.
+2. Implementar la solución utilizando redes neuronales multicapa.
+
+****** Objetivo
+El jugador debe esquivar una pelota saltando.
+
+****** Ejemplo de Redes Neuronales Multicapa en Python
+#+BEGIN_SRC python
+import numpy as np
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from sklearn.model_selection import train_test_split
+
+# Generar datos artificiales
+np.random.seed(0)
+X = np.random.rand(1000, 2)  # 1000 puntos con 2 características cada uno
+y = (X[:, 0] + X[:, 1] > 1).astype(int)  # Etiqueta 1 si la suma de las características > 1, de lo contrario 0
+
+# Dividir los datos en conjuntos de entrenamiento y prueba
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Crear el modelo de red neuronal multicapa
+model = Sequential([
+    Dense(4, input_dim=2, activation='relu'),  # Capa oculta con 4 neuronas y activación ReLU
+    Dense(1, activation='sigmoid')            # Capa de salida con 1 neurona y activación sigmoide
+])
+
+# Compilar el modelo
+model.compile(optimizer='adam',
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+# Entrenar el modelo
+model.fit(X_train, y_train, epochs=20, batch_size=32, verbose=1)
+
+# Evaluar el modelo en el conjunto de prueba
+loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
+print(f"\nPrecisión en el conjunto de prueba: {accuracy:.2f}")
+
+# Probar con un nuevo dato
+nuevo_dato = np.array([[0.8, 0.3]])  # Ejemplo con características específicas
+prediccion = model.predict(nuevo_dato)
+print(f"Predicción para {nuevo_dato}: {prediccion[0][0]:.2f}")
+#+END_SRC
+
+****** Descripción del ejemplo
+1. **Datos artificiales**:
+   - Se generan 1000 puntos en 2D, cada uno con dos características.
+   - Las etiquetas se asignan como 1 si la suma de las características es mayor que 1, de lo contrario 0.
+2. **Modelo de red neuronal**:
+   - Capa oculta: Tiene 4 neuronas con activación ReLU.
+   - Capa de salida: Tiene 1 neurona con activación sigmoide, lo que da como resultado una probabilidad entre 0 y 1.
+3. **Compilación**:
+   - Función de pérdida: `binary_crossentropy`, adecuada para clasificación binaria.
+   - Métrica: `accuracy` (precisión).
+4. **Predicción**:
+   - Se pasa un nuevo punto al modelo y se obtiene una probabilidad. Si está cerca de 1, la salida es 1; si está cerca de 0, la salida es 0.
+
+**** Actividad 3
+***** Identificación de modelos de autos con CNN
+Utilizando el archivo `CNNriesgo` que se encuentra en la carpeta de Dropbox:
+
+****** Actividad
+Ajustar el dataset para identificar cinco modelos diferentes de autos.
+
+****** Evaluación
+- Herramientas utilizadas para la creación del dataset.
+- Precisión con la que se detectan los modelos.
+
+**** Actividad 4
+***** Fundamentación sobre la Reforma al Poder Judicial y Organismos Autónomos
+Utilizando algoritmos de inteligencia artificial, responder las siguientes preguntas y fundamentar si estás a favor o en contra de la reforma al poder judicial y a los organismos autónomos.
+
+****** Preguntas para la Ley del Poder Judicial
+1. ¿El diagnóstico de la ley al poder judicial es conocido y qué estudios expertos se tuvieron en cuenta?
+2. ¿Por qué la reforma no incluyó a las fiscalías y a la defensoría, limitándose solo al poder judicial?
+3. ¿Qué medidas concretas se implementarán para evitar la captación del crimen organizado y la violencia en el contexto electoral?
+4. ¿Cómo garantizar que juristas probos y honestos se animen a competir públicamente frente a los riesgos de la violencia?
+5. ¿Cómo se conforman los comités de postulación?
+6. ¿Cómo asegurar la carrera judicial?
+7. ¿Cómo compatibilizar la incorporación de medidas para preservar la identidad de los jueces (conocidos en el sistema interamericano como "jueces sin rostro") con los estándares internacionales?
+8. ¿Cómo impactará el costo económico de esta reforma en la promoción y el acceso a la justicia?
+
+****** Preguntas para la Ley de Organismos Autónomos
+1. ¿Es constitucional esta ley, considerando que algunos organismos autónomos están establecidos en la Constitución?
+2. ¿Cómo afectaría la eliminación de estos organismos a la transparencia y rendición de cuentas del gobierno?
+3. ¿Qué funciones críticas podrían perder independencia y control al pasar al poder ejecutivo u otras instituciones?
+4. ¿Existen alternativas para mejorar la eficiencia de los organismos autónomos sin eliminarlos?
+5. ¿Qué sectores de la sociedad civil y grupos de interés se verían afectados por la desaparición de estos organismos?
+
+****** Puntos a evaluar
+- Algoritmos utilizados.
+- Herramientas generadas para el análisis.
+- Datos utilizados para la fundamentación.
+- Proceso de análisis.
+
+
+
+** Proyectos 2026 Enero Junio
+
+*** Actividad 1
 **** Solución basada en Árboles de Decisión y Redes Neuronales Multicapa
 A partir de la adaptación del juego de Phaser a Python:
 
@@ -12228,7 +13413,8 @@ A partir de la adaptación del juego de Phaser a Python:
 2. Implementar la solución utilizando redes neuronales multicapa.
 
 ***** Objetivo
-El jugador debe esquivar una pelota saltando.
+El jugador debe esquivar una pelota saltando y agachándose; la altura
+de la pelota puede tener diferentes alturas y velocidades.
 
 ***** Ejemplo de Redes Neuronales Multicapa en Python
 #+BEGIN_SRC python
@@ -12270,93 +13456,183 @@ print(f"Predicción para {nuevo_dato}: {prediccion[0][0]:.2f}")
 #+END_SRC
 
 ***** Descripción del ejemplo
-1. **Datos artificiales**:
-   - Se generan 1000 puntos en 2D, cada uno con dos características.
-   - Las etiquetas se asignan como 1 si la suma de las características es mayor que 1, de lo contrario 0.
-2. **Modelo de red neuronal**:
-   - Capa oculta: Tiene 4 neuronas con activación ReLU.
-   - Capa de salida: Tiene 1 neurona con activación sigmoide, lo que da como resultado una probabilidad entre 0 y 1.
-3. **Compilación**:
-   - Función de pérdida: `binary_crossentropy`, adecuada para clasificación binaria.
-   - Métrica: `accuracy` (precisión).
-4. **Predicción**:
-   - Se pasa un nuevo punto al modelo y se obtiene una probabilidad. Si está cerca de 1, la salida es 1; si está cerca de 0, la salida es 0.
 
-*** Actividad 3
+****** 1. Datos artificiales
+- Se generan 1000 puntos en 2D, cada uno con dos características.
+- Cada punto recibe una etiqueta entera según la acción:
+  - 0 → no hacer nada
+  - 1 → agacharse
+  - 2 → saltar
+- La etiqueta se asigna con una regla sobre las características (por ejemplo,
+  según la suma \(x_1 + x_2\) o rangos de cada variable).
+
+****** 2. Modelo de red neuronal
+- Capa oculta: 4 neuronas con activación ReLU.
+- Capa de salida: 3 neuronas con activación softmax (una por acción).
+  La salida son tres probabilidades que suman 1.
+
+****** 3. Compilación
+- Función de pérdida: =sparse_categorical_crossentropy= (clasificación multiclase).
+- Métrica: =accuracy= (precisión).
+
+****** 4. Predicción
+- Se pasa un nuevo punto al modelo y se obtienen tres probabilidades.
+- La acción predicha es la clase con mayor probabilidad (=argmax=):
+  - 0 → no hacer nada
+  - 1 → agacharse
+  - 2 → saltar
+
+
+
+*** Actividad 2
 **** Identificación de modelos de autos con CNN
 Utilizando el archivo `CNNriesgo` que se encuentra en la carpeta de Dropbox:
 
 ***** Actividad
-Ajustar el dataset para identificar cinco modelos diferentes de autos.
+Ajustar el dataset para identificar cinco clases de animales, Ranas, Arañas, Monos, Ballenas, Pájaros.
 
 ***** Evaluación
 - Herramientas utilizadas para la creación del dataset.
 - Precisión con la que se detectan los modelos.
 
+
+*** Actividad 3
+
+**** Práctica: Asistente de Código Personalizado con Redes Recurrentes
+
+***** Objetivo de la Actividad
+Diseñar, entrenar e integrar un modelo básico de lenguaje utilizando
+Redes Neuronales Recurrentes (RNN Vanilla) en Keras/TensorFlow para
+autocompletar código, y desplegarlo en un editor de texto real.
+
+***** Fases del Proyecto
+
+****** 1. Creación del Dataset (Estilo Propio)
+- Generar o recopilar un corpus de código que contenga *por lo menos 60 funciones únicas* en C . 
+- Estas funciones deben mantener un estilo de programación consistente (nomenclatura, estructura, comentarios) para que el modelo aprenda los patrones específicos del alumno.
+
+****** 2. Entrenamiento del Modelo (RNN Vanilla)
+- Utilizar el apartado de /Autocompletado con RNN Vanilla en Keras (TensorFlow)/.
+- Preprocesar el código del dataset (tokenización o nivel de caracteres).
+- Entrenar el modelo para que sea capaz de predecir la siguiente palabra o carácter dado un contexto previo.
+
+****** 3. Integración en un Editor de Código
+- Desplegar el modelo entrenado de forma que se comunique con un editor de texto a elección del alumno (VS Code, Emacs, Neovim, etc.).
+- /Sugerencia técnica para los alumnos:/ Montar el modelo en una API local sencilla (ej. usando Flask o FastAPI) y consumir esa API mediante un script básico o extensión en el editor.
+
+**** Entregables Esperados
+- *Código fuente del entrenamiento:* Notebook o scripts de Python con la arquitectura del modelo en Keras.
+- *Dataset:* Archivo con las 60+ funciones utilizadas para el entrenamiento.
+
+
+
+
+
+
+
+
+
+
+
+
 *** Actividad 4
-**** Fundamentación sobre la Reforma al Poder Judicial y Organismos Autónomos
-Utilizando algoritmos de inteligencia artificial, responder las siguientes preguntas y fundamentar si estás a favor o en contra de la reforma al poder judicial y a los organismos autónomos.
 
-***** Preguntas para la Ley del Poder Judicial
-1. ¿El diagnóstico de la ley al poder judicial es conocido y qué estudios expertos se tuvieron en cuenta?
-2. ¿Por qué la reforma no incluyó a las fiscalías y a la defensoría, limitándose solo al poder judicial?
-3. ¿Qué medidas concretas se implementarán para evitar la captación del crimen organizado y la violencia en el contexto electoral?
-4. ¿Cómo garantizar que juristas probos y honestos se animen a competir públicamente frente a los riesgos de la violencia?
-5. ¿Cómo se conforman los comités de postulación?
-6. ¿Cómo asegurar la carrera judicial?
-7. ¿Cómo compatibilizar la incorporación de medidas para preservar la identidad de los jueces (conocidos en el sistema interamericano como "jueces sin rostro") con los estándares internacionales?
-8. ¿Cómo impactará el costo económico de esta reforma en la promoción y el acceso a la justicia?
+****  Tutor Analítico Híbrido (RAG + Fine-Tuning)
 
-***** Preguntas para la Ley de Organismos Autónomos
-1. ¿Es constitucional esta ley, considerando que algunos organismos autónomos están establecidos en la Constitución?
-2. ¿Cómo afectaría la eliminación de estos organismos a la transparencia y rendición de cuentas del gobierno?
-3. ¿Qué funciones críticas podrían perder independencia y control al pasar al poder ejecutivo u otras instituciones?
-4. ¿Existen alternativas para mejorar la eficiencia de los organismos autónomos sin eliminarlos?
-5. ¿Qué sectores de la sociedad civil y grupos de interés se verían afectados por la desaparición de estos organismos?
+***** Objetivo General
+Desarrollar un Tutor Inteligente especializado en el análisis de
+seguridad pública y violencia en México. El sistema combinará la
+técnica de Retrieval-Augmented Generation (RAG) para la recuperación
+de hechos exactos del corpus documental, y Fine-Tuning para adoptar un
+comportamiento pedagógico, analítico y riguroso en sus interacciones.
 
-***** Puntos a evaluar
-- Algoritmos utilizados.
-- Herramientas generadas para el análisis.
-- Datos utilizados para la fundamentación.
-- Proceso de análisis.
+***** Arquitectura de Conocimiento (RAG)                                :rag:
+El objetivo de esta fase es construir la memoria a largo plazo del tutor, asegurando que las respuestas se basen en literatura real y no en el conocimiento pre-entrenado del modelo.
+
+****** 1.1 Procesamiento del Corpus Documental
+- Recopilación de reportes, artículos académicos y estadísticas oficiales (INEGI, ONGs, etc.).
+- Limpieza y segmentación del texto (/chunking/) optimizando la ventana de contexto.
+****** 1.2 Vectorización y Recuperación
+- Generación de /embeddings/ para el corpus.
+- Almacenamiento en una base de datos vectorial.
+- Implementación del sistema de búsqueda semántica (Top-K) para inyectar contexto a las consultas de los usuarios.
+
+***** Ajuste de Comportamiento Pedagógico (Fine-Tuning)          :finetuning:
+Aquí no se le enseñan datos al modelo, sino *cómo* debe interactuar el tutor. Se realizará un /Instruction Fine-Tuning/ sobre un modelo base de código abierto (ej. Llama 3 o Mistral).
+
+****** 2.1 Creación del Dataset de Entrenamiento (Q&A de Comportamiento)
+Generar pares de instrucción/respuesta donde el modelo aprenda a:
+- *Citar fuentes:* Exigir que el modelo incluya referencias al final de sus respuestas (ej. "[Documento X, Pág. Y]").
+- *Tono Académico:* Mantener absoluta neutralidad y objetividad ante temas sensibles.
+- *Método Socrático:* Cuando el usuario pida un análisis complejo, el modelo debe guiarlo con preguntas en lugar de darle una conclusión masticada.
+- *Manejo de Incertidumbre:* Entrenar al modelo para responder "La información proporcionada en el corpus no detalla este aspecto" para mitigar alucinaciones.
+
+*****  Integración y Evaluación (El Banco de Pruebas)            :evaluacion:
+Integrar el modelo ajustado (Fine-Tuned) como el motor de generación (LLM) dentro del pipeline de RAG. Se utilizará el siguiente banco de preguntas para medir la eficacia combinada:
+
+****** Nivel 1: Extracción Directa (Factoid)
+- Q1: ¿Cuáles son las tres entidades federativas con mayor índice de homicidios dolosos según el corpus?
+- /Métrica a evaluar:/ El RAG recupera el dato exacto; el Tutor responde citando el documento específico.
+
+****** Nivel 2: Síntesis y Relación de Conceptos
+- Q2: ¿Cómo ha evolucionado la tasa de extorsión y qué sectores son los más afectados?
+- /Métrica a evaluar:/ El RAG une varios /chunks/; el Tutor estructura una respuesta coherente y estructurada.
+
+****** Nivel 3: Razonamiento Analítico y Límites
+- Q3: ¿Qué impacto tiene la violencia documentada sobre la tasa de deserción escolar?
+- /Métrica a evaluar:/ Se evalúa si el Tutor detecta que no hay datos sobre educación en el corpus y se niega a alucinar, respetando su entrenamiento de mitigación.
+
+**** Entregables del Proyecto
+1. Repositorio con el pipeline de ingesta de datos (RAG).
+2. Dataset de ejemplos de conversación (formato JSONL) utilizado para el Fine-Tuning.
+3. Código de inferencia demostrando al Tutor respondiendo las preguntas del banco de evaluación.
 
 
 
-* Preguntas RAG 2026
 
-** Banco de Preguntas para Evaluación de RAG: Violencia en México
+*** Preguntas RAG 2026
 
-*** Contexto de Evaluación
+**** Banco de Preguntas para Evaluación de RAG: Violencia en México
+
+***** Contexto de Evaluación
 Este documento contiene las consultas de prueba para el sistema RAG
 entrenado con el corpus sobre violencia en México. El objetivo es
 evaluar la precisión del vector store y la mitigación de alucinaciones
 del modelo base.
 
-*** Nivel 1: Extracción de Datos Directos (Factoid)              :extraccion:
+***** Nivel 1: Extracción de Datos Directos (Factoid)            :extraccion:
 Estas preguntas evalúan si el RAG es capaz de recuperar la métrica o
 el dato exacto sin perderse en el ruido del corpus.
 
-****  Q1: ¿Cuáles son las tres entidades federativas con mayor índice de homicidios dolosos según los datos más recientes incluidos en el corpus?
-****  Q2: ¿Qué organizaciones, cárteles o grupos delictivos se mencionan con mayor frecuencia operando en la región de Tierra Caliente?
-****  Q3: ¿Cuáles son las cifras oficiales reportadas sobre el desplazamiento forzado interno a causa de la violencia durante el último sexenio documentado?
+******  Q1: ¿Cuáles son las tres entidades federativas con mayor índice de homicidios dolosos según los datos más recientes incluidos en el corpus?
+******  Q2: ¿Qué organizaciones, cárteles o grupos delictivos se mencionan con mayor frecuencia operando en la región de Tierra Caliente?
+******  Q3: ¿Cuáles son las cifras oficiales reportadas sobre el desplazamiento forzado interno a causa de la violencia durante el último sexenio documentado?
 
-*** Nivel 2: Síntesis y Relación de Conceptos                      :sintesis:
+***** Nivel 2: Síntesis y Relación de Conceptos                    :sintesis:
 Estas consultas obligan al sistema a recuperar múltiples fragmentos
 (chunks) de diferentes documentos y fusionarlos de manera coherente.
 
-****  Q4: Según los documentos, ¿cuáles son las principales causas socioeconómicas que los autores asocian directamente al incremento de la violencia urbana?
-****  Q5: Contrasta las estrategias de seguridad pública mencionadas en el corpus. ¿Qué diferencias de enfoque existen entre la militarización y las políticas de prevención social?
-****  Q6: ¿Cómo ha evolucionado la tasa de delitos de extorsión (cobro de piso) a nivel nacional y qué sectores económicos se reportan como los más afectados?
-****  Q7: ¿Existe alguna diferencia significativa documentada en los tipos de violencia que experimentan las zonas rurales en comparación con las zonas metropolitanas?
+******  Q4: Según los documentos, ¿cuáles son las principales causas socioeconómicas que los autores asocian directamente al incremento de la violencia urbana?
+******  Q5: Contrasta las estrategias de seguridad pública mencionadas en el corpus. ¿Qué diferencias de enfoque existen entre la militarización y las políticas de prevención social?
+******  Q6: ¿Cómo ha evolucionado la tasa de delitos de extorsión (cobro de piso) a nivel nacional y qué sectores económicos se reportan como los más afectados?
+******  Q7: ¿Existe alguna diferencia significativa documentada en los tipos de violencia que experimentan las zonas rurales en comparación con las zonas metropolitanas?
 
-*** Nivel 3: Razonamiento Analítico y Limitaciones                 :analisis:
+***** Nivel 3: Razonamiento Analítico y Limitaciones               :analisis:
 Preguntas trampa o de alta complejidad para verificar si el RAG reconoce sus propios límites basados en el corpus (para evitar alucinaciones).
 
-****  Q8: Con base en las posturas de las ONGs y las fuentes gubernamentales presentes en los textos, ¿cuáles son las principales contradicciones o discrepancias en el registro de víctimas?
-****  Q9: ¿Qué impacto específico tiene la violencia documentada sobre la tasa de deserción escolar en las zonas de alto conflicto? (Nota: Evalúa si el corpus cubre temas educativos o si el RAG alucina una respuesta).
-****  Q10: A partir de las conclusiones de los autores en el corpus, ¿qué vacíos de información, subregistros o falta de datos fiables se identifican como el principal obstáculo para medir la violencia real en el país?
+******  Q8: Con base en las posturas de las ONGs y las fuentes gubernamentales presentes en los textos, ¿cuáles son las principales contradicciones o discrepancias en el registro de víctimas?
+******  Q9: ¿Qué impacto específico tiene la violencia documentada sobre la tasa de deserción escolar en las zonas de alto conflicto? (Nota: Evalúa si el corpus cubre temas educativos o si el RAG alucina una respuesta).
+******  Q10: A partir de las conclusiones de los autores en el corpus, ¿qué vacíos de información, subregistros o falta de datos fiables se identifican como el principal obstáculo para medir la violencia real en el país?
 
-*** Notas para la evaluación
+***** Notas para la evaluación
 
 - Medir los tiempos de latencia y  mostrar los /chunks/ de texto que el sistema recuperó para justificar cada respuesta.
 
+
+
+
+
+
+
+* Bibliografía
+#+print_bibliography:
