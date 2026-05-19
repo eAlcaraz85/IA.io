@@ -12162,6 +12162,174 @@ print(tok.decode(out[0]))
 
 
 
+*  Actividad manual — Entender Transformers sin computadora
+
+*** Objetivo
+Que los alumnos **experimenten** la idea central del Transformer — *cada palabra decide
+a cuáles otras presta atención* — usando solo papel, lápiz y una calculadora (o porcentajes
+a ojo).
+
+
+*** Nivel
+Principiantes. No se requiere programación ni álgebra lineal.
+
+*** Materiales
+- Hojas de esta actividad (una por alumno o por pareja).
+- Lápiz, colores opcionales.
+- Calculadora (opcional; se puede redondear a enteros).
+
+*** Conceptos que se refuerzan
+| Concepto                               | Actividad donde aparece |
+|----------------------------------------+-------------------------|
+| Atención como “reparto de importancia” |                   1 y 2 |
+| Contexto cambia el significado         |                       2 |
+| Máscara causal (no ver el futuro)      |                       3 |
+| Varias “cabezas” / varios criterios    |                       4 |
+| Leer todo vs escribir paso a paso      |                       5 |
+
+
+** Hoja para alumnos — Actividad 1: La matriz de atención
+
+*** Enunciado
+Frase corta (4 palabras):
+
+#+begin_example
+EL   GATO   COME   PESCADO
+#+end_example
+
+Imagina que eres la palabra **COME** y quieres entender qué haces en la oración.
+Puntúa del **0 al 10** cuánto te “importa” cada palabra para entenderte (10 = muchísimo).
+
+|        | EL | GATO | COME | PESCADO |
+|--------+----+------+------+---------|
+| Desde COME → |    |      |  ?   |         |
+
+Completa la fila de **COME** (solo esa fila en esta actividad).
+
+*** Paso 2 — Convertir a porcentajes (mini-softmax)
+1. Suma tus cuatro puntuaciones: ______
+2. Divide cada puntuación entre la suma y multiplica por 100 (o usa la tabla de apoyo del docente).
+
+| Palabra  | Puntuación | ÷ Suma | × 100 ≈ % |
+|----------+------------+--------+-----------|
+| EL       |            |        |           |
+| GATO     |            |        |           |
+| COME     |            |        |           |
+| PESCADO  |            |        |           |
+| **Total**|            |        | **100 %** |
+
+*** Paso 3 — Interpretación
+Responde en una frase: ¿A quién le diste más atención? ¿Tiene sentido para el verbo “come”?
+
+*** Pregunta de cierre
+Si fueras la palabra **PESCADO**, ¿crees que tu fila de porcentajes sería igual? ¿Por qué sí o por no?
+
+** Hoja para alumnos — Actividad 2: La palabra ambigua (dos contextos)
+
+*** Enunciado
+La palabra **BANCO** aparece en dos frases. En parejas, completen **solo la fila de BANCO**
+(puntuación 0–10 y luego porcentajes) en cada caso.
+
+**** Frase A
+#+begin_example
+FUIMOS   AL   BANCO   DEL   RIO
+#+end_example
+
+**** Frase B
+#+begin_example
+FUIMOS   AL   BANCO   A   SACAR   DINERO
+#+end_example
+
+*** Preguntas
+1. ¿En cuál frase **BANCO** le da más puntos a “RIO” / “DEL”?
+2. ¿En cuál le da más a “DINERO” / “SACAR”?
+3. Esto imita lo que hace un Transformer: la misma palabra **cambia de vecinos importantes**
+   según la oración. Escríbanlo con sus palabras (3 líneas máximo).
+
+** Hoja para alumnos — Actividad 3: Máscara causal (no hacer trampa)
+
+*** Situación
+Un modelo que **escribe** la frase palabra por palabra (como ChatGPT) **no puede**
+ver palabras del futuro al generar la actual.
+
+Orden de generación:
+
+#+begin_example
+1º EL  →  2º GATO  →  3º COME  →  4º PESCADO
+#+end_example
+
+*** Instrucción
+Dibujen una cuadrícula 4×4 (filas = palabra que “pregunta”, columnas = palabra a la que mira).
+
+- Marquen con **✓** donde SÍ se permite mirar.
+- Dejen en blanco (o ✗) donde NO se permite (futuro).
+
+Ejemplo de la fila cuando ya se escribió hasta “GATO” y ahora se genera la 3.ª palabra:
+solo puede mirar EL y GATO.
+
+*** Preguntas
+1. ¿Cuántos ✓ hay en la fila de la última palabra (PESCADO)?
+2. ¿Cuántos ✓ hay en la fila de la primera palabra (EL)?
+3. La forma de ✓ que queda (triángulo abajo) se llama **máscara causal**. ¿Por qué creen
+   que es necesaria para *escribir* texto?
+
+** Hoja para alumnos — Actividad 4: Varias cabezas (varios criterios)
+
+*** En equipo
+Usen la frase:
+
+#+begin_example
+MARIA   NO   COMIO   PORQUE   ESTABA   ENFERMA
+#+end_example
+
+Cada persona del equipo es una **cabeza de atención** distinta y solo puntúa la fila de
+**COMIO** (0–10), con un criterio distinto:
+
+| Persona | Criterio (solo para COMIO) |
+|---------+----------------------------|
+| A | ¿Quién explica el *porqué*? (causa) |
+| B | ¿Quién es el *sujeto* de la acción? |
+| C | ¿Quién está *junto al verbo* (vecinos inmediatos)? |
+
+*** Después de puntuar
+1. Cada uno convierte su fila a porcentajes (suma 100 %).
+2. Comparen: ¿las tres filas son iguales?
+3. En un Transformer real, esas “vistas” se **juntan**. ¿Qué ventaja tendría ver la frase
+   desde tres criterios y no solo uno?
+
+** Hoja para alumnos — Actividad 5: Encoder vs Decoder (role-play)
+
+*** Sin papel — 10 minutos en plenario
+
+**** Equipo “Encoder” (el que lee todo)
+- Reciben una frase secreta del docente (en sobre o pizarra oculta), por ejemplo:
+  =El examen fue el lunes=.
+- Pueden **leerla entera** y anotar 3 “pistas” cortas (sustantivos, fecha, tema).
+- No dicen la frase literal; solo las pistas.
+
+**** Equipo “Decoder” (el que escribe)
+- Deben **reconstruir** la frase palabra por palabra, preguntando de una en una.
+- Solo pueden usar lo que el Encoder les diga **hasta ese momento** (simulan no ver el futuro).
+- Después de cada palabra nueva, el Encoder puede dar **una pista más** (simula atención cruzada).
+
+*** Debrief (preguntas del docente)
+1. ¿Qué fue más fácil: leer todo (encoder) o escribir de a poco (decoder)?
+2. ¿En qué momento el decoder “necesitó” mirar atrás?
+3. ¿Cómo se relaciona esto con traducir o con un chatbot?
+
+** Actividad extra, Tokenizar a mano
+
+*** Enunciado
+Los modelos no siempre cortan en palabras completas. Partan en “tokens” (pedazos útiles):
+
+#+begin_example
+inteligencia
+programación
+des-apro-bado
+#+end_example
+
+
+
 *  Transformers — teoría y práctica
 
 Los **Transformers** (Vaswani et al., 2017, *Attention Is All You Need*) revolucionaron el
