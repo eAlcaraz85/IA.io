@@ -12330,6 +12330,336 @@ des-apro-bado
 
 
 
+* Actividad manual Parte 2 — Entender Transformers 
+
+Estas actividades asumen que ya hiciste la Parte I (o que conoces la idea de “atención = reparto de %”).
+Se pueden hacer **en solitario**; en parejas solo acelera la revisión.
+
+** Materiales extra
+- Regla o cuadrícula para dibujar matrices más grandes.
+- Calculadora con exponencial (actividad 7) o tabla de apoyo del docente.
+- Lápices de color (recomendado para máscaras).
+
+
+| Actividad | Complejidad nueva              | Concepto Transformer                        |
+|-----------+--------------------------------+---------------------------------------------|
+|         6 | Matriz completa \(N \times N\) | Cada token tiene su propia fila de atención |
+|         7 | Softmax numérico exacto        | De puntuaciones crudas a probabilidades     |
+|         8 | Mezcla ponderada de vectores   | Salida de atención = \(\sum \alpha_i V_i\)  |
+|         9 | Máscara de padding             | Ignorar relleno en lotes                    |
+|        10 | Matriz rectangular             | Cross-attention (decoder → encoder)         |
+|        11 | Predicción con hueco           | Masked Language Modeling (BERT)             |
+|        12 | Dos rondas de atención         | Capas apiladas refinan representación       |
+|        13 | Conteo de enlaces              | Paralelismo vs camino secuencial (RNN)      |
+
+** Actividad 6 — Matriz de atención *completa*
+
+*** Qué vas a entender
+En la Parte I solo llenaste **una fila** (una palabra). En un Transformer real, **cada palabra**
+genera su propia fila: “EL” mira distinto que “COME”. Al final tienes una tabla cuadrada donde
+**cada fila suma 100 %**.
+
+*** Frase de trabajo (5 palabras)
+
+#+begin_example
+LA   NIÑA   PEQUEÑA   COME   FRUTA
+#+end_example
+
+*** Paso 1 — Puntuar todas las filas
+Para cada palabra de la fila izquierda, puntúa 0–10 cuánto te importa cada columna
+(incluyéndose a sí misma si tiene sentido).
+
+*Ejemplo solo de la fila LA (orientación):* probablemente alta puntuación a NIÑA, baja a COME.
+
+| Desde ↓ / Hacia → | LA | NIÑA | PEQUEÑA | COME | FRUTA |
+|-------------------+----+------+---------+------+-------|
+| LA                |    |      |         |      |       |
+| NIÑA              |    |      |         |      |       |
+| PEQUEÑA           |    |      |         |      |       |
+| COME              |    |      |         |      |       |
+| FRUTA             |    |      |         |      |       |
+
+*** Paso 2 — Normalizar *cada fila* por separado
+1. Suma la fila → \(S\).
+2. Cada celda ÷ \(S\) × 100 = % de esa fila.
+3. Verifica: **cada fila** debe sumar ≈ 100 % (redondeo permitido ±1 %).
+
+*** Paso 3 — Colorear
+Pinta en rojo la celda **más alta** de cada fila. ¿Se forma un patrón distinto por fila?
+
+*** Qué significa cada punto
+- **Fila \(i\)** = “soy la palabra \(i\), ¿a quién escucho?”.
+- **Columna \(j\)** = “la palabra \(j\) es candidata a influirme”.
+- **Celda \((i,j)\) alta** = relación fuerte aprendida (sujeto–verbo, modificador–nombre, etc.).
+
+*** Preguntas de análisis
+1. ¿La fila de COME se parece a la de FRUTA? ¿Por qué deberían diferir?
+2. ¿Alguna fila reparte atención casi pareja (todas ~20 %)? ¿Qué palabra podría ser esa y por qué?
+3. Si la frase tuviera 100 palabras, ¿cuántas celdas tendría la tabla? (Respuesta: \(100 \times 100 = 10\,000\).)
+   ¿Por qué eso explica que textos muy largos cuestan más memoria?
+
+** Actividad 7 — Softmax a mano (de puntajes a probabilidades)
+
+*** Qué vas a entender
+El modelo no guarda puntajes 0–10 sueltos: los pasa por **softmax** para que sean
+porcentajes *matemáticamente coherentes* (todos positivos, suman 1). Aquí lo harás con
+números pequeños y calculadora.
+
+*** Situación
+La palabra **PEQUEÑA** obtuvo estos puntajes brutos hacia cuatro vecinos (ficticios, simplificados):
+
+| Hacia → | NIÑA | PEQUEÑA | COME | FRUTA |
+|---------+------+---------+------+-------|
+| Puntaje | 3.0  | 0.5     | 0.2  | 1.0   |
+
+*** Paso 1 — Elevar a exponencial (aproximado)
+En softmax: \(p_i = e^{s_i} / \sum_j e^{s_j}\).
+
+Use calculadora: \(e^{3} \approx 20.09\), \(e^{0.5} \approx 1.65\), \(e^{0.2} \approx 1.22\), \(e^{1} \approx 2.72\).
+
+| Palabra | \(s_i\) | \(e^{s_i}\) ≈ |
+|---------+---------+---------------|
+| NIÑA    | 3.0     | 20.09         |
+| PEQUEÑA | 0.5     | 1.65          |
+| COME    | 0.2     | 1.22          |
+| FRUTA   | 1.0     | 2.72          |
+| **Suma**|         | **25.68**     |
+
+*** Paso 2 — Dividir cada uno entre la suma
+
+| Palabra | \(e^{s_i}\) | ÷ 25.68 | ≈ % |
+|---------+-------------+---------+-----|
+| NIÑA    | 20.09       |         | 78 % |
+| PEQUEÑA | 1.65        |         | 6 % |
+| COME    | 1.22        |         | 5 % |
+| FRUTA   | 2.72        |         | 11 % |
+
+*** Paso 3 — Interpretar
+- Aunque el puntaje de COME no era el mínimo, su % final es bajo porque **NIÑA domina**.
+- Si el puntaje de NIÑA fuera 10 en lugar de 3, el softmax se acercaría a “casi 100 % en una sola
+  columna” (*saturación*) — por eso en el Transformer se divide por \(\sqrt{d_k}\) (actividad 8).
+
+*** Pregunta
+¿Por qué no basta con dividir los puntajes 0–10 entre su suma, sin exponencial? (Pista: con
+puntajes negativos o muy desiguales, el reparto se comporta distinto; softmax amplifica diferencias.)
+
+** Actividad 8 — Mezcla de “vectores contenido” (Values)
+
+*** Qué vas a entender
+La atención no termina en los porcentajes: esos % **mezclan información**. Cada palabra aporta
+un vector **Value (V)**; la salida es la suma ponderada. Aquí los vectores son solo **2 números**
+(coordenadas en un plano) para dibujarlos.
+
+*** Datos (coordenadas de cada palabra en un “mapa de significado” ficticio)
+
+| Palabra | Vector \(V\) = (x, y) |
+|---------+----------------------|
+| LA      | (1, 1)               |
+| NIÑA   | (4, 5)               |
+| PEQUEÑA | (3, 4)               |
+| COME    | (5, 1)               |
+| FRUTA   | (6, 3)               |
+
+*** Usa los % de la fila de COME que obtuviste en Actividad 6** (o estos de ejemplo si no los tienes):
+
+| Hacia | % (ejemplo) |
+|-------+-------------|
+| LA    | 5 %         |
+| NIÑA  | 35 %        |
+| PEQUEÑA | 10 %      |
+| COME  | 10 %        |
+| FRUTA | 40 %        |
+
+*** Paso 1 — Convertir % a decimales (0.05, 0.35, …)
+
+*** Paso 2 — Multiplicar cada vector por su peso y sumar
+
+Fórmula: salida = \(0.05 \cdot V_{LA} + 0.35 \cdot V_{NIÑA} + \ldots\)
+
+Ejemplo solo con NIÑA y FRUTA para ver la idea:
+- \(0.35 \times (4,5) = (1.4, 1.75)\)
+- \(0.40 \times (6,3) = (2.4, 1.2)\)
+
+Completa tú las cinco contribuciones y suma **x** e **y** por separado.
+
+*** Paso 3 — Dibuja en papel
+- Puntos de cada palabra en el plano.
+- El vector salida de COME como una flecha desde el origen (o desde COME).
+- ¿La flecha queda “cerca” de FRUTA y NIÑA? Eso es “después de atender, COME entiende mejor
+  *qué* come y *quién* come”.
+
+*** Conexión con el Transformer
+Los \(V\) reales tienen cientos de números; la lógica es **idéntica**: promedio ponderado por atención.
+
+** Actividad 9 — Máscara de padding (frases de distinta longitud)
+
+*** Qué vas a entender
+Cuando se entrenan muchas frases juntas, las cortas se **rellenan** con símbolos vacíos (=PAD=).
+La atención **no debe** mirar esos huecos (sería ruido).
+
+*** Lote de dos frases (máximo 5 posiciones)
+
+#+begin_example
+Frase 1:  EL   GATO   COME    —    —
+Frase 2:  LA   NIÑA   PEQUEÑA COME  FRUTA
+         (— = PAD, relleno)
+#+end_example
+
+*** Paso 1 — Dibuja matriz 5×5 solo para Frase 1
+Marca con **P** las columnas y filas que son PAD. En atención real, esas celdas se anulan antes del softmax.
+
+*** Paso 2 — Regla
+“La palabra real **no** puede prestar atención a PAD”. Tacha las celdas (fila real, columna PAD).
+
+*** Paso 3 — Pregunta
+¿Por qué Frase 2 no necesita tantas celdas tachadas en sus palabras reales? ¿Qué pasaría si el
+modelo atendiera mucho a PAD? (Respuesta esperada: aprendería patrones falsos del relleno.)
+
+** Actividad 10 — Atención cruzada (decoder mirando encoder)
+
+*** Qué vas a entender
+En **traducción**, quien **escribe** en inglés no relee solo lo ya escrito: en cada paso **consulta**
+la frase en español completa. Eso es **cross-attention**: filas = palabras del decoder; columnas = palabras del encoder.
+
+*** Encoder (español, ya leído entero)
+
+#+begin_example
+YO   QUIERO   CAFE
+#+end_example
+
+*** Decoder (inglés, generando palabra a palabra)
+
+#+begin_example
+I   WANT   ___   (aún no escribió COFFEE)
+#+end_example
+
+*** Paso 1 — Matriz rectangular 3×3
+Filas: I, WANT, (hueco 3). Columnas: YO, QUIERO, CAFE.
+
+Puntúa solo la **fila del hueco 3** (la próxima palabra en inglés): ¿a qué palabra española
+debería mirar más para adivinar *coffee*?
+
+| Desde (inglés) ↓ / Español → | YO | QUIERO | CAFE |
+|------------------------------+----+--------+------|
+| Palabra 3 (por escribir)     |    |        |      |
+
+*** Paso 2 — A porcentajes y responde
+1. ¿CAFE debería ganar? ¿Por qué?
+2. ¿La fila de **I** (primera palabra generada) podría mirar mucho a YO? ¿Tiene sentido?
+3. Diferencia clave: en **self-attention** las columnas y filas son el *mismo* idioma; aquí
+   **entrada y salida son columnas distintas**.
+
+** Actividad 11 — Adivinar la palabra tapada (estilo BERT / MLM)
+
+*** Qué vas a entender
+BERT **lee toda la frase** (sin máscara causal) y adivina una palabra oculta. Es como un examen
+de rellenar huecos usando el contexto.
+
+*** Frase con hueco
+
+#+begin_example
+EL   GATO   ___   PESCADO
+#+end_example
+
+*** Paso 1 — Lista de candidatos
+COME, DUERME, VERDE, RAPIDO
+
+*** Paso 2 — Sin mirar “solución”
+Para el hueco, puntúa cada candidato del 0 al 10 según **compatibilidad con EL, GATO, PESCADO**
+(no con reglas gramaticales memorizadas solamente: piensa en *sentido*).
+
+*** Paso 3 — Convierte a % (softmax manual o reparto proporcional)
+
+*** Paso 4 — Reflexión escrita (5 líneas)
+- ¿Por qué COME debería superar a VERDE?
+- ¿DUERME podría tener algo de sentido? ¿Qué atención habría entre GATO y DUERME?
+- ¿Por qué BERT necesita ver **PESCADO** (derecha) aunque el hueco esté en el centro?
+  (Bidireccional = contexto completo.)
+
+** Actividad 12 — Dos capas de atención (refinar la representación)
+
+*** Qué vas a entender
+Un Transformer **apila** el mismo bloque muchas veces. La segunda capa atiende sobre
+representaciones **ya mezcladas** en la primera capa — por eso captura relaciones más indirectas
+(“la niña” → “come” → “fruta”).
+
+*** Versión simplificada (perfiles 1–5 en lugar de 768 números)
+
+Tras la Actividad 8, supón que la palabra COME quedó con “perfil mezclado” = **7** (un solo número-resumen).
+
+| Palabra | Perfil inicial | Tras capa 1 (ejemplo dado) |
+|---------+----------------+---------------------------|
+| LA      | 1              | 2                         |
+| NIÑA   | 4              | 6                         |
+| PEQUEÑA | 3              | 5                         |
+| COME    | 5              | **7**                     |
+| FRUTA   | 6              | 8                         |
+
+*** Paso 1 — Segunda ronda solo para FRUTA
+Usando los **perfiles tras capa 1** (no los iniciales), reparte de nuevo atención desde FRUTA:
+¿a quién mira más? (Piensa: FRUTA debería mirar fuerte a COME y quizá a NIÑA.)
+
+| Desde FRUTA (capa 2) → | LA | NIÑA | PEQUEÑA | COME | FRUTA |
+|------------------------+----+------+---------+------+-------|
+| Puntaje 0–10           |    |      |         |      |       |
+
+*** Paso 2 — Escribe una frase
+“En la segunda capa, FRUTA ya ‘sabe’ que COME tiene perfil 7 porque la primera capa conectó
+verbo–objeto.”
+
+*** Qué NO estamos haciendo
+No recalculamos FFN ni LayerNorm; solo la **idea** de “segunda mirada sobre información ya mezclada”.
+
+** Actividad 13 — RNN vs Transformer: contar conexiones
+
+*** Qué vas a entender
+Por qué el Transformer puede relacionar **palabras lejanas en un paso** (en una capa) y la RNN
+necesita “pasar el mensaje” de propecho en propecho.
+
+*** Dibuja 5 nodos en línea: A — B — C — D — E
+
+**** Modo RNN (solo vecino anterior para pasar mensaje)
+Cuenta enlaces si cada letra solo recibe mensaje directo del anterior: A→B, B→C, C→D, D→E = **4** enlaces
+para llegar de A a E.
+
+**** Modo atención (una capa, todos miran todos — sin máscara)
+Cada letra puede mirar 5: \(5 \times 5 = 25\) celdas (incluye mirarse a sí misma).
+
+*** Preguntas
+1. Si A debe influir en E, ¿cuántos “saltos” en RNN? ¿Y en una capa de atención?
+2. ¿Cuál crece más rápido si la frase tiene 100 palabras: 100 enlaces secuenciales o \(100^2\) celdas?
+3. ¿Por qué aun así usamos Transformers y no solo RNN? (Pista: paralelismo y calidad de dependencias;
+   coste de memoria en frases largas.)
+
+** Actividad 14 — Escalar por \(\sqrt{d_k}\) (evitar saturación)
+
+*** Qué vas a entender
+Antes del softmax, los puntajes se dividen por \(\sqrt{d_k}\) (\(d_k\) = tamaño de cada cabeza).
+Con \(d_k\) grande, los productos punto crecen y el softmax se vuelve “casi todo a una palabra”.
+
+*** Ejercicio numérico
+Dos palabras con vectores Q y K de dimensión \(d_k = 4\) (solo 2 dimensiones visibles para simplificar):
+
+- \(Q \cdot K = 8\) (puntaje alto)
+- Resto de palabras puntaje 2
+
+Sin escalar: softmax casi todo al 8.
+Con escalar: dividir **todos** los puntajes entre \(\sqrt{4} = 2\): 8→4, 2→1 → reparto menos extremo.
+
+*** En papel
+1. Haz softmax aproximado de [8, 2, 2, 2] (cuatro palabras).
+2. Haz softmax de [4, 1, 1, 1] (tras dividir entre 2).
+3. Compara: ¿la palabra ganadora sigue ganando pero con menos % absoluto?
+
+*** Frase para llevar
+“Dividir entre \(\sqrt{d_k}\) es bajar el volumen antes de repartir atención, para que varias
+palabras sigan teniendo voz.”
+
+
+
+
+
+
 *  Transformers — teoría y práctica
 
 Los **Transformers** (Vaswani et al., 2017, *Attention Is All You Need*) revolucionaron el
