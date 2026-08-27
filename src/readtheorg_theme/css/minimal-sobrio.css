@@ -83,8 +83,10 @@ body {
 #content {
   background: var(--rtd-bg-content);
   margin-left: var(--rtd-sidebar-width);
-  max-width: 800px;
-  padding: 1.75rem 3rem 3.5rem;
+  width: calc(100% - var(--rtd-sidebar-width));
+  max-width: none;
+  box-sizing: border-box;
+  padding: 1.75rem 2.25rem 3.5rem;
   min-height: 100%;
 }
 
@@ -642,8 +644,20 @@ ul.nav > li.active li.active > a {
   color: var(--rtd-link);
 }
 
-/* Móvil: barra superior alineada con la marca */
+/* Móvil / zoom: el índice pasa a barra superior (readtheorg ≤768px).
+ * Hay que anular margin-left:300px de este archivo (se carga *después*
+ * de readtheorg.css y si no, el contenido queda corrido y recortado). */
 @media screen and (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  #toggle-sidebar {
+    margin-bottom: 0;
+    padding: 0;
+  }
+
   #toggle-sidebar h2 {
     background-color: var(--toc-active-parent-solid) !important;
     background-image: var(--toc-active-parent-bg) !important;
@@ -653,5 +667,65 @@ ul.nav > li.active li.active > a {
     font-size: 0.85rem !important;
     letter-spacing: 0.03em;
     text-transform: none;
+  }
+
+  #content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 4.25rem 1rem 2rem !important;
+  }
+
+  #content.shift {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #table-of-contents {
+    width: min(20rem, 88vw) !important;
+    max-width: 100%;
+  }
+
+  #copyright,
+  #postamble {
+    width: 100%;
+  }
+
+  #content pre.src,
+  #content .codeblock,
+  #content .literal-block,
+  #content .example,
+  #content table {
+    max-width: 100%;
+  }
+
+  #content table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  #content img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Zoom intermedio: hay sidebar, pero el ancho fijo 800/1800px rebasa el viewport */
+@media screen and (min-width: 769px) {
+  #content pre.src,
+  #content .codeblock,
+  #content .literal-block,
+  #content .example {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  #content img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  #content table {
+    max-width: 100%;
   }
 }
