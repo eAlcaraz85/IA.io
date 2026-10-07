@@ -10,6 +10,5 @@
 #+bibliography: /home/likcos/Materias/IA/bibliografia.bib
 #+cite_export: csl
 
-Las notas viven en *un solo archivo* (estructura de IA Verano, más los temas del semestre que no estaban ahí). Este archivo no duplica el contenido: lo incluye.
 
 #+INCLUDE: "../iaverano/introduccion_inteligencia_artificial.org" :lines "19-"
