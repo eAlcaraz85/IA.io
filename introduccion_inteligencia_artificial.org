@@ -12,10 +12,6 @@
 
 
 
-
-
-
-
 *  Tutorial — Entornos virtuales en Python (Windows, Linux, macOS)
 
 
@@ -2625,23 +2621,10 @@ datos mezclados (números y categorías). Si quieres más potencia, se combinan 
 
 
 
-* Árboles de decisión 
+* Árboles de decisión — práctica (scikit-learn, Iris, Gini, Phaser)
 
- Los árboles de decisión (DT) son un método de aprendizaje supervisado
- no paramétrico que se utiliza para la clasificación y la regresión. El
- objetivo es crear un modelo que prediga el valor de una variable de
- destino mediante el aprendizaje de reglas de decisión simples
- deducidas de las características de los datos. Un árbol puede verse
- como una aproximación constante por partes.
-
- en el siguiente ejemplo, los árboles de decisión aprenden de los datos
- para aproximarse a una curva sinusoidal con un conjunto de reglas de
- decisión if-then-else. Cuanto más profundo es el árbol, más complejas
- son las reglas de decisión y más ajustado es el modelo
-
- #+ATTR_ORG: :width 1000
- [[file:img/dtr.png]]
-
+/La idea general, el sobreajuste y el ejemplo mínimo ya están en/
+=Árboles de Decisión (Decision Trees)= /arriba. Aquí va la parte práctica ampliada./
 
 ** Elementos
 
@@ -3697,6 +3680,10 @@ evaluación cuidadosa, control de sobreajuste y ausencia de fugas de informació
 
 
 *  Cómo usar ML clásico en rumores y bots (caso práctico)
+
+/Caso corto aplicado. La guía completa de modelos (k-NN, árboles, RF, regresiones)
+está en la sección siguiente: / =Aprendizaje automático con casos aplicados=.
+
 
 ** El problema práctico
 
@@ -5955,6 +5942,10 @@ sí suelen funcionar con =pypdf=.
 
 * RAG y Fine-Tuning con LoRA —  (Ollama + entrenamiento local)
 
+/Teoría + demos Ollama/LoRA. El tutorial de producto (web/WhatsApp) está en/
+*Chatbot con RAG + Fine-Tuning* /— sin volver a copiar la teoría RAG/LoRA./
+
+
 
 1. *RAG* (*Retrieval-Augmented Generation*) — recuperar documentos y generar con
    un LLM. Ejemplos prácticos con *Ollama*.
@@ -6581,174 +6572,17 @@ una verdad externa” por defecto. Si la pregunta exige un hecho de *su* organiz
   el mostrador no es el conocimiento; solo transporta mensajes.
 
 
-** Parte 2 — Teoría profunda de RAG
+** Parte 2 y 3 — Teoría RAG y Fine-Tuning/LoRA (sin repetir)
 
-*** 2.1 Definición formal
-*RAG* = *Retrieval* + *Augmented* + *Generation*:
+La teoría y los ejemplos base ya están en:
 
-1. Recuperar los *k* fragmentos más relevantes de una colección.
-2. Aumentar el *prompt* con esos fragmentos (contexto).
-3. Generar la respuesta *condicionada* a ese contexto.
+*RAG y Fine-Tuning con LoRA — (Ollama + entrenamiento local)*
 
-*** 2.2 Embeddings (el corazón de la recuperación semántica)
-Un *embedding* es un vector \(\mathbf{v} \in \mathbb{R}^d\) que representa un texto.
-Modelos de sentence embeddings se entrenan para que textos *semejantes en significado*
-queden *cercanos* (similitud coseno alta).
+- Apartado A → RAG (pipeline, chunking, embeddings, fallos típicos)
+- Apartado B → Fine-Tuning con LoRA
+- Apartado C → cuándo combinar ambos
 
-Flujo:
-
-#+begin_example
-chunk de documento  →  modelo de embedding  →  vector d-dimensional
-pregunta del usuario →  el *mismo* modelo   →  vector consulta
-similitud(consulta, chunks) → top-k
-#+end_example
-
-*Importante:* use el *mismo* modelo (y la misma normalización) para indexar documentos
-y para embeber la pregunta. Mezclar modelos rompe la geometría del espacio.
-
-**** Práctica A — Embeddings y similitud (obligatoria antes de RAG)
-Esta práctica aísla *solo* la pieza de representación semántica. Aún no hay LLM ni índice
-completo: el objetivo es verificar que frases afines obtienen similitud alta.
-
-#+begin_src python
-"""
-Práctica A. Instalación: pip install sentence-transformers torch numpy
-"""
-from sentence_transformers import SentenceTransformer
-import numpy as np
-
-model = SentenceTransformer(
-    "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-)
-
-a = "El agua hierve a cien grados Celsius al nivel del mar."
-b = "H₂O pasa a vapor a 100 °C en condiciones normales."
-c = "Los gatos suelen dormir muchas horas al día."
-
-emb_a = model.encode(a, normalize_embeddings=True)
-emb_b = model.encode(b, normalize_embeddings=True)
-emb_c = model.encode(c, normalize_embeddings=True)
-
-# Con vectores normalizados, el producto escalar ≈ similitud coseno
-print("sim(a,b) ≈", round(float(np.dot(emb_a, emb_b)), 3), "  (mismo tema)")
-print("sim(a,c) ≈", round(float(np.dot(emb_a, emb_c)), 3), "  (tema distinto)")
-#+end_src
-
-*Criterio de aceptación:* =sim(a,b)= debe ser claramente mayor que =sim(a,c)=.
-Si no ocurre, revise la instalación del modelo antes de continuar.
-
-*Nota de arquitectura:* los embeddings de frases suelen provenir de *encoders* (familia
-Transformer); la generación del chatbot, de un *decoder*. El patrón RAG conecta ambos:
-el encoder (o modelo de embedding) recupera; el decoder redacta.
-
-*** 2.3 Chunking
-Los documentos largos se parten en *chunks* (trozos). Decisiones de diseño:
-
-| Decisión          | Efecto                                            |
-|-------------------+---------------------------------------------------|
-| Chunk muy pequeño | Recuperación precisa pero contexto incompleto     |
-| Chunk muy grande  | Más contexto, más ruido y más tokens en el prompt |
-| Solape (*overlap*)  | Evita cortar una idea justo en el borde           |
-
-Valores didácticos típicos: 300–800 tokens (o ~500–1500 caracteres) con solape 10–20 %.
-
-*** 2.4 Índice vectorial
-Tras embeber, se almacenan vectores en:
-
-- memoria (prototipos),
-- *FAISS*, *Chroma*, *Qdrant*, *pgvector*, etc.
-
-La consulta hace *vecinos más cercanos* (ANN aproximado en colecciones grandes).
-
-*** 2.5 Construcción del prompt (teoría de “augment”)
-Plantilla conceptual:
-
-#+begin_example
-Sistema: Eres un asistente de [organización]. Responde SOLO con el contexto.
-         Si no está en el contexto, di que no tienes la información.
-         Cita la fuente cuando sea posible.
-
-Contexto:
-[chunk 1]
-[chunk 2]
-...
-
-Pregunta del usuario:
-{pregunta}
-
-Respuesta:
-#+end_example
-
-Sin instrucciones estrictas, el modelo tiende a “rellenar” huecos con conocimiento paramétrico
-(lo memorizado en el preentrenamiento), lo que puede contradecir sus documentos.
-
-*** 2.6 Fallos típicos de RAG (y mitigación)
-
-| Síntoma             | Causa frecuente                   | Mitigación                                            |
-|---------------------+-----------------------------------+-------------------------------------------------------|
-| Respuesta inventada | Recuperación pobre o prompt débil | Mejor chunking, subir/bajar *k*, forzar “solo contexto” |
-| Respuesta cortada   | Contexto a mitad de idea          | Solape; partir por secciones                          |
-| Ruido               | *k* demasiado alto                  | Bajar *k*; filtrar por metadata (fecha, facultad)       |
-| Docs viejos         | Índice desactualizado             | Reindexar; versionar corpus                           |
-
-*** 2.7 Qué RAG *no* arregla solo
-- Formato rígido de respuestas (JSON, plantillas legales).
-- Tono institucional consistente.
-- Habilidades de razonamiento que el modelo base no tiene.
-Ahí entra el fine-tuning (o un prompt muy elaborado, a veces insuficiente).
-
-
-** Parte 3 — Teoría de fine-tuning (y por qué LoRA)
-
-*** 3.1 Fine-tuning clásico
-Ajustar *todos* (o casi todos) los pesos \(W\) del modelo con ejemplos
-\((\text{instrucción}, \text{respuesta deseada})\).
-
-Coste: alto en memoria y cómputo; riesgo de *olvido catastrófico* si el dataset
-es estrecho y el entrenamiento agresivo.
-
-*** 3.2 LoRA (*Low-Rank Adaptation*) — idea
-En lugar de actualizar \(W\) completa, se congela \(W_0\) y se aprende una
-actualización de *bajo rango*:
-
-\[
-W \approx W_0 + BA
-\]
-
-donde \(B\) y \(A\) son matrices pequeñas. Solo se guardan/entrenan esos adaptadores.
-
-*Consecuencias prácticas:*
-- Menos VRAM.
-- Varios “especialistas” (adaptadores) sobre el mismo modelo base.
-- Más fácil de versionar y desplegar.
-
-*** 3.3 Datos de fine-tuning para un chatbot
-Formato habitual (chat / instrucción):
-
-#+begin_example
-{"messages": [
-  {"role": "system", "content": "Eres el asistente oficial de ..."},
-  {"role": "user", "content": "¿Cuál es el horario de ...?"},
-  {"role": "assistant", "content": "El horario oficial es ... (tono correcto)"}
-]}
-#+end_example
-
-Calidad > cantidad. 200–2000 ejemplos *buenos* suelen superar 20 000 mediocres.
-
-*** 3.4 RAG + LoRA juntos 
-
-#+begin_example
-Hechos que cambian cada semana  →  RAG (reindexar)
-Estilo, plantillas, “cómo responder” →  Fine-tuning LoRA
-#+end_example
-
-Orden prudente en un proyecto real:
-
-1. Baseline: modelo base + RAG + buen prompt.
-2. Medir fallos (alucinación, tono, formato).
-3. Fine-tuning solo si los fallos son de *comportamiento*, no de *falta de documento*.
-4. Evaluar otra vez con las mismas preguntas de prueba.
-
+Aquí el foco es el *chatbot* (orquestador, web, WhatsApp).
 
 ** Parte 4 — Teoría del orquestador (el “cerebro” del sistema)
 
@@ -10145,6 +9979,7 @@ Flujo típico con OpenCV:
 - Python + OpenCV con módulo =cv2.face= (paquete =opencv-contrib-python=).
 - Clasificador Haar: =haarcascade_frontalface_alt.xml= (ruta relativa
   =data/= o la de tu instalación).
+- Teoría de *detección* Haar: =Análisis de información → Haarcascades=.
 - Dataset organizado así:
 
 #+begin_example
@@ -10197,7 +10032,8 @@ donde \(e_i\) son eigenfaces y \(\alpha_i\) los coeficientes. Guardar solo esos 
 
 *** La matriz de covarianza
 
-Antes de “vectores propios” y PCA, conviene entender *qué tabla* estamos diagonalizando.
+Antes de
+“vectores propios” y PCA, conviene entender *qué tabla* estamos diagonalizando.
 
 **** Analogía de un minuto
 
@@ -10346,7 +10182,7 @@ print("Modelo escrito: laloEigenface.xml")
 
 #+RESULTS:
 : Personas: ['lalo', 'luna']
-:   lalo (label=0): 753 imágenes
+:   lalo (label=0): 673 imágenes
 :   luna (label=1): 948 imágenes
 : Modelo escrito: laloEigenface.xml
 
@@ -10368,7 +10204,7 @@ face_recognizer = cv.face.EigenFaceRecognizer_create()
 face_recognizer.read("laloEigenface.xml")
 
 cap = cv.VideoCapture(0)
-cascade = cv.CascadeClassifier("haarcascade_frontalface_alt2.xml")
+cascade = cv.CascadeClassifier("haarcascade_frontalface_alt.xml")
 THRESHOLD = 2800  # bajar = más estricto
 
 while True:
@@ -10411,28 +10247,36 @@ cv.destroyAllWindows()
 
 *** Idea
 
-*Fisherfaces* extiende el enfoque de PCA con *Análisis Discriminante Lineal* (LDA / Fisher). No solo comprime la varianza: busca proyecciones que *maximicen la separación entre clases* (personas) y *minimicen la dispersión dentro de cada clase*.
+*Fisherfaces* extiende el enfoque de PCA con *Análisis Discriminante
+Lineal* (LDA / Fisher). No solo comprime la varianza: busca
+proyecciones que *maximicen la separación entre clases* (personas) y
+*minimicen la dispersión dentro de cada clase*.
 
-Por eso suele resistir mejor cambios de iluminación y expresión cuando hay varias muestras por persona.
+Por eso suele resistir mejor cambios de iluminación y expresión cuando
+hay varias muestras por persona.
 
 *** Pipeline
 
-1. *Preproceso*: tamaño, orientación e iluminación lo más uniformes posible.
-2. *PCA*: reduce dimensionalidad (y hace viable LDA cuando hay pocos ejemplos frente a muchos píxeles).
+1. *Preproceso*: tamaño, orientación e iluminación lo más uniformes
+   posible.
+2. *PCA*: reduce dimensionalidad (y hace viable LDA cuando hay pocos
+   ejemplos frente a muchos píxeles).
 3. *LDA*: encuentra ejes que separan clases.
-4. *Clasificación*: proyectar y asignar por distancia / k-NN en el espacio discriminante.
+4. *Clasificación*: proyectar y asignar por distancia / k-NN en el
+   espacio discriminante.
 
 #+begin_quote
-PCA maximiza *varianza global*. LDA maximiza *razón entre-clases / dentro-de-clase*. Fisherfaces combina ambos.
+PCA maximiza *varianza global*. LDA maximiza *razón entre-clases /
+dentro-de-clase*. Fisherfaces combina ambos.
 #+end_quote
 
 *** Ventajas y limitaciones
 
-| Aspecto | Comentario |
-|---------+------------|
-| Fortaleza | Mejor discriminación entre personas; más robusto a iluminación/expresión que Eigenfaces puro |
-| Debilidad | Necesita *varias imágenes por persona*; con una sola muestra por clase degradada a PCA-like |
-| Umbral típico (ejemplo) | =confidence < 500= |
+| Aspecto                 | Comentario                                                                                   |
+|-------------------------+----------------------------------------------------------------------------------------------|
+| Fortaleza               | Mejor discriminación entre personas; más robusto a iluminación/expresión que Eigenfaces puro |
+| Debilidad               | Necesita *varias imágenes por persona*; con una sola muestra por clase degradada a PCA-like    |
+| Umbral típico (ejemplo) | =confidence < 500=                                                                             |
 
 *** Script: entrenar Fisherfaces
 
@@ -10526,30 +10370,35 @@ cv.destroyAllWindows()
 
 *** Idea
 
-A diferencia de Eigenfaces/Fisherfaces (que miran el rostro *global* como vector), *LBPH* describe *textura local*: patrones de intensidad alrededor de cada píxel.
+A diferencia de Eigenfaces/Fisherfaces (que miran el rostro *global*
+como vector), *LBPH* describe *textura local*: patrones de intensidad
+alrededor de cada píxel.
 
 Pasos:
 
 1. *Dividir* el rostro en celdas (rejilla).
-2. *LBP* por píxel: comparar el centro con sus 8 vecinos → código binario de 8 bits (0–255).
+2. *LBP* por píxel: comparar el centro con sus 8 vecinos → código
+   binario de 8 bits (0–255).
 3. *Histograma* de códigos LBP en cada celda.
 4. *Concatenar* histogramas → vector de características de la cara.
-5. *Reconocer* por distancia (p. ej. chi-cuadrado / Euclidiana) al histograma más cercano de la base.
+5. *Reconocer* por distancia (p. ej. chi-cuadrado / Euclidiana) al
+   histograma más cercano de la base.
 
 *** Por qué es popular
 
 - Simple y rápido.
-- Aguanta mejor variaciones de *iluminación* (LBP es relativamente invariante a cambios monotónicos de brillo).
+- Aguanta mejor variaciones de *iluminación* (LBP es relativamente
+  invariante a cambios monotónicos de brillo).
 - Adecuado para tiempo real y sistemas embebidos.
 - No exige un preproceso tan estricto como PCA/LDA globales.
 
 *** Ventajas y limitaciones
 
-| Aspecto | Comentario |
-|---------+------------|
-| Fortaleza | Iluminación, velocidad, actualización incremental posible en OpenCV |
-| Debilidad | Menos “geométrico”; depende de alineación local y resolución de la rejilla |
-| Umbral típico (ejemplo) | =confidence < 70= |
+| Aspecto                 | Comentario                                                                 |
+|-------------------------+----------------------------------------------------------------------------|
+| Fortaleza               | Iluminación, velocidad, actualización incremental posible en OpenCV        |
+| Debilidad               | Menos “geométrico”; depende de alineación local y resolución de la rejilla |
+| Umbral típico (ejemplo) | =confidence < 70=                                                            |
 
 *** Script: entrenar LBPH
 
@@ -10777,51 +10626,14 @@ cv2.destroyAllWindows()
 
 
 
-** Ejemplo de clasificación utilizando Haarcascades 
-	
-	- [[https://github.com/opencv/opencv/tree/master/data/haarcascades][Clasificadores Haarcascades de la librería Opencv]]
-	- [[https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html][Tutorial Haarcascades]]  
-	- [[https://docs.opencv.org/2.4/doc/user_guide/ug_traincascade.html][Entrenamiento Haarcascades]]  
+** Haarcascades (detección de rostros)
 
+Teoría (Viola–Jones, cascadas, Adaboost) y ejemplos: ver
+*Análisis de información → Haarcascades*.
+Enlaces útiles: [[https://github.com/opencv/opencv/tree/master/data/haarcascades][XML oficiales OpenCV]],
+[[https://docs.opencv.org/4.x/db/d28/tutorial_cascade_classifier.html][tutorial OpenCV]].
 
-#+BEGIN_SRC python
-import numpy as np
-import cv2 as cv
-
-rostro = cv.CascadeClassifier('haarcascade_frontalface_alt2.xml')
-cap = cv.VideoCapture('/home/likcos/x1/compux1/dwhelper/caras.mp4')
-x=y=w=h= 0
-img=imgr=0
-count = 0
-while True:
-    ret, frame = cap.read()
-    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    rostros = rostro.detectMultiScale(gray, 1.3, 5)
-    for(x, y, w, h) in rostros:
-        m1 = int(h/2)
-        n1 = int(w/2)
-        #frame = cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 2)
-        #frame = cv.circle(frame, (x+n1,y+m1), int(w/2) , (255, 0 ,0), 2 )
-        img = frame[y:y+h,x:x+w]
-        imgr = cv.resize(img, (100,100))
-        count = count + 1   
-    
-    name = '/home/likcos/pruebacaras/luna/luna'+str(count)+'.jpg'
-    cv.imwrite(name, imgr)
-    cv.imshow('rostros', frame)
-    #cv.imshow('cara', img)
-    
-    k = cv.waitKey(1)
-    if k == 27:
-        break
-cap.release()
-cv.destroyAllWindows()
-#+END_SRC
-
-#+RESULTS:
-: None
-
-* Actividades
+* Actividades — casos EDA / misiones narrativas
 
 **  Operación Dino Crash (EDA conceptual)
 
@@ -12191,76 +12003,35 @@ A, el cual es el vértice origen, se conoce como la cola del lado y B, el cual e
 el vértice destino, se conoce como cabeza del lado.
 
 
-** Segmentación de Color  
+* Segmentación de Color
 
-La segmentación de imágenes es un tema ampliamente estudiado para la
-extracción y reconocimiento de objetos, de acuerdo a las
-características de textura, color, forma, entre otros. Dependiendo de
-la naturaleza del problema, las características de color de los
-objetos pueden proporcionar información relevante sobre ellos. Por
-ejemplo, la segmentación de imágenes de color ha sido aplicado en
-diferentes áreas como análisis de alimentos, geología,
-medicina entre otras.  Los trabajos que abordan la
-segmentación de imágenes por características de color emplean
-diferentes técnicas, pero las más empleadas son las redes
-neuronales (RN) y métodos basado en agrupamiento,
-específicamente, fuzzy c-means (FCM). Las RN son entrenadas
-para reconocer colores específicos, es decir, estas son entrenadas con
-los colores de la imagen a ser segmentada. Si se da una nueva imagen
-la RN debe ser entrenada nuevamente. Al emplear métodos basados en
-agrupamiento, se crean grupos de colores con características
-similares. La desventaja con tales métodos es que se requiere definir
-previamente la cantidad de grupos en que se divide la información; por
-lo tanto, el número de grupos se define dependiendo de la naturaleza
-de la escena.  Nuestra propuesta consiste en entrenar a la RN para
-reconocer diferentes colores, tratando de emular la percepción humana
-del color. Los seres humanos identifican principalmente los colores
-por su cromaticidad, después por su intensidad [21]. Por ejemplo, si
-se le pregunta a cualquier persona cual es el color de los cuadros (a)
-y (b) de la Fig. 1, lo más seguro es que responderá “verde”; nótese
-que el cuadro (a) es más brilloso que el cuadro (b) pero la
-cromaticidad no cambia. Ahora, si se le vuelve a preguntar a esa misma
-persona cual es el color de los cuadros (c) y (d) de la Fig. 1, lo más
-seguro es que responda “rojo y rosa, respectivamente”; es importante
-mencionar que los cuadros (c) y (d) tienen la misma intensidad pero
-diferentes cromaticidades.
+Tema de visión por color (HSV, máscaras, vídeo): ver *Análisis de información*
+y *Visión por color (OpenCV)* más adelante. No se repite aquí para evitar duplicar.
 
+* Juego de Bala y Salto con MLP
 
-
-
-
-#+BEGIN_SRC python
-#+END_SRC
-
-
-
-
-y
-
-** Juego de Bala y Salto con MLP
-
-*** Introducción
-**** ¿Qué es este juego?
+** Introducción
+*** ¿Qué es este juego?
 
 Este es un juego que combina mecánicas de juego simples con
 aprendizaje automático (Machine Learning). El objetivo es entrenar una
 red neuronal (MLP - Multi-Layer Perceptron) para que aprenda a jugar
 imitando tu estilo de juego.
 
-**** Concepto principal
+*** Concepto principal
 
 - Tú juegas en modo MANUAL y el juego registra tus decisiones.
 - El modelo MLP aprende de tus patrones de juego.
 - En modo AUTO, el MLP juega por ti usando lo que aprendió.
 
-**** Objetivo del juego
+*** Objetivo del juego
 
 Esquivar las balas que vienen desde la derecha saltando en el momento adecuado. El MLP aprende cuándo saltar basándose en:
 - La velocidad de la bala
 - La distancia entre el jugador y la bala
 
-*** Requisitos e Instalación
-**** Dependencias necesarias
+** Requisitos e Instalación
+*** Dependencias necesarias
 
 El juego requiere las siguientes librerías de Python:
 
@@ -12271,13 +12042,13 @@ matplotlib >= 3.5.0
 numpy >= 1.21.0
 #+END_SRC
 
-**** Instalación
+*** Instalación
 
 #+BEGIN_SRC bash
 pip install pygame scikit-learn matplotlib numpy
 #+END_SRC
 
-**** Estructura de archivos
+*** Estructura de archivos
 
 El proyecto contiene:
 
@@ -12286,14 +12057,14 @@ El proyecto contiene:
 - =datos_mlp.csv= :: Datos exportados (se genera al usar la opción C)
 - =assets/= :: Carpeta con sprites y fondos del juego
 
-*** Cómo Jugar
-**** Iniciar el juego
+** Cómo Jugar
+*** Iniciar el juego
 
 #+BEGIN_SRC bash
 python juego_pygame_mlp.py
 #+END_SRC
 
-**** Menú principal
+*** Menú principal
 
 Al iniciar verás un menú con las siguientes opciones:
 
@@ -12306,7 +12077,7 @@ Al iniciar verás un menú con las siguientes opciones:
 | F | Fullscreen (toggle) |
 | Q | Salir |
 
-**** Controles durante el juego
+*** Controles durante el juego
 
 | Tecla | Acción |
 |-------+--------|
@@ -12315,44 +12086,44 @@ Al iniciar verás un menú con las siguientes opciones:
 | F | Alternar pantalla completa |
 | Q | Salir del juego |
 
-*** Modo Manual: Recolectando Datos
-**** ¿Qué hace el modo manual?
+** Modo Manual: Recolectando Datos
+*** ¿Qué hace el modo manual?
 
 En modo manual, tú controlas al personaje y el juego registra automáticamente:
 - La velocidad de cada bala
 - La distancia entre el jugador y la bala
 - Si decidiste saltar (1) o no saltar (0) en cada frame
 
-**** Cómo jugar en modo manual
+*** Cómo jugar en modo manual
 
 1. Presiona =M= en el menú para entrar en modo manual
 2. El juego se reinicia y borra cualquier modelo anterior
 3. Juega normalmente usando ESPACIO para saltar
 4. El juego registra tus decisiones en cada frame donde hay una bala activa
 
-**** Consejos para recolectar buenos datos
+*** Consejos para recolectar buenos datos
 
 - Juega de forma natural, como lo harías normalmente
 - Mezcla situaciones: a veces salta temprano, a veces tarde, a veces no saltes
 - Juega varias partidas para tener más datos
 - Intenta tener al menos 80+ muestras antes de entrenar (verás el contador en el menú)
 
-**** Registro de datos
+*** Registro de datos
 
 El juego registra datos en cada frame donde:
 - La bala está disparada
 - El jugador está en el suelo (para decisiones de salto)
 - O está en el aire (marcado como salto=1 durante todo el tiempo en el aire)
 
-*** Entrenamiento del Modelo MLP
-**** ¿Qué es un MLP?
+** Entrenamiento del Modelo MLP
+*** ¿Qué es un MLP?
 
 MLP (Multi-Layer Perceptron) es un tipo de red neuronal artificial que:
 - Tiene capas ocultas entre la entrada y la salida
 - Puede aprender patrones no lineales
 - En este juego: aprende a predecir cuándo saltar basándose en velocidad y distancia
 
-**** Arquitectura del modelo
+*** Arquitectura del modelo
 
 El MLP usado en este juego tiene:
 - Entrada: 2 características (velocidad_bala, distancia)
@@ -12361,7 +12132,7 @@ El MLP usado en este juego tiene:
 - Activación: ReLU
 - Optimizador: Adam
 
-**** Cómo entrenar
+*** Cómo entrenar
 
 1. Recolecta datos en modo manual (al menos 80 muestras)
 2. Presiona =T= en el menú para entrenar
@@ -12371,43 +12142,43 @@ El MLP usado en este juego tiene:
    - Entrena el MLP con hasta 3000 iteraciones
 4. Verás un mensaje con la precisión (accuracy) del modelo
 
-**** Casos especiales
+*** Casos especiales
 
 - Si tienes menos de 80 muestras: el entrenamiento fallará con un mensaje
 - Si solo tienes una clase (solo 0s o solo 1s): se crea un "modelo trivial" que siempre devuelve esa clase
 - Para un modelo útil: necesitas datos con ambas clases (0 y 1)
 
-**** Interpretando los resultados
+*** Interpretando los resultados
 
 - Accuracy ≈ 0.5-0.6: El modelo no está aprendiendo bien, necesitas más datos variados
 - Accuracy ≈ 0.7-0.8: El modelo está aprendiendo, pero puede mejorar
 - Accuracy ≈ 0.8-0.9: Buen modelo, está capturando tus patrones
 - Accuracy > 0.9: Excelente, el modelo imita muy bien tu estilo
 
-*** Modo Auto: El MLP Juega Solo
-**** ¿Qué hace el modo auto?
+** Modo Auto: El MLP Juega Solo
+*** ¿Qué hace el modo auto?
 
 En modo auto, el MLP toma las decisiones de salto basándose en lo que aprendió de ti.
 
-**** Cómo activar modo auto
+*** Cómo activar modo auto
 
 1. Primero debes entrenar un modelo (presiona =T=)
 2. Luego presiona =A= en el menú
 3. El juego se reinicia y el MLP controla los saltos
 
-**** Visualización en tiempo real
+*** Visualización en tiempo real
 
 Mientras juegas en modo auto, verás en la esquina superior izquierda:
 - =proba_salto≈0.XX= :: La probabilidad que el modelo calcula de que debería saltar
 
-**** Limitaciones del modo auto
+*** Limitaciones del modo auto
 
 - Si no hay modelo entrenado, el modo auto no saltará nunca
 - El modelo solo puede hacer lo que aprendió de tus datos
 - Si tus datos son inconsistentes, el modelo también lo será
 
-*** Exportación y Visualización de Datos
-**** Exportar a CSV
+** Exportación y Visualización de Datos
+*** Exportar a CSV
 
 1. En el menú, presiona =C=
 2. Se crea/sobrescribe el archivo =datos_mlp.csv=
@@ -12416,7 +12187,7 @@ Mientras juegas en modo auto, verás en la esquina superior izquierda:
    - =distancia= :: Distancia entre jugador y bala (en píxeles)
    - =salto= :: 1 si saltaste, 0 si no saltaste
 
-**** Visualizar los datos
+*** Visualizar los datos
 
 Para ver gráficas de tus datos:
 
@@ -12428,14 +12199,14 @@ Esto abre dos ventanas:
 - Gráfica 2D: Distancia vs Velocidad (colores: rojo=salto, azul=no salto)
 - Gráfica 3D: Distancia, Velocidad y Clase (0 abajo, 1 arriba)
 
-**** Interpretando las gráficas
+*** Interpretando las gráficas
 
 - Si ves dos nubes bien separadas: tus datos son consistentes, el modelo debería aprender bien
 - Si las nubes están mezcladas: tus decisiones son más variadas, el modelo puede tener más dificultad
 - Si solo ves una nube: solo tienes una clase, necesitas más variedad en tus datos
 
-*** Arquitectura del Código
-**** Estructura principal
+** Arquitectura del Código
+*** Estructura principal
 
 El código está organizado en una clase =Juego= con los siguientes módulos:
 
@@ -12451,7 +12222,7 @@ El código está organizado en una clase =Juego= con los siguientes módulos:
 - =mostrar_menu= :: Menú principal
 - =loop= :: Bucle principal del juego
 
-**** Clase Sample
+*** Clase Sample
 
 #+BEGIN_SRC python
 @dataclass
@@ -12463,7 +12234,7 @@ class Sample:
 
 Cada muestra representa una decisión en un frame específico.
 
-**** Flujo de datos
+*** Flujo de datos
 
 1. Modo Manual:
    - Juegas → =registrar_decision_manual()= → =datos_modelo.append(Sample(...))=
@@ -12474,8 +12245,8 @@ Cada muestra representa una decisión en un frame específico.
 3. Modo Auto:
    - Cada frame → =decision_auto_saltar()= → MLP predice → Salta o no salta
 
-*** Parámetros Configurables
-**** Parámetros del juego
+** Parámetros Configurables
+*** Parámetros del juego
 
 | Variable | Valor | Descripción |
 |----------+-------+-------------|
@@ -12485,7 +12256,7 @@ Cada muestra representa una decisión en un frame específico.
 | =gravedad= | 1.0 | Fuerza de gravedad |
 | =fondo_speed= | 3 | Velocidad de desplazamiento del fondo |
 
-**** Parámetros del MLP
+*** Parámetros del MLP
 
 | Variable | Valor | Descripción |
 |----------+-------+-------------|
@@ -12495,35 +12266,35 @@ Cada muestra representa una decisión en un frame específico.
 | =max_iter= | 3000 | Máximo de iteraciones de entrenamiento |
 | =test_size= | 0.2 | 20% de los datos para prueba |
 
-**** Parámetros de registro
+*** Parámetros de registro
 
 | Variable | Valor | Descripción |
 |----------+-------+-------------|
 | =decision_window= | 500 | Ventana de decisión (ya no se usa, registra todo) |
 | =min_samples= | 80 | Mínimo de muestras para entrenar |
 
-*** Mejores Prácticas
-**** Recolectando datos de calidad
+** Mejores Prácticas
+*** Recolectando datos de calidad
 
 - Juega varias partidas (no solo una)
 - Varía tu estilo: a veces conservador, a veces agresivo
 - Asegúrate de tener ejemplos de ambas clases (saltos y no-saltos)
 - Recolecta al menos 200-300 muestras para un modelo robusto
 
-**** Entrenando el modelo
+*** Entrenando el modelo
 
 - Siempre revisa el accuracy: si es muy bajo (<0.6), recolecta más datos
 - Si el accuracy es perfecto (1.0), puede ser sobreajuste: prueba con más datos de prueba
 - Exporta el CSV y visualiza los datos para ver si hay patrones claros
 
-**** Jugando en modo auto
+*** Jugando en modo auto
 
 - Observa la probabilidad en tiempo real (=proba_salto≈XX=)
 - Si el modelo nunca salta o siempre salta, revisa tus datos
 - Compara el comportamiento del modelo con cómo tú jugarías
 
-*** Solución de Problemas
-**** El modelo no aprende (accuracy < 0.5)
+** Solución de Problemas
+*** El modelo no aprende (accuracy < 0.5)
 
 - Posibles causas:
   - Datos insuficientes (< 80 muestras)
@@ -12534,58 +12305,58 @@ Cada muestra representa una decisión en un frame específico.
   - Asegúrate de tener ejemplos de ambas clases
   - Juega de forma más consistente
 
-**** El modo auto no salta nunca
+*** El modo auto no salta nunca
 
 - Verifica que el modelo esté entrenado (=Modelo: sí= en el menú)
 - Si el modelo es trivial de clase 0, siempre dirá "no saltar"
 - Solución: recolecta datos donde sí saltas y reentrena
 
-**** El modo auto salta demasiado
+*** El modo auto salta demasiado
 
 - El modelo aprendió que siempre debes saltar
 - Solución: recolecta más datos donde NO saltas y reentrena
 
-**** Las gráficas no se muestran
+*** Las gráficas no se muestran
 
 - Verifica que tengas =matplotlib= instalado
 - Verifica que el CSV tenga datos válidos
 - Ejecuta =juego_pygame_mlp_plot.py= desde la terminal
 
-**** El juego se ve lento o con lag
+*** El juego se ve lento o con lag
 
 - Reduce los FPS en =reloj.tick(45)= a un valor menor (ej: 30)
 - Cierra otras aplicaciones que consuman recursos
 - Verifica que tu sistema tenga aceleración gráfica habilitada
 
-*** Conceptos Técnicos Avanzados
-**** ¿Por qué MLP y no otro algoritmo?
+** Conceptos Técnicos Avanzados
+*** ¿Por qué MLP y no otro algoritmo?
 
 - MLP puede aprender patrones no lineales (la relación velocidad-distancia-salto no es lineal)
 - Es relativamente simple y rápido de entrenar
 - Funciona bien con pocas características (solo 2 en este caso)
 
-**** Normalización (StandardScaler)
+*** Normalización (StandardScaler)
 
 Las características se normalizan porque:
 - La velocidad de la bala y la distancia tienen escalas muy diferentes
 - El MLP funciona mejor con datos normalizados
 - Ayuda a que el entrenamiento converja más rápido
 
-**** División train/test
+*** División train/test
 
 - 80% entrenamiento, 20% prueba
 - Estratificado (=stratify=y=) para mantener proporción de clases
 - El accuracy en test es más confiable que en entrenamiento
 
-**** Overfitting y Underfitting
+*** Overfitting y Underfitting
 
 - Overfitting: El modelo memoriza los datos de entrenamiento pero falla en nuevos datos
 - Underfitting: El modelo no aprende lo suficiente
 - En este juego: si accuracy test << accuracy train → overfitting
 
 
-***  Código de Ejemplo
-**** Cargar y visualizar datos manualmente
+**  Código de Ejemplo
+*** Cargar y visualizar datos manualmente
 
 #+BEGIN_SRC python
 import csv
@@ -12615,7 +12386,7 @@ plt.legend()
 plt.show()
 #+END_SRC
 
-**** Entrenar modelo desde CSV
+*** Entrenar modelo desde CSV
 
 #+BEGIN_SRC python
 from sklearn.neural_network import MLPClassifier
@@ -12650,10 +12421,10 @@ print(f"Probabilidad de salto: {probabilidad:.2f}")
 
 
 
-** Métricas de Evaluación para Machine Learning
+* Métricas de Evaluación para Machine Learning
 
-*** Introducción
-**** ¿Qué son las métricas de evaluación?
+** Introducción
+*** ¿Qué son las métricas de evaluación?
 
 Las métricas de evaluación son medidas numéricas que nos permiten cuantificar qué tan bien está funcionando un modelo de Machine Learning. Nos ayudan a:
 - Comparar diferentes modelos
@@ -12661,7 +12432,7 @@ Las métricas de evaluación son medidas numéricas que nos permiten cuantificar
 - Decidir si un modelo es útil para nuestro problema
 - Detectar problemas como sobreajuste o sesgo
 
-**** ¿Por qué son importantes?
+*** ¿Por qué son importantes?
 
 Un modelo puede tener un accuracy alto pero aún así tener problemas graves. Por ejemplo:
 - Un modelo que siempre predice "no salto" tendría 90% accuracy si el 90% de los casos son "no salto"
@@ -12669,12 +12440,12 @@ Un modelo puede tener un accuracy alto pero aún así tener problemas graves. Po
 
 Las métricas nos ayudan a detectar estos problemas.
 
-*** Matriz de Confusión: La Base de Todo
-**** ¿Qué es una matriz de confusión?
+** Matriz de Confusión: La Base de Todo
+*** ¿Qué es una matriz de confusión?
 
 La matriz de confusión es una tabla que muestra cómo se clasificaron las predicciones del modelo comparadas con los valores reales.
 
-**** Estructura de la matriz (2 clases)
+*** Estructura de la matriz (2 clases)
 
 Para un problema de clasificación binaria (como nuestro juego: salto=1, no salto=0):
 
@@ -12691,7 +12462,7 @@ Donde:
 - =FP= (False Positive): Predijo salto pero era no salto ✗
 - =FN= (False Negative): Predijo no salto pero era salto ✗
 
-**** Interpretación en el contexto del juego
+*** Interpretación en el contexto del juego
 
 | Caso | Significado en el juego |
 |------+--------------------------|
@@ -12700,7 +12471,7 @@ Donde:
 | FP | El modelo saltó innecesariamente (gasto de salto) |
 | FN | El modelo NO saltó cuando debería haber saltado (¡colisión!) |
 
-**** Ejemplo práctico
+*** Ejemplo práctico
 
 Supongamos que el modelo hizo 100 predicciones:
 
@@ -12717,8 +12488,8 @@ Real  No Salto      70      10     80
 - FP = 10 (saltó innecesariamente 10 veces)
 - FN = 5 (no saltó cuando debía 5 veces → ¡5 colisiones!)
 
-*** Accuracy (Precisión General)
-**** Definición
+** Accuracy (Precisión General)
+*** Definición
 
 Accuracy mide la proporción de predicciones correctas sobre el total:
 
@@ -12726,39 +12497,39 @@ Accuracy mide la proporción de predicciones correctas sobre el total:
 \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{\text{Predicciones correctas}}{\text{Total de predicciones}}
 \]
 
-**** Cálculo del ejemplo anterior
+*** Cálculo del ejemplo anterior
 
 \[
 \text{Accuracy} = \frac{15 + 70}{100} = \frac{85}{100} = 0.85 = 85\%
 \]
 
-**** Ventajas
+*** Ventajas
 
 - Fácil de entender: "¿Qué porcentaje acertó?"
 - Útil cuando las clases están balanceadas
 - Buena métrica general para comparar modelos
 
-**** Desventajas
+*** Desventajas
 
 - Puede ser engañosa con clases desbalanceadas
 - No distingue entre tipos de errores
 - Un modelo que siempre predice la clase mayoritaria puede tener buen accuracy
 
-**** Ejemplo del problema
+*** Ejemplo del problema
 
 Si en el juego el 90% de los casos son "no salto":
 - Un modelo que siempre dice "no salto" tendría 90% accuracy
 - Pero sería inútil porque nunca saltaría
 - Accuracy alto ≠ modelo bueno
 
-**** Cuándo usar Accuracy
+*** Cuándo usar Accuracy
 
 - Clases balanceadas (50-50 o similar)
 - Todos los errores tienen el mismo costo
 - Quieres una métrica simple y general
 
-*** Precision (Precisión)
-**** Definición
+** Precision (Precisión)
+*** Definición
 
 Precision mide: "De todas las veces que predije salto, ¿cuántas eran correctas?"
 
@@ -12766,32 +12537,32 @@ Precision mide: "De todas las veces que predije salto, ¿cuántas eran correctas
 \text{Precision} = \frac{TP}{TP + FP} = \frac{\text{Verdaderos positivos}}{\text{Todos los positivos predichos}}
 \]
 
-**** Cálculo del ejemplo
+*** Cálculo del ejemplo
 
 \[
 \text{Precision} = \frac{15}{15 + 10} = \frac{15}{25} = 0.60 = 60\%
 \]
 
-**** Interpretación
+*** Interpretación
 
 - De las 25 veces que el modelo decidió saltar, solo 15 eran correctas
 - 10 veces saltó innecesariamente (FP)
 - "Cuando el modelo dice que hay que saltar, ¿qué tan confiable es?"
 
-**** En el contexto del juego
+*** En el contexto del juego
 
 - Precision alta: Cuando el modelo decide saltar, casi siempre es correcto
 - Precision baja: El modelo salta demasiado, muchas veces innecesariamente
 - Costo: Saltos innecesarios no son críticos, pero desperdician recursos
 
-**** Cuándo es importante
+*** Cuándo es importante
 
 - Los falsos positivos son costosos
 - Quieres minimizar acciones innecesarias
 - Ejemplo: Sistema de spam (no quieres marcar emails legítimos como spam)
 
-*** Recall (Sensibilidad o Exhaustividad)
-**** Definición
+** Recall (Sensibilidad o Exhaustividad)
+*** Definición
 
 Recall mide: "De todos los casos donde realmente debía saltar, ¿cuántos detecté?"
 
@@ -12799,31 +12570,31 @@ Recall mide: "De todos los casos donde realmente debía saltar, ¿cuántos detec
 \text{Recall} = \frac{TP}{TP + FN} = \frac{\text{Verdaderos positivos}}{\text{Todos los positivos reales}}
 \]
 
-**** Cálculo del ejemplo
+*** Cálculo del ejemplo
 
 \[
 \text{Recall} = \frac{15}{15 + 5} = \frac{15}{20} = 0.75 = 75\%
 \]
 
-**** Interpretación
+*** Interpretación
 
 - De las 20 veces que realmente debía saltar, el modelo detectó 15
 - 5 veces no saltó cuando debía (FN) → ¡5 colisiones!
 - "¿Qué porcentaje de las situaciones peligrosas detecta el modelo?"
 
-**** En el contexto del juego
+*** En el contexto del juego
 
 - Recall alto: El modelo detecta casi todas las situaciones donde debe saltar
 - Recall bajo: El modelo se pierde muchas situaciones peligrosas → muchas colisiones
 - Costo: Falsos negativos son MUY costosos (colisiones = perder)
 
-**** Cuándo es crítico
+*** Cuándo es crítico
 
 - Los falsos negativos son muy costosos
 - Es mejor "sobre-detectar" que "sub-detectar"
 - Ejemplos: Detección de cáncer, detección de fraude, nuestro juego
 
-**** Trade-off Precision vs Recall
+*** Trade-off Precision vs Recall
 
 Generalmente hay un trade-off:
 - Si aumentas el umbral de decisión → más Precision, menos Recall
@@ -12833,8 +12604,8 @@ En el juego:
 - Umbral alto (0.7): Solo salta cuando está muy seguro → alta Precision, bajo Recall
 - Umbral bajo (0.3): Salta con más frecuencia → bajo Precision, alto Recall
 
-*** F1-Score: El Balance Perfecto
-**** Definición
+** F1-Score: El Balance Perfecto
+*** Definición
 
 F1-Score es la media armónica de Precision y Recall:
 
@@ -12842,37 +12613,37 @@ F1-Score es la media armónica de Precision y Recall:
 F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} = \frac{2 \times TP}{2 \times TP + FP + FN}
 \]
 
-**** Cálculo del ejemplo
+*** Cálculo del ejemplo
 
 \[
 F1 = 2 \times \frac{0.60 \times 0.75}{0.60 + 0.75} = 2 \times \frac{0.45}{1.35} = 0.667 = 66.7\%
 \]
 
-**** ¿Por qué media armónica y no aritmética?
+*** ¿Por qué media armónica y no aritmética?
 
 La media armónica penaliza más cuando una métrica es muy baja:
 - Si Precision = 0.1 y Recall = 0.9 → F1 = 0.18 (bajo)
 - Si Precision = 0.5 y Recall = 0.5 → F1 = 0.5 (mejor balance)
 
-**** Ventajas
+*** Ventajas
 
 - Balancea Precision y Recall
 - Útil cuando necesitas ambas métricas
 - No se ve afectado por clases desbalanceadas tanto como Accuracy
 
-**** Desventajas
+*** Desventajas
 
 - Puede ocultar problemas si una métrica es muy baja
 - No siempre es la métrica más importante
 
-**** Cuándo usar F1-Score
+*** Cuándo usar F1-Score
 
 - Necesitas balance entre Precision y Recall
 - Las clases están desbalanceadas
 - Quieres una métrica única que considere ambos aspectos
 
-*** Especificidad
-**** Definición
+** Especificidad
+*** Definición
 
 Especificidad mide: "De todos los casos donde NO debía saltar, ¿cuántos detecté correctamente?"
 
@@ -12880,25 +12651,25 @@ Especificidad mide: "De todos los casos donde NO debía saltar, ¿cuántos detec
 \text{Especificidad} = \frac{TN}{TN + FP} = \frac{\text{Verdaderos negativos}}{\text{Todos los negativos reales}}
 \]
 
-**** Cálculo del ejemplo
+*** Cálculo del ejemplo
 
 \[
 \text{Especificidad} = \frac{70}{70 + 10} = \frac{70}{80} = 0.875 = 87.5\%
 \]
 
-**** Interpretación
+*** Interpretación
 
 - De las 80 veces que NO debía saltar, el modelo acertó 70
 - 10 veces saltó innecesariamente
 - Es el "Recall de la clase negativa"
 
-**** En el contexto del juego
+*** En el contexto del juego
 
 - Especificidad alta: El modelo rara vez salta innecesariamente
 - Especificidad baja: El modelo salta demasiado cuando no es necesario
 
-*** Comparación de Métricas: Tabla Resumen
-**** Valores del ejemplo
+** Comparación de Métricas: Tabla Resumen
+*** Valores del ejemplo
 
 | Métrica | Valor | Interpretación |
 |---------+-------+----------------|
@@ -12908,7 +12679,7 @@ Especificidad mide: "De todos los casos donde NO debía saltar, ¿cuántos detec
 | F1-Score | 66.7% | Balance entre Precision y Recall |
 | Especificidad | 87.5% | De cada 10 casos seguros, detectó 8.75 correctamente |
 
-**** ¿Qué métrica usar?
+*** ¿Qué métrica usar?
 
 | Situación | Métrica recomendada |
 |-----------+---------------------|
@@ -12919,8 +12690,8 @@ Especificidad mide: "De todos los casos donde NO debía saltar, ¿cuántos detec
 | Clases muy desbalanceadas | F1-Score o Recall |
 | Quieres ver todo el panorama | Matriz de confusión + todas |
 
-*** Casos de Uso en el Juego
-**** Escenario 1: Modelo Conservador
+** Casos de Uso en el Juego
+*** Escenario 1: Modelo Conservador
 
 Un modelo que casi nunca salta:
 
@@ -12938,7 +12709,7 @@ Real  No Salto      75       5
 
 **Veredicto**: Mal modelo para el juego. Aunque tiene buen accuracy, tiene muy bajo Recall → muchas colisiones.
 
-**** Escenario 2: Modelo Agresivo
+*** Escenario 2: Modelo Agresivo
 
 Un modelo que salta muy frecuentemente:
 
@@ -12956,7 +12727,7 @@ Real  No Salto      50      30
 
 **Veredicto**: Mejor que el conservador. Aunque tiene muchos saltos innecesarios, evita casi todas las colisiones.
 
-**** Escenario 3: Modelo Balanceado (Ideal)
+*** Escenario 3: Modelo Balanceado (Ideal)
 
 Un modelo bien entrenado:
 
@@ -12974,8 +12745,8 @@ Real  No Salto      70      10
 
 **Veredicto**: Buen modelo. Balance entre evitar colisiones y no saltar innecesariamente.
 
-*** Implementación en Python
-**** Cálculo manual de métricas
+** Implementación en Python
+*** Cálculo manual de métricas
 
 #+BEGIN_SRC python
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
@@ -13003,7 +12774,7 @@ print(f"Recall: {recall:.2%}")
 print(f"F1-Score: {f1:.2%}")
 #+END_SRC
 
-**** Reporte completo de clasificación
+*** Reporte completo de clasificación
 
 #+BEGIN_SRC python
 from sklearn.metrics import classification_report
@@ -13027,7 +12798,7 @@ Salida esperada:
 weighted avg       0.80      0.80      0.80        10
 #+END_EXAMPLE
 
-**** Visualización de la matriz de confusión
+*** Visualización de la matriz de confusión
 
 #+BEGIN_SRC python
 import matplotlib.pyplot as plt
@@ -13047,8 +12818,8 @@ plt.title('Matriz de Confusión')
 plt.show()
 #+END_SRC
 
-*** Mejorando el Juego con Métricas
-**** Añadir métricas al entrenamiento
+** Mejorando el Juego con Métricas
+*** Añadir métricas al entrenamiento
 
 Podemos modificar =entrenar_modelo()= para mostrar más métricas:
 
@@ -13084,21 +12855,21 @@ def entrenar_modelo_mejorado(self) -> Tuple[bool, str]:
                   f"F1: {f1:.3f}")
 #+END_SRC
 
-**** Interpretar resultados en el juego
+*** Interpretar resultados en el juego
 
 Si el modelo tiene:
 - Recall bajo (< 0.6): Muchas colisiones → recolecta más datos donde saltas
 - Precision bajo (< 0.5): Muchos saltos innecesarios → recolecta más datos donde NO saltas
 - F1 bajo (< 0.6): El modelo no está aprendiendo bien → más datos variados
 
-*** Curvas ROC y AUC
-**** ¿Qué es la curva ROC?
+** Curvas ROC y AUC
+*** ¿Qué es la curva ROC?
 
 ROC (Receiver Operating Characteristic) muestra el trade-off entre:
 - Tasa de Verdaderos Positivos (Recall/TPR) en el eje Y
 - Tasa de Falsos Positivos (FPR = FP/(FP+TN)) en el eje X
 
-**** ¿Qué es AUC?
+*** ¿Qué es AUC?
 
 AUC (Area Under Curve) es el área bajo la curva ROC:
 - AUC = 1.0: Clasificador perfecto
@@ -13106,7 +12877,7 @@ AUC (Area Under Curve) es el área bajo la curva ROC:
 - AUC > 0.7: Buen clasificador
 - AUC > 0.9: Excelente clasificador
 
-**** Código para generar curva ROC
+*** Código para generar curva ROC
 
 #+BEGIN_SRC python
 from sklearn.metrics import roc_curve, roc_auc_score
@@ -13131,20 +12902,20 @@ plt.grid(True)
 plt.show()
 #+END_SRC
 
-**** Interpretación
+*** Interpretación
 
 - Curva cerca de la esquina superior izquierda → mejor modelo
 - AUC alto → modelo puede distinguir bien entre clases
 - Útil para comparar diferentes modelos o umbrales
 
-*** Métricas para Clases Desbalanceadas
-**** El problema
+** Métricas para Clases Desbalanceadas
+*** El problema
 
 Cuando una clase es mucho más frecuente que la otra:
 - Accuracy puede ser engañoso
 - Un modelo que siempre predice la clase mayoritaria puede tener buen accuracy
 
-**** Soluciones
+*** Soluciones
 
 1. **F1-Score**: Ya lo vimos, balancea Precision y Recall
 
@@ -13182,8 +12953,8 @@ mcc = matthews_corrcoef(y_test, y_pred)
 print(f"MCC: {mcc:.3f}")
 #+END_SRC
 
-*** Resumen: Guía Rápida
-**** Tabla de métricas clave
+** Resumen: Guía Rápida
+*** Tabla de métricas clave
 
 | Métrica | Fórmula | Rango | ¿Qué mide? |
 |---------+---------+-------+------------|
@@ -13195,7 +12966,7 @@ print(f"MCC: {mcc:.3f}")
 | AUC-ROC | Área bajo curva ROC | 0-1 | Capacidad de distinguir clases |
 | MCC | (TP×TN-FP×FN)/√(...) | -1 a +1 | Correlación general (balanceada) |
 
-**** Decisión rápida: ¿Qué métrica usar?
+*** Decisión rápida: ¿Qué métrica usar?
 
 #+BEGIN_EXAMPLE
 ¿Las clases están balanceadas?
@@ -13211,7 +12982,7 @@ print(f"MCC: {mcc:.3f}")
 └─ NO → Revisa Precision, Recall y Accuracy juntas
 #+END_EXAMPLE
 
-**** Checklist de evaluación
+*** Checklist de evaluación
 
 Antes de aceptar un modelo, verifica:
 
@@ -13222,8 +12993,8 @@ Antes de aceptar un modelo, verifica:
 - [ ] Matriz de confusión no muestra patrones extraños
 - [ ] Métricas en test son similares a entrenamiento (no overfitting)
 
-*** Ejercicios Prácticos
-**** Ejercicio 1: Calcular métricas manualmente
+** Ejercicios Prácticos
+*** Ejercicio 1: Calcular métricas manualmente
 
 Dada esta matriz de confusión:
 
@@ -13250,7 +13021,7 @@ Calcula:
 - F1 = 2×(0.33×0.50)/(0.33+0.50) = 0.40
 - Especificidad = 60/80 = 0.75
 
-**** Ejercicio 2: Interpretar resultados
+*** Ejercicio 2: Interpretar resultados
 
 Un modelo tiene:
 - Accuracy: 85%
@@ -13264,7 +13035,7 @@ Un modelo tiene:
 - Precision bajo (40%) → muchos saltos innecesarios
 - Para el juego: Es aceptable porque evitar colisiones (Recall) es más importante que saltos innecesarios (Precision)
 
-**** Ejercicio 3: Mejorar un modelo
+*** Ejercicio 3: Mejorar un modelo
 
 Un modelo tiene Recall = 0.5. ¿Qué puedes hacer para mejorarlo?
 
@@ -13274,25 +13045,25 @@ Un modelo tiene Recall = 0.5. ¿Qué puedes hacer para mejorarlo?
 - Ajustar hiperparámetros del MLP
 - Añadir más características al modelo
 
-*** Referencias y Recursos
-**** Documentación oficial
+** Referencias y Recursos
+*** Documentación oficial
 
 - scikit-learn metrics: https://scikit-learn.org/stable/modules/model_evaluation.html
 - Confusion matrix: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html
 
-**** Lecturas recomendadas
+*** Lecturas recomendadas
 
 - "Hands-On Machine Learning" - Aurélien Géron (Capítulo sobre evaluación)
 - "Pattern Recognition and Machine Learning" - Christopher Bishop
 - "The Elements of Statistical Learning" - Hastie, Tibshirani, Friedman
 
-**** Herramientas útiles
+*** Herramientas útiles
 
 - scikit-learn: Métricas implementadas
 - Yellowbrick: Visualizaciones de métricas
 - Weka: Suite completa de ML con evaluación
 
-*** Conclusión
+** Conclusión
 
 Las métricas de evaluación son esenciales para entender y mejorar modelos de Machine Learning. No hay una métrica "perfecta" - la elección depende de:
 - Tu problema específico
@@ -13316,11 +13087,214 @@ Recuerda: Un modelo con 90% accuracy puede ser inútil si tiene 10% Recall (much
 
 
 
-** Redes Neuronales Recurrentes (RNN)
 
-*** Introducción
 
-**** ¿Qué son las Redes Recurrentes?
+
+* Redes Neuronales Convolucionales (CNN)
+
+** Introducción
+
+*** ¿Qué es una CNN?
+
+Una *Red Neuronal Convolucional* (CNN, *Convolutional Neural Network*) es una
+arquitectura pensada para datos con *estructura espacial*: imágenes, mapas,
+espectrogramas, etc. En lugar de aplastar la imagen en un vector gigante y
+pasarlo a un MLP, la CNN *barre* la imagen con filtros pequeños que detectan
+patrones locales (bordes, texturas, formas) y los combina en capas más
+abstractas.
+
+#+begin_src text
+  Imagen  →  Convolución + activación  →  Pooling  →  …  →  Flatten  →  Dense  →  Clase
+  (alto×ancho×canales)     (mapas de características)         (vector)   (softmax)
+#+end_src
+
+*** ¿Por qué no basta un MLP con imágenes?
+
+| Problema del MLP en visión | Cómo lo resuelve la CNN |
+|----------------------------+-------------------------|
+| Demasiados pesos (cada píxel se conecta a todo) | Filtros pequeños *compartidos* en toda la imagen |
+| Pierde la idea de “vecindario” al aplanar | La convolución mira ventanas locales |
+| No es invariante a traslaciones | El mismo filtro detecta un borde donde sea |
+| Sobreajuste fácil con pocas muestras | Menos parámetros → generaliza mejor |
+
+*Regla práctica del curso:*
+- Datos *tabulares* (números en columnas) → MLP, árboles, etc.
+- Datos *imagen* → CNN (o transfer learning sobre una CNN).
+- Datos *secuencia* (texto, series) → RNN / Transformer.
+
+*** Analogía
+
+Imagina que revisas una foto con una *lupa cuadrada* de 3×3:
+1. Pones la lupa en la esquina, miras esos 9 píxeles y anotas “¿hay un borde?”.
+2. Desplazas la lupa un paso y repites.
+3. Al terminar tienes un *mapa* de “dónde hay bordes”.
+4. Luego usas otra lupa (otro filtro) para “¿hay textura de fuego?”, etc.
+
+Eso es una capa convolucional: muchas lupas (= filtros) aprendiendo qué buscar.
+
+** Conceptos de la convolución
+
+*** Kernel (filtro)
+
+Un *kernel* es una matriz pequeña de pesos (típicamente 3×3 o 5×5). Al
+deslizarlo sobre la imagen, en cada posición hace un producto punto con la
+ventana local y produce *un* número en el mapa de salida.
+
+#+begin_src text
+  Ventana 3×3 de la imagen     Kernel (pesos aprendidos)     Resultado
+  ┌───┬───┬───┐                 ┌────┬────┬────┐
+  │a  │b  │c  │                 │w11 │w12 │w13 │
+  ├───┼───┼───┤   ⊙             ├───┼────┼────┤   →  z = a·w11 + b·w12 + … + i·w33 + bias
+  │d  │e  │f  │                 │w21 │w22 │w23 │
+  ├───┼───┼───┤                 ├───┼────┼────┤
+  │g  │h  │i  │                 │w31 │w32 │w33 │
+  └───┴───┴───┘                 └────┴────┴────┘
+#+end_src
+
+- Al inicio los =w= son aleatorios; el entrenamiento los ajusta (backpropagation).
+- Si pones *32 filtros*, obtienes *32 mapas* de características (canales de salida).
+
+*** Stride (paso) y padding
+
+| Concepto | Qué es | Efecto típico |
+|----------|--------|---------------|
+| *Stride* | Cuántos píxeles avanza el filtro | =1= = densos; =2= = reduce resolución |
+| *Padding* =same= | Rellena bordes para no achicar | Salida ≈ mismo alto/ancho |
+| *Padding* =valid= | Sin relleno | La salida sale más chica |
+
+En el notebook =CNNriesgo= usamos =padding='same'= para no perder borde al filtrar.
+
+*** Canales (profundidad)
+
+- Imagen RGB: forma =(alto, ancho, 3)=.
+- Tras =Conv2D(32, …)=: forma =(alto', ancho', 32)= — ya no son “colores”, son
+  *32 detectores* distintos aprendidos.
+
+** Capas que acompañan a la convolución
+
+*** Activación (ReLU / LeakyReLU)
+
+Después del producto del filtro suele ir una no-linealidad:
+
+- *ReLU*: =max(0, z)= — apaga valores negativos; muy usada.
+- *LeakyReLU*: deja pasar un poco los negativos (=α·z= si =z < 0=). Evita
+  “neuronas muertas”. En =CNNriesgo= usamos =LeakyReLU(alpha=0.1)=.
+
+*** Pooling (submuestreo)
+
+*MaxPooling2D(2, 2)* toma cada bloque 2×2 y se queda con el máximo. Reduce
+alto y ancho a la mitad (aprox.), baja cómputo y da cierta tolerancia a
+desplazamientos pequeños.
+
+#+begin_src text
+  ┌───┬───┐
+  │ 1 │ 5 │      MaxPool 2×2     →  5
+  ├───┼───┤
+  │ 3 │ 2 │
+  └───┴───┘
+#+end_src
+
+*** Dropout
+
+Durante el entrenamiento, *apaga al azar* un porcentaje de neuronas (p. ej. 50%).
+Obliga a la red a no depender de un solo camino → menos sobreajuste.
+En inferencia (predicción) no se apaga nada; se usa la red completa.
+
+*** Flatten + Dense
+
+1. *Flatten*: convierte el volumen =(h, w, canales)= en un vector 1D.
+2. *Dense*: capa totalmente conectada (como en un MLP) que combina las
+   características detectadas.
+3. *Salida Softmax* (clasificación multiclase): una neurona por clase; las
+   salidas son probabilidades que suman 1. La clase predicha es el =argmax=.
+
+** Arquitectura mínima (la del notebook =CNNriesgo=)
+
+El modelo del curso es deliberadamente pequeño para entender el flujo:
+
+#+begin_src text
+  Entrada (21 × 28 × 3)
+       │
+       ▼
+  Conv2D(32, 3×3, padding=same) + LeakyReLU
+       │
+       ▼
+  MaxPooling2D(2×2) + Dropout(0.5)
+       │
+       ▼
+  Flatten
+       │
+       ▼
+  Dense(32) + LeakyReLU + Dropout(0.5)
+       │
+       ▼
+  Dense(nClasses, softmax)   ← inundación / incendio / tornado / …
+#+end_src
+
+*Notas:*
+- =21×28= es el tamaño al que deben estar (o redimensionarse) las imágenes.
+- =nClasses= sale del número de carpetas del dataset (una carpeta = una clase).
+- Una sola convolución + pooling basta para el ejemplo; redes reales apilan
+  varios bloques Conv→Pool (VGG, ResNet, etc.).
+
+** Pipeline de datos (qué hace cada etapa del notebook)
+
+| Etapa | Idea | Por qué importa |
+|-------|------|-----------------|
+| Leer carpetas | Cada subdirectorio es una clase | Etiquetas automáticas sin CSV |
+| Etiquetas enteras | 0, 1, 2, … | Índice de clase |
+| =train_test_split= | Train / test (y luego validación) | Medir generalización |
+| Normalizar =/255= | Píxeles de 0–255 → 0–1 | Estabiliza el entrenamiento |
+| One-hot | =2= → =[0,0,1]= | Encaja con =categorical_crossentropy= |
+| =fit= | Épocas + batch + validación | Aprende los pesos de filtros y Dense |
+| =evaluate= / curvas | Loss y accuracy | Detectar sobreajuste |
+| =predict= + =argmax= | Probabilidades → nombre de clase | Uso real del modelo |
+
+** Hiperparámetros que sí debes entender
+
+| Parámetro | Significado | En =CNNriesgo= |
+|-----------|-------------|----------------|
+| =INIT_LR= | Tamaño del paso del optimizador | =1e-3= (0.001) |
+| =epochs= | Pasadas completas por el train | =20= |
+| =batch_size= | Imágenes por actualización de pesos | =64= |
+| Optimizador | Cómo se aplican los gradientes | SGD con decay |
+| Pérdida | Qué se minimiza | =categorical_crossentropy= |
+| Métrica | Qué reportamos | =accuracy= |
+
+Si el train accuracy sube mucho y el validation accuracy se estanca o baja →
+*sobreajuste*: más Dropout, más datos, menos épocas o red más chica.
+
+** CNN vs MLP vs RNN (mapa mental)
+
+| | MLP | CNN | RNN |
+|---|-----|-----|-----|
+| Entrada típica | Vector de rasgos | Imagen / mapa 2D | Secuencia (texto, tiempo) |
+| Idea clave | Capas densas | Filtros locales compartidos | Memoria temporal |
+| Ejemplo del curso | Juego salto (velocidad, distancia) | =CNNriesgo= (riesgos / animales) | Autocompletado de código |
+| Fallo clásico | Ignora geometría de la imagen | Malo en secuencias largas de texto | Gradientes en secuencias muy largas |
+
+** Cómo preparar tu propio dataset (actividad del curso)
+
+1. Crea una carpeta por clase (ej. =ranas/=, =aranas/=, =monos/=, …).
+2. Mete imágenes =.jpg= / =.png= (idealmente mismo tamaño, o redimensiona a
+   =21×28= si sigues el notebook tal cual).
+3. Apunta =dirname= del notebook a esa carpeta raíz.
+4. Entrena, mira el =classification_report= y las curvas train/val.
+5. Prueba con una imagen nueva (celda de inferencia) y verifica el nombre de clase.
+
+** Para profundizar
+
+- Buenas prácticas: más bloques Conv+Pool, =BatchNormalization=, data
+  augmentation (giros, brillo), transfer learning (MobileNet, ResNet).
+- Lectura clásica: capítulo de CNN en Goodfellow et al., *Deep Learning*;
+  tutoriales oficiales de Keras sobre clasificación de imágenes.
+
+
+* Redes Neuronales Recurrentes (RNN)
+
+** Introducción
+
+*** ¿Qué son las Redes Recurrentes?
 
 Las Redes Neuronales Recurrentes (RNN - Recurrent Neural Networks) son
 un tipo de arquitectura de redes neuronales diseñadas específicamente
@@ -13329,14 +13303,14 @@ feedforward tradicionales, las RNN tienen conexiones que forman
 ciclos, permitiéndoles mantener una "memoria" de información procesada
 anteriormente.
 
-**** Características Fundamentales
+*** Características Fundamentales
 
 1. **Procesamiento secuencial**: Procesan datos uno a la vez, manteniendo información del pasado
 2. **Memoria temporal**: Pueden recordar información de pasos anteriores
 3. **Parámetros compartidos**: Los mismos pesos se usan en cada paso temporal
 4. **Longitud variable**: Pueden procesar secuencias de diferentes longitudes
 
-**** Aplicaciones Comunes
+*** Aplicaciones Comunes
 
 - **Procesamiento de lenguaje natural**: Traducción, generación de texto, análisis de sentimientos
 - **Reconocimiento de voz**: Transcripción de audio a texto
@@ -13344,9 +13318,9 @@ anteriormente.
 - **Análisis de video**: Reconocimiento de acciones, seguimiento de objetos
 - **Música**: Generación de melodías, clasificación de géneros
 
-*** El Problema que Resuelven las RNN
+** El Problema que Resuelven las RNN
 
-**** Limitaciones de las Redes Feedforward
+*** Limitaciones de las Redes Feedforward
 
 Las redes neuronales tradicionales (feedforward) tienen limitaciones importantes:
 
@@ -13363,7 +13337,7 @@ Las redes neuronales tradicionales (feedforward) tienen limitaciones importantes
 - Feedforward: Solo ve la palabra actual → predicción limitada
 - RNN: Ve todas las palabras anteriores → predicción más inteligente
 
-**** El Concepto de Secuencias
+*** El Concepto de Secuencias
 
 Una secuencia es una serie ordenada de elementos donde:
 - El orden importa
@@ -13376,8 +13350,8 @@ Una secuencia es una serie ordenada de elementos donde:
 - Píxeles en una imagen (si se procesan fila por fila)
 - Notas musicales: [Do, Re, Mi, Fa, Sol, ...]
 
-*** Arquitectura Básica de RNN
-**** Estructura Fundamental
+** Arquitectura Básica de RNN
+*** Estructura Fundamental
 
 Una RNN básica tiene la siguiente estructura:
 
@@ -13396,7 +13370,7 @@ Una RNN básica tiene la siguiente estructura:
 - =y[t]= : Vector de salida en el tiempo t
 - =h[t-1]= : Estado oculto del paso anterior
 
-**** La Ecuación Matemática Fundamental
+*** La Ecuación Matemática Fundamental
 
 La operación básica de una RNN se puede expresar como:
 
@@ -13415,7 +13389,7 @@ Donde:
 - =W_{hy}= : Matriz de pesos de estado oculto a salida
 - =b_h=, =b_y= : Vectores de sesgo (bias)
 
-**** Desglose Detallado de la Ecuación
+*** Desglose Detallado de la Ecuación
 
 Vamos a analizar cada componente:
 
@@ -13433,7 +13407,7 @@ Vamos a analizar cada componente:
 - La función de activación introduce no-linealidad
 - Típicamente se usa tanh para mantener valores acotados
 
-**** Ejemplo Numérico Simple
+*** Ejemplo Numérico Simple
 
 Vamos a calcular manualmente un paso de una RNN.
 
@@ -13697,21 +13671,21 @@ y_1 = W_{hy} \cdot h_1 + b_y
 2. La memoria anterior (=h_1=) influyó en el cálculo
 3. La combinación de ambos crea un nuevo estado que refleja tanto el presente como el pasado
 
-*** Propagación hacia Atrás en el Tiempo (BPTT)
-**** ¿Qué es BPTT?
+** Propagación hacia Atrás en el Tiempo (BPTT)
+*** ¿Qué es BPTT?
 
 Backpropagation Through Time (BPTT) es el algoritmo de entrenamiento
 para RNN. Es una extensión del backpropagation estándar que propaga el
 error no solo a través de las capas, sino también **a través del
 tiempo**.
 
-**** Analogía
+*** Analogía
 
 Imagina que tienes una secuencia de 5 pasos:
 - En backpropagation normal: El error se propaga capa por capa
 - En BPTT: El error se propaga capa por capa Y paso temporal por paso temporal
 
-**** Cálculo de Gradientes
+*** Cálculo de Gradientes
 
 Para entrenar una RNN, necesitamos calcular los gradientes de la función de pérdida respecto a todos los parámetros.
 
@@ -13738,7 +13712,7 @@ Donde =∂h_t/∂h_k= requiere calcular la cadena completa:
 \frac{\partial h_t}{\partial h_k} = \prod_{j=k+1}^{t} \frac{\partial h_j}{\partial h_{j-1}}
 \]
 
-**** El Problema del Gradiente que Desaparece
+*** El Problema del Gradiente que Desaparece
 
 **¿Por qué ocurre?**
 
@@ -13760,7 +13734,7 @@ Para una secuencia de longitud 50:
 
 ¡El gradiente es prácticamente cero! El modelo no puede aprender dependencias largas.
 
-**** El Problema del Gradiente que Explota
+*** El Problema del Gradiente que Explota
 
 A veces ocurre lo contrario: los valores son mayores que 1 y al multiplicarlos explotan.
 
@@ -13772,14 +13746,14 @@ Si =∂h_j/∂h_{j-1} = 1.5=:
 
 El gradiente es enorme, causando actualizaciones de pesos muy grandes y entrenamiento inestable.
 
-**** Soluciones
+*** Soluciones
 
 1. **Gradient Clipping**: Limitar el valor máximo del gradiente
 2. **LSTM/GRU**: Arquitecturas diseñadas para solucionar estos problemas
 3. **Skip Connections**: Conexiones que saltan pasos temporales
 
-*** Tipos de Redes Recurrentes
-**** RNN Vanilla (SimpleRNN)
+** Tipos de Redes Recurrentes
+*** RNN Vanilla (SimpleRNN)
 
 La RNN más básica, con la estructura que hemos estado describiendo.
 
@@ -13800,7 +13774,7 @@ h_t = \tanh(W_{xh} x_t + W_{hh} h_{t-1} + b_h)
 
 **Uso típico**: Secuencias cortas (5-10 pasos), problemas simples.
 
-**** LSTM (Long Short-Term Memory)
+*** LSTM (Long Short-Term Memory)
 
 LSTM fue diseñada específicamente para solucionar el problema del gradiente que desaparece.
 
@@ -13861,7 +13835,7 @@ Donde =*= denota multiplicación elemento por elemento (Hadamard product).
 
 **Uso típico**: Secuencias largas (20+ pasos), problemas complejos que requieren memoria a largo plazo.
 
-**** GRU (Gated Recurrent Unit)
+*** GRU (Gated Recurrent Unit)
 
 GRU es una versión simplificada de LSTM que combina algunas operaciones.
 
@@ -13909,8 +13883,8 @@ h_t = (1 - z_t) * h_{t-1} + z_t * \tilde{h}_t
 
 **Uso típico**: Balance entre simplicidad y poder. Recomendada para la mayoría de casos.
 
-*** Implementación Práctica
-**** Implementación desde Cero (NumPy)
+** Implementación Práctica
+*** Implementación desde Cero (NumPy)
 
 #+BEGIN_SRC python
 import numpy as np
@@ -13993,7 +13967,7 @@ for i, y in enumerate(y_outputs):
     print(f"y_{i+1} = {y.flatten()}")
 #+END_SRC
 
-**** Implementación con Keras/TensorFlow
+*** Implementación con Keras/TensorFlow
 
 #+BEGIN_SRC python
 from tensorflow import keras
@@ -14032,7 +14006,7 @@ predicciones = modelo.predict(X_train[:5])
 print("Predicciones:", predicciones)
 #+END_SRC
 
-**** Implementación con LSTM
+*** Implementación con LSTM
 
 #+BEGIN_SRC python
 from tensorflow import keras
@@ -14054,7 +14028,7 @@ modelo_lstm.compile(
 )
 #+END_SRC
 
-**** Implementación con GRU
+*** Implementación con GRU
 
 #+BEGIN_SRC python
 # Modelo GRU
@@ -14073,8 +14047,8 @@ modelo_gru.compile(
 )
 #+END_SRC
 
-*** Ejemplos Prácticos
-**** Ejemplo 1: Predicción de Series Temporales
+** Ejemplos Prácticos
+*** Ejemplo 1: Predicción de Series Temporales
 
 Predecir el siguiente valor en una serie temporal.
 
@@ -14121,7 +14095,7 @@ predicciones = modelo.predict(X_test)
 print(f"Error promedio: {np.mean(np.abs(predicciones.flatten() - y_test)):.4f}")
 #+END_SRC
 
-**** Ejemplo 2: Clasificación de Texto
+*** Ejemplo 2: Clasificación de Texto
 
 Clasificar oraciones como positivas o negativas.
 
@@ -14167,7 +14141,7 @@ modelo.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'
 modelo.fit(X, y, epochs=10, batch_size=32, validation_split=0.2)
 #+END_SRC
 
-**** Ejemplo 3: Generación de Secuencias
+*** Ejemplo 3: Generación de Secuencias
 
 Generar texto carácter por carácter.
 
@@ -14226,8 +14200,8 @@ def generar_texto(semilla, longitud=100):
 print(generar_texto("El gato está ", 50))
 #+END_SRC
 
-*** Variantes y Extensiones
-**** RNN Bidireccional
+** Variantes y Extensiones
+*** RNN Bidireccional
 
 Una RNN bidireccional procesa la secuencia en ambas direcciones (hacia adelante y hacia atrás).
 
@@ -14245,7 +14219,7 @@ modelo = keras.Sequential([
 
 **Uso**: Cuando tienes acceso a toda la secuencia (no predicción en tiempo real).
 
-**** RNN Apiladas (Stacked)
+*** RNN Apiladas (Stacked)
 
 Múltiples capas RNN apiladas para capturar patrones más complejos.
 
@@ -14263,14 +14237,14 @@ modelo = keras.Sequential([
 
 **Desventaja**: Más parámetros, más lento de entrenar.
 
-**** Attention Mechanism
+*** Attention Mechanism
 
 Los mecanismos de atención permiten que el modelo "preste atención" a partes específicas de la secuencia.
 
 Más avanzado, pero muy poderoso. Se usa en arquitecturas como Transformers.
 
-*** Regularización y Mejoras
-**** Dropout
+** Regularización y Mejoras
+*** Dropout
 
 Evita sobreajuste desactivando aleatoriamente algunas neuronas.
 
@@ -14281,7 +14255,7 @@ layers.LSTM(64, dropout=0.2, recurrent_dropout=0.2)
 - =dropout=: Dropout en las entradas
 - =recurrent_dropout=: Dropout en las conexiones recurrentes
 
-**** Early Stopping
+*** Early Stopping
 
 Detener el entrenamiento cuando el error de validación deja de mejorar.
 
@@ -14300,7 +14274,7 @@ modelo.fit(X_train, y_train, validation_data=(X_val, y_val),
            callbacks=callbacks)
 #+END_SRC
 
-**** Gradient Clipping
+*** Gradient Clipping
 
 Limitar el valor máximo del gradiente para evitar explosión.
 
@@ -14311,28 +14285,28 @@ optimizer = Adam(clipnorm=1.0)  # Limitar norma del gradiente a 1.0
 modelo.compile(optimizer=optimizer, loss='binary_crossentropy')
 #+END_SRC
 
-*** Conceptos Clave
+** Conceptos Clave
 
 1. **RNN procesan secuencias** manteniendo memoria del pasado
 2. **BPTT** propaga errores hacia atrás en el tiempo
 3. **LSTM y GRU** solucionan problemas de RNN vanilla
 4. **Parámetros compartidos** hacen que RNN sean eficientes
 
-**** Cuándo Usar RNN
+*** Cuándo Usar RNN
 
 -  Datos secuenciales o temporales
 -  El orden importa
 -  El contexto temporal es relevante
 -  Longitud variable de secuencias
 
-**** Cuándo NO Usar RNN
+*** Cuándo NO Usar RNN
 
 -  Datos independientes (sin secuencia)
 -  El orden no importa
 -  Problemas que se resuelven bien con feedforward
 -  Secuencias muy largas (considerar Transformers)
 
-**** Próximos Pasos
+*** Próximos Pasos
 
 1. Experimentar con diferentes arquitecturas (LSTM, GRU)
 2. Aprender sobre Transformers (sucesor de RNN)
@@ -14342,830 +14316,39 @@ modelo.compile(optimizer=optimizer, loss='binary_crossentropy')
 
 
 
-** Redes Recurrentes (RNN) con Aplicación al Juego
+* Redes Recurrentes (RNN) con Aplicación al Juego
 
-*** Introducción
+Teoría general (qué es una RNN, BPTT, LSTM/GRU, ecuaciones): ver
+*Redes Neuronales Recurrentes (RNN)* /inmediatamente arriba/.
 
-**** ¿Qué son las Redes Recurrentes?
+Aquí solo lo específico del *juego de salto*: por qué usar secuencia,
+matemáticas aplicadas al caso, y la implementación.
 
-Las Redes Neuronales Recurrentes (RNN - Recurrent Neural Networks) son
-un tipo especial de red neuronal diseñadas para trabajar con
-**secuencias de datos**. A diferencia de las redes feedforward (como el
-MLP), las RNN tienen "memoria" que les permite recordar información de
-pasos anteriores.
+** ¿Por qué RNN para el juego?
 
-**** ¿Por qué RNN para el juego?
+El MLP del juego solo ve el instante actual (velocidad, distancia).
+Una RNN puede usar la *historia* de frames y el patrón temporal de la bala.
 
-En el juego actual, el MLP solo considera:
-- Velocidad de la bala (en este momento)
-- Distancia (en este momento)
+** Matemáticas de la RNN (aplicadas al juego)
 
-Pero una RNN podría considerar:
-- La **historia** de velocidades y distancias anteriores
-- El **patrón temporal** de cómo se mueve la bala
-- La **secuencia** de decisiones anteriores
+Las ecuaciones \(h_t\), BPTT y variantes LSTM/GRU están desarrolladas en
+*Redes Neuronales Recurrentes (RNN)* (sección de teoría).
 
-Esto podría hacer que el modelo entienda mejor el contexto y tome decisiones más inteligentes.
+Para el juego, la entrada en cada frame suele ser un vector corto, por ejemplo:
 
-**** Objetivo de estas notas
+#+begin_src text
+  x_t = [velocidad_bala, distancia, …]   →  h_t  →  y_t = P(saltar)
+#+end_src
 
-Aprender:
-1. Conceptos fundamentales de RNN
-2. Diferentes tipos de RNN (vanilla, LSTM, GRU)
-3. Cómo adaptar el juego para usar RNN
-4. Implementación práctica
-5. Comparación RNN vs MLP
+Se apilan varios frames como secuencia y la RNN (o LSTM) predice la acción.
 
-*** Conceptos Fundamentales
-**** El Problema de las Secuencias
+** Tipos de RNN en el juego (resumen)
 
-**Ejemplo del juego**:
-- Frame 1: distancia=500, velocidad=-10 → ¿saltar?
-- Frame 2: distancia=450, velocidad=-10 → ¿saltar?
-- Frame 3: distancia=400, velocidad=-10 → ¿saltar?
+Vanilla / LSTM / GRU: misma teoría que en *Redes Neuronales Recurrentes (RNN)*.
+Para el juego suele bastar una =SimpleRNN= o =LSTM= corta (5–20 frames).
 
-Un MLP ve cada frame de forma independiente. Una RNN ve la **secuencia completa** y puede aprender que:
-- "Si la distancia está disminuyendo constantemente y la velocidad es negativa, probablemente deba saltar pronto"
-
-**** Arquitectura Básica de RNN
-
-Una RNN tiene una estructura que permite que la salida de un paso anterior se use como entrada del siguiente:
-
-#+BEGIN_EXAMPLE
-        h[t-1] ──┐
-                 │
-        x[t] ────┼──→ RNN Cell ──→ h[t] ──→ y[t]
-                 │                    │
-                 └────────────────────┘
-                 (feedback loop)
-#+END_EXAMPLE
-
-Donde:
-- =x[t]= : Entrada en el tiempo t (ej: distancia, velocidad en frame t)
-- =h[t]= : Estado oculto (memoria) en el tiempo t
-- =y[t]= : Salida en el tiempo t (ej: decisión de salto)
-- =h[t-1]= : Estado oculto del paso anterior (memoria)
-
-**** Ecuación Matemática Básica
-
-Para una RNN simple (vanilla RNN):
-
-\[
-h_t = \tanh(W_{xh} \cdot x_t + W_{hh} \cdot h_{t-1} + b_h)
-\]
-
-\[
-y_t = W_{hy} \cdot h_t + b_y
-\]
-
-Donde:
-- =W_{xh}= : Pesos de entrada a oculto
-- =W_{hh}= : Pesos de oculto a oculto (la "memoria")
-- =W_{hy}= : Pesos de oculto a salida
-- =b_h, b_y= : Sesgos (biases)
-
-**** Ventajas de RNN
-
-1. **Memoria temporal**: Recuerda información de pasos anteriores
-2. **Secuencias de longitud variable**: Puede procesar secuencias de diferentes tamaños
-3. **Contexto**: Entiende el contexto de la secuencia completa
-
-**** Desventajas de RNN Vanilla
-
-1. **Problema del gradiente que desaparece**: En secuencias largas, el gradiente se vuelve muy pequeño
-2. **Memoria limitada**: La memoria se desvanece rápidamente
-3. **Dificultad para capturar dependencias largas**: No puede recordar información de muchos pasos atrás
-
-*** Matemáticas Detalladas de las Redes Recurrentes
-**** Desglose Paso a Paso de las Ecuaciones
-
-Vamos a descomponer las ecuaciones matemáticas de una RNN paso a paso para entender exactamente qué está pasando.
-
-**** Ecuación del Estado Oculto (Hidden State)
-
-La ecuación fundamental de una RNN es:
-
-\[
-h_t = \tanh(W_{xh} \cdot x_t + W_{hh} \cdot h_{t-1} + b_h)
-\]
-
-**Desglose de cada componente**:
-
-1. **=W_{xh} \cdot x_t=**: Transformación lineal de la entrada actual
-   - =W_{xh}= es una matriz de pesos de tamaño (dimensión_oculta × dimensión_entrada)
-   - =x_t= es el vector de entrada en el tiempo t
-   - Resultado: Vector de tamaño (dimensión_oculta,)
-
-2. **=W_{hh} \cdot h_{t-1}=**: Transformación de la memoria anterior
-   - =W_{hh}= es una matriz de pesos de tamaño (dimensión_oculta × dimensión_oculta)
-   - =h_{t-1}= es el estado oculto del paso anterior
-   - Resultado: Vector de tamaño (dimensión_oculta,)
-   - **Esta es la clave de la "memoria"**: La información del pasado se combina con el presente
-
-3. **=b_h=**: Sesgo (bias) del estado oculto
-   - Vector de tamaño (dimensión_oculta,)
-   - Permite ajustar el punto de activación
-
-4. **Suma**: Se suman los tres componentes
-   - =W_{xh} \cdot x_t + W_{hh} \cdot h_{t-1} + b_h=
-   - Resultado: Vector de tamaño (dimensión_oculta,)
-
-5. **=tanh()=**: Función de activación
-   - Comprime el resultado al rango (-1, 1)
-   - Introduce no-linealidad
-   - Ayuda a estabilizar los valores
-
-**** Ecuación de la Salida
-
-\[
-y_t = W_{hy} \cdot h_t + b_y
-\]
-
-Esta es más simple:
-- =W_{hy}=: Matriz de pesos (dimensión_salida × dimensión_oculta)
-- =h_t=: Estado oculto calculado anteriormente
-- =b_y=: Sesgo de la salida
-- Resultado: =y_t=, la predicción en el tiempo t
-
-**** Ejemplo Numérico Concreto
-
-Vamos a ver un ejemplo paso a paso con números reales.
-
-**Configuración**:
-- Dimensión de entrada: 2 (velocidad, distancia)
-- Dimensión oculta: 3 (3 neuronas en la capa oculta)
-- Dimensión de salida: 1 (probabilidad de salto)
-
-**Paso 1: Inicialización (t=0)**
-
-Al inicio, no hay memoria previa, así que =h_0 = 0= (vector de ceros).
-
-**Paso 2: Primer Frame (t=1)**
-
-**Entrada**: =x_1 = \begin{bmatrix} -10 \\ 500 \end{bmatrix}= (velocidad=-10, distancia=500)
-
-**Pesos** (ejemplo):
-\[
-W_{xh} = \begin{bmatrix}
-0.1 & 0.2 \\
--0.3 & 0.4 \\
-0.2 & -0.1
-\end{bmatrix}, \quad
-W_{hh} = \begin{bmatrix}
-0.5 & 0.1 & 0.2 \\
-0.1 & 0.6 & 0.3 \\
-0.2 & 0.3 & 0.7
-\end{bmatrix}, \quad
-b_h = \begin{bmatrix}
-0.1 \\
--0.2 \\
-0.3
-\end{bmatrix}
-\]
-
-**Cálculo**:
-
-1. =W_{xh} \cdot x_1=:
-\[
-\begin{bmatrix}
-0.1 & 0.2 \\
--0.3 & 0.4 \\
-0.2 & -0.1
-\end{bmatrix}
-\begin{bmatrix}
--10 \\
-500
-\end{bmatrix}
-=
-\begin{bmatrix}
-0.1(-10) + 0.2(500) \\
--0.3(-10) + 0.4(500) \\
-0.2(-10) + -0.1(500)
-\end{bmatrix}
-=
-\begin{bmatrix}
--1 + 100 \\
-3 + 200 \\
--2 - 50
-\end{bmatrix}
-=
-\begin{bmatrix}
-99 \\
-203 \\
--52
-\end{bmatrix}
-\]
-
-2. =W_{hh} \cdot h_0=:
-\[
-\begin{bmatrix}
-0.5 & 0.1 & 0.2 \\
-0.1 & 0.6 & 0.3 \\
-0.2 & 0.3 & 0.7
-\end{bmatrix}
-\begin{bmatrix}
-0 \\
-0 \\
-0
-\end{bmatrix}
-=
-\begin{bmatrix}
-0 \\
-0 \\
-0
-\end{bmatrix}
-\]
-
-3. Suma con bias:
-\[
-\begin{bmatrix}
-99 \\
-203 \\
--52
-\end{bmatrix}
-+
-\begin{bmatrix}
-0 \\
-0 \\
-0
-\end{bmatrix}
-+
-\begin{bmatrix}
-0.1 \\
--0.2 \\
-0.3
-\end{bmatrix}
-=
-\begin{bmatrix}
-99.1 \\
-202.8 \\
--51.7
-\end{bmatrix}
-\]
-
-4. Aplicar tanh:
-\[
-h_1 = \tanh\left(\begin{bmatrix}
-99.1 \\
-202.8 \\
--51.7
-\end{bmatrix}\right)
-\approx
-\begin{bmatrix}
-1.0 \\
-1.0 \\
--1.0
-\end{bmatrix}
-\]
-
-(Nota: tanh de valores grandes se acerca a ±1)
-
-**Paso 3: Segundo Frame (t=2)**
-
-**Entrada**: =x_2 = \begin{bmatrix} -10 \\ 450 \end{bmatrix}= (distancia disminuyó)
-
-**Cálculo**:
-
-1. =W_{xh} \cdot x_2=:
-\[
-\begin{bmatrix}
-0.1 & 0.2 \\
--0.3 & 0.4 \\
-0.2 & -0.1
-\end{bmatrix}
-\begin{bmatrix}
--10 \\
-450
-\end{bmatrix}
-=
-\begin{bmatrix}
-89 \\
-177 \\
--47
-\end{bmatrix}
-\]
-
-2. =W_{hh} \cdot h_1= (¡Ahora usamos la memoria!):
-\[
-\begin{bmatrix}
-0.5 & 0.1 & 0.2 \\
-0.1 & 0.6 & 0.3 \\
-0.2 & 0.3 & 0.7
-\end{bmatrix}
-\begin{bmatrix}
-1.0 \\
-1.0 \\
--1.0
-\end{bmatrix}
-=
-\begin{bmatrix}
-0.5 + 0.1 - 0.2 \\
-0.1 + 0.6 - 0.3 \\
-0.2 + 0.3 - 0.7
-\end{bmatrix}
-=
-\begin{bmatrix}
-0.4 \\
-0.4 \\
--0.2
-\end{bmatrix}
-\]
-
-3. Suma:
-\[
-\begin{bmatrix}
-89 \\
-177 \\
--47
-\end{bmatrix}
-+
-\begin{bmatrix}
-0.4 \\
-0.4 \\
--0.2
-\end{bmatrix}
-+
-\begin{bmatrix}
-0.1 \\
--0.2 \\
-0.3
-\end{bmatrix}
-=
-\begin{bmatrix}
-89.5 \\
-177.2 \\
--46.9
-\end{bmatrix}
-\]
-
-4. Aplicar tanh:
-\[
-h_2 = \tanh\left(\begin{bmatrix}
-89.5 \\
-177.2 \\
--46.9
-\end{bmatrix}\right)
-\approx
-\begin{bmatrix}
-1.0 \\
-1.0 \\
--1.0
-\end{bmatrix}
-\]
-
-**Observación clave**: Aunque la entrada cambió ligeramente (distancia 500→450), el estado oculto =h_2= es similar a =h_1= porque la **memoria** (=h_1=) se combina con la nueva entrada.
-
-**** Cálculo de la Salida
-
-Continuando con el ejemplo, calculemos =y_2=:
-
-**Pesos de salida**:
-\[
-W_{hy} = \begin{bmatrix} 0.3 & -0.5 & 0.8 \end{bmatrix}, \quad
-b_y = 0.2
-\]
-
-**Cálculo**:
-\[
-y_2 = W_{hy} \cdot h_2 + b_y
-= \begin{bmatrix} 0.3 & -0.5 & 0.8 \end{bmatrix}
-\begin{bmatrix}
-1.0 \\
-1.0 \\
--1.0
-\end{bmatrix}
-+ 0.2
-\]
-
-\[
-= 0.3(1.0) + (-0.5)(1.0) + 0.8(-1.0) + 0.2
-= 0.3 - 0.5 - 0.8 + 0.2
-= -0.8
-\]
-
-Si aplicamos sigmoid para obtener probabilidad:
-\[
-P(\text{salto}) = \sigma(y_2) = \sigma(-0.8) = \frac{1}{1 + e^{0.8}} \approx 0.31
-\]
-
-Probabilidad de salto ≈ 31% (baja, lo cual tiene sentido si la distancia aún es grande).
-
-**** Propagación hacia Atrás en el Tiempo (BPTT)
-
-El entrenamiento de una RNN usa Backpropagation Through Time (BPTT), que es una extensión del backpropagation estándar.
-
-**** Idea General
-
-En una red feedforward, el error se propaga hacia atrás capa por capa. En una RNN, el error se propaga hacia atrás **en el tiempo** también.
-
-**** Derivadas Necesarias
-
-Para entrenar, necesitamos calcular:
-
-1. **=∂L/∂W_{hy}=**: Gradiente respecto a los pesos de salida
-2. **=∂L/∂W_{xh}=**: Gradiente respecto a los pesos de entrada
-3. **=∂L/∂W_{hh}=**: Gradiente respecto a los pesos recurrentes
-4. **=∂L/∂b_h=** y **=∂L/∂b_y=**: Gradientes de los sesgos
-
-**** Cálculo del Gradiente en el Tiempo T
-
-Supongamos que tenemos una secuencia de longitud T y queremos calcular el gradiente en el tiempo final =T=.
-
-**Pérdida total**:
-\[
-L = \sum_{t=1}^{T} L_t(y_t, \hat{y}_t)
-\]
-
-Donde =L_t= es la pérdida en el tiempo t (ej: binary cross-entropy).
-
-**Gradiente respecto a =W_{hh}=**:
-
-\[
-\frac{\partial L}{\partial W_{hh}} = \sum_{t=1}^{T} \frac{\partial L_t}{\partial W_{hh}}
-\]
-
-Para calcular =∂L_t/∂W_{hh}=, necesitamos la regla de la cadena:
-
-\[
-\frac{\partial L_t}{\partial W_{hh}} = \frac{\partial L_t}{\partial y_t} \cdot \frac{\partial y_t}{\partial h_t} \cdot \frac{\partial h_t}{\partial W_{hh}}
-\]
-
-El problema es que =h_t= depende de =h_{t-1}=, que depende de =h_{t-2}=, etc.:
-
-\[
-\frac{\partial h_t}{\partial W_{hh}} = \frac{\partial h_t}{\partial W_{hh}} + \frac{\partial h_t}{\partial h_{t-1}} \cdot \frac{\partial h_{t-1}}{\partial W_{hh}} + \frac{\partial h_t}{\partial h_{t-1}} \cdot \frac{\partial h_{t-1}}{\partial h_{t-2}} \cdot \frac{\partial h_{t-2}}{\partial W_{hh}} + \cdots
-\]
-
-Esto crea una cadena de multiplicaciones que puede hacer que el gradiente:
-- **Desaparezca** (vanishing gradient): Si los valores son < 1, multiplicarlos muchas veces → 0
-- **Explote** (exploding gradient): Si los valores son > 1, multiplicarlos muchas veces → ∞
-
-**** Ejemplo del Problema del Gradiente que Desaparece
-
-Supongamos que =∂h_t/∂h_{t-1} = 0.5= (valor típico).
-
-Para una secuencia de longitud 10:
-\[
-\frac{\partial h_{10}}{\partial h_1} = 0.5^9 \approx 0.002
-\]
-
-Para una secuencia de longitud 50:
-\[
-\frac{\partial h_{50}}{\partial h_1} = 0.5^{49} \approx 1.8 \times 10^{-15}
-\]
-
-¡El gradiente es prácticamente cero! El modelo no puede aprender dependencias largas.
-
-**** Visualización del Flujo de Información
-
-#+BEGIN_EXAMPLE
-Tiempo:     t=1        t=2        t=3        t=4
-          ┌─────┐    ┌─────┐    ┌─────┐    ┌─────┐
-Entrada:  │ x₁  │    │ x₂  │    │ x₃  │    │ x₄  │
-          └──┬──┘    └──┬──┘    └──┬──┘    └──┬──┘
-             │          │          │          │
-          ┌──▼──┐    ┌──▼──┐    ┌──▼──┐    ┌──▼──┐
-Memoria:  │ h₀  │───▶│ h₁  │───▶│ h₂  │───▶│ h₃  │───▶...
-          └──┬──┘    └──┬──┘    └──┬──┘    └──┬──┘
-             │          │          │          │
-          ┌──▼──┐    ┌──▼──┐    ┌──▼──┐    ┌──▼──┐
-Salida:   │ y₁  │    │ y₂  │    │ y₃  │    │ y₄  │
-          └─────┘    └─────┘    └─────┘    └─────┘
-
-Flujo de información:
-- Hacia adelante: x_t → h_t → y_t (con h_{t-1} → h_t)
-- Hacia atrás: ∂L/∂y_t → ∂L/∂h_t → ∂L/∂h_{t-1} → ... → ∂L/∂h_1
-#+END_EXAMPLE
-
-**** Descomposición de la Ecuación RNN
-
-Vamos a ver qué representa cada término matemáticamente:
-
-\[
-h_t = \tanh(W_{xh} \cdot x_t + W_{hh} \cdot h_{t-1} + b_h)
-\]
-
-**Término 1: =W_{xh} \cdot x_t=**
-- **Significado**: "¿Qué información nueva aporta la entrada actual?"
-- **En el juego**: "¿Qué me dice este frame sobre la situación actual?"
-- **Ejemplo**: Si distancia=300 y velocidad=-10, esto sugiere peligro
-
-**Término 2: =W_{hh} \cdot h_{t-1}=**
-- **Significado**: "¿Qué información del pasado es relevante ahora?"
-- **En el juego**: "¿Qué aprendí de los frames anteriores?"
-- **Ejemplo**: Si en los últimos frames la distancia ha estado disminuyendo, esto es una tendencia importante
-
-**Suma de ambos términos**:
-- **Significado**: Combinar información nueva con memoria del pasado
-- **En el juego**: "Considerando tanto la situación actual como la tendencia, ¿qué debo hacer?"
-
-**** Función de Activación tanh
-
-¿Por qué tanh y no otra función?
-
-**Propiedades de tanh**:
-- Rango: (-1, 1)
-- Derivada: =tanh'(x) = 1 - tanh²(x)=
-- Derivada máxima: 1 (en x=0)
-- Derivada mínima: 0 (cuando |x| es grande)
-
-**Ventajas**:
-- Mantiene los valores acotados (evita explosión)
-- Es diferenciable en todas partes
-- Tiene gradiente razonable en el rango útil
-
-**Desventajas**:
-- Para valores grandes, la derivada es muy pequeña → contribuye al problema del gradiente que desaparece
-
-**** Ejemplo Completo: Secuencia de 3 Frames
-
-Vamos a calcular manualmente una secuencia completa para el juego.
-
-**Configuración simplificada**:
-- Dimensión oculta: 2 (para simplificar)
-- Pesos inicializados aleatoriamente
-
-**Frame 1** (t=1):
-- Entrada: =x_1 = [-10, 500]= (velocidad, distancia)
-- Memoria previa: =h_0 = [0, 0]=
-
-\[
-h_1 = \tanh\left(W_{xh} \begin{bmatrix} -10 \\ 500 \end{bmatrix} + W_{hh} \begin{bmatrix} 0 \\ 0 \end{bmatrix} + b_h\right)
-\]
-
-Supongamos que =h_1 = [0.3, -0.7]=
-
-**Frame 2** (t=2):
-- Entrada: =x_2 = [-10, 450]= (distancia disminuyó)
-- Memoria previa: =h_1 = [0.3, -0.7]=
-
-\[
-h_2 = \tanh\left(W_{xh} \begin{bmatrix} -10 \\ 450 \end{bmatrix} + W_{hh} \begin{bmatrix} 0.3 \\ -0.7 \end{bmatrix} + b_h\right)
-\]
-
-La memoria =h_1= ahora influye en =h_2=. Si =W_{hh}= tiene valores positivos en la diagonal, =h_2= recordará parte de =h_1=.
-
-Supongamos que =h_2 = [0.5, -0.6]=
-
-**Frame 3** (t=3):
-- Entrada: =x_3 = [-10, 400]= (distancia sigue disminuyendo)
-- Memoria previa: =h_2 = [0.5, -0.6]=
-
-\[
-h_3 = \tanh\left(W_{xh} \begin{bmatrix} -10 \\ 400 \end{bmatrix} + W_{hh} \begin{bmatrix} 0.5 \\ -0.6 \end{bmatrix} + b_h\right)
-\]
-
-Ahora =h_3= tiene información de =h_2= (que a su vez tenía información de =h_1=). La RNN puede "ver" la tendencia: distancia está disminuyendo constantemente.
-
-Supongamos que =h_3 = [0.8, -0.4]=
-
-**Salida final**:
-\[
-y_3 = W_{hy} \cdot h_3 + b_y
-\]
-
-Si =y_3 = 0.7=, entonces =P(salto) = σ(0.7) ≈ 0.67= (67% de probabilidad de saltar).
-
-**Interpretación**: La RNN vio la secuencia [500, 450, 400] y aprendió que la distancia está disminuyendo rápidamente, por lo que aumenta la probabilidad de salto.
-
-**** Representación Matricial Completa
-
-Para una secuencia completa, podemos escribir todo en forma matricial:
-
-**Entradas**: =X = [x_1, x_2, ..., x_T]= (matriz T × dimensión_entrada)
-
-**Estados ocultos**: =H = [h_1, h_2, ..., h_T]= (matriz T × dimensión_oculta)
-
-**Ecuación vectorizada** (para todos los tiempos a la vez):
-\[
-H = \tanh(X \cdot W_{xh}^T + H_{shifted} \cdot W_{hh}^T + \mathbf{1} \cdot b_h^T)
-\]
-
-Donde =H_{shifted}= es H desplazado un paso (h_0, h_1, ..., h_{T-1}).
-
-**** Cálculo de la Pérdida y Optimización
-
-**Pérdida total**:
-\[
-L = -\frac{1}{T}\sum_{t=1}^{T} \left[ y_t^* \log(\sigma(y_t)) + (1-y_t^*) \log(1-\sigma(y_t)) \right]
-\]
-
-Donde =y_t^*= es el valor real (0 o 1) y =y_t= es la predicción.
-
-**Gradiente respecto a =W_{hy}=**:
-\[
-\frac{\partial L}{\partial W_{hy}} = \frac{1}{T}\sum_{t=1}^{T} (\sigma(y_t) - y_t^*) \cdot h_t
-\]
-
-**Gradiente respecto a =W_{xh}=** (más complejo debido a la recurrencia):
-\[
-\frac{\partial L}{\partial W_{xh}} = \sum_{t=1}^{T} \frac{\partial L_t}{\partial W_{xh}}
-\]
-
-Donde cada término requiere calcular la cadena completa desde t hasta 1.
-
-**** Implementación Numérica
-
-Aquí está cómo se calcula realmente en código:
-
-#+BEGIN_SRC python
-import numpy as np
-
-def rnn_forward(x_sequence, W_xh, W_hh, W_hy, b_h, b_y):
-    """
-    Forward pass de una RNN.
-    
-    Args:
-        x_sequence: Lista de entradas [x_1, x_2, ..., x_T]
-        W_xh: Pesos entrada→oculto
-        W_hh: Pesos oculto→oculto
-        W_hy: Pesos oculto→salida
-        b_h: Sesgo oculto
-        b_y: Sesgo salida
-    
-    Returns:
-        h_states: Lista de estados ocultos
-        y_outputs: Lista de salidas
-    """
-    h_states = []
-    y_outputs = []
-    h_prev = np.zeros(W_hh.shape[0])  # Inicializar h_0 = 0
-    
-    for x_t in x_sequence:
-        # Calcular estado oculto
-        h_t = np.tanh(
-            np.dot(W_xh, x_t) +      # Entrada actual
-            np.dot(W_hh, h_prev) +   # Memoria anterior
-            b_h                      # Sesgo
-        )
-        
-        # Calcular salida
-        y_t = np.dot(W_hy, h_t) + b_y
-        
-        h_states.append(h_t)
-        y_outputs.append(y_t)
-        h_prev = h_t  # Actualizar para el siguiente paso
-    
-    return h_states, y_outputs
-
-# Ejemplo de uso
-x_seq = [
-    np.array([-10, 500]),
-    np.array([-10, 450]),
-    np.array([-10, 400])
-]
-
-# Pesos (ejemplo, normalmente se inicializan aleatoriamente)
-W_xh = np.random.randn(3, 2) * 0.1
-W_hh = np.random.randn(3, 3) * 0.1
-W_hy = np.random.randn(1, 3) * 0.1
-b_h = np.zeros(3)
-b_y = np.array([0.0])
-
-h_states, y_outputs = rnn_forward(x_seq, W_xh, W_hh, W_hy, b_h, b_y)
-
-print("Estados ocultos:")
-for i, h in enumerate(h_states):
-    print(f"h_{i+1} = {h}")
-
-print("\nSalidas:")
-for i, y in enumerate(y_outputs):
-    prob = 1 / (1 + np.exp(-y))  # sigmoid
-    print(f"y_{i+1} = {y[0]:.3f}, P(salto) = {prob[0]:.3f}")
-#+END_SRC
-
-**** Resumen Matemático
-
-**Ecuaciones clave**:
-
-1. **Estado oculto**: =h_t = tanh(W_{xh}x_t + W_{hh}h_{t-1} + b_h)=
-2. **Salida**: =y_t = W_{hy}h_t + b_y=
-3. **Probabilidad**: =P_t = σ(y_t)=
-
-**Propiedades importantes**:
-
-- **Memoria**: =h_t= contiene información de todos los pasos anteriores (a través de =h_{t-1}=)
-- **No-linealidad**: tanh permite aprender patrones complejos
-- **Gradientes**: Se propagan hacia atrás en el tiempo (BPTT)
-- **Problema**: Gradientes pueden desaparecer o explotar en secuencias largas
-
-**Interpretación para el juego**:
-- La RNN "recuerda" cómo ha cambiado la distancia y velocidad en los frames anteriores
-- Combina esta memoria con la información actual
-- Toma una decisión basada en el contexto completo, no solo el frame actual
-
-*** Tipos de Redes Recurrentes
-**** RNN Vanilla (Simple)
-
-La RNN más básica, con la estructura que vimos antes.
-
-**Ventajas**:
-- Simple de entender
-- Rápida de entrenar
-- Buena para secuencias cortas
-
-**Desventajas**:
-- Problema del gradiente que desaparece
-- Memoria limitada
-
-**Uso en el juego**: Podría funcionar para secuencias de 5-10 frames.
-
-**** LSTM (Long Short-Term Memory)
-
-LSTM fue diseñada para solucionar el problema del gradiente que desaparece.
-
-**Estructura clave**: La LSTM tiene "puertas" (gates) que controlan el flujo de información:
-
-1. **Forget Gate** (Puerta de olvido): Decide qué información olvidar
-2. **Input Gate** (Puerta de entrada): Decide qué nueva información guardar
-3. **Output Gate** (Puerta de salida): Decide qué información usar para la salida
-
-#+BEGIN_EXAMPLE
-        ┌─────────────────┐
-        │  Forget Gate    │ ──→ ¿Qué olvidar?
-        ├─────────────────┤
-        │  Input Gate     │ ──→ ¿Qué recordar?
-        ├─────────────────┤
-        │  Output Gate    │ ──→ ¿Qué usar?
-        └─────────────────┘
-#+END_EXAMPLE
-
-**Ecuaciones principales**:
-
-\[
-f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) \quad \text{(Forget Gate)}
-\]
-
-\[
-i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i) \quad \text{(Input Gate)}
-\]
-
-\[
-\tilde{C}_t = \tanh(W_C \cdot [h_{t-1}, x_t] + b_C) \quad \text{(Candidato a memoria)}
-\]
-
-\[
-C_t = f_t * C_{t-1} + i_t * \tilde{C}_t \quad \text{(Estado de celda)}
-\]
-
-\[
-o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o) \quad \text{(Output Gate)}
-\]
-
-\[
-h_t = o_t * \tanh(C_t) \quad \text{(Estado oculto)}
-\]
-
-**Ventajas**:
-- Puede recordar información por mucho tiempo
-- Soluciona el problema del gradiente que desaparece
-- Muy efectiva para secuencias largas
-
-**Desventajas**:
-- Más compleja computacionalmente
-- Más parámetros que entrenar
-
-**Uso en el juego**: Ideal para secuencias largas (20+ frames) donde necesitas recordar el patrón completo.
-
-**** GRU (Gated Recurrent Unit)
-
-GRU es una versión simplificada de LSTM con solo 2 puertas en lugar de 3.
-
-**Estructura**:
-1. **Reset Gate**: Decide qué información del pasado ignorar
-2. **Update Gate**: Decide qué información actualizar
-
-**Ecuaciones**:
-
-\[
-r_t = \sigma(W_r \cdot [h_{t-1}, x_t] + b_r) \quad \text{(Reset Gate)}
-\]
-
-\[
-z_t = \sigma(W_z \cdot [h_{t-1}, x_t] + b_z) \quad \text{(Update Gate)}
-\]
-
-\[
-\tilde{h}_t = \tanh(W \cdot [r_t * h_{t-1}, x_t] + b) \quad \text{(Candidato)}
-\]
-
-\[
-h_t = (1 - z_t) * h_{t-1} + z_t * \tilde{h}_t \quad \text{(Estado oculto)}
-\]
-
-**Ventajas**:
-- Más simple que LSTM
-- Menos parámetros
-- A menudo funciona tan bien como LSTM
-- Más rápida de entrenar
-
-**Desventajas**:
-- Menos flexible que LSTM para casos muy complejos
-
-**Uso en el juego**: Excelente balance entre simplicidad y poder. Recomendado para la mayoría de casos.
-
-*** Adaptando el Juego para RNN
-**** Cambios Necesarios en los Datos
+** Adaptando el Juego para RNN
+*** Cambios Necesarios en los Datos
 
 **Formato actual (MLP)**:
 Cada muestra es independiente:
@@ -15178,7 +14361,7 @@ Necesitamos secuencias de frames:
 - Secuencia 1: [[v1,d1], [v2,d2], [v3,d3], ...] → [s1, s2, s3, ...]
 - Secuencia 2: [[v1,d1], [v2,d2], [v3,d3], ...] → [s1, s2, s3, ...]
 
-**** Estructura de Datos para RNN
+*** Estructura de Datos para RNN
 
 #+BEGIN_SRC python
 # Para MLP (actual)
@@ -15201,7 +14384,7 @@ sequence = {
 }
 #+END_SRC
 
-**** Longitud de Secuencia
+*** Longitud de Secuencia
 
 **Opciones**:
 - **Secuencias cortas (5-10 frames)**: RNN vanilla o GRU, más rápido
@@ -15210,7 +14393,7 @@ sequence = {
 
 **Para el juego**: Recomendamos 10-15 frames, suficiente para capturar el patrón de una bala acercándose.
 
-**** Ventana Deslizante (Sliding Window)
+*** Ventana Deslizante (Sliding Window)
 
 Para crear secuencias a partir de datos continuos:
 
@@ -15240,8 +14423,8 @@ def crear_secuencias(datos, longitud_secuencia=10):
     return secuencias, decisiones
 #+END_SRC
 
-*** Implementación Práctica
-**** Instalación de Dependencias
+** Implementación Práctica
+*** Instalación de Dependencias
 
 Para usar RNN en Python necesitamos:
 
@@ -15257,7 +14440,7 @@ pip install torch numpy
 
 En este tutorial usaremos **Keras/TensorFlow** por su simplicidad.
 
-**** Modificando el Juego: Recolectar Secuencias
+*** Modificando el Juego: Recolectar Secuencias
 
 #+BEGIN_SRC python
 class JuegoRNN:
@@ -15291,7 +14474,7 @@ class JuegoRNN:
             self.buffer_secuencia.pop(0)
 #+END_SRC
 
-**** Preparación de Datos para RNN
+*** Preparación de Datos para RNN
 
 #+BEGIN_SRC python
 import numpy as np
@@ -15334,7 +14517,7 @@ def preparar_datos_rnn(secuencias):
     return X_normalized, y, scaler
 #+END_SRC
 
-**** Creando una RNN con Keras
+*** Creando una RNN con Keras
 
 #+BEGIN_SRC python
 from tensorflow import keras
@@ -15376,7 +14559,7 @@ def crear_modelo_rnn(longitud_secuencia=10, num_caracteristicas=2, tipo='GRU'):
     return modelo
 #+END_SRC
 
-**** Entrenamiento de la RNN
+*** Entrenamiento de la RNN
 
 #+BEGIN_SRC python
 def entrenar_rnn(modelo, X_train, y_train, X_test, y_test, epochs=50):
@@ -15410,7 +14593,7 @@ def entrenar_rnn(modelo, X_train, y_train, X_test, y_test, epochs=50):
     return historia, modelo
 #+END_SRC
 
-**** Predicción con RNN
+*** Predicción con RNN
 
 #+BEGIN_SRC python
 def predecir_rnn(modelo, secuencia_actual, scaler):
@@ -15440,8 +14623,8 @@ def predecir_rnn(modelo, secuencia_actual, scaler):
     return probabilidad
 #+END_SRC
 
-*** Comparación: MLP vs RNN
-**** Tabla Comparativa
+** Comparación: MLP vs RNN
+*** Tabla Comparativa
 
 | Aspecto | MLP | RNN |
 |---------+-----+-----|
@@ -15453,7 +14636,7 @@ def predecir_rnn(modelo, secuencia_actual, scaler):
 | **Datos necesarios** | Menos | Más (secuencias) |
 | **Mejor para** | Decisiones instantáneas | Patrones temporales |
 
-**** Ejemplo Práctico: Misma Situación
+*** Ejemplo Práctico: Misma Situación
 
 **Situación**: Bala acercándose con velocidad constante.
 
@@ -15469,7 +14652,7 @@ def predecir_rnn(modelo, secuencia_actual, scaler):
 - Puede predecir mejor: "En los próximos frames probablemente deba saltar"
 - Toma decisiones más informadas basadas en la tendencia
 
-**** Cuándo Usar Cada Una
+*** Cuándo Usar Cada Una
 
 **Usa MLP cuando**:
 - Las decisiones son independientes del contexto temporal
@@ -15488,8 +14671,8 @@ def predecir_rnn(modelo, secuencia_actual, scaler):
 - La decisión de saltar depende de cómo se ha movido la bala
 - Podemos predecir mejor cuándo saltar viendo la tendencia
 
-*** Implementación Completa: Juego con RNN
-**** Estructura del Código
+** Implementación Completa: Juego con RNN
+*** Estructura del Código
 
 #+BEGIN_SRC python :results output
 import os
@@ -15650,8 +14833,8 @@ class JuegoRNN:
 : pygame 2.6.1 (SDL 2.28.4, Python 3.13.5)
 : Hello from the pygame community. https://www.pygame.org/contribute.html
 
-*** Visualización de Secuencias
-**** Graficar Secuencias Temporales
+** Visualización de Secuencias
+*** Graficar Secuencias Temporales
 
 #+BEGIN_SRC python
 import matplotlib.pyplot as plt
@@ -15693,8 +14876,8 @@ def graficar_secuencia(secuencia, titulo="Secuencia de Juego"):
     plt.show()
 #+END_SRC
 
-*** Actividades Prácticas
-**** Actividad 1: Comparar MLP vs RNN
+** Actividades Prácticas
+*** Actividad 1: Comparar MLP vs RNN
 
 1. Entrena un modelo MLP con el juego
 2. Entrena un modelo RNN (GRU) con el mismo juego
@@ -15704,7 +14887,7 @@ def graficar_secuencia(secuencia, titulo="Secuencia de Juego"):
    - Comportamiento en modo auto
    - ¿Cuál juega mejor?
 
-**** Actividad 2: Experimentar con Longitud de Secuencia
+*** Actividad 2: Experimentar con Longitud de Secuencia
 
 1. Entrena RNN con secuencias de 5 frames
 2. Entrena RNN con secuencias de 10 frames
@@ -15714,7 +14897,7 @@ def graficar_secuencia(secuencia, titulo="Secuencia de Juego"):
    - ¿Cuál se entrena más rápido?
    - ¿Cuál juega mejor en modo auto?
 
-**** Actividad 3: Comparar Tipos de RNN
+*** Actividad 3: Comparar Tipos de RNN
 
 1. Entrena una RNN vanilla (SimpleRNN)
 2. Entrena una GRU
@@ -15724,7 +14907,7 @@ def graficar_secuencia(secuencia, titulo="Secuencia de Juego"):
    - Accuracy
    - Comportamiento en el juego
 
-**** Actividad 4: Análisis de Secuencias
+*** Actividad 4: Análisis de Secuencias
 
 1. Exporta secuencias a CSV
 2. Visualiza varias secuencias con gráficas
@@ -15733,8 +14916,8 @@ def graficar_secuencia(secuencia, titulo="Secuencia de Juego"):
    - ¿Qué patrones llevan a no saltar?
    - ¿Hay tendencias claras?
 
-*** Conceptos Avanzados
-**** Bidireccionalidad (Bidirectional RNN)
+** Conceptos Avanzados
+*** Bidireccionalidad (Bidirectional RNN)
 
 Una RNN bidireccional procesa la secuencia en ambas direcciones:
 
@@ -15752,7 +14935,7 @@ modelo = keras.Sequential([
 
 **Para el juego**: Probablemente no necesario, ya que solo tenemos información del pasado.
 
-**** Stacked RNN (RNN Apiladas)
+*** Stacked RNN (RNN Apiladas)
 
 Múltiples capas RNN apiladas para capturar patrones más complejos:
 
@@ -15765,11 +14948,11 @@ modelo = keras.Sequential([
 ])
 #+END_SRC
 
-**** Attention Mechanism
+*** Attention Mechanism
 
 Los mecanismos de atención permiten que el modelo "preste atención" a partes específicas de la secuencia. Más avanzado, pero muy poderoso.
 
-**** Regularización para RNN
+*** Regularización para RNN
 
 - **Dropout**: Ya lo usamos en el ejemplo
 - **Recurrent Dropout**: Dropout específico para conexiones recurrentes
@@ -15782,15 +14965,15 @@ layers.GRU(32,
            kernel_regularizer=keras.regularizers.l2(0.01))
 #+END_SRC
 
-*** Troubleshooting Común
-**** Problema: "No hay suficientes datos"
+** Troubleshooting Común
+*** Problema: "No hay suficientes datos"
 
 **Solución**:
 - Reduce la longitud de secuencia
 - Recolecta más datos jugando más tiempo
 - Usa ventana deslizante con solapamiento
 
-**** Problema: "El modelo no aprende (loss no baja)"
+*** Problema: "El modelo no aprende (loss no baja)"
 
 **Soluciones**:
 - Verifica que los datos estén normalizados
@@ -15798,7 +14981,7 @@ layers.GRU(32,
 - Aumenta el número de neuronas
 - Prueba diferentes optimizadores
 
-**** Problema: "Overfitting (accuracy train >> accuracy test)"
+*** Problema: "Overfitting (accuracy train >> accuracy test)"
 
 **Soluciones**:
 - Aumenta dropout
@@ -15806,7 +14989,7 @@ layers.GRU(32,
 - Añade más datos
 - Usa early stopping (ya incluido en el código)
 
-**** Problema: "Entrenamiento muy lento"
+*** Problema: "Entrenamiento muy lento"
 
 **Soluciones**:
 - Reduce la longitud de secuencia
@@ -15820,9 +15003,9 @@ layers.GRU(32,
 
 
 
-** RNN para autocompletado — NumPy a mano + TensorFlow
+* RNN para autocompletado — NumPy a mano + TensorFlow
 
-*** Objetivo
+** Objetivo
 
 Aprender cómo una **RNN vanilla** predice el **siguiente carácter** (modelado de lenguaje causal), en tres niveles:
 
@@ -15832,7 +15015,7 @@ Aprender cómo una **RNN vanilla** predice el **siguiente carácter** (modelado 
 
 Los sistemas grandes (Copilot, etc.) usan **Transformers** y muchos datos; aquí el foco es **entender la recurrencia**.
 
-*** Requisitos (terminal)
+** Requisitos (terminal)
 
 #+begin_src shell :results output :exports both
 python3 -m pip install --upgrade pip
@@ -15844,8 +15027,8 @@ por defecto; GPU opcional según tu instalación.
 
 
 
-*** Fundamentos breves
-**** Una celda RNN con =tanh=
+** Fundamentos breves
+*** Una celda RNN con =tanh=
 Estado oculto \(h_t \in \mathbb{R}^H\), entrada **embebida** \(e_t \in \mathbb{R}^d\) (vector fila del embedding del carácter \(x_t\)):
 
 \[
@@ -15860,16 +15043,16 @@ Salida (logits del siguiente token):
 
 En código usamos formas columnas: =e_t= shape =(d,)=, =h_t= =(H,)=, =Wxh= =(H, d)=, =Whh= =(H, H)=.
 
-**** Pérdida
+*** Pérdida
 Entropía cruzada entre =softmax(\ell_t)= y el carácter objetivo (one-hot). Suma (o media) sobre \(t\).
 
-**** BPTT (idea)
+*** BPTT (idea)
 El gradiente respecto a \(h_t\) recibe contribución del paso \(t\) (vía \(W_{hy}\)) **y** del paso \(t+1\) (vía \(W_{hh}\)). Por eso el bucle hacia atrás en el tiempo acumula =dh_next=.
 
-*** Parte A — Corpus y vocabulario compartidos
+** Parte A — Corpus y vocabulario compartidos
 Estos bloques usan la sesión =*rnn-numpy-manual*= (cabecera por defecto de =python=).
 
-**** Corpus mínimo reproducible
+*** Corpus mínimo reproducible
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
 CORPUS = r'''
@@ -15916,7 +15099,7 @@ print("VOCAB_SIZE:", VOCAB_SIZE, "| len(CORPUS):", len(CORPUS))
 #+RESULTS:
 : VOCAB_SIZE: 36 | len(CORPUS): 391
 
-**** Ventanas (entrada / objetivo siguiente carácter)
+*** Ventanas (entrada / objetivo siguiente carácter)
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
 import numpy as np
@@ -15936,8 +15119,8 @@ print("X_np:", X_np.shape, "Y_np:", Y_np.shape)
 #+RESULTS:
 : X_np: (359, 32) Y_np: (359, 32)
 
-*** Parte B — RNN solo con NumPy (forward + BPTT + SGD)
-**** Convenciones de forma
+** Parte B — RNN solo con NumPy (forward + BPTT + SGD)
+*** Convenciones de forma
 | Símbolo | Shape   | Rol                                           |
 |---------+---------+-----------------------------------------------|
 | =V=       | escalar | =VOCAB_SIZE=                                    |
@@ -15950,7 +15133,7 @@ print("X_np:", X_np.shape, "Y_np:", Y_np.shape)
 | =Why=     | =(V, H)=  | estado → logits                               |
 | =by=      | =(V,)=    | sesgo de salida                               |
 
-**** Inicialización de pesos
+*** Inicialización de pesos
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
 import numpy as np
@@ -15978,7 +15161,7 @@ print({k: v.shape for k, v in params_np.items()})
 #+RESULTS:
 : {'E': (36, 48), 'Wxh': (64, 48), 'Whh': (64, 64), 'bh': (64,), 'Why': (36, 64), 'by': (36,)}
 
-**** Propagación hacia adelante (guardamos todo lo necesario para BPTT)
+*** Propagación hacia adelante (guardamos todo lo necesario para BPTT)
 Para cada tiempo \(t\): =emb_t = E[x_t]= (fila), =pre_t = Wxh @ emb_t + Whh @ h_{t-1} + bh=, =h_t = tanh(pre_t)=, =logits_t = Why @ h_t + by=.
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
@@ -16043,7 +15226,7 @@ print("loss (antes de entrenar, 1 secuencia):", float(loss0))
 #+RESULTS:
 : loss (antes de entrenar, 1 secuencia): 3.586872477065522
 
-**** BPTT: gradientes respecto a todos los pesos
+*** BPTT: gradientes respecto a todos los pesos
 Derivada útil: \(\frac{d}{dz}\tanh(z) = 1 - \tanh^2(z)\). Para softmax + CE, \(\partial L / \partial \ell_t = p_t - \text{onehot}(y_t)\).
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
@@ -16109,7 +15292,7 @@ print("loss después de 1 paso SGD (misma secuencia):", float(loss1))
 #+RESULTS:
 : loss después de 1 paso SGD (misma secuencia): 3.575820814713167
 
-**** Bucles de entrenamiento (minibatches pequeños, CPU)
+*** Bucles de entrenamiento (minibatches pequeños, CPU)
 Este bucle es **demostrativo**: muchas épocas sobre un corpus pequeño pueden sobreajustar; la meta es ver la pérdida bajar.
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
@@ -16164,7 +15347,7 @@ print("Entrenamiento NumPy terminado.")
 : epoch  80 | pérdida media por batch ~ 1.0234
 : Entrenamiento NumPy terminado.
 
-**** Generación con los pesos NumPy
+*** Generación con los pesos NumPy
 
 #+begin_src python :results output :exports both :session *rnn-numpy-manual*
 import numpy as np
@@ -16207,15 +15390,15 @@ print(txt[:400])
 : 
 :                     det rnin P)c
 
-**** Notas sobre la parte NumPy
+*** Notas sobre la parte NumPy
 - El gradiente respecto al embedding se acumula **por fila** (=g["E"][xi]+=)=; es la forma escrita explícita del “embedding lookup”.
 - Para corpus grande conviene **recorte de gradientes** (=np.clip=) y quizá **Adam** en lugar de SGD; aquí se prioriza claridad.
 - Complejidad \(O(T)\) por secuencia en tiempo y memoria para BPTT; secuencias muy largas suelen usar **truncamiento** del backprop.
 
-** TensorFlow/Keras (ejemplo completo)
+* TensorFlow/Keras (ejemplo completo)
 Cada bloque Python de esta parte incluye explícitamente =:session *rnn-tensorflow*= para no pisar las variables de la parte NumPy.
 
-*** Por qué =return_sequences=True= y =TimeDistributed(Dense)=
+** Por qué =return_sequences=True= y =TimeDistributed(Dense)=
 
 La capa =SimpleRNN= sin =return_sequences= solo devuelve el **último** paso
 temporal; aquí necesitamos logits en **cada** posición \(t\) para
@@ -16223,7 +15406,7 @@ comparar con el carácter objetivo siguiente (igual que en
 NumPy). =TimeDistributed(Dense)= aplica la misma transformación lineal a
 cada paso temporal — análogo a \(W_{hy}\) compartido.
 
-*** Datos, modelo, entrenamiento
+** Datos, modelo, entrenamiento
 
 #+begin_src python :results output :exports both :session *rnn-tensorflow*
 import numpy as np
@@ -16343,7 +15526,7 @@ pérdida inicial: 3.1191232204437256
 pérdida final: 0.10811327397823334
 #+end_example
 
-*** Generación (autocompletado) con el modelo TensorFlow
+** Generación (autocompletado) con el modelo TensorFlow
 
 #+begin_src python :results output :exports both :session *rnn-tensorflow*
 import tensorflow as tf
@@ -16380,12 +15563,12 @@ print(complete_tf("def fac", max_new_tokens=90, temperature=0.75)[:450])
 : 
 : def fibonacci(
 
-*** Ampliación práctica
+** Ampliación práctica
 - Sustituye =CORPUS= por texto leído de tus =.py= (ojo con licencias y datos sensibles).
 - Aumenta =block_size= con **GPU** y más datos.
 - Para producción histórica en secuencias largas: **GRU/LSTM** en Keras (=layers.GRU=, =layers.LSTM=) o **Transformers**.
 
-*** Referencias
+** Referencias
 - Goodfellow et al., *Deep Learning* — capítulo sobre RNN y BPTT.
 - TensorFlow: documentación de =tf.keras.layers.SimpleRNN=.
 
@@ -16397,245 +15580,28 @@ print(complete_tf("def fac", max_new_tokens=90, temperature=0.75)[:450])
 
 
 
-** Autocompletado con RNN vanilla en Keras (TensorFlow)
+* Autocompletado con RNN vanilla — integración en el editor
 
-Este apartado muestra cómo entrenar una **RNN vanilla** con **TensorFlow/Keras** para
-**autocompletar código** carácter a carácter, y cómo conectarla a un editor (VS Code,
-Emacs u otro) mediante un servidor JSON ligero.
+El entrenamiento del modelo (NumPy a mano + TensorFlow/Keras, corpus,
+=return_sequences=, generación autoregresiva) está en:
 
-Componentes del modelo:
+- *RNN para autocompletado — NumPy a mano + TensorFlow*
+- *TensorFlow/Keras (ejemplo completo)*
 
-- =Embedding= — vector por carácter.
-- =SimpleRNN= con =tanh= y =return_sequences=True=.
-- =TimeDistributed(Dense)= — logits del siguiente carácter en **cada** paso temporal.
+Aquí solo la *integración* con un servidor local y editores (VS Code / Emacs).
 
-Es un ejemplo didáctico en CPU; no sustituye a Copilot ni a modelos grandes.
-
-*** Requisitos
-
-- Python 3.10+
-- =numpy= y =tensorflow>=2.15=
-
-#+begin_src shell
-python3 -m pip install "numpy>=1.24" "tensorflow>=2.15"
-#+end_src
-
-*** Fundamentos
-
-**** Predicción del siguiente carácter
-Dado un fragmento de texto (prefijo), el modelo devuelve una distribución sobre el
-vocabulario; se elige el siguiente carácter, se concatena al prefijo y se repite.
-
-**** Por qué =return_sequences=True=
-Sin él, =SimpleRNN= solo devuelve el estado del **último** paso. Para entrenar con
-ventanas de longitud \(T\) necesitamos logits en **cada** posición \(t\), comparando
-con el carácter objetivo en \(t{+}1\).
-
-**** Por qué =TimeDistributed(Dense)=
-Aplica la misma capa densa en cada paso temporal: equivalente a compartir la matriz
-\(W_{hy}\) del modelo carácter a carácter que verías en una RNN escrita a mano.
-
-*** Corpus y vocabulario
-
-#+begin_src python
-import json
-from pathlib import Path
-
-import numpy as np
-import tensorflow as tf
-
-tf.keras.utils.set_random_seed(42)
-
-CORPUS = r'''
-def factorial(n):
-    if n <= 1:
-        return 1
-    return n * factorial(n - 1)
-
-def fibonacci(n):
-    a, b = 0, 1
-    for _ in range(n):
-        a, b = b, a + b
-    return a
-
-class Punto:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    def distancia_origen(self):
-        return (self.x ** 2 + self.y ** 2) ** 0.5
-
-for i in range(10):
-    print(i, fibonacci(i))
-'''
-
-chars = sorted(set(CORPUS))
-stoi = {ch: i for i, ch in enumerate(chars)}
-itos = {i: ch for ch, i in stoi.items()}
-VOCAB_SIZE = len(chars)
-
-
-def encode(s: str) -> list[int]:
-    return [stoi[c] for c in s]
-
-
-def decode(ids: list[int]) -> str:
-    return "".join(itos[i] for i in ids)
-
-
-SEQ = np.array(encode(CORPUS), dtype=np.int64)
-print("VOCAB_SIZE:", VOCAB_SIZE, "| caracteres en corpus:", len(CORPUS))
-#+end_src
-
-Puedes sustituir =CORPUS= por el contenido de tus archivos =.py= (cuidado con datos
-privados y licencias).
-
-*** Ventanas de entrenamiento
-
-Cada fila de =X= es una ventana de =BLOCK_SIZE= caracteres; =Y= contiene el carácter
-**siguiente** en cada posición.
-
-#+begin_src python
-BLOCK_SIZE = 32
-X_rows, Y_rows = [], []
-for i in range(0, len(SEQ) - BLOCK_SIZE):
-    X_rows.append(SEQ[i : i + BLOCK_SIZE])
-    Y_rows.append(SEQ[i + 1 : i + 1 + BLOCK_SIZE])
-
-X = np.stack(X_rows)
-Y = np.stack(Y_rows)
-print("X:", X.shape, "Y:", Y.shape)
-#+end_src
-
-Si =len(SEQ) <= BLOCK_SIZE=, alarga el corpus o reduce =BLOCK_SIZE=.
-
-*** Modelo Keras
-
-#+begin_src python
-EMBED_DIM = 48
-HIDDEN = 64
-
-model = tf.keras.Sequential(
-    [
-        tf.keras.layers.Input(shape=(BLOCK_SIZE,)),
-        tf.keras.layers.Embedding(VOCAB_SIZE, EMBED_DIM),
-        tf.keras.layers.SimpleRNN(HIDDEN, activation="tanh", return_sequences=True),
-        tf.keras.layers.TimeDistributed(tf.keras.layers.Dense(VOCAB_SIZE)),
-    ]
-)
-
-model.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
-    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-)
-
-model.summary()
-#+end_src
-
-*** Entrenamiento
-
-#+begin_src python
-EPOCHS = 120
-BATCH_SIZE = 16
-
-history = model.fit(
-    X,
-    Y,
-    epochs=EPOCHS,
-    batch_size=BATCH_SIZE,
-    verbose=0,
-)
-
-print("épocas:", len(history.history["loss"]))
-print("pérdida inicial:", round(float(history.history["loss"][0]), 4))
-print("pérdida final:", round(float(history.history["loss"][-1]), 4))
-#+end_src
-
-Con el corpus de ejemplo, la pérdida suele bajar de ~3 a ~0.1 en unas 120 épocas en CPU.
-
-***  Autocompletado (generación)
-
-#+begin_src python
-def complete(prompt: str, max_new: int = 120, temperature: float = 0.75) -> str:
-    """Ventana fija: últimos BLOCK_SIZE caracteres del contexto."""
-    ids = encode(prompt)
-    rng = np.random.default_rng(42)
-    for _ in range(max_new):
-        x = np.array(ids[-BLOCK_SIZE:], dtype=np.int64)
-        if x.shape[0] < BLOCK_SIZE:
-            pad = np.full(BLOCK_SIZE - x.shape[0], ids[0], dtype=np.int64)
-            x = np.concatenate([pad, x])
-        x = x.reshape(1, BLOCK_SIZE)
-        logits = model(x, training=False).numpy()[0, -1, :]
-        logits = logits / max(temperature, 1e-6)
-        logits = logits - logits.max()
-        probs = np.exp(logits)
-        probs = probs / probs.sum()
-        ids.append(int(rng.choice(len(probs), p=probs)))
-    return decode(ids)
-
-
-print(complete("def fac", max_new=90, temperature=0.75))
-#+end_src
-
-**** Varias sugerencias (menú del editor)
-
-#+begin_src python
-def suggest(prefix: str, n: int = 5, max_new: int = 50) -> list[str]:
-    seen, out = set(), []
-    for i in range(n * 3):
-        text = complete(prefix, max_new=max_new, temperature=0.7 + 0.05 * i)
-        line = (prefix + text[len(prefix) :].split("\n")[0])[:80]
-        if line not in seen and len(line) > len(prefix):
-            seen.add(line)
-            out.append(line)
-        if len(out) >= n:
-            break
-    return out
-
-
-for s in suggest("class P", n=3):
-    print("-", s)
-#+end_src
-
-*** Guardar el modelo para el servidor
-
-#+begin_src python
-DEPLOY_DIR = Path("rnn-keras-autocomplete")
-DEPLOY_DIR.mkdir(parents=True, exist_ok=True)
-
-model.save(DEPLOY_DIR / "model.keras")
-(DEPLOY_DIR / "meta.json").write_text(
-    json.dumps(
-        {"block_size": BLOCK_SIZE, "chars": chars},
-        ensure_ascii=False,
-    ),
-    encoding="utf-8",
-)
-print("Guardado en:", DEPLOY_DIR.resolve())
-#+end_src
-
-Estructura resultante:
-
-#+begin_example
-rnn-keras-autocomplete/
-├── model.keras
-└── meta.json
-#+end_example
-
-***  Servidor para editores
+**  Servidor para editores
 
 El editor lanza =server_stdio.py= como subproceso y envía **una línea JSON por petición**.
 
-**** Arquitectura
+*** Arquitectura
 
 #+begin_example
   [Editor]  --JSON-->  server_stdio.py  -->  model.keras
   [Editor]  <--JSON--  server_stdio.py
 #+end_example
 
-**** Protocolo
+*** Protocolo
 
 | Método | Entrada | Salida |
 |--------|---------+--------|
@@ -16760,7 +15726,7 @@ if __name__ == "__main__":
     main()
 #+end_src
 
-**** Prueba en terminal
+*** Prueba en terminal
 
 #+begin_src shell
 cd rnn-keras-autocomplete
@@ -16768,7 +15734,7 @@ echo '{"method":"complete","prefix":"def fac","max_new":50,"temperature":0.75}' 
   | python3 server_stdio.py 2>/dev/null
 #+end_src
 
-***  Integración con VS Code
+**  Integración con VS Code
 
 Carpeta del proyecto:
 
@@ -16782,7 +15748,7 @@ rnn-keras-autocomplete/
     └── extension.js
 #+end_example
 
-**** package.json
+*** package.json
 
 #+begin_src json
 {
@@ -16819,7 +15785,7 @@ rnn-keras-autocomplete/
 }
 #+end_src
 
-**** extension.js
+*** extension.js
 
 #+begin_src javascript
 const vscode = require("vscode");
@@ -16898,7 +15864,7 @@ function deactivate() {
 module.exports = { activate, deactivate };
 #+end_src
 
-**** settings.json del workspace
+*** settings.json del workspace
 
 #+begin_src json
 {
@@ -16910,7 +15876,7 @@ module.exports = { activate, deactivate };
 Instala la extensión con =F5= (modo desarrollo) o =code --install-extension .= desde
 =vscode-extension/=.
 
-***  Integración con Emacs
+**  Integración con Emacs
 
 #+begin_src emacs-lisp
 (require 'json)
@@ -16951,13 +15917,13 @@ Instala la extensión con =F5= (modo desarrollo) o =code --install-extension .= 
 
 Ajusta =rnn-server-script= a la ruta real de tu =server_stdio.py=.
 
-***  Script único (opcional)
+**  Script único (opcional)
 
 Si prefieres un solo archivo =entrenar_y_probar.py= en lugar de bloques separados,
 une las secciones 1–5 en orden. El servidor y la extensión del editor siguen siendo
 archivos aparte porque el IDE los lanza como procesos independientes.
 
-*** Limitaciones y mejoras
+** Limitaciones y mejoras
 
 | Tema      | Aquí                      | Siguiente paso           |
 |-----------+---------------------------+--------------------------|
@@ -16966,7 +15932,7 @@ archivos aparte porque el IDE los lanza como procesos independientes.
 | Sintaxis  | No validada               | Parser + LSP             |
 | Velocidad | CPU                       | GPU, exportar a ONNX     |
 
-*** Referencias
+** Referencias
 
 - Documentación: =tf.keras.layers.SimpleRNN=, =TimeDistributed=
 - Karpathy, *The Unreasonable Effectiveness of Recurrent Neural Networks*
@@ -17247,6 +16213,10 @@ cv.destroyAllWindows()
 
 *** Segmentación de Color 
 
+Máscaras HSV sobre *imagen fija*. La versión en cámara/vídeo está en
+*Visión por color (OpenCV)*.
+
+
 #+BEGIN_SRC python
 import cv2 as cv
 img = cv.imread('salida.jpg', 1)
@@ -17346,466 +16316,98 @@ Pre-procesamiento: Se convierte la imagen en
  profundo. Sin embargo, siguen siendo utilizados debido a su
  simplicidad y bajo requerimiento de recursos computacionales.
 
-**** Ejemplo de un Haarcascade
+**** Detección vs reconocimiento
 
-https://github.com/opencv/opencv/tree/master/data/haarcascades
+| | Detección (Haar) | Reconocimiento (Eigen/Fisher/LBPH) |
+|---+------------------+-------------------------------------|
+| Pregunta | *¿Dónde hay una cara?* | *¿Quién es?* |
+| Salida | Rectángulos =(x,y,w,h)= | Etiqueta + confidence |
+| XML típico | =haarcascade_frontalface_alt.xml= | Modelo entrenado (=.xml= propio) |
 
-https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html
+Haar *localiza* el rostro. Identificar a la persona está en
+*Reconocimiento de rostros con OpenCV — Eigenfaces, Fisherfaces y LBPH*
+(no se repite aquí).
 
-https://docs.opencv.org/2.4/doc/user_guide/ug_traincascade.html
+**** Enlaces útiles
 
-https://amin-ahmadi.com/cascade-trainer-gui/
+- [[https://github.com/opencv/opencv/tree/master/data/haarcascades][Clasificadores XML oficiales (OpenCV)]]
+- [[https://docs.opencv.org/4.x/db/d28/tutorial_cascade_classifier.html][Tutorial Cascade Classifier]]
+- [[https://docs.opencv.org/4.x/dc/d88/tutorial_traincascade.html][Entrenar tu propio cascade]] (avanzado)
+
+**** Ejemplo 1 — Detectar rostros y guardar recortes (dataset)
+
+Sirve para armar carpetas =persona/imagen.jpg= que luego usa el reconocedor.
 
 #+BEGIN_SRC python
 import numpy as np
 import cv2 as cv
 
+# Ajusta la ruta al XML de tu instalación de OpenCV
 rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
 cap = cv.VideoCapture(0)
-x=y=w=h= 0 
-img = 0
 count = 0
+img = None
+
 while True:
     ret, frame = cap.read()
+    if not ret:
+        break
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
     rostros = rostro.detectMultiScale(gray, 1.3, 5)
-    for(x, y, w, h) in rostros:
-        #m= int(h/2)
-        frame = cv.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 2)
-        #frame = cv.rectangle(frame, (x,y+m), (x+w, y+h), (255, 0 ,0), 2 )
-        img =  frame[y:y+h,x:x+w]
-        count = count + 1   
-    
-    name = '/home/likcos/imgs/cara'+str(count)+'.jpg'
-    cv.imwrite(name, img)
+    for (x, y, w, h) in rostros:
+        img = frame[y:y+h, x:x+w]
+        count += 1
+        # Cambia la carpeta de salida
+        cv.imwrite(f'/home/likcos/pruebacaras/lalo/lalo{count}.jpg', img)
+        cv.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
     cv.imshow('rostros', frame)
-    cv.imshow('cara', img)
-    
-    k = cv.waitKey(1)
-    if k == 27:
+    if img is not None:
+        cv.imshow('cara', img)
+    if cv.waitKey(1) == 27:  # ESC
         break
+
 cap.release()
 cv.destroyAllWindows()
 #+END_SRC
 
-#+RESULTS:
-: None
+**** Ejemplo 2 — Dibujar sobre el rostro detectado
 
-
+Misma detección; solo cambia lo que haces con =(x,y,w,h)= (aquí una “carita”).
 
 #+BEGIN_SRC python
-import numpy as np
 import cv2 as cv
-import math 
-
-#rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
-cap = cv.VideoCapture('/home/likcos/Vídeos/ultimo.mp4')
-i = 0
-frame3=None
-while True:
-    ret, frame = cap.read()
-    frame3=frame[300:310, 320:330]
-    frame2 = cv.resize(frame, (28, 30), interpolation=cv.INTER_AREA)
-    if(i%5==0):
-        cv.imwrite('/home/likcos/recorte/data/'+str(i)+'.jpg', frame2)
-
-    cv.imshow('salida', frame)
-    cv.imshow('salida3', frame3)
-    
-    i = i+1
-    k = cv.waitKey(1)
-    if k == 27:
-        break
-cap.release()
-cv.destroyAllWindows()
-#+END_SRC
-
-#+RESULTS:
-
-#+BEGIN_SRC python
-import cv2 as cv 
 
 rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
 cap = cv.VideoCapture(0)
 
 while True:
     ret, img = cap.read()
+    if not ret:
+        break
     gris = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     rostros = rostro.detectMultiScale(gris, 1.3, 5)
-    for(x,y,w,h) in rostros:
-        res = int((w+h)/8)
-        img = cv.rectangle(img, (x,y), (x+w, y+h), (234, 23,23), 2)
-        img = cv.rectangle(img, (x,int(y+h/2)), (x+w, y+h), (0,255,0),5 )
-        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 21, (0, 0, 0), 2 )
-        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 21, (0, 0, 0), 2 )
-        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 20, (255, 255, 255), -1 )
-        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 20, (255, 255, 255), -1 )
-        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)) , 5, (0, 0, 255), -1 )
-        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)) , 5, (0, 0, 255), -1 )
+    for (x, y, w, h) in rostros:
+        img = cv.rectangle(img, (x, y), (x+w, y+h), (234, 23, 23), 2)
+        # ojos aproximados
+        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)), 20, (255, 255, 255), -1)
+        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)), 20, (255, 255, 255), -1)
+        img = cv.circle(img, (x + int(w*0.3), y + int(h*0.4)), 5, (0, 0, 255), -1)
+        img = cv.circle(img, (x + int(w*0.7), y + int(h*0.4)), 5, (0, 0, 255), -1)
 
     cv.imshow('img', img)
-    if cv.waitKey(1)== ord('q'):
+    if cv.waitKey(1) == ord('q'):
         break
-    
-cap.release
-cv.destroyAllWindows()
-#+END_SRC
 
-#+RESULTS:
-: None
-
-
-
-
-
-
-**** Eigenfaces 
-
-Un Eigenface (en español cara propia) es el nombre dado a un conjunto
-de vectores propios cuando se utiliza en el problema de visión
-artificial del reconocimiento de rostros humanos. Sirovich y Kirby
-desarrollaron el enfoque de usar caras propias para el reconocimiento
-y lo usaron Matthew Turk y Alex Pentland en la clasificación de
-caras. Los vectores propios se derivan de la matriz de covarianza de
-la distribución de probabilidad sobre el espacio vectorial de alta
-dimensión de imágenes de rostros. Las caras propias forman un conjunto
-base de todas las imágenes utilizadas para construir la matriz de
-covarianza. Esto produce una reducción de la dimensión al permitir que
-el conjunto más pequeño de imágenes base represente las imágenes de
-entrenamiento originales. La clasificación se puede lograr comparando
-cómo se representan las caras por el conjunto base.
-
- *Generación*
- Se puede generar un conjunto de caras propias mediante la realización
- de un proceso matemático llamado análisis de componentes principales
- (PCA) en un gran conjunto de imágenes que representan diferentes
- rostros humanos. De manera informal, las caras propias pueden
- considerarse un conjunto de "ingredientes faciales estandarizados",
- derivados del análisis estadístico de muchas imágenes de
- rostros. Cualquier rostro humano puede considerarse una combinación
- de estos rostros estándar. Por ejemplo, la cara de uno podría estar
- compuesta por la cara promedio más el 10 % de la cara propia 1, el 55
- % de la cara propia 2 e incluso el −3 % de la cara
- propia 3. Sorprendentemente, no se necesitan muchas caras propias
- combinadas para lograr una aproximación justa de la mayoría de las
- caras. Además, debido a que la cara de una persona no se registra
- mediante una fotografía digital, sino simplemente como una lista de
- valores (un valor para cada cara propia en la base de datos
- utilizada), se ocupa mucho menos espacio para la cara de cada
- persona.
-
- Las caras propias que se crean aparecerán como áreas claras y oscuras
- que se organizan en un patrón específico. Este patrón es cómo se
- seleccionan las diferentes características de una cara para
- evaluarlas y puntuarlas. Habrá un patrón para evaluar la simetría, si
- hay algún estilo de vello facial, dónde está la línea del cabello o
- una evaluación del tamaño de la nariz o la boca. Otras caras propias
- tienen patrones que son menos fáciles de identificar, y la imagen de
- la cara propia puede parecerse muy poco a una cara.
-
- La técnica utilizada en la creación de caras propias y su uso para el
- reconocimiento también se utiliza fuera del reconocimiento facial:
- reconocimiento de escritura a mano, lectura de labios, reconocimiento
- de voz, lenguaje de señas /interpretación de gestos con las manos y
- análisis de imágenes médicas. Por lo tanto, algunos no usan el
- término "eigenface", sino que prefieren usar 'eigenimage'.
-
-
-
-#+BEGIN_SRC python :results output
-import cv2 as cv 
-import numpy as np 
-import os
-dataSet = '/home/likcos/recorte'
-faces  = os.listdir(dataSet)
-print(faces)
-
-labels = []
-facesData = []
-label = 0 
-for face in faces:
-    facePath = dataSet+'/'+face
-    for faceName in os.listdir(facePath):
-        labels.append(label)
-        facesData.append(cv.imread(facePath+'/'+faceName,0))
-    label = label + 1
-print(np.count_nonzero(np.array(labels)==0)) 
-
-faceRecognizer = cv.face.EigenFaceRecognizer_create()
-faceRecognizer.train(facesData, np.array(labels))
-faceRecognizer.write('Eigenface.xml')
-
-#+END_SRC
-
-#+RESULTS:
-: ['lalo', 'lujan']
-: 438
-     0        1
-: ['lalo', 'lujan']
-    3040     4504
-
-
-: 438
-
-#+BEGIN_SRC python
-import cv2 as cv
-import os 
-
-faceRecognizer = cv.face.EigenFaceRecognizer_create()
-faceRecognizer.read('Eigenface.xml')
-faces =['lalo', 'lujan']
-cap = cv.VideoCapture(0)
-rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
-while True:
-    ret, frame = cap.read()
-    if ret == False: break
-    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    cpGray = gray.copy()
-    rostros = rostro.detectMultiScale(gray, 1.3, 3)
-    for(x, y, w, h) in rostros:
-        frame2 = cpGray[y:y+h, x:x+w]
-        frame2 = cv.resize(frame2,  (100,100), interpolation=cv.INTER_CUBIC)
-        result = faceRecognizer.predict(frame2)
-        cv.putText(frame, '{}'.format(result), (x,y-20), 1,3.3, (0,0,255), 1, 3)
-        if result[1] > 2800:
-            cv.putText(frame,'{}'.format(faces[result[0]]),(x,y-25),2,1.1,(0,255,0),1,cv.LINE_AA)
-            cv.rectangle(frame, (x,y),(x+w,y+h),(0,255,0),2)
-        else:
-            cv.putText(frame,'Desconocido',(x,y-20),2,0.8,(0,0,255),1,cv.LINE_AA)
-            cv.rectangle(frame, (x,y),(x+w,y+h),(0,0,255),2)
-    cv.imshow('frame', frame)
-    k = cv.waitKey(1)
-    if k == 27:
-        break
 cap.release()
 cv.destroyAllWindows()
-
 #+END_SRC
 
-#+RESULTS:
-: None
+**** Siguiente paso: reconocer quién es
 
+Con los recortes guardados, entrena e identifica con Eigenfaces / Fisherfaces / LBPH:
 
-
-**** Fisherfaces
-
-
- El algoritmo Fisherfaces es una técnica de reconocimiento facial que
- forma parte del campo del aprendizaje automático y la visión por
- computadora. Este algoritmo es una extensión del método de Análisis de
- Componentes Principales (PCA) y fue diseñado específicamente para
- mejorar la capacidad de reconocimiento en situaciones donde la
- iluminación y las expresiones faciales varían significativamente.
-
- La idea central detrás de Fisherfaces es reducir la dimensionalidad de
- las imágenes faciales manteniendo al mismo tiempo la capacidad de
- distinguir entre diferentes clases (es decir, diferentes
- personas). Esto se logra mediante el Análisis Discriminante Lineal
- (LDA), que es la base del método Fisherfaces. 
-
- Preprocesamiento: Las imágenes faciales se normalizan en términos de
- tamaño, orientación e iluminación.
-
- *Análisis de Componentes Principales (PCA)*: Se realiza PCA para reducir
- la dimensionalidad de los datos. PCA identifica las direcciones en las
- que los datos varían más y proyecta los datos en un espacio de menor
- dimensión preservando estas variaciones principales.
-
- *Análisis Discriminante Lineal (LDA)*: Después de aplicar PCA, se
- utiliza LDA para encontrar las combinaciones lineales de
- características que mejor separan las diferentes clases (diferentes
- personas). Mientras que PCA busca direcciones que maximizan la
- varianza en los datos, LDA busca maximizar la separación entre las
- diferentes clases.
-
- *Proyección y Clasificación*: Las imágenes se proyectan en el espacio de
- características obtenido por PCA y LDA. Luego, se utiliza un
- clasificador (como k-NN o máquinas de vectores de soporte) para
- identificar a qué clase (persona) pertenece cada imagen proyectada
- basándose en las características extraídas.
-
- El algoritmo Fisherfaces es particularmente efectivo en situaciones
- donde las variaciones entre las imágenes de una misma clase (por
- ejemplo, las diferentes expresiones faciales de una persona) son
- menores en comparación con las variaciones entre clases diferentes
- (diferentes personas). Esto lo hace robusto frente a cambios en la
- iluminación y las expresiones faciales, siendo una técnica popular en
- aplicaciones de reconocimiento facial.
-
-#+CAPTION: Script para leer un dataset y generar el entrenamiento con FisherFaces
- #+BEGIN_SRC python ::results
-import cv2 as cv 
-import numpy as np 
-import os
-
-dataSet = '/home/likcos/recorte'
-faces  = os.listdir(dataSet)
-print(faces)
-
-labels = []
-facesData = []
-label = 0 
-for face in faces:
-    facePath = dataSet+'/'+face
-    for faceName in os.listdir(facePath):
-        labels.append(label)
-        facesData.append(cv.imread(facePath+'/'+faceName,0))
-    label = label + 1
-#print(np.count_nonzero(np.array(labels)==0)) 
-faceRecognizer = cv.face.FisherFaceRecognizer_create()
-faceRecognizer.train(facesData, np.array(labels))
-faceRecognizer.write('FisherFace.xml')
-
-
- #+END_SRC
-
- #+RESULTS:
- : None
-
- #+BEGIN_SRC python
-import cv2 as cv
-import os 
-
-faceRecognizer = cv.face.FisherFaceRecognizer_create()
-faceRecognizer.read('FisherFace.xml')
-faces=['lalo', 'lujan']
-cap = cv.VideoCapture(0)
-rostro = cv.CascadeClassifier('haarcascade_frontalface_alt.xml')
-while True:
-    ret, frame = cap.read()
-    if ret == False: break
-    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    cpGray = gray.copy()
-    rostros = rostro.detectMultiScale(gray, 1.3, 3)
-    for(x, y, w, h) in rostros:
-        frame2 = cpGray[y:y+h, x:x+w]
-        frame2 = cv.resize(frame2,  (100,100), interpolation=cv.INTER_CUBIC)
-        result = faceRecognizer.predict(frame2)
-        cv.putText(frame, '{}'.format(result), (x,y-20), 1,3.3, (255,255,0), 1, cv.LINE_AA)
-        if result[1] < 500:
-            cv.putText(frame,'{}'.format(faces[result[0]]),(x,y-25),2,1.1,(0,255,0),1,cv.LINE_AA)
-            cv.rectangle(frame, (x,y),(x+w,y+h),(0,255,0),2)
-        else:
-            cv.putText(frame,'Desconocido',(x,y-20),2,0.8,(0,0,255),1,cv.LINE_AA)
-            cv.rectangle(frame, (x,y),(x+w,y+h),(0,0,255),2)
-    cv.imshow('frame', frame)
-    k = cv.waitKey(1)
-    if k == 27:
-        break
-cap.release()
-cv.destroyAllWindows()
-
-
-
- #+END_SRC
-
- #+RESULTS:
- : None
-
-
-
-**** LBPH
-El LBPH es un enfoque simple y efectivo para el reconocimiento
-facial. A diferencia de otros métodos que operan en todo el rostro, el
-LBPH trabaja examinando características locales. Su popularidad se
-debe a su simplicidad, velocidad y buen rendimiento, incluso en
-condiciones de iluminación desafiantes. Aquí está cómo funciona:
-
-División de la Imagen en Celdas: La imagen del rostro se divide en
-pequeñas regiones o celdas.
-
-*Calculo de Patrones Binarios Locales (LBP):* Para cada píxel en una
-región, se compara su intensidad con las de sus vecinos (generalmente
-8 vecinos circundantes). Si la intensidad del vecino es mayor o igual
-que el píxel central, se asigna un 1, de lo contrario un 0. Esto
-genera un número binario de 8 dígitos (o un número decimal después de
-la conversión) para cada píxel.
-
-*Histogramas:* Se calcula un histograma de estas etiquetas LBP para cada
-celda. Los histogramas cuentan la frecuencia de cada número obtenido
-en el paso anterior dentro de la celda.
-
-*Concatenación de Histogramas:* Los histogramas de todas las celdas se
-concatenan en un solo vector de características. Este vector describe
-las características locales de la imagen de la cara.
-
-*Reconocimiento:* Para reconocer un rostro desconocido, se calcula su
-vector de características LBPH y se compara con los vectores de
-características de las caras conocidas (generalmente usando una medida
-de distancia, como la distancia euclidiana). La imagen desconocida se
-identifica como la clase (es decir, la persona) cuyo vector de
-características conocido sea más cercano al del rostro desconocido.
-
-El LBPH es eficaz en diversas condiciones y no requiere un
-preprocesamiento tan intenso como otros métodos de reconocimiento
-facial. Puede manejar variaciones en iluminación y expresión facial
-bastante bien. Además, su implementación es relativamente sencilla, lo
-que lo hace popular para aplicaciones en tiempo real y sistemas
-embebidos.
-
-#+BEGIN_SRC python
-import cv2 as cv 
-import numpy as np 
-import os
-
-dataSet = '/home/likcos/pruebacaras'
-faces  = os.listdir(dataSet)
-print(faces)
-
-labels = []
-facesData = []
-label = 0 
-for face in faces:
-    facePath = dataSet+'/'+face
-    for faceName in os.listdir(facePath):
-        labels.append(label)
-        facesData.append(cv.imread(facePath+'/'+faceName,0))
-    label = label + 1
-#print(np.count_nonzero(np.array(labels)==0)) 
-faceRecognizer = cv.face.LBPHFaceRecognizer_create()
-faceRecognizer.train(facesData, np.array(labels))
-faceRecognizer.write('laloLBPHFace.xml')
-
-#+END_SRC
-
-#+BEGIN_SRC python
-import cv2 as cv
-import os 
-
-faceRecognizer = cv.face.LBPHFaceRecognizer_create()
-faceRecognizer.read('laloLBPHFace.xml')
-
-cap = cv.VideoCapture(0)
-rostro = cv.CascadeClassifier('data/haarcascade_frontalface_alt.xml')
-while True:
-    ret, frame = cap.read()
-    if ret == False: break
-    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    cpGray = gray.copy()
-    rostros = rostro.detectMultiScale(gray, 1.3, 3)
-    for(x, y, w, h) in rostros:
-        frame2 = cpGray[y:y+h, x:x+w]
-        frame2 = cv.resize(frame2,  (100,100), interpolation=cv.INTER_CUBIC)
-        result = faceRecognizer.predict(frame2)
-        cv.putText(frame, '{}'.format(result), (x,y-20), 1,3.3, (255,255,0), 1, cv.LINE_AA)
-        if result[1] < 70:
-            cv2.putText(frame,'{}'.format(faces[result[0]]),(x,y-25),2,1.1,(0,255,0),1,cv2.LINE_AA)
-            cv2.rectangle(frame, (x,y),(x+w,y+h),(0,255,0),2)
-        else:
-            cv2.putText(frame,'Desconocido',(x,y-20),2,0.8,(0,0,255),1,cv2.LINE_AA)
-            cv2.rectangle(frame, (x,y),(x+w,y+h),(0,0,255),2) 
-    cv.imshow('frame', frame)
-    k = cv.waitKey(1)
-    if k == 27:
-        break
-cap.release()
-cv.destroyAllWindows()
-
-
-#+END_SRC
-
-
-
+→ *Reconocimiento de rostros con OpenCV — Eigenfaces, Fisherfaces y LBPH*
 
 *** Template Matching
 
@@ -17913,336 +16515,10 @@ cv2.destroyAllWindows()
 
 
 
-* Programación
+* Visión por color (OpenCV)
 
-#+BEGIN_SRC python
-import cv2 as cv
-import numpy as np 
-
-img = cv.imread('/home/likcos/Imágenes/tr.png')
-
-hsv=cv.cvtColor(img, cv.COLOR_BGR2HSV)
-ub = np.array([0, 100, 100])
-ua = np.array([10,255,255])
-ub1 = np.array([170, 100,100])
-ua1 = np.array([180,255,255])
-
-
-mascara1 = cv.inRange(hsv, ub, ua)
-mascara2 = cv.inRange(hsv, ub1, ua1)
-mascara= mascara1 + mascara2
-resultado = cv.bitwise_and(img, img, mask=mascara)
-cv.imshow('resultado', resultado)
-cv.imshow('manzana', img)
-cv.imshow('mascara', mascara)
-cv.imshow('hsv', hsv)
-cv.waitKey(0)
-cv.destroyAllWindows()
-
-
-
-
-
-#+END_SRC
-
-#+RESULTS:
-: None
-
-
-
-
-
-#+BEGIN_SRC python
-import cv2 as cv
-import numpy as np
-
-img = cv.imread("/home/likcos/Imágenes/tuli.png", 1)
-hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-
-ub=np.array([0, 40, 40])
-ua=np.array([10, 255, 255])
-
-ub1=np.array([160, 40, 40])
-ua1=np.array([180, 255, 255])
-
-mask1 = cv.inRange(hsv, ub, ua)
-mask2 = cv.inRange(hsv, ub1, ua1)
-
-mask = mask1 + mask2
-
-res = cv.bitwise_and(img, img, mask=mask)
-
-cv.imshow('res',res )
-cv.imshow('hsv', hsv)
-cv.imshow('mask', mask)
-cv.imshow('img', img)
-cv.waitKey(0)
-cv.destroyAllWindows()
-#+END_SRC
-
-#+RESULTS:
-: None
-
-
-#+BEGIN_SRC python
-import cv2 as cv
-import numpy as np
-
-cap = cv.VideoCapture(0)
-while True:
-    ret, img = cap.read()
-    if(ret):
-        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        ub=np.array([88, 30, 30])
-        ua=np.array([92, 255, 255])
-        mask = cv.inRange(hsv, ub, ua)
-        res = cv.bitwise_and(img, img, mask=mask)
-
-        cv.imshow('res', res)
-        #cv.imshow('gray', gris)
-        
-   	k =cv.waitKey(1) & 0xFF
-	if k == 27 :
-	    break
-    else:
-	break
-cap.release()
-cv.destroyAllWindows()
-        
-#+END_SRC
-
-#+RESULTS:
-: None
-
-
-
-
-#+BEGIN_SRC python :results output
-import cv2 as cv
-import numpy as np
-
-img = cv.imread("/home/likcos/Imágenes/tr.png", 1)
-print(img.shape[:2])
-imgn = np.zeros(img.shape[:2], np.uint8)
-b,g,r =cv.split(img)
-#img2 = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-#img3 =cv.cvtColor(img, cv.COLOR_BGR2HSV)
-imgb = cv.merge([b, imgn, imgn])
-imgg = cv.merge([imgn, g, imgn])
-imgr = cv.merge([imgn, imgn, r])
-grb = cv.merge([imgn, r, b])
-
-
-cv.imshow('b', b)
-cv.imshow('g', g)
-cv.imshow('r', r)
-cv.imshow('img',img)
-#cv.imshow('img2', img2)
-cv.imshow('imgb', imgb )
-cv.imshow('imgg', imgg )
-cv.imshow('imgr', imgr )
-cv.imshow('grb', grb )
-
-
-
-cv.waitKey()
-cv.destroyAllWindows()
-
-#+END_SRC
-
-#+RESULTS:
-: (632, 635)
-
-
-
-#+BEGIN_SRC python :results output
-import cv2
-import numpy as np
-
-img = cv2.imread("/home/likcos/Imágenes/tr.png", 1)
-imgn = np.zeros(img.shape[:2], np.uint8)
-print(img.shape)
-b,g,r=cv2.split(img)
-imgb=cv2.merge([b, imgn, imgn])
-imgg=cv2.merge([imgn, g, imgn])
-imgr=cv2.merge([imgn, imgn, r])
-imgnn = cv2.merge([g ,r , b])
-cv2.imshow('salidab', imgnn)
-cv2.imshow('salidag', imgg)
-cv2.imshow('salidar', imgr)
-
-
-#img2 = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-#img3 = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-#img4 = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-#cv2.imshow('salida1', b)
-#cv2.imshow('salida2', imgb)
-#cv2.imshow('salida3', r)
-#cv2.imshow('salida4', imgn)
-
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-
-#+END_SRC
-
-#+RESULTS:
-: (632, 635, 3)
-
-
-#+BEGIN_SRC python :results output
-import cv2 as cv
-import numpy as np 
-img = cv.imread('tr.png',0)
-x,y=img.shape
-img2 = np.zeros((x*2,y*2), dtype='uint8')
-for i in range(x):
-    for j in range(y):
-        if(img[i,j]>150):
-            img[i, j]=255
-        else:
-            img[i,j] = 0
-
-print(img.shape)
-#cv.imshow('img2', img2)
-cv.imshow('img', img)
-cv.waitKey(0)
-cv.destroyAllWindows()
-
-#+END_SRC
-
-#+BEGIN_SRC python
-import cv2 as cv
-
-cap = cv.VideoCapture(0)
-
-while(True):
-    ret, img =cap.read()
-    if ret == True:
-        cv.imshow('img', img)
-    	k =cv.waitKey(1) & 0xFF
-	if k == 27 :
-	    break
-    else:
-	break
-
-cap.release()
-cv.destroyAllWindows()
-
-#+END_SRC
-
-#+RESULTS:
-: None
-
-#+BEGIN_SRC python :results output
-import cv2 as cv
-import numpy as np 
-img = cv.imread('tr.png',0)
-print(img.shape)
-x,y = img.shape
-img2 = np.zeros((x*2,y*2), dtype='uint8')
-for i in range(x):
-    for j in range(y):
-        img2[i*2,j*2]=img[i,j]
-
-cv.imshow('img', img)
-cv.imshow('img2', img2)
-cv.waitKey(0)
-cv.destroyAllWindows()
-
-#+END_SRC
-
-#+RESULTS:
-: (632, 635)
-
-
-#+BEGIN_SRC python
-import cv2 as cv 
-
-img = cv.imread('tr.png', 1)
-gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-rgb = cv.cvtColor(img, cv.COLOR_BGR2RGB)
-hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-
-cv.imshow('img', img)
-cv.imshow('gray', gray)
-cv.imshow('rgb', rgb)
-cv.imshow('hsv', hsv)
-
-cv.waitKey(0)
-cv.destroyAllWindows()
-
-#+END_SRC
-
-#+RESULTS:
-: None
-
-#+BEGIN_SRC python 
-import cv2 as cv
-import numpy as np 
-
-cap = cv.VideoCapture(0)
-
-while(True):
-    ret,img=cap.read()
-    if(ret == True):
-        cv.imshow('marco', img)
-        x,y = img.shape[:2]
-        img2 = np.zeros((x,y), dtype='uint8')
-       
-        #hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        #cv.imshow('hsv', hsv)
-        b,g,r = cv.split(img)
-        bm = cv.merge([b,img2, img2])
-        gm = cv.merge([img2, g, img2])
-        rm = cv.merge([img2, img2, r])
-        eje = cv.merge([b,r,g])
-        cv.imshow('b', bm)
-        cv.imshow('g', gm)
-        cv.imshow('r', rm)
-        cv.imshow('eje', eje)
-        k =cv.waitKey(1) & 0xFF
-	if k == 27 :
-	    break
-    else:
-        break
-
-cap.release()
-cv.destroyAllWindows()
-#+END_SRC
-
-#+RESULTS:
-: None
-
-#+BEGIN_SRC python
-import cv2 as cv
-
-img = cv.imread('man1.jpg', 1)
-hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-ubb=(0, 150, 150)
-uba=(10, 255, 255)
-ubb2=(170, 100, 100)
-uba2=(180, 255, 255)
-
-mask1 = cv.inRange(hsv, ubb, uba)
-mask2 = cv.inRange(hsv, ubb2, uba2)
-mask = mask1 + mask2
-
-
-res = cv.bitwise_and(img, img, mask=mask)
-cv.imshow('mask', mask)
-cv.imshow('hsv', hsv)
-cv.imshow('res', res)
-cv.imshow('img', img)
-cv.waitKey(0)
-cv.destroyAllWindows()
-
-
-
-
-#+END_SRC
-
-#+RESULTS:
-: None
+Los ejemplos comentados de carga de imágenes, canales y máscaras HSV están en
+*Análisis de información → Programación*. Aquí solo vídeo y seguimiento.
 
 ** Segmentación de color en vídeo
 
@@ -18602,7 +16878,7 @@ Los feeds RSS son muy útiles para:
 pip install atoma requests
 #+END_SRC
 
-* Estructura de un feed RSS
+** Estructura de un feed RSS
 Un feed RSS es un archivo en formato XML con una estructura como esta:
 
 #+BEGIN_SRC xml
@@ -18623,7 +16899,7 @@ Un feed RSS es un archivo en formato XML con una estructura como esta:
 
 Cada *item* representa una noticia o publicación individual.
 
-* Lectura de un feed RSS con Atoma
+** Lectura de un feed RSS con Atoma
 A continuación, leeremos un feed RSS real desde la ONU y mostraremos
 las cinco noticias más recientes.
 
@@ -18694,7 +16970,7 @@ Enlace: https://news.un.org/feed/view/en/story/2025/11/1166347
 ------------------------------------------------------------
 #+end_example
 
-* Guardar los resultados en un archivo CSV
+** Guardar los resultados en un archivo CSV
 También puedes almacenar la información extraída en un archivo CSV para análisis posterior.
 
 #+BEGIN_SRC python
@@ -18715,7 +16991,7 @@ with open("noticias.csv", "w", newline="", encoding="utf-8") as csvfile:
 print("Archivo 'noticias.csv' creado con éxito.")
 #+END_SRC
 
-* Explicación paso a paso
+** Explicación paso a paso
 1. **Descarga del feed**: con `requests.get(url)` obtenemos el contenido XML del feed.  
 2. **Parseo**: `atoma.parse_rss_bytes()` convierte el XML en un objeto Python estructurado.  
 3. **Extracción de datos**: accedemos a `feed.channel` y `feed.items` para leer los campos.  
@@ -18726,7 +17002,10 @@ print("Archivo 'noticias.csv' creado con éxito.")
 
 
 
-*  Transformers
+*  Transformers — introducción amigable (sin fórmulas pesadas)
+
+/Versión formal con matemáticas y práctica: / =Transformers — teoría y práctica= /más abajo./
+
 
 Si alguna vez usaste **ChatGPT**, **Gemini** o un traductor automático decente, por
 detrás casi seguro hay algo llamado **Transformer** (transformador, en español suena raro;
@@ -19064,6 +17343,10 @@ print(tok.decode(out[0]))
 
 
 *  Transformers — teoría y práctica
+
+/La intuición y analogías están en / =Transformers — introducción amigable= /arriba.
+Aquí la versión formal (atención escalada, multi-head, encoder/decoder) y la práctica./
+
 
 Los **Transformers** (Vaswani et al., 2017, *Attention Is All You Need*) revolucionaron el
 procesamiento de secuencias y son la base de BERT, GPT, T5, Llama y la mayoría de los
@@ -19558,7 +17841,7 @@ Relaciona con la sección 13 (decoder-only) y 14 (causal LM).
 
 
 
-* Actividades 
+* Actividades — Transformers, árboles y redes
 
 ** Actividad — Árboles de decisión y redes neuronales multicapa
 
@@ -21205,57 +19488,10 @@ A partir de la adaptación del juego de Phaser a Python:
 ****** Objetivo
 El jugador debe esquivar una pelota saltando.
 
-****** Ejemplo de Redes Neuronales Multicapa en Python
-#+BEGIN_SRC python
-import numpy as np
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from sklearn.model_selection import train_test_split
+****** Ejemplo de red neuronal
 
-# Generar datos artificiales
-np.random.seed(0)
-X = np.random.rand(1000, 2)  # 1000 puntos con 2 características cada uno
-y = (X[:, 0] + X[:, 1] > 1).astype(int)  # Etiqueta 1 si la suma de las características > 1, de lo contrario 0
-
-# Dividir los datos en conjuntos de entrenamiento y prueba
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Crear el modelo de red neuronal multicapa
-model = Sequential([
-    Dense(4, input_dim=2, activation='relu'),  # Capa oculta con 4 neuronas y activación ReLU
-    Dense(1, activation='sigmoid')            # Capa de salida con 1 neurona y activación sigmoide
-])
-
-# Compilar el modelo
-model.compile(optimizer='adam',
-              loss='binary_crossentropy',
-              metrics=['accuracy'])
-
-# Entrenar el modelo
-model.fit(X_train, y_train, epochs=20, batch_size=32, verbose=1)
-
-# Evaluar el modelo en el conjunto de prueba
-loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
-print(f"\nPrecisión en el conjunto de prueba: {accuracy:.2f}")
-
-# Probar con un nuevo dato
-nuevo_dato = np.array([[0.8, 0.3]])  # Ejemplo con características específicas
-prediccion = model.predict(nuevo_dato)
-print(f"Predicción para {nuevo_dato}: {prediccion[0][0]:.2f}")
-#+END_SRC
-
-****** Descripción del ejemplo
-1. **Datos artificiales**:
-   - Se generan 1000 puntos en 2D, cada uno con dos características.
-   - Las etiquetas se asignan como 1 si la suma de las características es mayor que 1, de lo contrario 0.
-2. **Modelo de red neuronal**:
-   - Capa oculta: Tiene 4 neuronas con activación ReLU.
-   - Capa de salida: Tiene 1 neurona con activación sigmoide, lo que da como resultado una probabilidad entre 0 y 1.
-3. **Compilación**:
-   - Función de pérdida: `binary_crossentropy`, adecuada para clasificación binaria.
-   - Métrica: `accuracy` (precisión).
-4. **Predicción**:
-   - Se pasa un nuevo punto al modelo y se obtiene una probabilidad. Si está cerca de 1, la salida es 1; si está cerca de 0, la salida es 0.
+No se duplica el código aquí: ver el juego MLP en *Juego de Bala y Salto con MLP*
+y el ejemplo actualizado (3 acciones) en *Proyectos 2026 → Actividad 1*.
 
 **** Actividad 3
 ***** Identificación de modelos de autos con CNN
@@ -21269,33 +19505,16 @@ Ajustar el dataset para identificar cinco modelos diferentes de autos.
 - Precisión con la que se detectan los modelos.
 
 **** Actividad 4
-***** Fundamentación sobre la Reforma al Poder Judicial y Organismos Autónomos
-Utilizando algoritmos de inteligencia artificial, responder las siguientes preguntas y fundamentar si estás a favor o en contra de la reforma al poder judicial y a los organismos autónomos.
+***** Fundamentación — Reforma al Poder Judicial y Organismos Autónomos
+Usar IA para fundamentar a favor o en contra.
 
-****** Preguntas para la Ley del Poder Judicial
-1. ¿El diagnóstico de la ley al poder judicial es conocido y qué estudios expertos se tuvieron en cuenta?
-2. ¿Por qué la reforma no incluyó a las fiscalías y a la defensoría, limitándose solo al poder judicial?
-3. ¿Qué medidas concretas se implementarán para evitar la captación del crimen organizado y la violencia en el contexto electoral?
-4. ¿Cómo garantizar que juristas probos y honestos se animen a competir públicamente frente a los riesgos de la violencia?
-5. ¿Cómo se conforman los comités de postulación?
-6. ¿Cómo asegurar la carrera judicial?
-7. ¿Cómo compatibilizar la incorporación de medidas para preservar la identidad de los jueces (conocidos en el sistema interamericano como "jueces sin rostro") con los estándares internacionales?
-8. ¿Cómo impactará el costo económico de esta reforma en la promoción y el acceso a la justicia?
-
-****** Preguntas para la Ley de Organismos Autónomos
-1. ¿Es constitucional esta ley, considerando que algunos organismos autónomos están establecidos en la Constitución?
-2. ¿Cómo afectaría la eliminación de estos organismos a la transparencia y rendición de cuentas del gobierno?
-3. ¿Qué funciones críticas podrían perder independencia y control al pasar al poder ejecutivo u otras instituciones?
-4. ¿Existen alternativas para mejorar la eficiencia de los organismos autónomos sin eliminarlos?
-5. ¿Qué sectores de la sociedad civil y grupos de interés se verían afectados por la desaparición de estos organismos?
+Las preguntas están en *Proyectos Agosto Diciembre 2025 → Preguntas*
+(no se repiten aquí).
 
 ****** Puntos a evaluar
-- Algoritmos utilizados.
-- Herramientas generadas para el análisis.
-- Datos utilizados para la fundamentación.
-- Proceso de análisis.
-
-
+- Algoritmos utilizados
+- Herramientas y datos
+- Proceso de análisis
 
 ** Proyectos 2026 Enero Junio
 
@@ -21312,6 +19531,10 @@ El jugador debe esquivar una pelota saltando y agachándose; la altura
 de la pelota puede tener diferentes alturas y velocidades.
 
 ***** Ejemplo de Redes Neuronales Multicapa en Python
+
+/Variante 2026 (salto / agacharse / nada). La teoría MLP no se repite: ver/
+*Juego de Bala y Salto con MLP*.
+
 #+BEGIN_SRC python
 import numpy as np
 from tensorflow.keras.models import Sequential
@@ -21380,15 +19603,17 @@ print(f"Predicción para {nuevo_dato}: {prediccion[0][0]:.2f}")
 
 
 *** Actividad 2
-**** Identificación de modelos de autos con CNN
-Utilizando el archivo `CNNriesgo` que se encuentra en la carpeta de Dropbox:
+**** Clasificación de imágenes con CNN
+Teoría: sección *Redes Neuronales Convolucionales (CNN)* (arriba en estos apuntes).
+Práctica: notebook =CNNriesgo.ipynb= en Dropbox (=materias/IA/=).
 
 ***** Actividad
-Ajustar el dataset para identificar cinco clases de animales, Ranas, Arañas, Monos, Ballenas, Pájaros.
+Ajustar el dataset para identificar cinco clases de animales: ranas, arañas,
+monos, ballenas, pájaros (una carpeta por clase; mismo flujo que el notebook).
 
 ***** Evaluación
 - Herramientas utilizadas para la creación del dataset.
-- Precisión con la que se detectan los modelos.
+- Precisión con la que se detectan las clases (reporte y curvas train/val).
 
 
 *** Actividad 3
