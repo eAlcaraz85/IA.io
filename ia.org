@@ -11,6 +11,6 @@
 #+cite_export: csl
 
 
-# Fuente canónica de contenido (con CNN, depuración, etc.).
-# Antes apuntaba a ../iaverano/... (copia vieja sin CNN).
-#+INCLUDE: "./introduccion_inteligencia_artificial.org" :lines "19-"
+# Fuente canónica. Empezar en la línea del primer * (antes :lines "19-"
+# se saltaba ese heading y todos los ** quedaban huérfanos → TOC roto).
+#+INCLUDE: "./introduccion_inteligencia_artificial.org" :lines "15-"

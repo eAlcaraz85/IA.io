@@ -3760,7 +3760,7 @@ No dice *quién publicó primero*. Para el origen hace falta la hora del mensaje
 
 ** 2. k-NN — clasificar cuentas como bot o humano
 
-**** Para qué se usa en la práctica
+*** Para qué se usa en la práctica
 Ya no miras solo el texto: miras *conducta* (tweets por hora, % de retweets,
 antigüedad de la cuenta, etc.). Tienes un historial de cuentas ya etiquetadas.
 Una cuenta nueva se etiqueta según la mayoría de sus =k= vecinos más cercanos
@@ -6477,7 +6477,7 @@ la combinación de dos técnicas complementarias:
 
 El mismo núcleo lógico se expone después por dos canales: *interfaz web* y *WhatsApp*.
 
-*** Objetivos de aprendizaje
+** Objetivos de aprendizaje
 Al concluir los pasos, el estudiante deberá:
 
 - Explicar el papel de embeddings, chunking, índice vectorial, prompt y adaptadores LoRA.
@@ -17995,7 +17995,7 @@ Relacione su respuesta con los conceptos de:
 
 **  Actividad manual — Entender Transformers sin computadora
 
-**** Objetivo
+*** Objetivo
 Que los alumnos **experimenten** la idea central del Transformer — *cada palabra decide
 a cuáles otras presta atención* — usando solo papel, lápiz y una calculadora (o porcentajes
 a ojo).
@@ -18866,7 +18866,7 @@ Un sistema de tutoría inteligente puede resolver estas limitaciones mediante ex
 
 **** Respuestas
 
-****** Pregunta 1
+***** Pregunta 1
 1. La columna =Comentario_Reaccion= mide opinión. ¿Qué campo del NLP
    determina si un texto es positivo, negativo o neutral?  A)
    Extracción de Entidades B) Análisis de Sentimiento C) Segmentación
@@ -18895,7 +18895,7 @@ def sentimiento_textblob(texto):
 # df['sentimiento'] = df['Comentario_Reaccion'].apply(sentimiento_textblob)
 #+END_SRC
 
-****** Pregunta 2
+***** Pregunta 2
 2. Quieres convertir el texto de =Resumen= a números contando frecuencia
    de palabras. ¿Qué método hace esto?  A) Bag of Words B) One-Hot
    Encoding C) Coordenadas Cartesianas D) SVD
@@ -18916,7 +18916,7 @@ X_bow = cv.fit_transform(df['Resumen'].fillna(''))
 # X_bow es la matriz booleana/frecuencia que puede usarse para clustering o modelos clásicos
 #+END_SRC
 
-****** Pregunta 3
+***** Pregunta 3
 
 3. Palabras como "el", "la", "de", "un" deben removerse por ser
    ruido. ¿Cómo se llaman?  A) Palabras Raíz B) Palabras Clave C)
@@ -18940,7 +18940,7 @@ cv = CountVectorizer(stop_words=spanish_stops)
 X = cv.fit_transform(df['Resumen'].fillna(''))
 #+END_SRC
 
-****** Pregunta 4
+***** Pregunta 4
 
 4. =Categoria= tiene dos valores ("Generacion Z",
    "Frankenstein"). Predecirla desde el =Titulo= es un problema de: A)
