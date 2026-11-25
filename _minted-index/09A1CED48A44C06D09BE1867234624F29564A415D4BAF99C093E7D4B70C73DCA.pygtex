@@ -1,0 +1,28 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{Function} \PYG{n}{A}\PYG{o}{*}\PYG{p}{(}\PYG{n}{inicio}\PYG{p}{,} \PYG{n}{objetivo}\PYG{p}{)}
+    \PYG{n}{crear} \PYG{n}{una} \PYG{n}{cola} \PYG{n}{de} \PYG{n}{prioridad} \PYG{err}{`}\PYG{n}{open\PYGZus{}set}\PYG{err}{`}
+    \PYG{n}{agregar} \PYG{err}{`}\PYG{n}{inicio}\PYG{err}{`} \PYG{n}{a} \PYG{err}{`}\PYG{n}{open\PYGZus{}set}\PYG{err}{`} \PYG{n}{con} \PYG{n}{f}\PYG{p}{(}\PYG{n}{inicio}\PYG{p}{)} \PYG{o}{=} \PYG{n}{h}\PYG{p}{(}\PYG{n}{inicio}\PYG{p}{)}
+
+    \PYG{n}{g\PYGZus{}score}\PYG{p}{[}\PYG{n}{inicio}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{n}{f\PYGZus{}score}\PYG{p}{[}\PYG{n}{inicio}\PYG{p}{]} \PYG{o}{=} \PYG{n}{h}\PYG{p}{(}\PYG{n}{inicio}\PYG{p}{)}  \PYG{o}{//} \PYG{n}{Heurística} \PYG{n}{desde} \PYG{n}{inicio} \PYG{n}{hasta} \PYG{n}{objetivo}
+
+    \PYG{n}{While} \PYG{err}{`}\PYG{n}{open\PYGZus{}set}\PYG{err}{`} \PYG{n}{no} \PYG{n}{esté} \PYG{n}{vacío}\PYG{p}{:}
+        \PYG{n}{current} \PYG{o}{=} \PYG{n}{nodo} \PYG{n}{en} \PYG{err}{`}\PYG{n}{open\PYGZus{}set}\PYG{err}{`} \PYG{n}{con} \PYG{n}{menor} \PYG{n}{valor} \PYG{n}{de} \PYG{n}{f\PYGZus{}score}
+        \PYG{n}{If} \PYG{n}{current} \PYG{o}{==} \PYG{n}{objetivo}\PYG{p}{:}
+            \PYG{k}{return} \PYG{n}{reconstruir\PYGZus{}camino}\PYG{p}{(}\PYG{n}{current}\PYG{p}{)}  \PYG{o}{//} \PYG{n}{Camino} \PYG{n}{encontrado}
+
+        \PYG{n}{quitar} \PYG{n}{current} \PYG{n}{de} \PYG{err}{`}\PYG{n}{open\PYGZus{}set}\PYG{err}{`}
+
+        \PYG{n}{For} \PYG{n}{cada} \PYG{n}{vecino} \PYG{n}{de} \PYG{n}{current}\PYG{p}{:}
+            \PYG{n}{tentative\PYGZus{}g\PYGZus{}score} \PYG{o}{=} \PYG{n}{g\PYGZus{}score}\PYG{p}{[}\PYG{n}{current}\PYG{p}{]} \PYG{o}{+} \PYG{n}{costo} \PYG{n}{para} \PYG{n}{moverse} \PYG{n}{a} \PYG{n}{vecino}
+
+            \PYG{n}{If} \PYG{n}{tentative\PYGZus{}g\PYGZus{}score} \PYG{o}{\PYGZlt{}} \PYG{n}{g\PYGZus{}score}\PYG{p}{[}\PYG{n}{vecino}\PYG{p}{]:}  \PYG{o}{//} \PYG{n}{Mejor} \PYG{n}{camino} \PYG{n}{encontrado}
+                \PYG{n}{came\PYGZus{}from}\PYG{p}{[}\PYG{n}{vecino}\PYG{p}{]} \PYG{o}{=} \PYG{n}{current}
+                \PYG{n}{g\PYGZus{}score}\PYG{p}{[}\PYG{n}{vecino}\PYG{p}{]} \PYG{o}{=} \PYG{n}{tentative\PYGZus{}g\PYGZus{}score}
+                \PYG{n}{f\PYGZus{}score}\PYG{p}{[}\PYG{n}{vecino}\PYG{p}{]} \PYG{o}{=} \PYG{n}{g\PYGZus{}score}\PYG{p}{[}\PYG{n}{vecino}\PYG{p}{]} \PYG{o}{+} \PYG{n}{h}\PYG{p}{(}\PYG{n}{vecino}\PYG{p}{,} \PYG{n}{objetivo}\PYG{p}{)}
+
+                \PYG{n}{If} \PYG{n}{vecino} \PYG{n}{no} \PYG{n}{está} \PYG{n}{en} \PYG{err}{`}\PYG{n}{open\PYGZus{}set}\PYG{err}{`}\PYG{p}{:}
+                    \PYG{n}{agregar} \PYG{n}{vecino} \PYG{n}{a} \PYG{err}{`}\PYG{n}{open\PYGZus{}set}\PYG{err}{`}
+
+    \PYG{n}{Return} \PYG{n}{fracaso}  \PYG{o}{//} \PYG{n}{Si} \PYG{n}{no} \PYG{n}{se} \PYG{n}{encuentra} \PYG{n}{un} \PYG{n}{camino}
+\end{Verbatim}

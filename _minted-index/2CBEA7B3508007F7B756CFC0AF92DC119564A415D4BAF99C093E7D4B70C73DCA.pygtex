@@ -1,0 +1,25 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{pygame}
+\PYG{k+kn}{import} \PYG{n+nn}{sys}
+
+\PYG{c+c1}{\PYGZsh{} Inicialización de Pygame}
+\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{init}\PYG{p}{()}
+
+\PYG{c+c1}{\PYGZsh{} Tamaño de la ventana}
+\PYG{n}{ANCHO}\PYG{p}{,} \PYG{n}{ALTO} \PYG{o}{=} \PYG{l+m+mi}{800}\PYG{p}{,} \PYG{l+m+mi}{600}
+\PYG{n}{ventana} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}mode}\PYG{p}{((}\PYG{n}{ANCHO}\PYG{p}{,} \PYG{n}{ALTO}\PYG{p}{))}
+\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}caption}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Ventana Básica en Pygame\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Ciclo principal}
+\PYG{k}{while} \PYG{k+kc}{True}\PYG{p}{:}
+    \PYG{k}{for} \PYG{n}{event} \PYG{o+ow}{in} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{event}\PYG{o}{.}\PYG{n}{get}\PYG{p}{():}
+        \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{type} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{QUIT}\PYG{p}{:}
+            \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{quit}\PYG{p}{()}
+            \PYG{n}{sys}\PYG{o}{.}\PYG{n}{exit}\PYG{p}{()}
+
+    \PYG{c+c1}{\PYGZsh{} Rellenar la ventana con un color (blanco)}
+    \PYG{n}{ventana}\PYG{o}{.}\PYG{n}{fill}\PYG{p}{((}\PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{,} \PYG{l+m+mi}{255}\PYG{p}{))}
+
+    \PYG{c+c1}{\PYGZsh{} Actualizar la ventana}
+    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{flip}\PYG{p}{()}
+\end{Verbatim}
