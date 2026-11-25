@@ -6460,7 +6460,449 @@ Usuario pregunta
 
 El LoRA hace que *obedezca* y *explique*; el RAG aporta *los hechos del campus*.
 
+*** C.3 Y si quiero *imágenes*, ¿también hay fine-tuning?
+Sí. El apartado siguiente trata fine-tuning de *modelos de difusión* para que
+generen un *sujeto o tipo de imagen concreto* (no solo “estilo gótico /
+barroco / caricatura”). La idea de LoRA es la misma: adaptadores pequeños
+sobre un modelo base ya preentrenado.
 
+
+* Fine-tuning de generación de imágenes — delimitar el comportamiento (el “cajón”)
+
+** Para qué sirve este tema
+
+En el curso ya vimos fine-tuning con *LoRA* en *texto* (un tutor que habla de
+cierta forma). Aquí la pregunta es distinta y muy concreta:
+
+#+begin_example
+  ¿Puedo hacer que un generador de imágenes
+  NO se salga de un comportamiento que yo defino?
+#+end_example
+
+La respuesta es *sí*. No se trata de pedirle “ponle estilo gótico” y esperar
+suerte. Se trata de *enseñarle un cajón*: qué tipo de imagen está permitido
+generar y qué debe quedar fuera.
+
+Al terminar este apartado deberías poder:
+
+1. Explicar la diferencia entre *estilo libre* y *comportamiento acotado*.
+2. Decir qué es un *token* y por qué hace falta un dataset propio.
+3. Describir un pipeline sencillo de laboratorio (sin memorizar ecuaciones).
+4. Instalar y lanzar un *primer ejemplo* de DreamBooth con =diffusers=.
+5. Decir cómo comprobar si el modelo “se salió del cajón”.
+
+** Analogía del cajón
+
+Imagina un modelo de difusión recién descargado como un alumno que ya leyó
+*toda* la biblioteca de imágenes de internet. Si le dices «dibuja un robot»,
+puede inventar mil robots distintos. Eso es un *cajón enorme*.
+
+Tú quieres un *cajón chico*:
+
+#+begin_example
+  ┌─────────────────────────────────────┐
+  │  CAJÓN (lo que SÍ quiero)           │
+  │  • Este robot del laboratorio       │
+  │  • Mismo “quién”, fondos distintos  │
+  │  • Opcional: luego pedirle estilo   │
+  └─────────────────────────────────────┘
+           ▲
+           │  Fine-tuning (LoRA / DreamBooth)
+           │
+  ┌─────────────────────────────────────┐
+  │  FUERA DEL CAJÓN (lo que NO quiero) │
+  │  • Otro robot genérico              │
+  │  • Personas / marcas ajenas         │
+  │  • “Lo que se le ocurra”            │
+  └─────────────────────────────────────┘
+#+end_example
+
+*Fine-tuning* = construir las paredes del cajón con *ejemplos*.
+*Prompt* = decirle *dónde* colocar el objeto *dentro* del cajón (“en la
+cafetería”, “visto desde arriba”).
+
+** Estilo artístico ≠ cajón de comportamiento
+
+Muchos tutoriales hablan de “hazlo barroco / caricatura / pixel art”. Eso
+cambia la *pintura*. Aquí nos interesa el *comportamiento*:
+
+| | Estilo (barniz) | Cajón (comportamiento) |
+|---|-----------------|------------------------|
+| Pregunta | ¿Cómo se *ve* el trazo? | ¿*Qué* está permitido generar? |
+| Ejemplo | “óleo”, “anime” | “siempre *este* robot / *este* producto” |
+| ¿Basta el prompt? | A menudo sí | Casi nunca, si el sujeto es *tuyo* |
+| Técnica | Prompt o LoRA de estilo | DreamBooth / LoRA de sujeto + dataset |
+
+Puedes combinarlos *después*: primero fijas el cajón (=sks_robot=), luego en el
+prompt pides «estilo caricatura». Primero el *quién*; luego el *cómo*.
+
+** ¿Se puede hacer? Sí — con esta intuición
+
+Un generador moderno (p. ej. Stable Diffusion / SDXL):
+
+1. Empieza en *ruido*.
+2. Lo va limpiando guiado por el texto (prompt).
+3. Termina en una imagen.
+
+Fine-tunearlo para un cajón significa: cuando aparezca *tu palabra especial*
+(token), el camino de limpieza debe parecerse a *tus* fotos de ejemplo.
+
+#+begin_example
+  Con token "sks_robot"  →  variaciones de TU robot (dentro del cajón)
+  Sin ese token          →  no debería “ser” tu robot
+#+end_example
+
+Misma idea que LoRA en LLM: el modelo base se *congela*; aprendes un adaptador
+pequeño. Cambia el dominio (de texto a imagen) y el objetivo (de tono de tutor
+a *comportamiento visual acotado*).
+
+** Tres caminos (del más flojo al más útil para el cajón)
+
+*** 1. Solo prompt
+Rápido. Sirve para estilos genéricos. *No* cierra bien un sujeto propio.
+
+*** 2. Textual Inversion
+Aprende un *vector* ligado a una palabra nueva. Ligero, pero limitado si quieres
+muchas poses o escenas.
+
+*** 3. LoRA / DreamBooth (recomendado en clase)
+- *DreamBooth*: “inyecta” un sujeto con pocas fotos (apartado siguiente).
+- *LoRA*: adaptadores chicos (como en el capítulo de LLM), fáciles de guardar
+  y compartir. A menudo se combina: *DreamBooth + LoRA*.
+
+Para el laboratorio: si hay GPU, empieza por el *primer ejemplo de DreamBooth*
+de más abajo; luego puedes pasar a LoRA si el disco o el tiempo aprietan.
+
+** Qué no confundir con este tema
+
+| Esto | No es lo mismo que… |
+|------|---------------------|
+| Generar *dentro de un cajón* | Clasificar con una CNN (=CNNriesgo=) |
+| Adaptar un *generador* | Recuperar documentos (RAG) |
+| Enseñar con un *dataset* | Solo alargar el prompt con adjetivos |
+
+La CNN *discrimina* (“¿qué clase es?”). Aquí *generamos* píxeles, pero
+*delimitados*.
+
+** El dataset: las paredes del cajón
+
+Si el dataset es confuso, el cajón tendrá agujeros.
+
+*** Buenas prácticas
+1. *Un solo concepto* por entrenamiento (un robot, un producto, un logo).
+2. *Variedad controlada*: distintos fondos, luces y ángulos — mismo sujeto.
+3. *Calidad*: evita borrosas, marcas de agua y recortes absurdos.
+4. *Cantidad*: a menudo bastan del orden de 10–30 buenas fotos; más si quieres
+   mucha diversidad de pose.
+5. *Captions*: cada imagen con un texto que incluya el *token raro*.
+
+#+begin_example
+  dataset/
+    001.jpg   →  "sks_robot de metal en laboratorio, luz lateral"
+    002.jpg   →  "sks_robot sobre mesa blanca, vista frontal"
+    003.jpg   →  "sks_robot en pasillo del campus, plano medio"
+#+end_example
+
+*** Regla del token
+No uses palabras comunes (=robot=, =perro=, =Maria=). El modelo ya las tiene
+asociadas a miles de cosas. Usa un código inventado: =sks_robot=, =tok_prod_a=,
+=xyz_circuito=.
+
+Ese token es la *llave* del cajón.
+
+** Pipeline de laboratorio (paso a paso)
+
+1. *Definir el cajón* en una frase: «Solo el robot del lab; fondos libres;
+   nada de otras personas ni otros robots.»
+2. *Juntar y limpiar* fotos + captions con el token.
+3. *Elegir modelo base* según la GPU (SD 1.5 / SDXL, etc.).
+4. *Entrenar* LoRA o DreamBooth (en clase: =diffusers=, Kohya u otra herramienta
+   que indique el docente).
+5. *Probar* prompts *con* token y *sin* token.
+6. *Ajustar*:
+   - Sale genérico → más ejemplos del ángulo que falla, mejores captions.
+   - Sale siempre la misma foto clonada → sobreajuste: menos pasos, más variedad.
+
+** DreamBooth — qué es y por qué sirve para el cajón
+
+*DreamBooth* (Google Research, 2022) es una técnica para *personalizar* un
+modelo de difusión con *pocas fotos* de un sujeto. La idea clave:
+
+#+begin_example
+  asociar un TOKEN raro  +  tus fotos
+        →
+  el modelo aprende: “cuando digas ese token, dibuja ESTE sujeto”
+#+end_example
+
+En el lenguaje del curso: DreamBooth *construye las paredes del cajón*.
+
+| Pieza | Rol pedagógico |
+|-------|----------------|
+| Modelo base (p. ej. SD 1.5) | Ya sabe dibujar “un perro”, “un robot”… |
+| Tus 5–20 fotos | Ejemplos del *sujeto concreto* |
+| =instance_prompt= con token (=sks dog=, =sks_robot=) | La *llave* del cajón |
+| Prior preservation (opcional) | Evita que *toda* la clase se vuelva tu sujeto |
+
+DreamBooth “clásico” actualiza pesos del UNet (y a veces del text encoder).
+Ocupa más disco que un LoRA. En clase lo usamos porque deja muy claro el
+proceso: *instalar → dataset → entrenar → generar con el token*.
+
+** Instalación de DreamBooth (laboratorio)
+
+*** ¿A fuerza es con PyTorch?
+
+Para *este* laboratorio, sí: el camino oficial que usamos
+(=diffusers= + =train_dreambooth.py=) corre sobre *PyTorch*.
+
+Otras interfaces (Kohya, Automatic1111, etc.) también suelen llevar PyTorch
+por debajo. No es un capricho del curso: el ecosistema abierto de DreamBooth
+con Stable Diffusion está construido así.
+
+*** ¿Y si no tienen CUDA / GPU NVIDIA?
+
+Entrenar DreamBooth *en CPU* no es una opción realista de clase (horas o
+días, y a menudo se queda sin RAM). Tampoco hace falta que *cada* alumno tenga
+tarjeta NVIDIA en casa.
+
+Plan del curso si =torch.cuda.is_available()= es =False=:
+
+| Opción | Qué hacer |
+|--------|-----------|
+| *Google Colab* (GPU) | Sube el notebook / clona =diffusers= y entrena allí |
+| PC del laboratorio | Usa la máquina con CUDA que indique el docente |
+| Solo CPU en casa | *No* entrenes: prepara dataset + captions + token y documenta la prueba de CUDA fallida |
+| Mac (Apple Silicon) | A veces sirve =mps= para *inferir*; el entrenamiento DreamBooth completo sigue siendo frágil — preferir Colab |
+
+Entrega mínima sin GPU propia: carpeta de fotos + captions con token +
+captura de =torch.cuda.is_available() → False= + (si usaste Colab) enlace o
+capturas del entrenamiento.
+
+*** Requisitos cuando sí hay GPU
+
+Python 3.10+, GPU NVIDIA con CUDA (ideal ≥ 12 GB VRAM) y un entorno virtual
+limpio (ver el tutorial de venv al inicio de los apuntes).
+
+*** 1. Entorno e instalables base
+
+#+begin_src shell :exports code
+python3 -m venv ~/venvs/dreambooth
+source ~/venvs/dreambooth/bin/activate   # Windows: .\venvs\dreambooth\Scripts\activate
+
+# PyTorch *con* CUDA (ajusta la URL a tu versión):
+# https://pytorch.org/get-started/locally/
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
+
+# Si solo quieres comprobar el entorno en CPU (NO para entrenar DreamBooth):
+# pip install torch torchvision
+
+pip install transformers accelerate bitsandbytes xformers huggingface_hub
+#+end_src
+
+*** 2. Diffusers desde el código (script oficial de entrenamiento)
+
+El script =train_dreambooth.py= vive en el repositorio de Hugging Face
+*diffusers*. Conviene instalarlo *desde la fuente*:
+
+#+begin_src shell :exports code
+git clone https://github.com/huggingface/diffusers
+cd diffusers
+pip install .
+
+cd examples/dreambooth
+pip install -r requirements.txt
+
+# Configuración por defecto de Accelerate (una sola vez)
+accelerate config default
+#+end_src
+
+Comprueba GPU:
+
+#+begin_src shell :exports code
+python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU')"
+#+end_src
+
+Si sale =False=, vuelve a la tabla de arriba: Colab / lab / documentar.
+*No* insistas con entrenamiento en CPU.
+
+*** 3. Trucos de memoria (VRAM limitada)
+
+| VRAM aprox. | Qué activar |
+|-------------|-------------|
+| ≥ 24 GB | Entrenamiento cómodo; opcional =--train_text_encoder= |
+| ~16 GB | =--gradient_checkpointing= + =--use_8bit_adam= + =--mixed_precision="fp16"= |
+| ~12 GB | Lo anterior + =--enable_xformers_memory_efficient_attention= + =--set_grads_to_none= |
+| ≤ 8 GB | DeepSpeed / offload (más complejo) o mejor *DreamBooth+LoRA* |
+
+** Primer ejemplo: personalizar un perro (=sks dog=)
+
+Usaremos el dataset de ejemplo de Hugging Face (=diffusers/dog-example=). Tú
+puedes sustituirlo después por *tus* fotos del robot / producto del cajón.
+
+*** Paso A — Descargar las fotos de instancia
+
+#+begin_src python :exports code
+from huggingface_hub import snapshot_download
+
+snapshot_download(
+    "diffusers/dog-example",
+    local_dir="./dog",
+    repo_type="dataset",
+    ignore_patterns=".gitattributes",
+)
+print("Fotos en ./dog")
+#+end_src
+
+Revisa la carpeta: deben ser varias fotos *del mismo* perro, con fondos y
+ángulos distintos. Ese es tu mini-dataset del cajón.
+
+*** Paso B — Entrenar DreamBooth
+
+Desde =diffusers/examples/dreambooth/=:
+
+#+begin_src shell :exports code
+export MODEL_NAME="stable-diffusion-v1-5/stable-diffusion-v1-5"
+export INSTANCE_DIR="./dog"          # o ruta absoluta a tus fotos
+export OUTPUT_DIR="./dreambooth-sks-dog"
+
+accelerate launch train_dreambooth.py \
+  --pretrained_model_name_or_path=$MODEL_NAME \
+  --instance_data_dir=$INSTANCE_DIR \
+  --output_dir=$OUTPUT_DIR \
+  --instance_prompt="a photo of sks dog" \
+  --resolution=512 \
+  --train_batch_size=1 \
+  --gradient_accumulation_steps=1 \
+  --learning_rate=5e-6 \
+  --lr_scheduler="constant" \
+  --lr_warmup_steps=0 \
+  --max_train_steps=400 \
+  --gradient_checkpointing \
+  --use_8bit_adam \
+  --mixed_precision="fp16" \
+  --checkpointing_steps=200
+#+end_src
+
+Qué significan las piezas importantes:
+
+| Flag | Lectura en clase |
+|------|------------------|
+| =--instance_data_dir= | Carpeta con *tus* fotos (paredes del cajón) |
+| =--instance_prompt= | Prompt con el *token* (=sks dog=) |
+| =--max_train_steps=400= | Pocas fotos → pocos pasos; más pasos = riesgo de clonar la foto |
+| =--learning_rate=5e-6= | Aprendizaje *lento* a propósito (evitar sobreajuste) |
+| =--output_dir= | Dónde queda el modelo personalizado |
+
+Opcional (recomendado si “todos los perros” se vuelven el tuyo):
+=--with_prior_preservation= + =--class_prompt="a photo of a dog"= + carpeta
+=--class_data_dir=. Eso es la *preservación de clase*: recuerda cómo era un
+perro genérico para no ensanchar mal el cajón.
+
+*** Paso C — Generar la primera imagen (inferencia)
+
+#+begin_src python :exports code
+from diffusers import DiffusionPipeline
+import torch
+
+pipe = DiffusionPipeline.from_pretrained(
+    "./dreambooth-sks-dog",
+    torch_dtype=torch.float16,
+    use_safetensors=True,
+).to("cuda")
+
+# CON token → debería parecerse a TU perro (dentro del cajón)
+img = pipe(
+    "A photo of sks dog in a bucket",
+    num_inference_steps=50,
+    guidance_scale=7.5,
+).images[0]
+img.save("sks_dog_bucket.png")
+
+# SIN token → no debería “ser” tu perro
+img2 = pipe(
+    "A photo of a dog in a bucket",
+    num_inference_steps=50,
+    guidance_scale=7.5,
+).images[0]
+img2.save("generic_dog_bucket.png")
+#+end_src
+
+Compara las dos salidas. Esa comparación *es* la prueba del cajón.
+
+*** Adaptar el ejemplo a *tu* sujeto (robot / producto)
+
+1. Sustituye =./dog= por tu carpeta (=./mi_robot/=).
+2. Cambia el prompt: =a photo of sks_robot= (token inventado).
+3. Entrena con los mismos flags.
+4. Prueba: «=sks_robot= en la cafetería del campus» vs «un robot en la cafetería».
+
+** DreamBooth vs DreamBooth+LoRA (para no perderse)
+
+| | DreamBooth “completo” | DreamBooth + LoRA |
+|---|----------------------|-------------------|
+| Qué guarda | Casi un modelo entero | Adaptador pequeño (~MB) |
+| Disco / compartir | Pesado | Cómodo para entregar |
+| Script típico | =train_dreambooth.py= | =train_dreambooth_lora.py= |
+| Cuándo en clase | Entender el proceso | Entrega / GPU justa |
+
+Misma idea pedagógica; cambia *cuánto* peso tocas. Si el docente indica LoRA,
+el dataset y el token siguen siendo exactamente los del cajón.
+
+** Errores frecuentes en el primer entrenamiento
+
+1. Token demasiado común (=dog=, =robot=) → el cajón se mezcla con la clase.
+2. Todas las fotos idénticas (mismo fondo, mismo ángulo) → clona esa foto.
+3. Demasiados =max_train_steps= → sobreajuste (“fotocopia”).
+4. Probar solo prompts *con* token → no detectas si se salió del cajón.
+5. Entrenar en CPU o sin CUDA → horas inútiles o fallo de memoria.
+
+** Cómo saber si se salió del cajón (evaluación)
+
+Haz esta tabla mental (o real) en la entrega:
+
+| Prueba | Resultado deseado |
+|--------|-------------------|
+| Prompt con token + escena nueva | Se reconoce *tu* sujeto |
+| Prompt *sin* token | No aparece “de contrabando” tu sujeto |
+| Varias *seeds* con el mismo prompt | Variaciones, no copias idénticas |
+| Pedir un objeto distinto | No convierte *todo* en tu sujeto |
+
+Si “todos los robots del mundo” se vuelven el tuyo, el cajón se *ensanchó* mal
+(contaminación de clase): hay que recalibrar el entrenamiento.
+
+** Ética (parte del cajón también)
+
+Delimitar comportamiento no es solo técnico:
+
+- No uses caras o marcas ajenas sin permiso.
+- Cuidado con derechos de autor en fotos bajadas de internet.
+- Un modelo bien acotado puede hacer *deepfakes* muy coherentes: el límite
+  ético lo pones tú (y el reglamento del curso).
+
+** Mini práctica (entregable sugerido)
+
+1. Escribe tu cajón en dos líneas (SÍ / NO).
+2. 10–20 fotos propias + captions con token único.
+3. Entrena un LoRA pequeño (o documenta el intento si no hay GPU).
+4. Entrega 6 imágenes: 3 *con* token, 3 *sin* token (o con token mal escrito).
+5. Un párrafo: ¿aprendió el *comportamiento* del cajón o solo un barniz de estilo?
+
+** Relación con otros temas del curso
+
+| Ya viste… | Cómo se conecta |
+|-----------|-----------------|
+| LoRA en LLM | Misma idea de adaptadores; aquí el cajón es visual |
+| CNN | Clasifica; no genera (salvo que combines sistemas) |
+| Transformers / atención | Los difusores modernos los usan por dentro |
+| RAG | Aporta hechos a un chat; no acota un generador de imágenes |
+
+** Preguntas para pensar
+
+1. ¿Por qué un prompt «hazlo gótico» *no* garantiza el mismo robot en cada
+   corrida?
+2. Si el dataset mezcla tres productos distintos bajo el mismo token, ¿qué le
+   pasa al cajón?
+3. ¿Qué evidencia mostrarías en una defensa para decir “mi modelo no se sale
+   del cajón”?
 
 
 * Chatbot con RAG + Fine-Tuning — Tutorial paso a paso (Web y WhatsApp)
@@ -14239,9 +14681,9 @@ modelo = keras.Sequential([
 
 *** Attention Mechanism
 
-Los mecanismos de atención permiten que el modelo "preste atención" a partes específicas de la secuencia.
-
-Más avanzado, pero muy poderoso. Se usa en arquitecturas como Transformers.
+Ver el apartado *Attention — ¿a qué partes de la secuencia prestar atención?*
+(antes de Transformers): ahí se explica la idea. El detalle (self-attention, Q/K/V)
+está en *Transformers*.
 
 ** Regularización y Mejoras
 *** Dropout
@@ -14950,7 +15392,9 @@ modelo = keras.Sequential([
 
 *** Attention Mechanism
 
-Los mecanismos de atención permiten que el modelo "preste atención" a partes específicas de la secuencia. Más avanzado, pero muy poderoso.
+Idea breve: el modelo aprende *qué pasos* de la secuencia importan más.
+Desarrollo: *Attention — ¿a qué partes de la secuencia prestar atención?*
+y luego *Transformers*.
 
 *** Regularización para RNN
 
@@ -16993,12 +17437,86 @@ print("Archivo 'noticias.csv' creado con éxito.")
 4. **Salida**: imprimimos los datos o los guardamos en un archivo CSV.
 
 
+* Attention — ¿a qué partes de la secuencia prestar atención?
+
+** En una frase
+
+*Attention* (atención) es un mecanismo para que el modelo diga, en cada paso:
+“de toda la secuencia, **estas** posiciones me importan más (y estas menos)”.
+
+No procesa “solo lo último” como una RNN ingenua: *reparte importancia* sobre
+varios elementos y mezcla su información.
+
+** El problema que resuelve
+
+En una RNN/LSTM clásica, el pasado viaja comprimido en el estado oculto \(h_t\).
+Si la secuencia es larga, lo importante de hace muchos pasos puede *diluirse*.
+
+En traducción u otras tareas *seq2seq*, el encoder a veces resumía *toda* la
+frase en un solo vector: el decoder tenía que adivinar mirando ese resumen.
+
+La atención responde: en cada momento, **consulta** la secuencia (o los estados
+del encoder) y construye un contexto = suma ponderada de las partes útiles.
+
+** Intuición (sin fórmulas)
+
+Imagina la frase como personas en una mesa:
+
+1. La palabra actual hace una *pregunta*: “¿quién me ayuda a entenderme?”
+2. Las demás muestran *etiquetas* de relevancia y aportan *contenido*.
+3. Se calculan *afinidades* (quién encaja con la pregunta).
+4. Esas afinidades se convierten en *porcentajes* (suman 1) → pesos de atención.
+5. Se *mezcla* el contenido según esos pesos → nueva representación.
+
+Eso es “identificar qué partes de la secuencia son más relevantes”.
+
+*** Ejemplo
+- “Fui al *banco* del *río*” → “banco” atiende fuerte a “río”.
+- “Fui al *banco* a sacar *dinero*” → “banco” atiende a “dinero” / “sacar”.
+
+Misma palabra, distinto foco según el contexto.
+
+** Atención en seq2seq (antes del Transformer)
+
+En los modelos encoder–decoder con RNN (Bahdanau / Luong), el decoder en el
+paso \(t\) mira *todos* los estados del encoder y forma un vector de contexto:
+
+\[
+c_t = \sum_{i} \alpha_{t,i}\, h_i^{\text{enc}}
+\]
+
+donde \(\alpha_{t,i}\) es “cuánto miro la posición \(i\) de la entrada al generar
+la salida \(t\)”. Los \(\alpha\) salen de un softmax sobre puntuaciones aprendidas.
+
+Ahí ya aparece la idea clave del temario: **pesos dinámicos sobre la secuencia**.
+
+** Self-attention (auto-atención)
+
+Si las preguntas y las “etiquetas” salen de la *misma* secuencia, hablamos de
+*self-attention*: la frase se explica a sí misma (cada token mira a los demás).
+
+Eso es el motor del *Transformer*. Lo detallamos en el siguiente capítulo
+(Q, K, V, scaled dot-product, multi-head, embeddings y posición).
+
+** Mapa rápido: Attention → Transformers
+
+| Idea | Dónde profundizar |
+|------+-------------------|
+| ¿Por qué mirar partes relevantes? | Este apartado |
+| Self-attention, Q/K/V, multi-head | *Transformers — introducción amigable* |
+| Fórmulas, máscaras, PE, encoder/decoder | *Transformers — teoría y práctica* |
+| Actividades de lápiz y papel | *Actividades — Transformers…* |
+
+** Pregunta de cierre
+
+Si en \(t=2\) de una RNN reinicias la memoria \(h_1=0\), la salida cambia porque
+pierdes el pasado. Con atención, ¿qué “pasado” recuperas en cada paso, y cómo
+decidirías (en palabras) qué posiciones merecen más peso?
 
 
+*  Transformers — introducción amigable
 
-
-*  Transformers — introducción amigable (sin fórmulas pesadas)
-
+/Antes: / =Attention — ¿a qué partes de la secuencia prestar atención?=
 /Versión formal con matemáticas y práctica: / =Transformers — teoría y práctica= /más abajo./
 
 
@@ -17010,7 +17528,7 @@ todos dicen “transformer” en inglés).
 Es una forma de que la computadora **lea o escriba texto** prestando atención a **todas**
 las palabras relevantes a la vez, no solo a la anterior.
 
-** Nombres que oirás (no te asustes)
+** Nombres que oirás 
 | Nombre   | En criollo                                             |
 |----------+--------------------------------------------------------|
 | BERT     | Modelo que *lee* bien (entender texto)                   |
