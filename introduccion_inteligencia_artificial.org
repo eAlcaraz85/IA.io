@@ -6490,6 +6490,8 @@ Al terminar este apartado deberías poder:
 3. Describir un pipeline sencillo de laboratorio (sin memorizar ecuaciones).
 4. Instalar y lanzar un *primer ejemplo* de DreamBooth con =diffusers=.
 5. Decir cómo comprobar si el modelo “se salió del cajón”.
+6. (Siguiente apartado) Hacer un ajuste fino *ligero* Text-to-Image + LoRA
+   con dataset =metadata.jsonl=.
 
 ** Analogía del cajón
 
@@ -6649,6 +6651,10 @@ proceso: *instalar → dataset → entrenar → generar con el token*.
 
 ** Instalación de DreamBooth (laboratorio)
 
+El flujo es el mismo en *Windows*, *macOS* y *Linux*: Python 3.10+ → venv →
+PyTorch → =diffusers=. Cambia la sintaxis de la terminal (PowerShell vs bash)
+y el tipo de aceleración (CUDA / MPS / Colab).
+
 *** ¿A fuerza es con PyTorch?
 
 Para *este* laboratorio, sí: el camino oficial que usamos
@@ -6668,10 +6674,12 @@ Plan del curso si =torch.cuda.is_available()= es =False=:
 
 | Opción | Qué hacer |
 |--------|-----------|
-| *Google Colab* (GPU) | Sube el notebook / clona =diffusers= y entrena allí |
-| PC del laboratorio | Usa la máquina con CUDA que indique el docente |
-| Solo CPU en casa | *No* entrenes: prepara dataset + captions + token y documenta la prueba de CUDA fallida |
-| Mac (Apple Silicon) | A veces sirve =mps= para *inferir*; el entrenamiento DreamBooth completo sigue siendo frágil — preferir Colab |
+| *Google Colab* (GPU) | Válido desde cualquier SO: ver *Mini tutorial Colab* en el apartado Text-to-Image + LoRA |
+| PC del laboratorio (Windows/Linux con NVIDIA) | Usa la máquina con CUDA que indique el docente |
+| Windows/Linux en casa *sin* NVIDIA | *No* entrenes en CPU: dataset + token + captura de =cuda= =False= |
+| Windows/Linux *con* NVIDIA | Instala drivers + CUDA según PyTorch; sigue los comandos de abajo |
+| Mac (Apple Silicon) | =mps= puede servir para *inferir*; DreamBooth completo es frágil — preferir Colab |
+| Mac (Intel sin NVIDIA) | Igual que CPU: Colab o lab |
 
 Entrega mínima sin GPU propia: carpeta de fotos + captions con token +
 captura de =torch.cuda.is_available() → False= + (si usaste Colab) enlace o
@@ -6684,18 +6692,37 @@ limpio (ver el tutorial de venv al inicio de los apuntes).
 
 *** 1. Entorno e instalables base
 
+En *Linux/macOS* (bash/zsh):
+
 #+begin_src shell :exports code
 python3 -m venv ~/venvs/dreambooth
-source ~/venvs/dreambooth/bin/activate   # Windows: .\venvs\dreambooth\Scripts\activate
+source ~/venvs/dreambooth/bin/activate
+#+end_src
 
-# PyTorch *con* CUDA (ajusta la URL a tu versión):
-# https://pytorch.org/get-started/locally/
+En *Windows* (PowerShell o =cmd=):
+
+#+begin_src shell :exports code
+py -3 -m venv %USERPROFILE%\venvs\dreambooth
+%USERPROFILE%\venvs\dreambooth\Scripts\activate
+#+end_src
+
+Luego, en *cualquier* SO (con el venv activo):
+
+#+begin_src shell :exports code
+# Elige UNA línea de PyTorch según tu máquina:
+# NVIDIA (Windows/Linux): https://pytorch.org/get-started/locally/
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
 
-# Si solo quieres comprobar el entorno en CPU (NO para entrenar DreamBooth):
+# Mac (Apple Silicon) — solo entorno/inferencia; entrenamiento pesado → Colab:
 # pip install torch torchvision
 
-pip install transformers accelerate bitsandbytes xformers huggingface_hub
+# Solo comprobar CPU (NO entrenar DreamBooth aquí):
+# pip install torch torchvision
+
+pip install transformers accelerate huggingface_hub
+# bitsandbytes y xformers suelen ir mejor en Linux+NVIDIA; en Windows a veces fallan
+# (si fallan, omítelos y usa gradient_checkpointing + fp16).
+pip install bitsandbytes xformers
 #+end_src
 
 *** 2. Diffusers desde el código (script oficial de entrenamiento)
@@ -6903,6 +6930,805 @@ Delimitar comportamiento no es solo técnico:
    pasa al cajón?
 3. ¿Qué evidencia mostrarías en una defensa para decir “mi modelo no se sale
    del cajón”?
+
+
+3. ¿Qué evidencia mostrarías en una defensa para decir “mi modelo no se sale
+   del cajón”?
+
+
+* Tutorial — Fine-tuning de imágenes con Diffusers (Text-to-Image + LoRA)
+
+** Para qué sirve este tutorial
+
+Ya hiciste *fine-tuning* de modelos de lenguaje (tutores / asistentes). Ahora el
+experimento equivalente usa *imágenes* como datos y produce *imágenes* como
+salida.
+
+#+begin_example
+  Texto (LLM + LoRA)     →  el modelo *habla* de cierta forma
+  Imagen (Diffusers+LoRA) →  el modelo *dibuja* dentro de un dominio
+#+end_example
+
+Aquí *no* basta “abrir una IA que genere fotos”. Hay entrenamiento propio:
+pérdida, *backpropagation* y un adaptador LoRA que guardas y reutilizas.
+
+Al terminar deberías poder:
+
+1. Relacionar el FT de texto con el FT de imágenes (misma idea, otra arquitectura).
+2. Armar un dataset pequeño (=jpg= + =metadata.jsonl=).
+3. Instalar =diffusers= y lanzar =train_text_to_image_lora.py= con pocos pasos
+   (en local *o* con el mini tutorial de Colab).
+4. Comparar *modelo base* vs *base+LoRA* con el mismo prompt y semilla.
+5. Decir qué entregar si no hay GPU (dataset + Colab o evidencia).
+
+** Equivalencia: texto vs imágenes
+
+| Componente | Fine-tuning de texto | Fine-tuning de imágenes |
+|------------|----------------------|-------------------------|
+| Modelo base | Llama, Qwen, Gemma… | Stable Diffusion, FLUX… |
+| Dataset | Preguntas / respuestas (JSONL) | Imágenes + descripciones (JSONL) |
+| Técnica | LoRA, QLoRA | LoRA, DreamBooth (+ LoRA) |
+| Framework | Transformers, PEFT | Diffusers |
+| Entrenamiento | PyTorch | PyTorch |
+| Resultado | Adaptador especializado | Adaptador especializado |
+| Inferencia | Texto → texto | Texto → imagen |
+| Ejecución local típica | Ollama (+ pesos LoRA) | Diffusers (o ComfyUI *después*) |
+
+El fundamento es el mismo: *adaptar sin reescribir todo el modelo*. Cambia la
+arquitectura y cómo se calcula la pérdida (en difusión: predecir el ruido en el
+latente, no el siguiente token).
+
+** Tres caminos de ajuste (elige según el objetivo)
+
+| Técnica | Objetivo | Dataset orientativo | ¿Cuándo en clase? |
+|---------|----------|---------------------|-------------------|
+| DreamBooth (+ LoRA) | Un *sujeto* concreto (tu robot, tu logo) | 5–20 fotos + token | Cajón de sujeto (apartado anterior) |
+| Text-to-Image + LoRA | Un *dominio / estilo / familia* visual | 15–100 fotos con caption distinta cada una | *Práctica recomendada* aquí |
+| Full fine-tuning | Especializar el generador a fondo | Cientos / miles | Fuera de alcance (pesado) |
+
+Para un ejercicio académico *parecido* al LoRA de LLM, usamos
+*Text-to-Image + LoRA*: cada imagen puede llevar su propia descripción (como
+cada fila de un JSONL de chat).
+
+DreamBooth sigue siendo mejor si el objetivo es “siempre *este* objeto”.
+Text-to-Image + LoRA brilla si quieres “que se vea como robots industriales /
+circuitos / campus…”, no una sola instancia.
+
+** Qué ocurre en el entrenamiento (sin ecuaciones)
+
+1. Tomas una imagen del dataset y su texto.
+2. La pasas a *espacio latente* (VAE) y le agregas ruido.
+3. El UNet (condicionado por el texto) intenta *predecir ese ruido*.
+4. La *pérdida* mide el error de esa predicción.
+5. Con *backprop* actualizas solo los pesos LoRA (pocos parámetros).
+6. Al final guardas el adaptador (archivos pequeños), no un SD completo.
+
+Por eso es viable como práctica “pequeña”: no reentrenas todo Stable Diffusion.
+
+** Mini proyecto: robots industriales (o tu dominio)
+
+Sustituye “robot” por el tema del equipo (producto, edificio, planta, etc.).
+
+#+begin_example
+  laboratorio_ft_imagen/
+  ├── dataset/
+  │   ├── robot01.jpg
+  │   ├── robot02.jpg
+  │   ├── robot03.jpg
+  │   └── metadata.jsonl
+  ├── generar.py
+  └── modelo_lora/          ← se crea al entrenar
+#+end_example
+
+*** =metadata.jsonl= (equivalente al JSONL de texto)
+
+Una línea JSON por imagen. =file_name= es *relativo* a la carpeta del
+=metadata.jsonl= (solo el nombre del archivo, sin carpetas extra):
+
+#+begin_example
+{"file_name":"robot01.jpg","text":"A red industrial robot with four joints"}
+{"file_name":"robot02.jpg","text":"A yellow industrial robot on a production line"}
+{"file_name":"robot03.jpg","text":"A robotic arm welding a metal structure"}
+#+end_example
+
+Buenas prácticas del dataset *ligero*:
+
+1. Empieza con *12–30* fotos propias (más si puedes; no hace falta mil).
+2. Variedad: ángulos, luces, fondos — mismo *dominio*.
+3. Captions concretas (color, pose, escena), no solo «un robot».
+4. Resolución razonable (≥ 512 px en el lado corto ayuda).
+5. Sin marcas de agua ni caras ajenas sin permiso.
+
+** Instalación en Windows, macOS y Linux (sin ComfyUI)
+
+El laboratorio *no* exige Debian. Sirve Windows, macOS o Linux. Lo común en
+todos:
+
+1. Python 3.10+ y =git=
+2. Un *venv*
+3. PyTorch (con CUDA si hay NVIDIA)
+4. =diffusers= desde el repositorio + script =train_text_to_image_lora.py=
+
+ComfyUI puede venir *después* como interfaz; primero hay que entender el
+entrenamiento en Python.
+
+*** Tabla rápida por sistema
+
+| Sistema | Terminal | Aceleración típica | ¿Entrenar LoRA aquí? |
+|---------|----------|--------------------|----------------------|
+| Windows + NVIDIA | PowerShell / =cmd= | CUDA | Sí (mejor camino en casa) |
+| Windows sin NVIDIA | PowerShell | CPU | No → Colab o lab |
+| Linux + NVIDIA | bash/zsh | CUDA | Sí |
+| Linux sin NVIDIA | bash/zsh | CPU | No → Colab o lab |
+| macOS Apple Silicon | Terminal (zsh) | MPS | Inferencia posible; entrenar → Colab recomendado |
+| macOS Intel | Terminal | CPU | No → Colab |
+
+Colab funciona igual desde el navegador en *cualquier* SO.
+
+*** Paso a paso (mismo flujo, distinta terminal)
+
+1) Clonar e instalar =diffusers=:
+
+#+begin_src shell :exports code
+git clone https://github.com/huggingface/diffusers.git
+cd diffusers
+#+end_src
+
+2) Crear y activar el venv:
+
+#+begin_example
+  # Linux / macOS
+  python3 -m venv .venv
+  source .venv/bin/activate
+
+  # Windows (cmd)
+  py -3 -m venv .venv
+  .venv\Scripts\activate.bat
+
+  # Windows (PowerShell)
+  py -3 -m venv .venv
+  .venv\Scripts\Activate.ps1
+  # Si PowerShell bloquea scripts: Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+#+end_example
+
+3) PyTorch + dependencias (con el venv *activo*):
+
+#+begin_src shell :exports code
+pip install -U pip
+
+# NVIDIA (Windows o Linux) — ajusta el índice en pytorch.org si tu CUDA es otra:
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
+
+# macOS (solo entorno; entrenamiento pesado preferible en Colab):
+# pip install torch torchvision
+
+pip install -e .
+cd examples/text_to_image
+pip install -r requirements.txt
+pip install peft
+
+# Opcionales (ayudan en NVIDIA; si fallan en Windows, omítelos):
+pip install bitsandbytes xformers
+
+accelerate config default
+#+end_src
+
+4) Comprobar aceleración:
+
+#+begin_src shell :exports code
+python -c "import torch; print('cuda:', torch.cuda.is_available()); print('mps:', getattr(torch.backends,'mps',None) and torch.backends.mps.is_available())"
+#+end_src
+
+- =cuda: True= → puedes lanzar el entrenamiento local.
+- =cuda: False= y no estás en el lab → Colab o documentar (igual que DreamBooth).
+- =mps: True= en Mac → útil sobre todo para *generar*; el entrenamiento LoRA de
+  clase sigue siendo más simple en Colab.
+
+** Tutorial extendido: Google Colab (sin CUDA en casa)
+
+Si tu computadora tiene buen CPU y mucha RAM pero *no* GPU NVIDIA (caso muy
+común en clase), **Colab es el laboratorio oficial** para este tema. Entras con
+el navegador desde Windows, macOS o Linux; la GPU la presta Google.
+
+Este tutorial es *más largo a propósito*: sirve para quien nunca ha usado Colab
+y para quien sí, pero se pierde con rutas, zips y sesiones que se reinician.
+
+*** Objetivos del laboratorio en Colab
+
+Al terminar deberías haber:
+
+1. Activado una GPU en Colab y comprobado =cuda: True=.
+2. Subido un dataset (=fotos= + =metadata.jsonl=).
+3. Instalado =diffusers= y lanzado =train_text_to_image_lora.py= (~500 pasos).
+4. Generado comparación A (base) vs B (base+LoRA) con *mismo prompt y seed*.
+5. Descargado un =.zip= de entrega (pesos + PNG + dataset).
+
+Tiempo orientativo (cuenta gratis, GPU T4): *30–90 minutos* la primera vez
+(instalación + descarga del modelo + entrenamiento corto).
+
+*** Mapa mental: qué vive dónde
+
+#+begin_example
+  TU PC (CPU / 32 GB RAM, etc.)
+    • Armas dataset + metadata.jsonl
+    • Comprimes dataset.zip
+    • Redactas la tabla A/B y el reporte
+            │  subes / descargas
+            ▼
+  GOOGLE COLAB (GPU en la nube)
+    • Instala PyTorch + diffusers
+    • Entrena el LoRA
+    • Genera comparacion_A / comparacion_B
+            │
+            ▼
+  (Opcional) GOOGLE DRIVE
+    • Guarda dataset y modelo_lora para no
+      perderlos si Colab se reinicia
+#+end_example
+
+Regla de oro: *todo lo que solo esté en =/content/= se borra* cuando se
+desconecta el entorno. Por eso Drive (o descargar el zip al final) importa.
+
+*** Parte A — En tu PC: dataset listo para Colab
+
+**** A.1 Estructura recomendada
+
+#+begin_example
+  laboratorio_ft_imagen/
+  └── dataset/
+      ├── robot01.jpg
+      ├── robot02.jpg
+      ├── ...
+      └── metadata.jsonl
+#+end_example
+
+**** A.2 =metadata.jsonl= (revisión rápida)
+
+- Una línea JSON por imagen.
+- =file_name= = solo el nombre del archivo (=robot01.jpg=), *no* =dataset/robot01.jpg=.
+- =text= = caption en inglés o español (sé consistente).
+
+#+begin_example
+{"file_name":"robot01.jpg","text":"A red industrial robot with four joints"}
+{"file_name":"robot02.jpg","text":"A yellow industrial robot on a production line"}
+#+end_example
+
+**** A.3 Comprobar el JSONL antes de subir (en tu PC)
+
+#+begin_src python :exports code
+import json
+from pathlib import Path
+
+ds = Path("dataset")
+meta = ds / "metadata.jsonl"
+assert meta.exists(), "Falta metadata.jsonl"
+
+n_ok = 0
+with meta.open(encoding="utf-8") as f:
+    for i, line in enumerate(f, 1):
+        line = line.strip()
+        if not line:
+            continue
+        row = json.loads(line)
+        img = ds / row["file_name"]
+        assert img.exists(), f"Línea {i}: no existe {img}"
+        assert "text" in row and row["text"].strip(), f"Línea {i}: caption vacío"
+        n_ok += 1
+print(f"OK: {n_ok} pares imagen+caption")
+#+end_src
+
+**** A.4 Crear el zip
+
+#+begin_example
+  # Linux / macOS
+  cd laboratorio_ft_imagen
+  zip -r dataset.zip dataset
+
+  # Windows: clic derecho en la carpeta dataset → Comprimir / Enviar a zip
+  # El zip debe contener la carpeta dataset/ por dentro (no solo sueltas las jpg).
+#+end_example
+
+Meta: al descomprimir en Colab debe existir algo como
+=/content/.../dataset/metadata.jsonl=.
+
+*** Parte B — Abrir Colab y pedir GPU
+
+1. Abre https://colab.research.google.com/ e inicia sesión con Google.
+2. *Archivo → Nuevo cuaderno*.
+3. Renómbralo: =ft_imagen_lora_apellido= (útil para la entrega).
+4. Menú *Entorno de ejecución → Cambiar tipo de entorno de ejecución*:
+   - Acelerador de hardware: *GPU*
+   - Tipo de GPU: lo que ofrezca la cuenta (T4 suele bastar para LoRA ligero)
+   - Guardar
+5. *Entorno de ejecución → Ejecutar celda* (o =Shift+Enter=) en la celda de prueba:
+
+#+begin_src python :exports code
+# Celda B1 — ¿hay GPU?
+import torch, sys
+print("Python:", sys.version.split()[0])
+print("torch:", torch.__version__)
+print("cuda disponible:", torch.cuda.is_available())
+if torch.cuda.is_available():
+    print("GPU:", torch.cuda.get_device_name(0))
+    print("VRAM (GB):", round(torch.cuda.get_device_properties(0).total_memory / 1e9, 2))
+else:
+    print("SIN GPU → Runtime → Change runtime type → GPU, o prueba más tarde.")
+#+end_src
+
+**** Si no te da GPU
+
+| Síntoma | Qué hacer |
+|---------|-----------|
+| Solo aparece CPU | Cambia el tipo de entorno otra vez y *reconecta* |
+| “No GPU available” / cupo agotado | Espera, cambia de hora, o usa otra cuenta educativa si aplica |
+| Se desconecta a los pocos minutos | Mantén la pestaña activa; Colab gratis corta por inactividad |
+| Pide Colab Pro | *No es obligatorio* para la práctica ligera; reintenta T4 gratis |
+
+*** Parte C — Instalar el stack (Diffusers)
+
+Ejecuta **una sola vez** por sesión (si reinicias el entorno, vuelve a correrla):
+
+#+begin_src python :exports code
+# Celda C1 — instalar (tarda varios minutos la primera vez)
+import os, subprocess, sys
+
+def sh(cmd: str):
+    print(">>>", cmd)
+    subprocess.check_call(cmd, shell=True)
+
+# Clonar si no existe
+if not os.path.isdir("/content/diffusers"):
+    sh("git clone https://github.com/huggingface/diffusers.git /content/diffusers")
+
+sh("pip install -q -e /content/diffusers")
+sh("pip install -q -r /content/diffusers/examples/text_to_image/requirements.txt")
+sh("pip install -q peft bitsandbytes accelerate transformers datasets")
+sh("accelerate config default")
+
+print("Instalación lista.")
+#+end_src
+
+Notas:
+
+- El =!= de Colab ejecuta shell; aquí usamos =subprocess= para ver mejor los errores.
+- =bitsandbytes= a veces avisa cosas raras en Colab: si el entrenamiento arranca, sigue.
+- No hace falta =xformers= para esta práctica corta.
+
+*** Parte D — Subir o montar el dataset
+
+Elige *una* opción. Drive es mejor si vas a entrenar más de una vez.
+
+**** Opción 1 — Subir =dataset.zip= desde el PC
+
+#+begin_src python :exports code
+# Celda D1 — upload zip
+from google.colab import files
+import zipfile
+from pathlib import Path
+import shutil
+
+DEST = Path("/content/laboratorio_ft_imagen")
+DEST.mkdir(parents=True, exist_ok=True)
+
+uploaded = files.upload()  # selecciona dataset.zip en el diálogo
+for name in uploaded:
+    if not name.endswith(".zip"):
+        print("Ignorado (no es zip):", name)
+        continue
+    with zipfile.ZipFile(name) as zf:
+        zf.extractall(DEST)
+    print("Extraído:", name, "→", DEST)
+
+# Buscar metadata.jsonl para fijar TRAIN_DIR
+metas = list(DEST.rglob("metadata.jsonl"))
+print("metadata encontrados:", metas)
+assert metas, "No hallé metadata.jsonl. Revisa la estructura del zip."
+TRAIN_DIR = metas[0].parent
+print("TRAIN_DIR =", TRAIN_DIR)
+print("Archivos:", sorted(p.name for p in TRAIN_DIR.iterdir())[:30])
+#+end_src
+
+**** Opción 2 — Google Drive (recomendado)
+
+1. En Drive crea =Mi unidad/laboratorio_ft_imagen/dataset/= con fotos + JSONL.
+2. En Colab:
+
+#+begin_src python :exports code
+# Celda D2 — montar Drive
+from google.colab import drive
+from pathlib import Path
+
+drive.mount("/content/drive")
+
+TRAIN_DIR = Path("/content/drive/MyDrive/laboratorio_ft_imagen/dataset")
+OUTPUT_DIR = Path("/content/drive/MyDrive/laboratorio_ft_imagen/modelo_lora")
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+assert (TRAIN_DIR / "metadata.jsonl").exists(), f"Falta metadata en {TRAIN_DIR}"
+print("TRAIN_DIR =", TRAIN_DIR)
+print("n_imgs ≈", len(list(TRAIN_DIR.glob("*.jpg")) + list(TRAIN_DIR.glob("*.png"))))
+#+end_src
+
+Si usaste la opción 1 (zip), define también:
+
+#+begin_src python :exports code
+# Celda D3 — rutas si viniste del zip
+from pathlib import Path
+TRAIN_DIR = Path("/content/laboratorio_ft_imagen/dataset")  # ajusta si el print de D1 dijo otra
+OUTPUT_DIR = Path("/content/laboratorio_ft_imagen/modelo_lora")
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+print(TRAIN_DIR, OUTPUT_DIR)
+#+end_src
+
+**** Validar el dataset *dentro* de Colab
+
+#+begin_src python :exports code
+# Celda D4 — validar
+import json
+from pathlib import Path
+
+meta = TRAIN_DIR / "metadata.jsonl"
+n = 0
+with meta.open(encoding="utf-8") as f:
+    for i, line in enumerate(f, 1):
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        img = TRAIN_DIR / row["file_name"]
+        assert img.exists(), f"Línea {i}: falta {img.name}"
+        n += 1
+print(f"Dataset OK: {n} ejemplos en {TRAIN_DIR}")
+#+end_src
+
+*** Parte E — Entrenar el LoRA (práctica ligera)
+
+#+begin_src python :exports code
+# Celda E1 — entrenamiento
+import os, subprocess
+from pathlib import Path
+
+MODEL_NAME = "stable-diffusion-v1-5/stable-diffusion-v1-5"
+# TRAIN_DIR y OUTPUT_DIR deben existir de la Parte D
+assert Path(TRAIN_DIR).exists() and Path(OUTPUT_DIR).exists()
+
+script = "/content/diffusers/examples/text_to_image/train_text_to_image_lora.py"
+cmd = f"""
+accelerate launch {script} \
+  --pretrained_model_name_or_path={MODEL_NAME} \
+  --train_data_dir={TRAIN_DIR} \
+  --caption_column=text \
+  --resolution=512 \
+  --train_batch_size=1 \
+  --gradient_accumulation_steps=4 \
+  --gradient_checkpointing \
+  --max_train_steps=500 \
+  --learning_rate=1e-4 \
+  --lr_scheduler=constant \
+  --lr_warmup_steps=0 \
+  --mixed_precision=fp16 \
+  --rank=4 \
+  --seed=42 \
+  --checkpointing_steps=250 \
+  --output_dir={OUTPUT_DIR}
+"""
+print(cmd)
+subprocess.check_call(cmd, shell=True)
+print("Entrenamiento terminado →", OUTPUT_DIR)
+print("Contenido:", list(Path(OUTPUT_DIR).iterdir())[:20])
+#+end_src
+
+**** Qué mirar mientras corre
+
+- Barra de progreso / =step= avanzando (0 → 500).
+- Primera vez: descarga de Stable Diffusion 1.5 (varios GB; paciencia).
+- Si ves =CUDA out of memory=: baja a =--max_train_steps=300=, asegúrate de
+  =batch_size=1= y =gradient_checkpointing= (ya van en el comando).
+
+**** Si la sesión se cae a mitad
+
+1. Remonta Drive (si usabas opción 2) o vuelve a subir el zip.
+2. Reinstala (celda C1).
+3. Si quedó un checkpoint en =OUTPUT_DIR/checkpoint-250=, puedes *reentregar*
+   con lo que haya + explicación, o relanzar desde cero (para clase suele ser
+   más simple relanzar con 500 pasos).
+
+*** Parte F — Comparación A/B (mismo prompt y seed)
+
+#+begin_src python :exports code
+# Celda F1 — base vs LoRA
+import torch
+from pathlib import Path
+from diffusers import StableDiffusionPipeline
+from IPython.display import display
+
+MODEL = "stable-diffusion-v1-5/stable-diffusion-v1-5"
+LORA = str(OUTPUT_DIR)
+PROMPT = "A red industrial robot with four joints in a factory"  # cámbialo a tu dominio
+NEG = "blurry, low quality, watermark, text"
+SEED, STEPS = 42, 30
+out = Path("/content/laboratorio_ft_imagen")
+out.mkdir(parents=True, exist_ok=True)
+
+pipe = StableDiffusionPipeline.from_pretrained(MODEL, torch_dtype=torch.float16).to("cuda")
+pipe.set_progress_bar_config(disable=True)
+
+gen = torch.Generator("cuda").manual_seed(SEED)
+img_a = pipe(PROMPT, negative_prompt=NEG, num_inference_steps=STEPS, generator=gen).images[0]
+img_a.save(out / "comparacion_A_base.png")
+print("A (base)"); display(img_a)
+
+gen = torch.Generator("cuda").manual_seed(SEED)
+pipe.load_lora_weights(LORA)
+img_b = pipe(PROMPT, negative_prompt=NEG, num_inference_steps=STEPS, generator=gen).images[0]
+img_b.save(out / "comparacion_B_lora.png")
+print("B (LoRA)"); display(img_b)
+
+# Copia también a Drive si está montado
+drive_out = Path("/content/drive/MyDrive/laboratorio_ft_imagen")
+if drive_out.exists():
+    img_a.save(drive_out / "comparacion_A_base.png")
+    img_b.save(drive_out / "comparacion_B_lora.png")
+    print("Copiado a Drive:", drive_out)
+#+end_src
+
+Haz *al menos* otra pareja con un prompt distinto (misma seed) y comenta si el
+LoRA generaliza o solo “pinta” el primer caso.
+
+*** Parte G — Empaquetar y descargar la entrega
+
+#+begin_src python :exports code
+# Celda G1 — zip de entrega
+from google.colab import files
+import shutil
+from pathlib import Path
+
+root = Path("/content/laboratorio_ft_imagen")
+# Incluye modelo si estaba solo en Drive
+import os
+if "OUTPUT_DIR" in dir() and Path(OUTPUT_DIR).exists():
+    dest_model = root / "modelo_lora"
+    if Path(OUTPUT_DIR).resolve() != dest_model.resolve():
+        if dest_model.exists():
+            shutil.rmtree(dest_model)
+        shutil.copytree(OUTPUT_DIR, dest_model)
+
+zip_path = "/content/entrega_ft_imagen_lora"
+shutil.make_archive(zip_path, "zip", root)
+print("Creado:", zip_path + ".zip")
+files.download(zip_path + ".zip")
+#+end_src
+
+Guarda también el =.ipynb= (*Archivo → Descargar → .ipynb*).
+
+*** Parte H — Checklist de entrega (Colab)
+
+| # | Evidencia | ¿Listo? |
+|---|-----------|---------|
+| 1 | =dataset/= + =metadata.jsonl= (≥ 12 pares) | |
+| 2 | Captura o salida de celda B1 (=cuda: True= + nombre GPU) | |
+| 3 | Carpeta =modelo_lora/= (o pesos =.safetensors=) | |
+| 4 | =comparacion_A_base.png= y =comparacion_B_lora.png= | |
+| 5 | Tabla: dominio / fidelidad al prompt / ¿sobreajuste? | |
+| 6 | =.ipynb= o enlace Colab (si lo compartes con el docente) | |
+
+*** Parte I — Errores frecuentes en Colab (y cómo salir)
+
+| Error / síntoma | Causa típica | Qué hacer |
+|-----------------|--------------|-----------|
+| =cuda: False= | Entorno en CPU | Runtime → GPU → reconectar |
+| =No such file: metadata.jsonl= | Zip mal armado / ruta | Celda D1: mira el =rglob=; ajusta =TRAIN_DIR= |
+| =file_name= no existe | Ruta dentro del JSONL | Usa solo =robot01.jpg= |
+| =CUDA out of memory= | VRAM justa | =steps= 300, =rank= 4, batch 1 (ya) |
+| Se reinició y “no está diffusers” | Sesión nueva | Repite celda C1 |
+| Entrenó pero B ≈ A | Pocas fotos / captions flojas / pocos pasos | Mejora captions; sube a 700–800 pasos |
+| B es fotocopia del dataset | Sobreajuste | Menos pasos; más variedad de fotos |
+| =files.download= no baja | Bloqueo del navegador | Permite descargas; o copia a Drive |
+| Hugging Face pide login | Modelo restringido / rate limit | Usa el id =stable-diffusion-v1-5/stable-diffusion-v1-5=; reintenta |
+
+*** Parte J — Variante DreamBooth en Colab (opcional)
+
+Misma idea: GPU + clonar =diffusers=, pero:
+
+#+begin_example
+  cd /content/diffusers/examples/dreambooth
+  pip install -r requirements.txt
+  # dataset = carpeta de fotos del SUJETO (sin JSONL obligatorio)
+  # instance_prompt = "a photo of sks_robot"
+  accelerate launch train_dreambooth_lora.py ...
+#+end_example
+
+Para la práctica principal del curso basta Text-to-Image + LoRA (Partes A–H).
+DreamBooth es el camino del “cajón de sujeto” del apartado anterior.
+
+*** Parte K — Buenas prácticas de sesión
+
+1. Monta Drive *antes* de entrenar si puedes.
+2. No cierres la pestaña durante el entrenamiento.
+3. Cuando termine E1, corre F1 y G1 *seguido* (antes de que te desconecten).
+4. Guarda capturas de B1 y del final de E1 en tu reporte.
+5. Ética: sin caras / marcas ajenas sin permiso.
+
+*** Resumen en una frase
+
+*En el PC preparas el dataset; en Colab pides GPU, instalas, entrenas un LoRA
+corto, comparas A/B y te bajas el zip.* No necesitas CUDA instalada en tu
+máquina.
+
+** Entrenamiento ligero (configuración de clase)
+
+Script oficial: =examples/text_to_image/train_text_to_image_lora.py=.
+
+Desde =examples/text_to_image= (ajusta rutas a tu =dataset/=).
+
+Variables de entorno:
+
+#+begin_example
+  # Linux / macOS (bash/zsh)
+  export MODEL_NAME="stable-diffusion-v1-5/stable-diffusion-v1-5"
+  export TRAIN_DIR="/ruta/absoluta/laboratorio_ft_imagen/dataset"
+  export OUTPUT_DIR="/ruta/absoluta/laboratorio_ft_imagen/modelo_lora"
+
+  # Windows PowerShell
+  $env:MODEL_NAME="stable-diffusion-v1-5/stable-diffusion-v1-5"
+  $env:TRAIN_DIR="C:\ruta\laboratorio_ft_imagen\dataset"
+  $env:OUTPUT_DIR="C:\ruta\laboratorio_ft_imagen\modelo_lora"
+
+  # Windows cmd
+  set MODEL_NAME=stable-diffusion-v1-5/stable-diffusion-v1-5
+  set TRAIN_DIR=C:\ruta\laboratorio_ft_imagen\dataset
+  set OUTPUT_DIR=C:\ruta\laboratorio_ft_imagen\modelo_lora
+#+end_example
+
+Comando de entrenamiento (igual en todos los SO; en Windows PowerShell puedes
+escribirlo en una sola línea o usar el acento grave =`= como continuación):
+
+#+begin_src shell :exports code
+accelerate launch train_text_to_image_lora.py ^
+  --pretrained_model_name_or_path=%MODEL_NAME% ^
+  --train_data_dir=%TRAIN_DIR% ^
+  --caption_column=text ^
+  --resolution=512 ^
+  --train_batch_size=1 ^
+  --gradient_accumulation_steps=4 ^
+  --gradient_checkpointing ^
+  --max_train_steps=500 ^
+  --learning_rate=1e-4 ^
+  --lr_scheduler=constant ^
+  --lr_warmup_steps=0 ^
+  --mixed_precision=fp16 ^
+  --rank=4 ^
+  --seed=42 ^
+  --checkpointing_steps=250 ^
+  --output_dir=%OUTPUT_DIR%
+#+end_src
+
+En Linux/macOS sustituye =^= por =\= y =%MODEL_NAME%= por ="$MODEL_NAME"=
+(y lo mismo con =TRAIN_DIR= / =OUTPUT_DIR=):
+
+#+begin_src shell :exports code
+accelerate launch train_text_to_image_lora.py   --pretrained_model_name_or_path="$MODEL_NAME"   --train_data_dir="$TRAIN_DIR"   --caption_column="text"   --resolution=512   --train_batch_size=1   --gradient_accumulation_steps=4   --gradient_checkpointing   --max_train_steps=500   --learning_rate=1e-4   --lr_scheduler="constant"   --lr_warmup_steps=0   --mixed_precision="fp16"   --rank=4   --seed=42   --checkpointing_steps=250   --output_dir="$OUTPUT_DIR"
+#+end_src
+
+Por qué estos valores (práctica *pequeña*, no producción):
+
+| Hiperparámetro | Valor sugerido | Lectura |
+|----------------|----------------|---------|
+| =max_train_steps= | 400–800 | Corto: ver el efecto sin horas de GPU |
+| =rank= | 4 (o 8) | LoRA chico → menos sobreajuste y menos VRAM |
+| =train_batch_size= | 1 | Cabe en GPUs modestas |
+| =gradient_accumulation_steps= | 4 | “Simula” un batch un poco mayor |
+| =learning_rate= | 1e-4 | Punto de partida típico para LoRA de imagen |
+| =resolution= | 512 | SD 1.5; no subas a 1024 en el primer intento |
+
+Son *valores de laboratorio*. Si todo se ve igual al base → un poco más de
+pasos o mejores captions. Si clona tus fotos → menos pasos o más variedad.
+
+Al terminar deberías ver pesos LoRA en =modelo_lora/= (archivos pequeños frente
+a un checkpoint completo).
+
+** Inferencia: comparar base vs base+LoRA
+
+Guarda esto como =generar.py= en =laboratorio_ft_imagen/=:
+
+#+begin_src python :exports code
+"""Comparación A/B: Stable Diffusion 1.5 solo vs + LoRA."""
+from pathlib import Path
+import torch
+from diffusers import StableDiffusionPipeline
+
+MODEL = "stable-diffusion-v1-5/stable-diffusion-v1-5"
+LORA_DIR = "./modelo_lora"  # OUTPUT_DIR del entrenamiento
+PROMPT = "A red industrial robot with four joints in a factory"
+SEED = 42
+STEPS = 30
+
+if torch.cuda.is_available():
+    device, dtype = "cuda", torch.float16
+elif getattr(torch.backends, "mps", None) and torch.backends.mps.is_available():
+    device, dtype = "mps", torch.float16  # Mac Apple Silicon (inferencia)
+else:
+    device, dtype = "cpu", torch.float32
+
+gen = torch.Generator(device=device).manual_seed(SEED)
+pipe = StableDiffusionPipeline.from_pretrained(MODEL, torch_dtype=dtype).to(device)
+
+# Experimento A — modelo original
+img_a = pipe(PROMPT, num_inference_steps=STEPS, generator=gen).images[0]
+img_a.save("comparacion_A_base.png")
+print("Guardado comparacion_A_base.png")
+
+# Experimento B — mismo prompt y semilla, con LoRA
+gen = torch.Generator(device=device).manual_seed(SEED)
+pipe.load_lora_weights(LORA_DIR)
+img_b = pipe(PROMPT, num_inference_steps=STEPS, generator=gen).images[0]
+img_b.save("comparacion_B_lora.png")
+print("Guardado comparacion_B_lora.png")
+#+end_src
+
+Tabla de evaluación (llena en la entrega):
+
+| Criterio | Imagen A (base) | Imagen B (+LoRA) |
+|----------|-----------------|------------------|
+| ¿Se parece al *dominio* del dataset? | | |
+| ¿Respeta el prompt? | | |
+| ¿Hay diversidad entre seeds distintas? | | |
+| ¿Se ve sobreajuste (fotocopia)? | | |
+
+Opcional: prueba =rank= 4 vs 8, o 300 vs 700 pasos, con el *mismo* dataset.
+
+** DreamBooth vs este tutorial (no los mezcles en la cabeza)
+
+| | DreamBooth (apartado anterior) | Text-to-Image + LoRA (este) |
+|---|--------------------------------|-----------------------------|
+| Idea | Token → sujeto concreto | Captions → dominio / estilo |
+| Dataset | Pocas fotos + =instance_prompt= | Fotos + *caption por imagen* |
+| Script típico | =train_dreambooth.py= / =…_lora.py= | =train_text_to_image_lora.py= |
+| Pregunta de defensa | “¿Reconoces *mi* robot?” | “¿El dominio se nota vs el base?” |
+
+Puedes hacer *ambos* en el semestre; no hace falta en la misma semana.
+
+** Secuencia de prácticas sugerida
+
+| # | Objetivo | Entregable mínimo |
+|---|----------|-------------------|
+| 1 | Generar con SD 1.5 *sin* entrenar | 2 imágenes + prompt |
+| 2 | Dataset propio | Carpeta + =metadata.jsonl= (≥ 12 pares) |
+| 3 | (Opcional) DreamBooth / sujeto | Token + prueba con/sin token |
+| 4 | Text-to-Image + LoRA *ligero* | Carpeta =modelo_lora/= o log de Colab |
+| 5 | Comparación A/B | =comparacion_A_*.png= + =comparacion_B_*.png= + tabla |
+| 6 | (Extra) API local | Endpoint que cargue el LoRA |
+
+Sin GPU: prácticas 1–2 completas; 4–5 en Colab o con captura de intento fallido
+en CPU + reflexión (½–1 página).
+
+** Errores frecuentes
+
+1. =file_name= con ruta tipo =dataset/robot01.jpg= dentro del JSONL → falla el
+   ImageFolder. Usa solo =robot01.jpg=.
+2. Entrenar en CPU “por probar” → horas inútiles.
+3. Captions vacías o todas iguales → el LoRA no sabe qué aprender.
+4. Demasiados pasos con 10 fotos → sobreajuste.
+5. Comparar A/B con *seeds distintas* → no sabes si ganó el LoRA o la suerte.
+6. Empezar por ComfyUI sin haber visto el script → se pierde el objetivo
+   pedagógico (aprender el *ajuste*, no solo generar).
+
+** Referencias
+
+- Modelo base: https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5
+- Diffusers: https://github.com/huggingface/diffusers
+- Script LoRA: https://github.com/huggingface/diffusers/blob/main/examples/text_to_image/train_text_to_image_lora.py
+- Doc Text-to-Image training: https://huggingface.co/docs/diffusers/training/text2image
+- Doc LoRA: https://huggingface.co/docs/diffusers/training/lora
+- DreamBooth (paper): https://arxiv.org/abs/2208.12242
+
+** Preguntas para pensar
+
+1. Si tu LoRA de LLM cambia el *tono* de un tutor, ¿qué sería el análogo visual
+   en este tutorial?
+2. ¿Por qué un caption distinto por imagen acerca este ejercicio al JSONL de
+   fine-tuning de texto?
+3. En la comparación A/B, ¿qué concluirías si B es casi idéntica a una foto del
+   dataset pero ignora el prompt?
 
 
 * Chatbot con RAG + Fine-Tuning — Tutorial paso a paso (Web y WhatsApp)
